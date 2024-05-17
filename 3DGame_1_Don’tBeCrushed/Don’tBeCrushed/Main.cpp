@@ -68,7 +68,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	MV1SetScale(PlayerModel, VGet(PlayerScele, PlayerScele, PlayerScele));
 
 	VECTOR m_pos;
-	m_pos = VGet(0.0f, 0.0f, 0.0f);
+	m_pos = VGet(0.0f, 1.0f, 0.0f);
 	MV1SetPosition(PlayerModel, m_pos);
 	
 
