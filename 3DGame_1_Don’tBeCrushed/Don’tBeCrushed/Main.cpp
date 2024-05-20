@@ -4,10 +4,13 @@
 
 namespace {
 	const char* const kModelPlayer = "data/model/Player.mv1";
+	const char* const kModelEnemy = "data/model/book.mv1";
+
+	constexpr int kEnemyNum = 4;
 
 	// カメラ情報
 	constexpr float kCameraDist = 3.5f;
-	constexpr float kCameraHeight = 2.2f;
+	constexpr float kCameraHeight = 10;
 
 	constexpr float kCameraNear = 0.5f;
 	constexpr float kCameraFar = 180.0f;
@@ -28,23 +31,23 @@ void DrawGrid()
 	VECTOR dispPos = ConvWorldPosToScreenPos(VGet(2, 0, 0));
 	if (dispPos.z >= 0.0f && dispPos.z <= 1.0f)
 	{
-		DrawString(dispPos.x, dispPos.y, "X+", 0xffffff);
+		DrawStringF(dispPos.x, dispPos.y, "X+", 0xffffff);
 	}
 	dispPos = ConvWorldPosToScreenPos(VGet(-2, 0, 0));
 	if (dispPos.z >= 0.0f && dispPos.z <= 1.0f)
 	{
-		DrawString(dispPos.x, dispPos.y, "X-", 0xffffff);
+		DrawStringF(dispPos.x, dispPos.y, "X-", 0xffffff);
 	}
 
 	dispPos = ConvWorldPosToScreenPos(VGet(0, 0, 2));
 	if (dispPos.z >= 0.0f && dispPos.z <= 1.0f)
 	{
-		DrawString(dispPos.x, dispPos.y, "Z+", 0xffffff);
+		DrawStringF(dispPos.x, dispPos.y, "Z+", 0xffffff);
 	}
 	dispPos = ConvWorldPosToScreenPos(VGet(0, 0, -2));
 	if (dispPos.z >= 0.0f && dispPos.z <= 1.0f)
 	{
-		DrawString(dispPos.x, dispPos.y, "Z-", 0xffffff);
+		DrawStringF(dispPos.x, dispPos.y, "Z-", 0xffffff);
 	}
 }
 
@@ -52,8 +55,8 @@ void DrawGrid()
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
-	ChangeWindowMode(false);
-	SetGraphMode(kScreenWidth, kScreenHeight, kColorDepth);
+	ChangeWindowMode(true);
+	SetGraphMode(kScreenWidth, kScreenHeight-76, kColorDepth);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -64,13 +67,42 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	// モデル
 	int PlayerModel = MV1LoadModel(kModelPlayer);
-	int PlayerScele = 3;
+	float PlayerScele = 3.0f;
 	MV1SetScale(PlayerModel, VGet(PlayerScele, PlayerScele, PlayerScele));
 
+	// プレイヤー
 	VECTOR m_pos;
 	m_pos = VGet(0.0f, 1.0f, 0.0f);
 	MV1SetPosition(PlayerModel, m_pos);
+
+
+
+	int EnemyModelBase = MV1LoadModel(kModelEnemy);
+	float EnemyScale = 50.0f;
+	int EnemyModel[kEnemyNum] = { 0,0,0,0 };
+	for (int i = 0; i < kEnemyNum; i++)
+	{
+		EnemyModel[i] = MV1DuplicateModel(EnemyModelBase);
+		MV1SetScale(EnemyModel[i], VGet(EnemyScale, EnemyScale + 50, EnemyScale));
+	}
+
+	// 敵
+	VECTOR m_pos_enemy[kEnemyNum];
+	// 座標設定
+	m_pos_enemy[0] = VGet(1.0f, 1.0f, 24.0f);	// 奥
+	m_pos_enemy[1] = VGet(1.0f, 1.0f, -20.0f);	// 前
+	m_pos_enemy[2] = VGet(-30.0f, 1.0f, 2.0f);	// 右
+	m_pos_enemy[3] = VGet(35.0f, 1.0f, 2.0f);	// 左
 	
+	// 敵モデル回転
+	MV1SetRotationXYZ(EnemyModel[0], VGet(0.0f, 0.0f, 1.58f));
+	MV1SetRotationXYZ(EnemyModel[1], VGet(0.0f, 0.0f, 1.58f));
+	MV1SetRotationXYZ(EnemyModel[2], VGet(1.58f, 0.0f, 1.58f));
+	MV1SetRotationXYZ(EnemyModel[3], VGet(1.58f, 0.0f, 1.58f));
+	for (int i = 0; i < kEnemyNum; i++)
+	{
+		MV1SetPosition(EnemyModel[i], m_pos_enemy[i]);
+	}
 
 	// カメラ情報
 	float cameraAngle = -DX_PI_F / 2;
@@ -90,6 +122,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// モデル
 		MV1SetPosition(PlayerModel, m_pos);
 		MV1DrawModel(PlayerModel);
+		
+		for (int i = 0; i < kEnemyNum; i++)
+		{
+			MV1DrawModel(EnemyModel[i]);
+		}
+
+		
 
 		int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
@@ -145,7 +184,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	MV1DeleteModel(PlayerModel);
+	MV1DeleteModel(EnemyModelBase);
 	PlayerModel = -1;
+	EnemyModelBase = -1;
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 
