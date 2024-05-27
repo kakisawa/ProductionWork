@@ -9,7 +9,7 @@ SceneGame::SceneGame()
 	m_pEnemy.resize(m_enemyNum);
 
 	m_pEnemy[0] = make_shared<Enemy>(VGet(1.0f, 1.0f, 24.0f));	// ‰œ
-	m_pEnemy[1] = make_shared<Enemy>(VGet(1.0f, 1.0f, -20.0f));	// ‘O
+	m_pEnemy[1] = make_shared<Enemy>(VGet(1.0f, 1.0f, -24.0f));	// ‘O
 	m_pEnemy[2] = make_shared<Enemy>(VGet(-35.0f, 1.0f, 2.0f));	// ¶
 	m_pEnemy[3] = make_shared<Enemy>(VGet(35.0f, 1.0f, 2.0f));	// ‰E
 
@@ -21,6 +21,9 @@ SceneGame::SceneGame()
 
 	m_pEnemy[0]->GetAddModelScale(50);
 	m_pEnemy[1]->GetAddModelScale(50);
+
+	m_pEnemy[2]->GetMove(VGet(0, 0, 0.05f));
+	m_pEnemy[3]->GetMove(VGet(0, 0, 0.05f));
 }
 
 SceneGame::~SceneGame()
@@ -41,6 +44,7 @@ shared_ptr<SceneBase> SceneGame::Update()
 	{
 		m_pEnemy[i]->Update();
 	}
+
 	return shared_ptr<SceneBase>();
 }
 
@@ -49,6 +53,8 @@ void SceneGame::Draw()
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		m_pEnemy[i]->Draw();
+
+
 	}
 }
 

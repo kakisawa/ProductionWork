@@ -14,6 +14,7 @@ public:
 
 	void GetModelAngle(VECTOR angle) { m_angle = angle; }
 	void GetAddModelScale(int scale) { m_addScale = scale; }
+	void GetMove(VECTOR move) { m_move = move; }
 	
 private:
 
@@ -22,8 +23,10 @@ private:
 	float m_scale;
 	float m_addScale;
 	
+	
 	// “G
 	VECTOR m_pos;
 	VECTOR m_angle;
+	VECTOR m_move;
 };
 
