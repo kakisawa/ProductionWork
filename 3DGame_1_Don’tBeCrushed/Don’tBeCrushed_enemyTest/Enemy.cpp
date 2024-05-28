@@ -42,12 +42,12 @@ void Enemy::Update()
 	{
 		if (testPos.z >= 16.0f)
 		{
-			VScale(testPos, -1.0f);
+			testPos=VScale(testPos, -1.0f);
 		}
 
 		if (testPos.z <= -21.0f)
 		{
-			VScale(testPos, -1.0f);
+			testPos=VScale(testPos, -1.0f);
 		}
 		testPos = VAdd(testPos, m_move);
 	}
@@ -83,6 +83,22 @@ void Enemy::Update()
 	//		isAddMove = true;
 	//	}
 	//}
+
+
+
+	if (isAddMove == true)
+	{
+		if (m_pos.z >= 16.0f)
+		{
+			m_pos = VScale(m_pos, -1.0f);
+		}
+
+		if (m_pos.z <= -21.0f)
+		{
+			m_pos = VScale(m_pos, -1.0f);
+		}
+		m_pos = VAdd(m_pos, m_move);
+	}
 
 
 

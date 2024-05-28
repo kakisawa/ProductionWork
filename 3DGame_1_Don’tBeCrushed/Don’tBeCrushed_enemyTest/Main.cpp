@@ -127,8 +127,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// ê≥ãKâª
 
-		//VECTOR m_dir = VNorm(m_pos);
-		//m_pos = VAdd(m_pos, m_dir);
+		VECTOR m_dir = VNorm(m_pos);
+
 
 		DrawGrid();
 
