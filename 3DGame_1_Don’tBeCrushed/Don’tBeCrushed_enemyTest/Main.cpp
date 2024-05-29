@@ -7,7 +7,7 @@
 using namespace std;
 
 namespace {
-	const char* const kModelPlayer = "data/model/Player.mv1";
+
 	const char* const kBg = "data/floor2.png";
 
 	// カメラ情報
@@ -67,17 +67,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// モデル
-	int PlayerModel = MV1LoadModel(kModelPlayer);
-	float PlayerScele = 3.0f;
-	MV1SetScale(PlayerModel, VGet(PlayerScele, PlayerScele, PlayerScele));
-
-	// プレイヤー
-	VECTOR m_pos;
-	m_pos = VGet(0.0f, 1.0f, 0.0f);
-	MV1SetPosition(PlayerModel, m_pos);
-
-
+	// シーン管理
 	std::shared_ptr<SceneGame> m_pScene = make_shared<SceneGame>();
 	m_pScene->Init();
 
@@ -96,41 +86,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		DrawExtendGraph(0, 0, kScreenWidth, kScreenHeight, bgGraph, false);
+		DrawGrid();
+
 
 		// ゲームの処理
 		m_pScene->Update();
 		m_pScene->Draw();
 
-		// モデル
-		MV1SetPosition(PlayerModel, m_pos);
-		MV1DrawModel(PlayerModel);
-
-		int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-
-		float speed = 0.5f;
-		if (pad &PAD_INPUT_RIGHT)
-		{
-			m_pos = VAdd(m_pos, VGet(speed, 0.0f, 0.0f));
-		}
-		if (pad & PAD_INPUT_LEFT)
-		{
-			m_pos = VAdd(m_pos, VGet(-speed, 0.0f, 0.0f));
-		}
-		if (pad & PAD_INPUT_UP)
-		{
-			m_pos = VAdd(m_pos, VGet(0.0f, 0.0f, speed));
-		}
-		if (pad & PAD_INPUT_DOWN)
-		{
-			m_pos = VAdd(m_pos, VGet(0.0f, 0.0f, -speed));
-		}
-
-		// 正規化
-
-		VECTOR m_dir = VNorm(m_pos);
-
-
-		DrawGrid();
+		
 
 		// カメラ
 		SetCameraNearFar(kCameraNear, kCameraFar);
@@ -159,10 +122,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			// 16.66ミリ秒(16667マイクロ秒)経過するまで待つ
 		}
 	}
-
-	MV1DeleteModel(PlayerModel);
-	
-	PlayerModel = -1;
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 

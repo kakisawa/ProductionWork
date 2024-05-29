@@ -2,7 +2,9 @@
 #include "SceneBase.h"
 #include <vector>
 
+
 class Enemy;
+class Player;
 class SceneGame :
     public SceneBase
 {
@@ -20,4 +22,5 @@ private:
     int m_enemyNum;
 
     vector<shared_ptr<Enemy>> m_pEnemy;
+    shared_ptr<Player> m_pPlayer = make_shared<Player>();
 };

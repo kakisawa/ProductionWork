@@ -1,6 +1,7 @@
 #include "SceneGame.h"
 #include "DxLib.h"
 #include "../Enemy.h"
+#include "../Player.h"
 
 SceneGame::SceneGame()
 {
@@ -24,6 +25,9 @@ SceneGame::SceneGame()
 
 	m_pEnemy[2]->GetMove(VGet(0, 0, 0.05f));
 	m_pEnemy[3]->GetMove(VGet(0, 0, 0.05f));
+
+	m_pEnemy[2]->GetAddMove(true);
+	m_pEnemy[3]->GetAddMove(true);
 }
 
 SceneGame::~SceneGame()
@@ -32,6 +36,8 @@ SceneGame::~SceneGame()
 
 void SceneGame::Init()
 {
+	m_pPlayer->Init();
+
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		m_pEnemy[i]->Init();
@@ -40,6 +46,8 @@ void SceneGame::Init()
 
 shared_ptr<SceneBase> SceneGame::Update()
 {
+	m_pPlayer->Update();
+
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		m_pEnemy[i]->Update();
@@ -50,16 +58,18 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 void SceneGame::Draw()
 {
+	m_pPlayer->Draw();
+
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		m_pEnemy[i]->Draw();
-
-
 	}
 }
 
 void SceneGame::End()
 {
+	m_pPlayer->End();
+
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		m_pEnemy[i]->End();
