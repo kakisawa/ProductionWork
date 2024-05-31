@@ -3,7 +3,9 @@
 #include "../Enemy.h"
 #include "../Player.h"
 
-SceneGame::SceneGame()
+SceneGame::SceneGame():
+	m_enemyCount(-1),
+	m_enemyInterval(0)
 {
 	m_enemyNum = 4;
 
@@ -46,12 +48,29 @@ void SceneGame::Init()
 
 shared_ptr<SceneBase> SceneGame::Update()
 {
+	
+
+	////‚Ç‚Ì“G‚ª“|‚ê‚Ä‚­‚é‚©ƒ‰ƒ“ƒ_ƒ€ƒJƒEƒ“ƒg
+	//if (m_enemyCount >= 3)
+	//{
+	//	m_enemyCount = -1;
+	//}
+	//m_enemyCount++;
+
+	m_enemyInterval++;
+	if (m_enemyInterval >= 180)
+	{
+		m_pEnemy[GetRand(3)]->GetAttack(true);
+		m_enemyInterval = 0;
+	}
+
 	m_pPlayer->Update();
 
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		m_pEnemy[i]->Update();
 	}
+
 
 	return shared_ptr<SceneBase>();
 }
@@ -64,6 +83,7 @@ void SceneGame::Draw()
 	{
 		m_pEnemy[i]->Draw();
 	}
+	DrawFormatString(0, 70, 0xffffff, "m_enemyInterval=%d", m_enemyInterval);
 }
 
 void SceneGame::End()

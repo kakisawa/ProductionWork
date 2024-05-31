@@ -14,6 +14,7 @@ public:
 
 	void GetAddModelScale(float scale) { m_addScale = scale; }
 	void GetAddMove(bool ismove) { m_isAddMove = ismove; }
+	void GetAttack(bool isattack) { m_isAttack = isattack; }
 	void GetModelAngle(VECTOR angle) { m_angle = angle; }
 	void GetMove(VECTOR move) { m_move = move; }
 	
@@ -23,7 +24,12 @@ private:
 	int m_modelBase;	// 敵モデル(ベース)
 	float m_scale;		// 敵サイズ
 	float m_addScale;	// 敵サイズ(追加調整分)
-	bool m_isAddMove;	// 敵が移動するか
+
+	float m_gravity;		// 敵にかかる重力
+
+	bool m_isAddMove;	// 敵が移動するかフラグ
+	bool m_isAttack;	// 敵の攻撃フラグ
+	bool m_isMoveStop;
 	
 	// 敵
 	VECTOR m_pos;		// 敵座標

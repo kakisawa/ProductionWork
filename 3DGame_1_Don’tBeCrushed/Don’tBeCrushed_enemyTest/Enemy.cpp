@@ -5,13 +5,22 @@ namespace {
 	const char* const kModelEnemy = "data/model/book.mv1";
 
 	VECTOR testPos = VGet(35.0f, 1.0f, 2.0f);
+
+	int count = 0;
+	int jumpCount = 2;
+
+	constexpr float kGravity = 0.18f;	// 重力
+	constexpr float kJumpPow = 0.4f;	// ジャンプ力
 }
 
 Enemy::Enemy(VECTOR pos) :
 	m_model(-1),
 	m_scale(50),
 	m_addScale(0),
+	m_gravity(kGravity),
 	m_isAddMove(false),
+	m_isAttack(false),
+	m_isMoveStop(false),
 	m_pos(pos),
 	m_angle(VGet(0, 0, 0)),
 	m_move(VGet(0, 0, 0))
@@ -36,33 +45,76 @@ void Enemy::Init()
 
 void Enemy::Update()
 {
-	// テスト用
-	if (m_isAddMove == true)
-	{
-		if (testPos.z >= 16.0f)
-		{
-			testPos=VScale(testPos, -1.0f);
-		}
+	//// テスト用
+	//if (m_isAddMove == true)
+	//{
+	//	if (testPos.z >= 16.0f)
+	//	{
+	//		testPos=VScale(testPos, -1.0f);
+	//	}
+	//	if (testPos.z <= -21.0f)
+	//	{
+	//		testPos=VScale(testPos, -1.0f);
+	//	}
+	//	testPos = VAdd(testPos, m_move);
+	//}
 
-		if (testPos.z <= -21.0f)
+
+	// 敵攻撃前
+	if(m_isAttack==true){ 
+
+		m_isMoveStop = true;
+
+		if (jumpCount > 0)
 		{
-			testPos=VScale(testPos, -1.0f);
+			if (count <= 2)
+			{
+				m_move = VGet(0, 0, 0);
+				m_move = VAdd(m_move, VGet(0, 0.5f, 0));
+				m_pos = VAdd(m_pos, m_move);
+			}
+
+			m_pos = VSub(m_pos, VGet(0, m_gravity, 0));
+			m_gravity += 0.01f;				// 重力加速
+
+			if (m_pos.y <= 0.99f)
+			{
+				jumpCount -= 1;
+				count++;
+				m_gravity = kGravity;
+			}
 		}
-		testPos = VAdd(testPos, m_move);
+		else
+		{
+			jumpCount = 2;
+			count = 0;
+			m_isAttack = false;
+			m_isMoveStop = false;
+
+			if (m_isAddMove == true)
+			{
+				m_move = VGet(0.0f, 0.0f, 0.05f);
+			}
+		}
 	}
-
-
 
 	// 敵移動
-	if (m_isAddMove == true)
+	if (m_isMoveStop == false)
 	{
-		if (m_pos.z >= 11.2f)
+		if (m_isAddMove == true)
 		{
-			m_pos = VScale(m_pos, -1.0f);
+			if (m_pos.z >= 11.2f)
+			{
+				m_move = VScale(m_move, -1.0f);
+			}
+			if (m_pos.z <= -10.5f)
+			{
+				m_move = VScale(m_move, -1.0f);
+			}
+			m_pos = VAdd(m_pos, m_move);
 		}
-		m_pos = VAdd(m_pos, m_move);
 	}
-
+	
 	MV1SetPosition(m_model, m_pos);
 }
 

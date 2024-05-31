@@ -21,6 +21,10 @@ public:
 private:
     int m_enemyNum;
 
+    int m_enemyCount;       // どの敵が倒れてくるかランダムカウント
+    int m_enemyInterval;    // 敵が倒れるまでのインターバル
+    
+
     vector<shared_ptr<Enemy>> m_pEnemy;
     shared_ptr<Player> m_pPlayer = make_shared<Player>();
 };
