@@ -144,6 +144,7 @@
     <ClCompile Include="Scene\SceneGameClear.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
+    <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="Scene\SceneGameClear.h" />
     <ClInclude Include="Scene\SceneGameOver.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
+    <ClInclude Include="Stage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,8 +8,6 @@ using namespace std;
 
 namespace {
 
-	const char* const kBg = "data/floor2.png";
-
 	// カメラ情報
 	constexpr float kCameraDist = 3.5f;
 	constexpr float kCameraHeight = 10;
@@ -18,40 +16,6 @@ namespace {
 	constexpr float kCameraFar = 180.0f;
 }
 
-void DrawGrid()
-{
-	for (int x = -30; x <= 30; x += 10)
-	{
-		DrawLine3D(VGet(static_cast<float>(x), 0, -20), VGet(static_cast<float>(x), 0, 20), 0xffffff);
-	}
-	for (int z = -20; z <= 20; z += 10)
-	{
-		DrawLine3D(VGet(-30, 0, static_cast<float>(z)), VGet(30, 0, static_cast<float>(z)), 0xffffff);
-	}
-
-	// X+-,Z+-の方向が分かりやすいように表示を追加する
-	VECTOR dispPos = ConvWorldPosToScreenPos(VGet(2, 0, 0));
-	if (dispPos.z >= 0.0f && dispPos.z <= 1.0f)
-	{
-		DrawStringF(dispPos.x, dispPos.y, "X+", 0xffffff);
-	}
-	dispPos = ConvWorldPosToScreenPos(VGet(-2, 0, 0));
-	if (dispPos.z >= 0.0f && dispPos.z <= 1.0f)
-	{
-		DrawStringF(dispPos.x, dispPos.y, "X-", 0xffffff);
-	}
-
-	dispPos = ConvWorldPosToScreenPos(VGet(0, 0, 2));
-	if (dispPos.z >= 0.0f && dispPos.z <= 1.0f)
-	{
-		DrawStringF(dispPos.x, dispPos.y, "Z+", 0xffffff);
-	}
-	dispPos = ConvWorldPosToScreenPos(VGet(0, 0, -2));
-	if (dispPos.z >= 0.0f && dispPos.z <= 1.0f)
-	{
-		DrawStringF(dispPos.x, dispPos.y, "Z-", 0xffffff);
-	}
-}
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -71,8 +35,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::shared_ptr<SceneGame> m_pScene = make_shared<SceneGame>();
 	m_pScene->Init();
 
-	int bgGraph = LoadGraph(kBg);
-
 	// カメラ情報
 	float cameraAngle = -DX_PI_F / 2;
 
@@ -85,15 +47,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 描画を行う前に画面をクリアする
 		ClearDrawScreen();
 
-		DrawExtendGraph(0, 0, kScreenWidth, kScreenHeight, bgGraph, false);
-		DrawGrid();
-
-
 		// ゲームの処理
 		m_pScene->Update();
 		m_pScene->Draw();
-
-		
 
 		// カメラ
 		SetCameraNearFar(kCameraNear, kCameraFar);

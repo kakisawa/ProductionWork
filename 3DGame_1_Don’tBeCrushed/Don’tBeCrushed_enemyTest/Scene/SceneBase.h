@@ -9,11 +9,6 @@ public:
 	virtual ~SceneBase(){}
 	virtual void Init(){}
 	virtual shared_ptr<SceneBase> Update() = 0;
-
 	virtual void End(){}
-
-	/*void testDo();*/
-
-
 };
 

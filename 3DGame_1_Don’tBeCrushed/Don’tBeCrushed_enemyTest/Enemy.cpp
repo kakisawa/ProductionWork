@@ -3,14 +3,11 @@
 
 namespace {
 	const char* const kModelEnemy = "data/model/book.mv1";
-
-	VECTOR testPos = VGet(35.0f, 1.0f, 2.0f);
-
-	int count = 0;
-	int jumpCount = 2;
-
+	
+	int jumpCount = 2;					// ジャンプ回数
+	constexpr float kMove = 0.05f;		// 敵移動量
 	constexpr float kGravity = 0.18f;	// 重力
-	constexpr float kJumpPow = 0.4f;	// ジャンプ力
+	constexpr float kJumpPow = 0.5f;	// ジャンプ力
 }
 
 Enemy::Enemy(VECTOR pos) :
@@ -61,39 +58,40 @@ void Enemy::Update()
 
 
 	// 敵攻撃前
-	if(m_isAttack==true){ 
+	if (m_isAttack == true) {
 
-		m_isMoveStop = true;
+		m_isMoveStop = true;	// 敵の移動を止める
 
-		if (jumpCount > 0)
+		if (jumpCount > 0)		// ジャンプの残り回数が0以上なら処理を行う
 		{
-			if (count <= 2)
-			{
-				m_move = VGet(0, 0, 0);
-				m_move = VAdd(m_move, VGet(0, 0.5f, 0));
-				m_pos = VAdd(m_pos, m_move);
-			}
+			m_move = VGet(0, 0, 0);
+			m_move = VAdd(m_move, VGet(0, kJumpPow, 0));
+			m_pos = VAdd(m_pos, m_move);
 
-			m_pos = VSub(m_pos, VGet(0, m_gravity, 0));
-			m_gravity += 0.01f;				// 重力加速
+			m_pos = VSub(m_pos, VGet(0, m_gravity, 0));	// 重力を掛ける
+			m_gravity += 0.01f;							// 重力加速
 
+			// ジャンプ後着地処理
 			if (m_pos.y <= 0.99f)
 			{
-				jumpCount -= 1;
-				count++;
+				jumpCount -= 1;			// ジャンプカウントを1減らす
 				m_gravity = kGravity;
 			}
 		}
-		else
+		else // ジャンプを2回行った後の処理
 		{
+			/*倒れる処理*/
+
+
+			/*倒れた後の処理*/
 			jumpCount = 2;
-			count = 0;
 			m_isAttack = false;
 			m_isMoveStop = false;
 
+			// 移動する敵だった場合、移動処理を戻す
 			if (m_isAddMove == true)
 			{
-				m_move = VGet(0.0f, 0.0f, 0.05f);
+				m_move = VGet(0.0f, 0.0f, kMove);
 			}
 		}
 	}
@@ -114,14 +112,13 @@ void Enemy::Update()
 			m_pos = VAdd(m_pos, m_move);
 		}
 	}
-	
+
 	MV1SetPosition(m_model, m_pos);
 }
 
 void Enemy::Draw()
 {
 	MV1DrawModel(m_model);
-	DrawFormatString(0, 0, 0xffffff, "x=%.2f,y=%.2f,z=%.2f", testPos.x, testPos.y, testPos.z);
 	DrawFormatString(0, 15, 0xffffff, "isAddMove=%d", m_isAddMove);
 }
 
