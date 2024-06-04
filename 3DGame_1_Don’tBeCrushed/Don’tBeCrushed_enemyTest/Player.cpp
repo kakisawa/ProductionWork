@@ -3,6 +3,7 @@
 
 namespace {
 	const char* const kModelPlayer = "data/model/Player.mv1";
+	constexpr float kColSize = 3.5f;	// 当たり判定の幅(正方形)
 }
 
 Player::Player() :
@@ -10,7 +11,7 @@ Player::Player() :
 	m_playerScele(3.0f),
 	m_pos(VGet(0.0f, 1.0f, 0.0f)),
 	m_move(VGet(0.0f, 0.0f, 0.0f)),
-	m_playerModel(MV1LoadModel(kModelPlayer))		// プレイヤーのロード
+	m_playerModel(MV1LoadModel(kModelPlayer))// プレイヤーのロード
 {
 	MV1SetScale(m_playerModel, VGet(m_playerScele, m_playerScele, m_playerScele));
 	MV1SetPosition(m_playerModel, m_pos);
@@ -56,18 +57,26 @@ void Player::Update()
 		m_move = VScale(m_move, m_speed);
 	}
 
-	m_pos = VAdd(m_pos, m_move);			// プレイヤーの位置に移動量を足す
+	// プレイヤーの位置に移動量を足す
+	m_pos = VAdd(m_pos, m_move);
 
-	MV1SetPosition(m_playerModel, m_pos);	// プレイヤーの位置セット
+	// 当たり判定の更新
+	m_colRect.SetLB(m_pos, kColSize, kColSize);
+	// プレイヤーの位置セット
+	MV1SetPosition(m_playerModel, m_pos);	
 }
 
 void Player::Draw()
 {
-	MV1DrawModel(m_playerModel);	// プレイヤー描画
+	// 当たり判定描画
+	m_colRect.Draw(0x000000, true);
+	// プレイヤー描画
+	MV1DrawModel(m_playerModel);	
 }
 
 void Player::End()
 {
-	MV1DeleteModel(m_playerModel);	// プレイヤーのアンロード
+	// プレイヤーのアンロード
+	MV1DeleteModel(m_playerModel);	
 	m_playerModel = -1;
 }

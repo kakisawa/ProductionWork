@@ -1,5 +1,6 @@
 #pragma once
 #include "DxLib.h"
+#include "Rect.h"
 
 class Player
 {
@@ -20,4 +21,7 @@ private:
 
 	VECTOR m_pos;			// プレイヤー位置
 	VECTOR m_move;			// 移動量
+
+	// 当たり判定矩形
+	Rect m_colRect;
 };
