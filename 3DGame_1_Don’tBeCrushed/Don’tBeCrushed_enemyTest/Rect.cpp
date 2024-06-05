@@ -7,11 +7,9 @@ namespace {
 }
 
 Rect::Rect() :
-	m_leftB(VecInit),
-	m_rightU(VecInit),
+	m_leftBottom(VecInit),
+	m_rightUp(VecInit),
 	m_leftUp(VecInit),
-	//m_leftBottom(VecInit),
-	//m_rightUp(VecInit),
 	m_rightBottom(VecInit)
 {
 }
@@ -22,21 +20,18 @@ Rect::~Rect()
 
 void Rect::Draw(unsigned int color, bool isFill)
 {
-	DrawCube3D(m_leftB, m_rightU, color, 0x000000, isFill);
+	DrawCube3D(m_leftBottom, m_rightUp, color, 0x000000, isFill);
 }
 
 void Rect::SetLB(VECTOR pos, float width, float height)
 {
-	m_leftUp=VAdd(m_leftB, VGet(0.0f, 0.0f, height));
+	m_leftUp=VAdd(m_leftBottom, VGet(0.0f, 0.0f, height));
 
-	m_leftB = VSub(pos, VGet(width * 0.5f, 0, height * 0.5f));
-	m_rightU = VAdd(pos, VGet(width * 0.5f, 0, height * 0.5f));
+	m_leftBottom = VSub(pos, VGet(width * 0.5f, 0, height * 0.5f));
+	m_rightUp = VAdd(pos, VGet(width * 0.5f, 0, height * 0.5f));
 
 	m_rightBottom;
 
-	//m_leftBottom;
-	//m_rightUp;
-	
 }
 
 //VECTOR Rect::GetWidth() const

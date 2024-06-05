@@ -24,7 +24,7 @@ private:
 	VECTOR m_rightBottom; // 右上のZ座標
 
 
-	VECTOR m_leftB;	// 左下座標
-	VECTOR m_rightU;// 右上座標
+	VECTOR m_leftBottom;	// 左下座標
+	VECTOR m_rightUp;// 右上座標
 };
 
