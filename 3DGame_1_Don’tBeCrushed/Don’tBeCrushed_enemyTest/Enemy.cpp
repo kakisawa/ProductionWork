@@ -119,7 +119,6 @@ void Enemy::Update()
 void Enemy::Draw()
 {
 	MV1DrawModel(m_model);
-	DrawFormatString(0, 15, 0xffffff, "isAddMove=%d", m_isAddMove);
 }
 
 void Enemy::End()

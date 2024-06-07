@@ -12,11 +12,13 @@ public:
 	void Draw();
 	void End();
 
-	void GetAddModelScale(float scale) { m_addScale = scale; }
-	void GetAddMove(bool ismove) { m_isAddMove = ismove; }
-	void GetAttack(bool isattack) { m_isAttack = isattack; }
-	void GetModelAngle(VECTOR angle) { m_angle = angle; }
-	void GetMove(VECTOR move) { m_move = move; }
+	void SetAddModelScale(float scale) { m_addScale = scale; }
+	void SetAddMove(bool ismove) { m_isAddMove = ismove; }
+	void SetAttack(bool isattack) { m_isAttack = isattack; }
+	void SetModelAngle(VECTOR angle) { m_angle = angle; }
+	void SetMove(VECTOR move) { m_move = move; }
+	VECTOR GetPos() { return m_pos; }
+	
 	
 private:
 

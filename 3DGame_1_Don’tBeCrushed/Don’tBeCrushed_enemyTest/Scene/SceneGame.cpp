@@ -16,9 +16,11 @@ namespace {
 	constexpr float kEnemyAttackInterval = 180.0f;	// ìGçUåÇÇÃä‘äu
 }
 
-SceneGame::SceneGame():
+SceneGame::SceneGame() :
 	m_enemyNum(kEnemyNum),
-	m_enemyInterval(0)
+	m_enemyInterval(0),
+	m_enemyAttckNum(0),
+	m_enemyAttackPos(VGet(0.0f, 0.0f, 0.0f))
 {
 	m_pEnemy.resize(m_enemyNum);
 
@@ -28,19 +30,19 @@ SceneGame::SceneGame():
 	m_pEnemy[3] = make_shared<Enemy>(VGet(kEnemyPlaceX, 1.0f, 2.0f));	// âE
 
 	// ìGÉÇÉfÉãâÒì]
-	m_pEnemy[0]->GetModelAngle(VGet(0.0f, 0.0f, kEnemyRota));	// âú
-	m_pEnemy[1]->GetModelAngle(VGet(0.0f, 0.0f, kEnemyRota));	// ëO
-	m_pEnemy[2]->GetModelAngle(VGet(kEnemyRota, 0.0f, kEnemyRota));	// ç∂
-	m_pEnemy[3]->GetModelAngle(VGet(kEnemyRota, 0.0f, kEnemyRota));	// âE
+	m_pEnemy[0]->SetModelAngle(VGet(0.0f, 0.0f, kEnemyRota));	// âú
+	m_pEnemy[1]->SetModelAngle(VGet(0.0f, 0.0f, kEnemyRota));	// ëO
+	m_pEnemy[2]->SetModelAngle(VGet(kEnemyRota, 0.0f, kEnemyRota));	// ç∂
+	m_pEnemy[3]->SetModelAngle(VGet(kEnemyRota, 0.0f, kEnemyRota));	// âE
 
-	m_pEnemy[0]->GetAddModelScale(kEnemyAddScale);
-	m_pEnemy[1]->GetAddModelScale(kEnemyAddScale);
+	m_pEnemy[0]->SetAddModelScale(kEnemyAddScale);
+	m_pEnemy[1]->SetAddModelScale(kEnemyAddScale);
 
-	m_pEnemy[2]->GetMove(VGet(0, 0, kEnemyMove));
-	m_pEnemy[3]->GetMove(VGet(0, 0, kEnemyMove));
+	m_pEnemy[2]->SetMove(VGet(0, 0, kEnemyMove));
+	m_pEnemy[3]->SetMove(VGet(0, 0, kEnemyMove));
 
-	m_pEnemy[2]->GetAddMove(true);
-	m_pEnemy[3]->GetAddMove(true);
+	m_pEnemy[2]->SetAddMove(true);
+	m_pEnemy[3]->SetAddMove(true);
 }
 
 SceneGame::~SceneGame()
@@ -64,7 +66,30 @@ shared_ptr<SceneBase> SceneGame::Update()
 	m_enemyInterval++;
 	if (m_enemyInterval >= kEnemyAttackInterval)
 	{
-		m_pEnemy[GetRand(3)]->GetAttack(true);
+		//m_enemyAttckNum= GetRand(3);
+		m_enemyAttckNum = 2;
+
+		m_pEnemy[m_enemyAttckNum]->SetAttack(true);
+
+		if (m_enemyAttckNum < 2)	// 0or1
+		{
+
+		}
+
+		if (m_enemyAttckNum > 1)
+		{
+			int flag = false;
+			m_enemyAttackPos = m_pEnemy[m_enemyAttckNum]->GetPos();
+			
+			if (m_enemyAttckNum == 2) {
+				flag = false;
+			}
+			else flag = true;
+
+			m_colRect.SetPortrait(m_enemyAttackPos, 5.2f, 30.0f, 19.0f, flag);
+		}
+
+
 		m_enemyInterval = 0;
 	}
 
@@ -77,6 +102,7 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 
 
+
 	return shared_ptr<SceneBase>();
 }
 
@@ -86,11 +112,19 @@ void SceneGame::Draw()
 
 	m_pPlayer->Draw();
 
+
+
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		m_pEnemy[i]->Draw();
 	}
+
+	m_colRect.EnemyDraw(0x000000, true);
+
 	DrawFormatString(0, 70, 0xffffff, "m_enemyInterval=%d", m_enemyInterval);
+
+	DrawFormatString(0, 200, 0xffffff,
+		"ifPos.x=%.2f:z=%.2f", m_enemyAttackPos.x, m_enemyAttackPos.z);
 }
 
 void SceneGame::End()
@@ -101,4 +135,10 @@ void SceneGame::End()
 	{
 		m_pEnemy[i]->End();
 	}
+}
+
+void SceneGame::EnemyCol()
+{
+
+
 }

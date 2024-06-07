@@ -69,7 +69,7 @@ void Player::Update()
 void Player::Draw()
 {
 	// “–‚½‚è”»’è•`‰æ
-	m_colRect.Draw(0x000000, true);
+	m_colRect.PlayerDraw(0x000000, true);
 	// ƒvƒŒƒCƒ„[•`‰æ
 	MV1DrawModel(m_playerModel);	
 }
