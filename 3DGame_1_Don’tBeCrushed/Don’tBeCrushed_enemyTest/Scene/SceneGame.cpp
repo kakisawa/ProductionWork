@@ -67,13 +67,24 @@ shared_ptr<SceneBase> SceneGame::Update()
 	if (m_enemyInterval >= kEnemyAttackInterval)
 	{
 		//m_enemyAttckNum= GetRand(3);
-		m_enemyAttckNum = 2;
+		m_pEnemy[m_enemyAttckNum]->SetAttackNum(m_enemyAttckNum);
+		m_enemyAttckNum = 0;
 
 		m_pEnemy[m_enemyAttckNum]->SetAttack(true);
 
 		if (m_enemyAttckNum < 2)	// 0or1
 		{
+			int flag = false;
+			m_enemyAttackPos = m_pEnemy[m_enemyAttckNum]->GetPos();
 
+			if (m_enemyAttckNum == 0) {
+				flag = false;
+			}
+			else if (m_enemyAttckNum == 1) {
+				flag = true;
+			}
+
+			m_colRect.SetLandscape(m_enemyAttackPos, 5.2f, 30.0f, 19.0f, flag);
 		}
 
 		if (m_enemyAttckNum > 1)
@@ -84,7 +95,9 @@ shared_ptr<SceneBase> SceneGame::Update()
 			if (m_enemyAttckNum == 2) {
 				flag = false;
 			}
-			else flag = true;
+			else if (m_enemyAttckNum == 3) {
+				flag = true;
+			}
 
 			m_colRect.SetPortrait(m_enemyAttackPos, 5.2f, 30.0f, 19.0f, flag);
 		}

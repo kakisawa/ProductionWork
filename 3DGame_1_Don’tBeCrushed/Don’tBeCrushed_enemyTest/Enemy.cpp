@@ -8,6 +8,11 @@ namespace {
 	constexpr float kMove = 0.05f;		// “GˆÚ“®—Ê
 	constexpr float kGravity = 0.18f;	// d—Í
 	constexpr float kJumpPow = 0.5f;	// ƒWƒƒƒ“ƒv—Í
+
+	constexpr float kRota = 0.05f;		// ‰ñ“]—Ê
+	constexpr float kRotaMax = 1.5f;		// Å‘å‰ñ“]—Ê
+
+	float maxRota=0.0f;
 }
 
 Enemy::Enemy(VECTOR pos) :
@@ -17,6 +22,7 @@ Enemy::Enemy(VECTOR pos) :
 	m_gravity(kGravity),
 	m_isAddMove(false),
 	m_isAttack(false),
+	m_isFall(false),
 	m_isMoveStop(false),
 	m_pos(pos),
 	m_angle(VGet(0, 0, 0)),
@@ -42,25 +48,11 @@ void Enemy::Init()
 
 void Enemy::Update()
 {
-	//// ƒeƒXƒg—p
-	//if (m_isAddMove == true)
-	//{
-	//	if (testPos.z >= 16.0f)
-	//	{
-	//		testPos=VScale(testPos, -1.0f);
-	//	}
-	//	if (testPos.z <= -21.0f)
-	//	{
-	//		testPos=VScale(testPos, -1.0f);
-	//	}
-	//	testPos = VAdd(testPos, m_move);
-	//}
-
-
 	// “GUŒ‚‘O
 	if (m_isAttack == true) {
 
 		m_isMoveStop = true;	// “G‚ÌˆÚ“®‚ðŽ~‚ß‚é
+		m_isFall = true;
 
 		if (jumpCount > 0)		// ƒWƒƒƒ“ƒv‚ÌŽc‚è‰ñ”‚ª0ˆÈã‚È‚çˆ—‚ðs‚¤
 		{
@@ -80,19 +72,57 @@ void Enemy::Update()
 		}
 		else // ƒWƒƒƒ“ƒv‚ð2‰ñs‚Á‚½Œã‚Ìˆ—
 		{
-			/*“|‚ê‚éˆ—*/
-
-
-			/*“|‚ê‚½Œã‚Ìˆ—*/
-			jumpCount = 2;
-			m_isAttack = false;
-			m_isMoveStop = false;
-
-			// ˆÚ“®‚·‚é“G‚¾‚Á‚½ê‡AˆÚ“®ˆ—‚ð–ß‚·
-			if (m_isAddMove == true)
+			if(m_isFall==true)
 			{
-				m_move = VGet(0.0f, 0.0f, kMove);
+				/*“|‚ê‚éˆ—*/
+				if (m_attackNum == 0)
+				{
+					
+					float rota = kRota;
+
+					MV1SetRotationXYZ(m_model, m_angle);
+
+					if (maxRota >= kRotaMax)
+					{
+						m_angle = VAdd(m_angle, VGet(0.0f, -rota, 0.0f));
+						if (m_angle.y <= 0.0f)
+						{
+							m_isFall=false;
+						}
+					}
+					else {
+						m_angle = VAdd(m_angle, VGet(0.0f, rota, 0.0f));
+						maxRota = m_angle.y;
+					}
+
+					
+				}
+				else if (m_attackNum == 1)
+				{
+
+				}
+				else if (m_attackNum == 2)
+				{
+
+				}
+				else {
+
+				}
 			}
+			else {
+				/*“|‚ê‚½Œã‚Ìˆ—*/
+				jumpCount = 2;
+				m_isAttack = false;
+				m_isMoveStop = false;
+				m_angle = VGet(0.0f, 0.0f, 0.0f);
+				maxRota = 0.0f;
+
+				// ˆÚ“®‚·‚é“G‚¾‚Á‚½ê‡AˆÚ“®ˆ—‚ð–ß‚·
+				if (m_isAddMove == true)
+				{
+					m_move = VGet(0.0f, 0.0f, kMove);
+				}
+			}	
 		}
 	}
 

@@ -12,6 +12,7 @@ public:
 	void Draw();
 	void End();
 
+	void SetAttackNum(int num) { m_attackNum = num; }
 	void SetAddModelScale(float scale) { m_addScale = scale; }
 	void SetAddMove(bool ismove) { m_isAddMove = ismove; }
 	void SetAttack(bool isattack) { m_isAttack = isattack; }
@@ -24,13 +25,17 @@ private:
 
 	int m_model;		// 敵モデル
 	int m_modelBase;	// 敵モデル(ベース)
+	int m_attackNum;	// 倒れる方向の番号
+	int m_attackMoveNum;// 倒れる
+
 	float m_scale;		// 敵サイズ
 	float m_addScale;	// 敵サイズ(追加調整分)
 
-	float m_gravity;		// 敵にかかる重力
+	float m_gravity;	// 敵にかかる重力
 
 	bool m_isAddMove;	// 敵が移動するかフラグ
 	bool m_isAttack;	// 敵の攻撃フラグ
+	bool m_isFall;		// 敵が倒れるフラグ
 	bool m_isMoveStop;
 	
 	// 敵
