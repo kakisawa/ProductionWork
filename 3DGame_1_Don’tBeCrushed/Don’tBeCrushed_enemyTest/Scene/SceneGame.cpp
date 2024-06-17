@@ -67,8 +67,9 @@ shared_ptr<SceneBase> SceneGame::Update()
 	if (m_enemyInterval >= kEnemyAttackInterval)
 	{
 		//m_enemyAttckNum= GetRand(3);
+		
+		m_enemyAttckNum = 2;
 		m_pEnemy[m_enemyAttckNum]->SetAttackNum(m_enemyAttckNum);
-		m_enemyAttckNum = 0;
 
 		m_pEnemy[m_enemyAttckNum]->SetAttack(true);
 

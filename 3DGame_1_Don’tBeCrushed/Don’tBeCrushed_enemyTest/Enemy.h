@@ -30,6 +30,7 @@ private:
 
 	float m_scale;		// 敵サイズ
 	float m_addScale;	// 敵サイズ(追加調整分)
+	float maxRota;
 
 	float m_gravity;	// 敵にかかる重力
 

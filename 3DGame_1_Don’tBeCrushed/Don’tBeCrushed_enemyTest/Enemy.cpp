@@ -12,14 +12,16 @@ namespace {
 	constexpr float kRota = 0.05f;		// ‰ñ“]—Ê
 	constexpr float kRotaMax = 1.5f;		// Å‘å‰ñ“]—Ê
 
-	float maxRota=0.0f;
+	constexpr float kEnemyRota = 1.58f;		// “G‰ñ“]—Ê(SceneGame‚É‚à‚ ‚è)
 }
 
 Enemy::Enemy(VECTOR pos) :
 	m_model(-1),
 	m_scale(50),
 	m_addScale(0),
+	maxRota(0.0f),
 	m_gravity(kGravity),
+	m_attackNum(0),
 	m_isAddMove(false),
 	m_isAttack(false),
 	m_isFall(false),
@@ -52,10 +54,12 @@ void Enemy::Update()
 	if (m_isAttack == true) {
 
 		m_isMoveStop = true;	// “G‚ÌˆÚ“®‚ðŽ~‚ß‚é
-		m_isFall = true;
+		
 
 		if (jumpCount > 0)		// ƒWƒƒƒ“ƒv‚ÌŽc‚è‰ñ”‚ª0ˆÈã‚È‚çˆ—‚ðs‚¤
 		{
+			m_isFall = true;
+
 			m_move = VGet(0, 0, 0);
 			m_move = VAdd(m_move, VGet(0, kJumpPow, 0));
 			m_pos = VAdd(m_pos, m_move);
@@ -74,14 +78,11 @@ void Enemy::Update()
 		{
 			if(m_isFall==true)
 			{
+				float rota = kRota;
+
 				/*“|‚ê‚éˆ—*/
-				if (m_attackNum == 0)
+				if (m_attackNum == 0)	// ˆê‘Ì–Ú‚Ì“G
 				{
-					
-					float rota = kRota;
-
-					MV1SetRotationXYZ(m_model, m_angle);
-
 					if (maxRota >= kRotaMax)
 					{
 						m_angle = VAdd(m_angle, VGet(0.0f, -rota, 0.0f));
@@ -94,15 +95,36 @@ void Enemy::Update()
 						m_angle = VAdd(m_angle, VGet(0.0f, rota, 0.0f));
 						maxRota = m_angle.y;
 					}
-
-					
 				}
-				else if (m_attackNum == 1)
+				if (m_attackNum == 1)	// “ñ‘Ì–Ú‚Ì“G
 				{
-
+					if (maxRota <= -kRotaMax)
+					{
+						m_angle = VAdd(m_angle, VGet(0.0f, rota, 0.0f));
+						if (m_angle.y >= 0.0f)
+						{
+							m_isFall = false;
+						}
+					}
+					else {
+						m_angle = VAdd(m_angle, VGet(0.0f, -rota, 0.0f));
+						maxRota = m_angle.y;
+					}
 				}
-				else if (m_attackNum == 2)
+				else if (m_attackNum == 2)	// ŽO‘Ì–Ú‚Ì“G
 				{
+					if (maxRota >= kRotaMax)
+					{
+						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, -rota));
+						if (m_angle.z <= kEnemyRota)
+						{
+							m_isFall = false;
+						}
+					}
+					else {
+						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, rota));
+						maxRota = m_angle.z;
+					}
 
 				}
 				else {
@@ -114,8 +136,17 @@ void Enemy::Update()
 				jumpCount = 2;
 				m_isAttack = false;
 				m_isMoveStop = false;
-				m_angle = VGet(0.0f, 0.0f, 0.0f);
+				//m_angle = VGet(0.0f, 0.0f, 0.0f);
 				maxRota = 0.0f;
+
+				if (m_attackNum == 0)
+				{
+					m_angle = VGet(0.0f, 0.0f, kEnemyRota);
+				}
+				else if (m_attackNum == 2)
+				{
+					m_angle = VGet(kEnemyRota, 0.0f, kEnemyRota);
+				}
 
 				// ˆÚ“®‚·‚é“G‚¾‚Á‚½ê‡AˆÚ“®ˆ—‚ð–ß‚·
 				if (m_isAddMove == true)
@@ -144,11 +175,14 @@ void Enemy::Update()
 	}
 
 	MV1SetPosition(m_model, m_pos);
+	MV1SetRotationXYZ(m_model, m_angle);
 }
 
 void Enemy::Draw()
 {
 	MV1DrawModel(m_model);
+
+	DrawFormatString(0, 0, 0xffffff, "m_AttackNum=%d", m_attackNum);
 }
 
 void Enemy::End()
