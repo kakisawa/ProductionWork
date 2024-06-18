@@ -36,7 +36,7 @@ void Rect::PlayerDraw(unsigned int color, bool isFill)
 
 void Rect::EnemyDraw(unsigned int color, bool isFill)
 {
-	//DrawCube3D(e1.m_leftBottom, e1.m_rightUp, color, 0x000000, isFill);
+	DrawCube3D(e1.m_leftBottom, e1.m_rightUp, color, 0x000000, isFill);
 
 	//// 敵座標確認用
 	//DrawString(0, 500 - 20, "Enemy", 0xffffff);

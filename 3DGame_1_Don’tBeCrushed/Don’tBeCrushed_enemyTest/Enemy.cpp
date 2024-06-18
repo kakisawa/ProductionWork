@@ -113,21 +113,21 @@ void Enemy::Update()
 				}
 				else if (m_attackNum == 2)	// ŽO‘Ì–Ú‚Ì“G
 				{
-					if (maxRota >= kRotaMax)
+					if (maxRota <= -0.7f)
 					{
-						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, -rota));
-						if (m_angle.z <= kEnemyRota)
+						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, rota));
+						if (m_angle.z >= 0.0f)
 						{
 							m_isFall = false;
 						}
 					}
 					else {
-						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, rota));
+						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, -rota));
 						maxRota = m_angle.z;
 					}
 
 				}
-				else {
+				else if(m_attackNum==3){
 
 				}
 			}
@@ -183,6 +183,8 @@ void Enemy::Draw()
 	MV1DrawModel(m_model);
 
 	DrawFormatString(0, 0, 0xffffff, "m_AttackNum=%d", m_attackNum);
+	DrawFormatString(0, 32, 0xffffff, "maxRota=%.2f", maxRota);
+
 }
 
 void Enemy::End()
