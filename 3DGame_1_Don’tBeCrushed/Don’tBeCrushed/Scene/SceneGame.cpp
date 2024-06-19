@@ -13,7 +13,7 @@ namespace {
 	constexpr float kEnemyRota = 1.58f;		// “G‰ñ“]—Ê
 	constexpr float kEnemyAddScale = 50.0f;	// “G’Ç‰ÁƒTƒCƒY(’²®—p)
 	constexpr float kEnemyMove = 0.05f;		// “GˆÚ“®—Ê
-	constexpr float kEnemyAttackInterval = 180.0f;	// “GUŒ‚‚ÌŠÔŠu
+	constexpr float kEnemyAttackInterval = 240.0f;	// “GUŒ‚‚ÌŠÔŠu
 }
 
 SceneGame::SceneGame() :
@@ -67,11 +67,15 @@ shared_ptr<SceneBase> SceneGame::Update()
 	if (m_enemyInterval >= kEnemyAttackInterval)
 	{
 	m_enemyAttckNum= GetRand(3);
+
 		
-		//m_enemyAttckNum = 2;
+		
+		//m_enemyAttckNum = 3;
 		m_pEnemy[m_enemyAttckNum]->SetAttackNum(m_enemyAttckNum);
 
 		m_pEnemy[m_enemyAttckNum]->SetAttack(true);
+
+		
 
 		if (m_enemyAttckNum < 2)	// 0or1
 		{
@@ -125,6 +129,10 @@ void SceneGame::Draw()
 	m_pStage->Draw();
 
 	m_pPlayer->Draw();
+	DrawFormatString(0, 0, 0xffffff, 
+"m_enemyAttckNum=%d", m_enemyAttckNum);
+	DrawFormatString(0, 32, 0xffffff,
+		"maxRota=%.2f", m_pEnemy[m_enemyAttckNum]->GetRota());
 
 
 

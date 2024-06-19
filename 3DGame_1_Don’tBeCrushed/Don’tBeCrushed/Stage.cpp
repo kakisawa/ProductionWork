@@ -4,6 +4,11 @@
 
 namespace {
 	const char* const kBg = "data/floor2.png";
+
+	constexpr int kStageLeftX = -30;
+	constexpr int kStageRightX = 30;
+	constexpr int kStageUpZ = 20;
+	constexpr int kStageDownZ = -20;
 }
 
 Stage::Stage()
@@ -27,14 +32,28 @@ void Stage::Draw()
 {
 	DrawExtendGraph(0, 0, kScreenWidth, kScreenHeight, bgGraph, false);
 
-	for (int x = -30; x <= 30; x += 10)
+	for (int x = kStageLeftX; x <= kStageRightX; x += 10)
 	{
-		DrawLine3D(VGet(static_cast<float>(x), 0, -20), VGet(static_cast<float>(x), 0, 20), 0xffffff);
+		DrawLine3D(VGet(static_cast<float>(x), 0, kStageDownZ), VGet(static_cast<float>(x), 0, 20), 0xffffff);
 	}
-	for (int z = -20; z <= 20; z += 10)
+	for (int z = kStageDownZ; z <= kStageUpZ; z += 10)
 	{
-		DrawLine3D(VGet(-30, 0, static_cast<float>(z)), VGet(30, 0, static_cast<float>(z)), 0xffffff);
+		DrawLine3D(VGet(kStageLeftX, 0, static_cast<float>(z)), VGet(kStageRightX, 0, static_cast<float>(z)), 0xffffff);
 	}
+
+	DrawSphere3D(VGet(kStageLeftX, 0, kStageUpZ), 2, 32, true, 0xff00ff, 0xff00ff);		// ç∂è„
+	DrawSphere3D(VGet(kStageLeftX, 0, kStageDownZ), 2, 32, true, 0xff00ff, 0xff00ff);	// ç∂â∫
+	DrawSphere3D(VGet(kStageRightX, 0, kStageUpZ), 2, 32, true, 0xff00ff, 0xff00ff);	// âEè„
+	DrawSphere3D(VGet(kStageRightX, 0, kStageDownZ), 2, 32, true, 0xff00ff, 0xff00ff);	// âEâ∫
+
+
+
+
+
+
+
+
+
 
 	// X+-,Z+-ÇÃï˚å¸Ç™ï™Ç©ÇËÇ‚Ç∑Ç¢ÇÊÇ§Ç…ï\é¶Çí«â¡Ç∑ÇÈ
 	VECTOR dispPos = ConvWorldPosToScreenPos(VGet(2, 0, 0));

@@ -32,6 +32,11 @@ void Player::Update()
 
 	int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
+
+	// プレイヤーが画面外に出ないようする処理
+
+
+
 	// 移動処理
 	if (pad & PAD_INPUT_RIGHT)
 	{

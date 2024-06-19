@@ -13,4 +13,9 @@ public:
 private:
 
 	int bgGraph;
+
+	int m_stageUpperLeftX;
+	int m_stageUpperRightX;
+	int m_stageLowerLeftZ;
+	int m_stageLowerRightZ;
 };

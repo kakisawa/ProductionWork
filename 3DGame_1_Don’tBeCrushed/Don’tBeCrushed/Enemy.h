@@ -19,6 +19,8 @@ public:
 	void SetModelAngle(VECTOR angle) { m_angle = angle; }
 	void SetMove(VECTOR move) { m_move = move; }
 	VECTOR GetPos() { return m_pos; }
+
+	float GetRota() { return maxRota; }
 	
 	
 private:

@@ -10,7 +10,8 @@ namespace {
 	constexpr float kJumpPow = 0.5f;	// ƒWƒƒƒ“ƒv—Í
 
 	constexpr float kRota = 0.05f;		// ‰ñ“]—Ê
-	constexpr float kRotaMax = 1.5f;		// Å‘å‰ñ“]—Ê
+	constexpr float kRotaMaxY = 1.5f;		// YŽ²Å‘å‰ñ“]—Ê
+	constexpr float kRotaMaxZ = 1.7f;		// ZŽ²Å‘å‰ñ“]—Ê
 
 	constexpr float kEnemyRota = 1.58f;		// “G‰ñ“]—Ê(SceneGame‚É‚à‚ ‚è)
 }
@@ -83,7 +84,7 @@ void Enemy::Update()
 				/*“|‚ê‚éˆ—*/
 				if (m_attackNum == 0)	// ˆê‘Ì–Ú‚Ì“G
 				{
-					if (maxRota >= kRotaMax)
+					if (maxRota >= kRotaMaxY)
 					{
 						m_angle = VAdd(m_angle, VGet(0.0f, -rota, 0.0f));
 						if (m_angle.y <= 0.0f)
@@ -91,14 +92,14 @@ void Enemy::Update()
 							m_isFall=false;
 						}
 					}
-					else {
+					else {	// 1.55–˜
 						m_angle = VAdd(m_angle, VGet(0.0f, rota, 0.0f));
 						maxRota = m_angle.y;
 					}
 				}
 				if (m_attackNum == 1)	// “ñ‘Ì–Ú‚Ì“G
 				{
-					if (maxRota <= -kRotaMax)
+					if (maxRota <= -kRotaMaxY)
 					{
 						m_angle = VAdd(m_angle, VGet(0.0f, rota, 0.0f));
 						if (m_angle.y >= 0.0f)
@@ -106,29 +107,39 @@ void Enemy::Update()
 							m_isFall = false;
 						}
 					}
-					else {
+					else {	// -1.55–˜
 						m_angle = VAdd(m_angle, VGet(0.0f, -rota, 0.0f));
 						maxRota = m_angle.y;
 					}
 				}
 				else if (m_attackNum == 2)	// ŽO‘Ì–Ú‚Ì“G
 				{
-					if (maxRota <= -0.7f)
+					if (maxRota <= -kRotaMaxZ)
 					{
 						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, rota));
-						if (m_angle.z >= 0.0f)
+						if (m_angle.z >= kEnemyRota)
 						{
 							m_isFall = false;
 						}
 					}
 					else {
 						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, -rota));
-						maxRota = m_angle.z;
+						maxRota -= rota;
 					}
-
 				}
 				else if(m_attackNum==3){
-
+					if (maxRota >= kRotaMaxZ)
+					{
+						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, -rota));
+						if (m_angle.z <= kEnemyRota)
+						{
+							m_isFall = false;
+						}
+					}
+					else {
+						m_angle = VAdd(m_angle, VGet(0.0f, 0.0f, +rota));
+						maxRota += rota;
+					}
 				}
 			}
 			else {
@@ -182,8 +193,8 @@ void Enemy::Draw()
 {
 	MV1DrawModel(m_model);
 
-	DrawFormatString(0, 0, 0xffffff, "m_AttackNum=%d", m_attackNum);
-	DrawFormatString(0, 32, 0xffffff, "maxRota=%.2f", maxRota);
+	
+	
 
 }
 
