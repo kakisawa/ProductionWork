@@ -11,4 +11,3 @@ public:
 	virtual shared_ptr<SceneBase> Update() = 0;
 	virtual void End(){}
 };
-

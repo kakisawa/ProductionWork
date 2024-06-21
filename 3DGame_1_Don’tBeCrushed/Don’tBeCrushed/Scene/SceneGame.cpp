@@ -51,7 +51,7 @@ SceneGame::~SceneGame()
 
 void SceneGame::Init()
 {
-	m_pPlayer->Init();
+	m_pPlayer->Init(m_pStage);
 
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
@@ -66,16 +66,12 @@ shared_ptr<SceneBase> SceneGame::Update()
 	m_enemyInterval++;
 	if (m_enemyInterval >= kEnemyAttackInterval)
 	{
-	m_enemyAttckNum= GetRand(3);
-
-		
-		
-		//m_enemyAttckNum = 3;
+	
+		//m_enemyAttckNum= GetRand(3);
+		m_enemyAttckNum = 0;
 		m_pEnemy[m_enemyAttckNum]->SetAttackNum(m_enemyAttckNum);
 
 		m_pEnemy[m_enemyAttckNum]->SetAttack(true);
-
-		
 
 		if (m_enemyAttckNum < 2)	// 0or1
 		{
@@ -119,8 +115,6 @@ shared_ptr<SceneBase> SceneGame::Update()
 	m_pPlayer->Update();
 
 
-
-
 	return shared_ptr<SceneBase>();
 }
 
@@ -129,10 +123,8 @@ void SceneGame::Draw()
 	m_pStage->Draw();
 
 	m_pPlayer->Draw();
-	DrawFormatString(0, 0, 0xffffff, 
-"m_enemyAttckNum=%d", m_enemyAttckNum);
-	DrawFormatString(0, 32, 0xffffff,
-		"maxRota=%.2f", m_pEnemy[m_enemyAttckNum]->GetRota());
+	DrawFormatString(0, 0, 0xffffff, "m_enemyAttckNum=%d", m_enemyAttckNum);
+	DrawFormatString(0, 32, 0xffffff,"maxRota=%.2f", m_pEnemy[m_enemyAttckNum]->GetRota());
 
 
 
@@ -141,7 +133,7 @@ void SceneGame::Draw()
 		m_pEnemy[i]->Draw();
 	}
 
-	m_colRect.EnemyDraw(0x000000, true);
+	m_colRect.EnemyDraw(0x000000, false);
 
 	DrawFormatString(0, 70, 0xffffff, "m_enemyInterval=%d", m_enemyInterval);
 

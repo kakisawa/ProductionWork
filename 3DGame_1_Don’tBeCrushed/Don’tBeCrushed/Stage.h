@@ -9,13 +9,13 @@ public:
 	void Update();
 	void Draw();
 
+	VECTOR GetStageUpperLeft() { return m_stageUpperLeft; }
+	VECTOR GetStageLowerRight() { return m_stageLowerRight; }
 
 private:
 
-	int bgGraph;
+	int bgGraph;	// 背景画像
 
-	int m_stageUpperLeftX;
-	int m_stageUpperRightX;
-	int m_stageLowerLeftZ;
-	int m_stageLowerRightZ;
+	VECTOR m_stageUpperLeft;	// ステージ左上座標
+	VECTOR m_stageLowerRight;	// ステージ右下座標
 };

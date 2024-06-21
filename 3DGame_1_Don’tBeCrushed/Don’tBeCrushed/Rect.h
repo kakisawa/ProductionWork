@@ -19,9 +19,8 @@ public:
 	// 横向きの敵の(俯瞰して見た場合の)左下座標から右上座標をセット
 	void SetLandscape(VECTOR pos, float width, float height,float depth, bool flag);
 
-	//// 必要な情報を取得する
-	//VECTOR GetWidth() const;	// 矩形の幅
-	//VECTOR GetHeight() const;	// 矩形の高さ
+	// 矩形同士の当たり判定
+	void IsCollision();
 
 private:
 

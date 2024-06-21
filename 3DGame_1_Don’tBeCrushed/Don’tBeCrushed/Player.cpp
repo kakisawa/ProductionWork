@@ -1,9 +1,12 @@
 #include "Player.h"
 #include "DxLib.h"
+#include "Stage.h"
+#include <vector>
+#include <memory>
 
 namespace {
 	const char* const kModelPlayer = "data/model/Player.mv1";
-	constexpr float kColSize = 3.5f;	// 当たり判定の幅(正方形)
+	constexpr float kColSize = 3.5f;	// 当たり判定の幅(正方形)	ベクトルなら4
 }
 
 Player::Player() :
@@ -21,8 +24,10 @@ Player::~Player()
 {
 }
 
-void Player::Init()
+void Player::Init(std::shared_ptr<Stage> pStage)
 {
+	sp.leftUp = pStage->GetStageUpperLeft();
+	sp.rightDown = pStage->GetStageLowerRight();
 }
 
 void Player::Update()
@@ -33,8 +38,7 @@ void Player::Update()
 	int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
 
-	// プレイヤーが画面外に出ないようする処理
-
+	
 
 
 	// 移動処理
@@ -65,6 +69,26 @@ void Player::Update()
 	// プレイヤーの位置に移動量を足す
 	m_pos = VAdd(m_pos, m_move);
 
+
+	// プレイヤーが画面外に出ないようする処理
+	if (m_pos.x - 2 < sp.leftUp.x)
+	{
+		m_pos.x -=m_move.x ;		// 左
+	}
+	if (m_pos.x + 2 > sp.rightDown.x)
+	{
+		m_pos.x -= m_move.x;		// 右
+	}
+	if (m_pos.z + 2 > sp.rightDown.z)
+	{
+		m_pos.z -= m_move.z;		// 上
+	}
+	if (m_pos.z - 2 < sp.leftUp.z)
+	{
+		m_pos.z -= m_move.z;		// 下
+	}
+	
+
 	// 当たり判定の更新
 	m_colRect.SetLB(m_pos, kColSize, kColSize);
 	// プレイヤーの位置セット
@@ -76,7 +100,11 @@ void Player::Draw()
 	// 当たり判定描画
 	m_colRect.PlayerDraw(0x000000, true);
 	// プレイヤー描画
-	MV1DrawModel(m_playerModel);	
+	MV1DrawModel(m_playerModel);
+
+	DrawFormatString(0, 430, 0xffffff, "m_pos.x=%.0f:.z=%.0f", m_pos.x, m_pos.z);
+	DrawFormatString(0, 500, 0xffffff, "sp.leftUp.x=%.0f:.z=%.0f", sp.leftUp.x, sp.leftUp.z);
+	DrawFormatString(0, 530, 0xffffff, "sp.RightDown.x=%.0f:.z=%.0f", sp.rightDown.x, sp.rightDown.z);
 }
 
 void Player::End()

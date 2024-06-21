@@ -109,16 +109,7 @@ void Rect::SetLandscape(VECTOR pos, float width, float height, float depth, bool
 	}
 }
 
-
-
-//VECTOR Rect::GetWidth() const
-//{
-//	assert(m_right >= m_left);	// 左右の座標入れ替わりチェック
-//	return VSub(m_right, m_left);
-//}
-//
-//VECTOR Rect::GetHeight() const
-//{
-//	assert(m_bottom >= m_top);	// 上下の座標入れ替わりチェック
-//	return VSub(m_bottom, m_top);
-//}
+void Rect::IsCollision()
+{
+	//if(p1.m_leftUp.x)
+}
