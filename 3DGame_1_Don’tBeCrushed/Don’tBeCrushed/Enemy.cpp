@@ -51,6 +51,7 @@ void Enemy::Init()
 
 void Enemy::Update()
 {
+
 	// “GUŒ‚‘O
 	if (m_isAttack == true) {
 
@@ -192,10 +193,6 @@ void Enemy::Update()
 void Enemy::Draw()
 {
 	MV1DrawModel(m_model);
-
-	
-	
-
 }
 
 void Enemy::End()

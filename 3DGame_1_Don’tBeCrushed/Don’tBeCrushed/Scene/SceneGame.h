@@ -1,7 +1,7 @@
 #pragma once
 #include "SceneBase.h"
 #include "DxLib.h"
-#include "../Rect.h"
+#include "../Collision.h"
 #include <vector>
 
 class Enemy;
@@ -33,7 +33,7 @@ private:
     
     
     // “–‚½‚è”»’è‹éŒ`
-    Rect m_colRect;
+    Collision m_colRect;
 
     vector<shared_ptr<Enemy>> m_pEnemy;
     shared_ptr<Player> m_pPlayer = make_shared<Player>();

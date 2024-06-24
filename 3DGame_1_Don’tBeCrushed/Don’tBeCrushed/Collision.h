@@ -1,11 +1,11 @@
 #pragma once
 #include "DxLib.h"
 
-class Rect
+class Collision
 {
 public:
-	Rect();
-	virtual ~Rect();
+	Collision();
+	virtual ~Collision();
 
 	// •`‰æ
 	void PlayerDraw(unsigned int color, bool isFill);
@@ -20,7 +20,7 @@ public:
 	void SetLandscape(VECTOR pos, float width, float height,float depth, bool flag);
 
 	// ‹éŒ`“¯Žm‚Ì“–‚½‚è”»’è
-	void IsCollision();
+	bool IsCollision(int num);
 
 private:
 

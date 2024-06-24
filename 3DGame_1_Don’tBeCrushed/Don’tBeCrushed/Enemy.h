@@ -1,5 +1,6 @@
 #pragma once
 #include "DxLib.h"
+#include "Collision.h"
 
 class Enemy
 {
@@ -21,6 +22,7 @@ public:
 	VECTOR GetPos() { return m_pos; }
 
 	float GetRota() { return maxRota; }
+	Collision GetColRect() const { return m_colRect; }		// “G“–‚½‚è”»’èæ“¾
 	
 	
 private:
@@ -40,6 +42,9 @@ private:
 	bool m_isAttack;	// “G‚ÌUŒ‚ƒtƒ‰ƒO
 	bool m_isFall;		// “G‚ª“|‚ê‚éƒtƒ‰ƒO
 	bool m_isMoveStop;
+
+	// “–‚½‚è”»’è‹éŒ`
+	Collision m_colRect;
 	
 	// “G
 	VECTOR m_pos;		// “GÀ•W

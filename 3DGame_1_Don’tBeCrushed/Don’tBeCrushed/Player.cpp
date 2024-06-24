@@ -37,10 +37,6 @@ void Player::Update()
 
 	int pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 
-
-	
-
-
 	// à⁄ìÆèàóù
 	if (pad & PAD_INPUT_RIGHT)
 	{
@@ -103,8 +99,6 @@ void Player::Draw()
 	MV1DrawModel(m_playerModel);
 
 	DrawFormatString(0, 430, 0xffffff, "m_pos.x=%.0f:.z=%.0f", m_pos.x, m_pos.z);
-	DrawFormatString(0, 500, 0xffffff, "sp.leftUp.x=%.0f:.z=%.0f", sp.leftUp.x, sp.leftUp.z);
-	DrawFormatString(0, 530, 0xffffff, "sp.RightDown.x=%.0f:.z=%.0f", sp.rightDown.x, sp.rightDown.z);
 }
 
 void Player::End()

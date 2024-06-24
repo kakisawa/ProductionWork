@@ -1,6 +1,6 @@
 #pragma once
 #include "DxLib.h"
-#include "Rect.h"
+#include "Collision.h"
 #include <memory>
 
 class Stage;
@@ -14,6 +14,8 @@ public:
 	void Update();
 	void Draw();
 	void End();
+
+	Collision GetColRect() const { return m_colRect; }	// プレイヤー当たり判定取得
 
 private:
 	int m_playerModel;		// プレイヤーモデル
@@ -30,5 +32,5 @@ private:
 	VECTOR m_pos;			// プレイヤー位置
 	VECTOR m_move;			// 移動量
 
-	Rect m_colRect;			// 当たり判定矩形
+	Collision m_colRect;			// 当たり判定矩形
 };
