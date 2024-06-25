@@ -70,7 +70,7 @@ shared_ptr<SceneBase> SceneGame::Update()
 	{
 	
 		//m_enemyAttckNum= GetRand(3);
-		m_enemyAttckNum = 1;
+		m_enemyAttckNum = 3;
 		m_pEnemy[m_enemyAttckNum]->SetAttackNum(m_enemyAttckNum);
 
 		m_pEnemy[m_enemyAttckNum]->SetAttack(true);

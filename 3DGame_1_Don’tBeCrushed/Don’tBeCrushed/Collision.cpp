@@ -21,7 +21,7 @@ void Collision::PlayerDraw(unsigned int color, bool isFill)
 	DrawCube3D(p1.m_leftBottom, p1.m_rightUp, color, 0x000000, isFill);
 
 	DrawFormatString(0, 420, 0x00ffff, "p1.m_rightBottom.x=%.0f:z=%0.f",
-		p1.m_rightBottom.x, p1.m_rightBottom.z);
+		p1.m_rightBottom.x, p1.m_rightUp.z);
 
 	//// プレイヤー座標確認用
 	//DrawString(0, 800 - 20, "Player", 0xffffff);
@@ -84,10 +84,11 @@ void Collision::SetPortrait(VECTOR pos, float width, float height, float depth, 
 	}
 	else
 	{
-		e1.m_leftUp = VAdd(pos, VGet(-(height + width), 0.0f, -(depth * 0.5f)));
-		e1.m_leftBottom = VAdd(e1.m_leftUp, VGet(0.0f, 0.0f, depth));//
-		e1.m_rightUp = VAdd(e1.m_leftUp, VGet(height, 0.0f, 0.0f));//
-		e1.m_rightBottom = VAdd(e1.m_rightUp, VGet(0.0f, 0.0f, -depth));
+		e1.m_leftUp = VAdd(pos, VGet(-(height + width), 0.0f, depth*0.5));
+		e1.m_leftBottom = VAdd(e1.m_leftUp, VGet(0.0f, 0.0f, -depth));//
+		e1.m_rightBottom = VAdd(e1.m_leftBottom, VGet(height, 0.0f, 0.0f));
+		e1.m_rightUp = VAdd(e1.m_leftUp, VGet(height, 0.0f, -depth));//
+		
 	}
 }
 
@@ -110,17 +111,14 @@ void Collision::SetLandscape(VECTOR pos, float width, float height, float depth,
 	else
 	{
 		e1.m_leftBottom = VAdd(pos, VGet(-(height * 0.7f), 0.0f, width * 0.8f));
-		e1.m_leftUp = VAdd(pos, VGet(0.0f, 0.0f, width * 0.8 + depth));
-		// e1.m_leftUp = VAdd(pos, VGet((height * 0.5f), 0.0f, width * 0.8+ depth));
-		
-		//e1.m_rightUp = VAdd(e1.m_leftUp, VGet(-height * 1.3, 0.0f, 0.0f));
-	//	e1.m_rightBottom = VAdd(e1.m_rightUp, VGet(-depth, 0.0f, 0.0f));
+		e1.m_leftUp = VAdd(e1.m_leftBottom, VGet(0.0f, 0.0f, depth));
+		e1.m_rightBottom = VAdd(e1.m_leftBottom, VGet(height*1.33f, 0.0f, 0.0f));
+		e1.m_rightUp = VAdd(e1.m_rightBottom, VGet(0.0f, 0.0f, depth));
 	}
 }
 
 bool Collision::IsCollision(int num)
 {
-
 	if (num == 0)
 	{
 		if (e1.m_leftBottom.x <= p1.m_rightUp.x)
