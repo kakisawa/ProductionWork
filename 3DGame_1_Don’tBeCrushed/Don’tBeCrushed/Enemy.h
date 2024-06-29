@@ -19,12 +19,12 @@ public:
 	void SetAttack(bool isattack) { m_isAttack = isattack; }
 	void SetModelAngle(VECTOR angle) { m_angle = angle; }
 	void SetMove(VECTOR move) { m_move = move; }
-	VECTOR GetPos() { return m_pos; }
 
+	VECTOR GetPos() { return m_pos; }
+	bool GetFall() { return m_isFall; }
+	bool GetAttack() { return m_isAttack; }
 	float GetRota() { return maxRota; }
-	Collision GetColRect() const { return m_colRect; }		// “G“–‚½‚è”»’èæ“¾
-	
-	
+
 private:
 
 	int m_model;		// “Gƒ‚ƒfƒ‹
@@ -43,9 +43,6 @@ private:
 	bool m_isFall;		// “G‚ª“|‚ê‚éƒtƒ‰ƒO
 	bool m_isMoveStop;
 
-	// “–‚½‚è”»’è‹éŒ`
-	Collision m_colRect;
-	
 	// “G
 	VECTOR m_pos;		// “GÀ•W
 	VECTOR m_angle;		// “G•ûŒü

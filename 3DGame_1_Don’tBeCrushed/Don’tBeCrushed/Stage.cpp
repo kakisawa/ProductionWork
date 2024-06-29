@@ -52,6 +52,7 @@ void Stage::Draw()
 		DrawLine3D(VGet(kStageLeftX, 0, static_cast<float>(z)), VGet(kStageRightX, 0, static_cast<float>(z)), 0xffffff);
 	}
 
+#ifdef DEBUG
 	// ステージ四隅描画(デバッグ)
 	DrawSphere3D(kStageLeftUp, 2, 32, true, 0xff00ff, 0xff00ff);		// 左上
 	DrawSphere3D(kStageLeftDown, 2, 32, true, 0xff00ff, 0xff00ff);	// 左下
@@ -80,4 +81,6 @@ void Stage::Draw()
 	{
 		DrawStringF(dispPos.x, dispPos.y, "Z-", 0xffffff);
 	}
+#endif // DEBUG
+
 }

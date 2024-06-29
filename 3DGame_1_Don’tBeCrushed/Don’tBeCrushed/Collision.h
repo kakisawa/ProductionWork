@@ -20,7 +20,7 @@ public:
 	void SetLandscape(VECTOR pos, float width, float height,float depth, bool flag);
 
 	// ‹éŒ`“¯Žm‚Ì“–‚½‚è”»’è
-	bool IsCollision(int num);
+	bool IsCollision(int num, const Collision& col);
 
 private:
 

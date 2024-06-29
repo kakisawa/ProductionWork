@@ -93,12 +93,14 @@ void Player::Update()
 
 void Player::Draw()
 {
-	// “–‚½‚è”»’è•`‰æ
-	m_colRect.PlayerDraw(0x000000, true);
 	// ƒvƒŒƒCƒ„[•`‰æ
 	MV1DrawModel(m_playerModel);
 
+#ifdef DEBUG
+	// “–‚½‚è”»’è•`‰æ
+	m_colRect.PlayerDraw(0x000000, true);
 	DrawFormatString(0, 430, 0xffffff, "m_pos.x=%.0f:.z=%.0f", m_pos.x, m_pos.z);
+#endif // DEBUG
 }
 
 void Player::End()

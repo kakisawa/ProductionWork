@@ -60,7 +60,7 @@ void Enemy::Update()
 
 		if (jumpCount > 0)		// ジャンプの残り回数が0以上なら処理を行う
 		{
-			m_isFall = true;
+			
 
 			m_move = VGet(0, 0, 0);
 			m_move = VAdd(m_move, VGet(0, kJumpPow, 0));
@@ -74,6 +74,10 @@ void Enemy::Update()
 			{
 				jumpCount -= 1;			// ジャンプカウントを1減らす
 				m_gravity = kGravity;
+				if (jumpCount == 0)
+				{
+					m_isFall = true;
+				}
 			}
 		}
 		else // ジャンプを2回行った後の処理

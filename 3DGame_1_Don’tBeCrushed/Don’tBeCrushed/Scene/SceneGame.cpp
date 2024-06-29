@@ -5,17 +5,17 @@
 #include "../Stage.h"
 
 namespace {
-	constexpr static int kEnemyNum = 4;	// “G‚Ì”
+	constexpr static int kEnemyNum = 4;				// “G‚Ì”
 
-	constexpr float kEnemyPlaceX = 35.0f;	// “GXÀ•W
-	constexpr float kEnemyPlaceZ = 24.0f;	// “GZÀ•W
+	constexpr float kEnemyPlaceX = 35.0f;			// “GXÀ•W
+	constexpr float kEnemyPlaceZ = 24.0f;			// “GZÀ•W
 
-	constexpr float kEnemyRota = 1.58f;		// “G‰ñ“]—Ê
-	constexpr float kEnemyAddScale = 50.0f;	// “G’Ç‰ÁƒTƒCƒY(’²®—p)
-	constexpr float kEnemyMove = 0.05f;		// “GˆÚ“®—Ê
+	constexpr float kEnemyRota = 1.58f;				// “G‰ñ“]—Ê
+	constexpr float kEnemyAddScale = 50.0f;			// “G’Ç‰ÁƒTƒCƒY(’²®—p)
+	constexpr float kEnemyMove = 0.05f;				// “GˆÚ“®—Ê
 	constexpr float kEnemyAttackInterval = 240.0f;	// “GUŒ‚‚ÌŠÔŠu
 
-	bool col = false;
+	bool col = false;								// “G‚Æ‚Ô‚Â‚©‚Á‚Ä‚¢‚é‚©
 }
 
 SceneGame::SceneGame() :
@@ -45,6 +45,8 @@ SceneGame::SceneGame() :
 
 	m_pEnemy[2]->SetAddMove(true);
 	m_pEnemy[3]->SetAddMove(true);
+
+
 }
 
 SceneGame::~SceneGame()
@@ -67,15 +69,10 @@ shared_ptr<SceneBase> SceneGame::Update()
 {
 	m_enemyInterval++;
 	if (m_enemyInterval >= kEnemyAttackInterval)
-	{
-	
-		//m_enemyAttckNum= GetRand(3);
-		m_enemyAttckNum = 3;
+	{	
+		m_enemyAttckNum= GetRand(3);
 		m_pEnemy[m_enemyAttckNum]->SetAttackNum(m_enemyAttckNum);
-
 		m_pEnemy[m_enemyAttckNum]->SetAttack(true);
-		// VECTOR book = VGet(3.0f, 42.0f,19.0f);
-
 		if (m_enemyAttckNum < 2)	// 0or1
 		{
 			int flag = false;
@@ -105,32 +102,32 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 			m_colRect.SetPortrait(m_enemyAttackPos, 5.2f, 30.0f, 19.0f, flag);
 		}
-
-		// “–‚½‚è”»’èˆ—
-		Collision playerRect = m_pPlayer->GetColRect();
-
-		if (playerRect.IsCollision(m_enemyAttckNum))
-		{
-			col = true;
-		}
+		
+		
 
 		m_enemyInterval = 0;
 	}
 
-
-
-	m_pPlayer->Update();
-
+	if (m_pEnemy[m_enemyAttckNum]->GetFall())
+	{
+		// “–‚½‚è”»’èˆ—
+		Collision playerRect = m_pPlayer->GetColRect();
+		Collision enemyRect = m_colRect;
+		if (playerRect.IsCollision(m_enemyAttckNum, m_colRect))
+		{
+			col = true;
+		}
+	}
+	else {
+		col = false;
+	}
 	
+	m_pPlayer->Update();
 
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		m_pEnemy[i]->Update();
 	}
-
-	
-
-
 	return shared_ptr<SceneBase>();
 }
 
@@ -138,23 +135,23 @@ void SceneGame::Draw()
 {
 	m_pStage->Draw();
 
-	m_pPlayer->Draw();
-	DrawFormatString(0, 0, 0xffffff, "m_enemyAttckNum=%d", m_enemyAttckNum);
-
+	if (m_pEnemy[m_enemyAttckNum]->GetAttack()){
+		m_colRect.EnemyDraw(0x000000, true);
+	}
+	
 	for (int i = 0; i < m_pEnemy.size(); i++)
 	{
 		m_pEnemy[i]->Draw();
 	}
+	m_pPlayer->Draw();
 
-	m_colRect.EnemyDraw(0x000000, false);
-
+#ifdef DEBUG
+	DrawFormatString(0, 0, 0xffffff, "m_enemyAttckNum=%d", m_enemyAttckNum);
 	DrawFormatString(0, 70, 0xffffff, "m_enemyInterval=%d", m_enemyInterval);
-
-	DrawFormatString(0, 200, 0xffffff,
-		"ifPos.x=%.2f:z=%.2f", m_enemyAttackPos.x, m_enemyAttackPos.z);
-
-
+	DrawFormatString(0, 200, 0xffffff,"ifPos.x=%.2f:z=%.2f", m_enemyAttackPos.x, m_enemyAttackPos.z);
 	DrawFormatString(0, 360, 0xffffff, "col=%d", col);
+#endif // DEBUG
+
 }
 
 void SceneGame::End()
