@@ -7,6 +7,7 @@
 class Enemy;
 class Player;
 class Stage;
+class Camera;
 class SceneGame :
     public SceneBase
 {
@@ -38,4 +39,5 @@ private:
     vector<shared_ptr<Enemy>> m_pEnemy;
     shared_ptr<Player> m_pPlayer = make_shared<Player>();
     shared_ptr<Stage> m_pStage = make_shared<Stage>();
+    shared_ptr<Camera> m_pCamera = make_shared<Camera>();
 };

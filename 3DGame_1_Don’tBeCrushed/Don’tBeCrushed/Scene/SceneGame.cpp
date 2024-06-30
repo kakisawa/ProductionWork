@@ -3,6 +3,10 @@
 #include "../Enemy.h"
 #include "../Player.h"
 #include "../Stage.h"
+#include "../Camera.h"
+#include "../Pad.h"
+#include "SceneGameClear.h"
+#include "SceneGameOver.h"
 
 namespace {
 	constexpr static int kEnemyNum = 4;				// “G‚Ì”
@@ -45,8 +49,6 @@ SceneGame::SceneGame() :
 
 	m_pEnemy[2]->SetAddMove(true);
 	m_pEnemy[3]->SetAddMove(true);
-
-
 }
 
 SceneGame::~SceneGame()
@@ -67,6 +69,8 @@ void SceneGame::Init()
 
 shared_ptr<SceneBase> SceneGame::Update()
 {
+	Pad::Update();
+
 	m_enemyInterval++;
 	if (m_enemyInterval >= kEnemyAttackInterval)
 	{	
@@ -102,9 +106,6 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 			m_colRect.SetPortrait(m_enemyAttackPos, 5.2f, 30.0f, 19.0f, flag);
 		}
-		
-		
-
 		m_enemyInterval = 0;
 	}
 
@@ -128,6 +129,16 @@ shared_ptr<SceneBase> SceneGame::Update()
 	{
 		m_pEnemy[i]->Update();
 	}
+
+	if (Pad::IsTrigger(PAD_INPUT_1))
+	{
+		return make_shared<SceneGameClear>();
+	}
+	if (Pad::IsTrigger(PAD_INPUT_2))
+	{
+		return make_shared<SceneGameOver>();
+	}
+
 	return shared_ptr<SceneBase>();
 }
 
@@ -144,6 +155,8 @@ void SceneGame::Draw()
 		m_pEnemy[i]->Draw();
 	}
 	m_pPlayer->Draw();
+
+	DrawString(0, 0, "SceneGame", 0xffffff);
 
 #ifdef DEBUG
 	DrawFormatString(0, 0, 0xffffff, "m_enemyAttckNum=%d", m_enemyAttckNum);
