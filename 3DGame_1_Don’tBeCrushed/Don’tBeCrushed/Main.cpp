@@ -1,5 +1,5 @@
 #include "DxLib.h"
-#include "Scene/SceneGame.h"
+//#include "Scene/SceneGame.h"
 #include "Scene/SceneManager.h"
 #include "Game.h"
 #include <memory>

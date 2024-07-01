@@ -1,12 +1,13 @@
 #include "SceneGame.h"
+#include "SceneGameClear.h"
+#include "SceneGameOver.h"
 #include "DxLib.h"
 #include "../Enemy.h"
 #include "../Player.h"
 #include "../Stage.h"
 #include "../Camera.h"
 #include "../Pad.h"
-#include "SceneGameClear.h"
-#include "SceneGameOver.h"
+
 
 namespace {
 	constexpr static int kEnemyNum = 4;				// “G‚Ì”
@@ -49,6 +50,8 @@ SceneGame::SceneGame() :
 
 	m_pEnemy[2]->SetAddMove(true);
 	m_pEnemy[3]->SetAddMove(true);
+
+	m_pCamera->Init_Game();
 }
 
 SceneGame::~SceneGame()
@@ -139,7 +142,7 @@ shared_ptr<SceneBase> SceneGame::Update()
 		return make_shared<SceneGameOver>();
 	}
 
-	return shared_ptr<SceneBase>();
+	return shared_from_this();
 }
 
 void SceneGame::Draw()

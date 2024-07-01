@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "SceneBase.h"
 #include "SceneTitle.h"
+#include "DxLib.h"
 
 SceneManager::SceneManager() :
 	m_pScene(nullptr)

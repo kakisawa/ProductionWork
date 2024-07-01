@@ -7,8 +7,8 @@ namespace {
 	constexpr float kCameraDist = 3.5f;
 	constexpr float kCameraHeight = 10;
 
-	constexpr float kCameraNear = 0.5f;
-	constexpr float kCameraFar = 180.0f;
+	constexpr float kCameraNear = 0.1f;
+	constexpr float kCameraFar = 100.0f;
 
 
 	// ÉJÉÅÉâèÓïÒ
@@ -17,9 +17,22 @@ namespace {
 
 Camera::Camera()
 {
-	// ÉJÉÅÉâ
 	SetCameraNearFar(kCameraNear, kCameraFar);
-	VECTOR cameraPos;
+}
+
+void Camera::Init_Title(VECTOR pos)
+{
+	m_playerPos = pos;
+
+	cameraPos=VAdd(cameraPos, VGet(0, 50.0f, -40));	
+
+	SetCameraPositionAndTarget_UpVecY(cameraPos, m_playerPos);
+	ChangeLightTypeDir(VGet(0.0f, -10.0f, 0.0f));
+}
+
+void Camera::Init_Game()
+{
+	// ÉJÉÅÉâ
 	cameraPos.x = cosf(cameraAngle) * kCameraDist;
 	cameraPos.y = kCameraHeight;
 	cameraPos.z = sinf(cameraAngle) * kCameraDist;
@@ -32,4 +45,7 @@ Camera::Camera()
 
 void Camera::Update()
 {
+	cameraPos = VAdd(cameraPos, cameraAddPos);
+
+	SetCameraPositionAndTarget_UpVecY(cameraPos, m_playerPos);
 }

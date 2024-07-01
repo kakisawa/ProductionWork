@@ -54,11 +54,11 @@
     <ClCompile Include="Collision.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\SceneManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Pad.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,11 +95,11 @@
     <ClInclude Include="Collision.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\SceneManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Pad.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneManager.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
