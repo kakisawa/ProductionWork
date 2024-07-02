@@ -7,7 +7,7 @@
 
 namespace {
 	const char* const kModelPlayer = "data/model/Title.mv1";
-	const char* const kTitle = "data/graph/Title4.png";
+	const char* const kTitle = "data/graph/Title3.png";
 
 	constexpr int kFadeMax = 255;
 	constexpr float kCamera= 0.01f;

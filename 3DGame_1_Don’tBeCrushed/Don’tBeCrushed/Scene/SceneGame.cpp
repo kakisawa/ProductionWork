@@ -240,7 +240,7 @@ void SceneGame::Draw()
 	DrawBoxAA(0, 0, kScreenWidth, kScreenHeight, 0x00000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			// •s“§–¾‚É–ß‚µ‚Ä‚¨‚­
 #ifdef _DEBUG
-
+#endif // DEBUG
 #ifdef DEBUG
 	DrawFormatString(0, 0, 0xffffff, "m_enemyAttckNum=%d", m_enemyAttckNum);
 	DrawFormatString(0, 70, 0xffffff, "m_enemyInterval=%d", m_enemyInterval);
