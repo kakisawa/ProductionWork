@@ -18,7 +18,7 @@ namespace {
 }
 
 Stage::Stage() :
-	bgGraph(-1),
+	m_bgGraph(-1),
 	m_stageUpperLeft(kStageLeftUp),
 	m_stageLowerRight(kStageRightDown)
 {
@@ -30,7 +30,7 @@ Stage::~Stage()
 
 void Stage::Init()
 {
-	bgGraph = LoadGraph(kBg);	// ”wŒi‰æ‘œƒ[ƒh
+	m_bgGraph = LoadGraph(kBg);	// ”wŒi‰æ‘œƒ[ƒh
 }
 
 void Stage::Update()
@@ -40,7 +40,7 @@ void Stage::Update()
 void Stage::Draw()
 {
 	// ”wŒi‰æ‘œ•`‰æ
-	DrawExtendGraph(0, 0, kScreenWidth, kScreenHeight, bgGraph, false);
+	DrawExtendGraph(0, 0, kScreenWidth, kScreenHeight, m_bgGraph, false);
 
 	// ƒXƒe[ƒW•`‰æ
 	for (int x = kStageLeftX; x <= kStageRightX; x += 10)
@@ -83,4 +83,9 @@ void Stage::Draw()
 	}
 #endif // DEBUG
 
+}
+
+void Stage::End()
+{
+	DeleteGraph(m_bgGraph);
 }

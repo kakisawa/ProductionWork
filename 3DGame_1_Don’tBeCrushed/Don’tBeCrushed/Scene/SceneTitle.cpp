@@ -3,20 +3,31 @@
 #include "DxLib.h"
 #include "../Pad.h"
 #include "../Camera.h"
+#include "../Game.h"
 
 namespace {
-	const char* const kModelPlayer = "data/model/Player.mv1";
-	float camera_y=0.0f;
+	const char* const kModelPlayer = "data/model/Title.mv1";
+	const char* const kTitle = "data/graph/Title4.png";
+
+	constexpr int kFadeMax = 255;
+	constexpr float kCamera= 0.01f;
+	constexpr float kScale = 0.01f;
 }
 
 SceneTitle::SceneTitle():
-	m_scele(5.0f),
-	m_pos(VGet(0.0f, 1.0f, 0.0f)),
-	m_model(MV1LoadModel(kModelPlayer))// プレイヤーのロード
+	m_graph(LoadGraph(kTitle)),			// タイトルロゴのロード
+	m_model(MV1LoadModel(kModelPlayer)),// モデルのロード
+	m_fadeAlpha(kFadeMax),
+	m_scele(kScale),
+	m_isFadeIn(true),
+	m_isFadeOut(false),
+	m_isSceneEnd(false),
+	m_pos(VGet(0.0f, -5.0f, -13.0f))
 {
-	MV1SetScale(m_model, VGet(m_scele, m_scele, m_scele));
-	MV1SetPosition(m_model, m_pos);
+	MV1SetScale(m_model, VGet(m_scele, m_scele, m_scele));	// モデルのサイズ設定
+	MV1SetPosition(m_model, m_pos);							// モデルの座標設定
 
+	// カメラの初期化
 	m_pCamera->Init_Title(m_pos);
 }
 
@@ -27,67 +38,67 @@ SceneTitle::~SceneTitle()
 
 shared_ptr<SceneBase> SceneTitle::Update()
 {
-	Pad::Update();
-	
-	/*m_pCamera->AddCameraPos(VGet(0, camera_y, 0));
-	camera_y += 0.1f;*/
+	Pad::Update();	// パッドの更新
 
-	//m_pCamera->Update();
+	m_pCamera->AddCameraAngle(kCamera);	// カメラの回転量追加
+	m_pCamera->Update();// カメラの更新
 
-	//// フェードイン
-	//if (m_isFadeIn)
-	//{
-	//	m_fadeAlpha -= 8;
-	//	if (m_fadeAlpha < 0)
-	//	{
-	//		m_fadeAlpha = 0;
-	//		m_isFadeIn = false;
-	//	}
-	//}
-	//if (Pad::IsTrigger(PAD_INPUT_10))
-	//{
-	//	m_pSound->SoundButton();
-	//	m_isFadeOut = true;
-	//	m_isFadeIn = false;
-	//}
-	//// フェードアウト
-	//if (m_isFadeOut)
-	//{
-	//	if (m_isSceneEnd)
-	//	{
-	//		return make_shared<SceneGame>();	// ゲームシーンへ行く
-	//	}
-	//	m_fadeAlpha += 8;
-	//	if (m_fadeAlpha >= 255)
-	//	{
-	//		m_isSceneEnd = true;
-	//		m_fadeAlpha = 255;
-	//	}
-	//}
-
-
-	if (Pad::IsTrigger(PAD_INPUT_10))
+	// フェードイン
+	if (m_isFadeIn)
 	{
-		return make_shared<SceneGame>();
+		m_fadeAlpha -= 8;
+		if (m_fadeAlpha < 0)
+		{
+			m_fadeAlpha = 0;
+			m_isFadeIn = false;
+		}
+	}
+	if (Pad::IsTrigger(PAD_INPUT_10))	// もしSpaceキーが押されたら
+	{									// フェードアウトを始める
+		m_isFadeOut = true;
+		m_isFadeIn = false;
+	}
+
+	// フェードアウト
+	if (m_isFadeOut)
+	{
+		if (m_isSceneEnd)
+		{
+			return make_shared<SceneGame>();	// ゲームシーンへ行く
+		}
+		m_fadeAlpha += 8;
+		if (m_fadeAlpha >= 255)
+		{
+			m_isSceneEnd = true;
+			m_fadeAlpha = 255;
+		}
 	}
 	return shared_from_this();
 }
 
 void SceneTitle::Draw()
 {
-	DrawString(0, 0, "SceneTitle", 0xffffff);
-
-	// プレイヤー描画
+	// モデル描画
 	MV1DrawModel(m_model);
 
-	//// フェードイン・フェードアウト描画
-	//SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	//DrawBoxAA(0, 0, kScreenWidth, kScreenHeight, 0x00000, true);
-	//SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
+	// タイトルロゴ描画
+	DrawGraph(50, 20, m_graph, true);
+
+	// フェードイン・フェードアウト描画
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, 0x00000, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
+
+#ifdef DEBUG
+	DrawString(0, 0, "SceneTitle", 0xffffff);
+#endif // DEBUG
 }
 
 void SceneTitle::End()
-{// プレイヤーのアンロード
+{
+	// モデルのアンロード
 	MV1DeleteModel(m_model);
 	m_model = -1;
+	// タイトルロゴの削除
+	DeleteGraph(m_graph);
 }

@@ -17,11 +17,17 @@ public:
 	virtual void End();
 
 private:
+	int m_graph;		// タイトル画像
 	int m_model;		// モデル
+	int m_fadeAlpha;	// フェードアウト
 
-	float m_scele;	// モデルサイズ
+	float m_scele;		// モデルサイズ
 
-	VECTOR m_pos;			// プレイヤー位置
+	bool m_isFadeIn;	// フェードインフラグ
+	bool m_isFadeOut;	// フェードアウトフラグ
+	bool m_isSceneEnd;	// シーン切り替えフラグ
+
+	VECTOR m_pos;		// モデル座標
 
 	shared_ptr<Camera> m_pCamera = make_shared<Camera>();
 };

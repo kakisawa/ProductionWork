@@ -10,14 +10,15 @@ public:
 	void Init_Title(VECTOR pos);
 	void Init_Game();
 
-	void AddCameraPos(VECTOR pos) { cameraAddPos = pos; }
+	void AddCameraAngle(float angle) { m_cameraAngle = angle; }
 
 	void Update();
 
 private:
+	float m_cameraAngle;
+
 	VECTOR m_pos;		// ÉJÉÅÉâç¿ïW
 	VECTOR m_playerPos;
 	VECTOR cameraPos;
-	VECTOR cameraAddPos;
 };
 

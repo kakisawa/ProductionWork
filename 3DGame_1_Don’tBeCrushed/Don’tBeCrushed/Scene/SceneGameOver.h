@@ -15,4 +15,10 @@ public:
 	virtual void End() {}
 
 private:
+	int graph;
+	int m_fadeAlpha;        // フェードイン、アウト
+
+	bool m_isFadeIn;		// フェードイン用のフラグ
+	bool m_isFadeOut;		// フェードアウト用のフラグ
+	bool m_isSceneEnd;		// シーン遷移用のフラグ
 };

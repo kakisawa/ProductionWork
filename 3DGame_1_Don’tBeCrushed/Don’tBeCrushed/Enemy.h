@@ -14,7 +14,7 @@ public:
 	void End();
 
 	void SetAttackNum(int num) { m_attackNum = num; }
-	void SetAddModelScale(float scale) { m_addScale = scale; }
+	void SetAddModelScale(float scaleX, float scaleY) { m_addScaleX = scaleX, m_addScaleY = scaleY; }
 	void SetAddMove(bool ismove) { m_isAddMove = ismove; }
 	void SetAttack(bool isattack) { m_isAttack = isattack; }
 	void SetModelAngle(VECTOR angle) { m_angle = angle; }
@@ -33,7 +33,8 @@ private:
 	int m_attackMoveNum;// 倒れる
 
 	float m_scale;		// 敵サイズ
-	float m_addScale;	// 敵サイズ(追加調整分)
+	float m_addScaleX;	// 敵サイズ(追加調整X分)
+	float m_addScaleY;	// 敵サイズ(追加調整Y分)
 	float maxRota;
 
 	float m_gravity;	// 敵にかかる重力

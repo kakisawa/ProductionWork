@@ -19,7 +19,7 @@ namespace {
 Enemy::Enemy(VECTOR pos) :
 	m_model(-1),
 	m_scale(50),
-	m_addScale(0),
+	m_addScaleY(0),
 	maxRota(0.0f),
 	m_gravity(kGravity),
 	m_attackNum(0),
@@ -46,7 +46,7 @@ void Enemy::Init()
 	// 敵モデル座標
 	MV1SetPosition(m_model, m_pos);
 	// 敵モデルサイズ調整
-	MV1SetScale(m_model, VGet(m_scale, m_scale + m_addScale, m_scale));
+	MV1SetScale(m_model, VGet(m_scale+ m_addScaleX, m_scale + m_addScaleY, m_scale));
 }
 
 void Enemy::Update()
