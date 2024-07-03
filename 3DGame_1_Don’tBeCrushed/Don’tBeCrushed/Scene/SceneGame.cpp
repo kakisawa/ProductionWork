@@ -13,7 +13,7 @@
 namespace {
 	constexpr int kEnemyNum = 4;					// “G‚Ì”
 	constexpr int kGameTime = 1200;					// §ŒÀŠÔ(Œ»İ‚Í‰¼)
-	constexpr int kFade = 255;						// ƒtƒF[ƒhÅ‘å’l
+	constexpr int kFadeMax = 255;					// ƒtƒF[ƒhÅ‘å’l
 
 	constexpr float kEnemyPlaceX = 35.0f;			// “GXÀ•W
 	constexpr float kEnemyPlaceZ = 24.0f;			// “GZÀ•W
@@ -34,7 +34,7 @@ SceneGame::SceneGame() :
 	m_enemyAttckNum(0),
 	m_enemyNum(kEnemyNum),
 	m_gameTime(kGameTime), 
-	m_fadeAlpha(kFade),
+	m_fadeAlpha(kFadeMax),
 	m_col(false),
 	m_isFadeIn(false),
 	m_isFadeOut(false),
@@ -98,16 +98,17 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 	if (m_enemyInterval >= kEnemyAttackInterval)	// ‚S•bŒo‚Á‚½‚çƒ‰ƒ“ƒ_ƒ€‚Å“G‚ğ“|‚·
 	{	
+		int flag = false;
+
 		// “G‚ğ“|‚·ˆ—
-		m_enemyAttckNum= GetRand(3);				// ‚Ç‚Ì“G‚ª“|‚ê‚Ä‚­‚é‚©ƒ‰ƒ“ƒ_ƒ€‚ÅŠl“¾‚·‚é
+		m_enemyAttckNum= GetRand(3);								// ‚Ç‚Ì“G‚ª“|‚ê‚Ä‚­‚é‚©ƒ‰ƒ“ƒ_ƒ€‚ÅŠl“¾‚·‚é
 		m_pEnemy[m_enemyAttckNum]->SetAttackNum(m_enemyAttckNum);	// “|‚ê‚é“G‚Ì”Ô†‚ğ“G‚É“n‚· 
 		m_pEnemy[m_enemyAttckNum]->SetAttack(true);					// “|‚ê‚é“G‚Ìƒtƒ‰ƒO‚ğtrue‚É‚·‚é
-		
+
+		m_enemyAttackPos = m_pEnemy[m_enemyAttckNum]->GetPos();		// “|‚ê‚Ä‚­‚é“G‚ÌÀ•W‚ğŠl“¾‚·‚é
+
 		if (m_enemyAttckNum < 2)
 		{
-			int flag = false;
-			m_enemyAttackPos = m_pEnemy[m_enemyAttckNum]->GetPos();	// “|‚ê‚Ä‚­‚é“G‚ÌÀ•W‚ğŠl“¾‚·‚é
-
 			if (m_enemyAttckNum == 0) {
 				flag = false;
 			}
@@ -121,9 +122,6 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 		if (m_enemyAttckNum > 1)
 		{
-			int flag = false;
-			m_enemyAttackPos = m_pEnemy[m_enemyAttckNum]->GetPos();		// “|‚ê‚Ä‚­‚é“G‚ÌÀ•W‚ğŠl“¾‚·‚é
-
 			if (m_enemyAttckNum == 2) {
 				flag = false;
 			}
@@ -193,9 +191,9 @@ shared_ptr<SceneBase> SceneGame::Update()
 		}
 
 		m_fadeAlpha += 8;
-		if (m_fadeAlpha >= 255)
+		if (m_fadeAlpha >= kFadeMax)
 		{
-			m_fadeAlpha = 255;
+			m_fadeAlpha = kFadeMax;
 			m_isSceneEnd = true;
 		}
 	}
@@ -237,7 +235,7 @@ void SceneGame::Draw()
 
 	// ƒtƒF[ƒhƒCƒ“EƒtƒF[ƒhƒAƒEƒg•`‰æ
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// ”¼“§–¾‚Å•\¦ŠJn
-	DrawBoxAA(0, 0, kScreenWidth, kScreenHeight, 0x00000, true);
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, 0x00000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);			// •s“§–¾‚É–ß‚µ‚Ä‚¨‚­
 #ifdef _DEBUG
 #endif // DEBUG

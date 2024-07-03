@@ -84,7 +84,7 @@ void Collision::SetPortrait(VECTOR pos, float width, float height, float depth, 
 	}
 	else
 	{
-		e1.m_leftUp = VAdd(pos, VGet(-(height + width), 0.0f, depth*0.5));
+		e1.m_leftUp = VAdd(pos, VGet(-(height + width), 0.0f, depth*0.5f));
 		e1.m_leftBottom = VAdd(e1.m_leftUp, VGet(0.0f, 0.0f, -depth));//
 		e1.m_rightBottom = VAdd(e1.m_leftBottom, VGet(height, 0.0f, 0.0f));
 		e1.m_rightUp = VAdd(e1.m_leftUp, VGet(height, 0.0f, 0.0f));//
@@ -103,7 +103,7 @@ void Collision::SetLandscape(VECTOR pos, float width, float height, float depth,
 {
 	if (!flag)
 	{
-		e1.m_leftUp = VAdd(pos, VGet(-(height*0.70), 0.0f, -width*0.8 ));
+		e1.m_leftUp = VAdd(pos, VGet(-(height*0.70f), 0.0f, -width*0.8f ));
 		e1.m_leftBottom = VAdd(e1.m_leftUp, VGet(0.0f, 0.0f, -depth));
 		e1.m_rightUp = VAdd(e1.m_leftUp, VGet(height*1.4f, 0.0f, 0.0f));
 		e1.m_rightBottom = VAdd(e1.m_leftBottom, VGet(height * 1.4f, 0.0f, 0.0f));//

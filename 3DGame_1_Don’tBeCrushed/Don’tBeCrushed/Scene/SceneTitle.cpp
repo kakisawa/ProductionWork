@@ -6,16 +6,30 @@
 #include "../Game.h"
 
 namespace {
-	const char* const kModelPlayer = "data/model/Title.mv1";
-	const char* const kTitle = "data/graph/Title3.png";
+	const char* const kModelPlayer = "data/model/Title.mv1";	// モデル
+	const char* const kTitle = "data/graph/Title5.png";			// タイトル
+	const char* const kSelect1 = "data/graph/GameStart.png";	// セレクト1(ゲームスタート)
+	const char* const kSelect2 = "data/graph/Instructions.png";	// セレクト2(操作説明)
+	const char* const kSelect3 = "data/graph/Finish.png";		// セレクト3(ゲーム終了)
 
-	constexpr int kFadeMax = 255;
-	constexpr float kCamera= 0.01f;
-	constexpr float kScale = 0.01f;
+	constexpr int kFadeMax = 255;		// フェード値MAX
+	constexpr float kCamera= 0.01f;		// カメラの回転量
+	constexpr float kScale = 0.01f;		// モデルサイズ
+
+	constexpr int kTitlePosX = 50;		// タイトルX座標
+	constexpr int kTitlePosY = 20;		// タイトルY座標
+
+	constexpr int kSelect1PosX = 100;	// セレクト1X座標
+	constexpr int kSelect2PosX = 700;	// セレクト2X座標
+	constexpr int kSelect3PosX = 1300;	// セレクト3X座標
+	constexpr int kSelectPosY = 780;	// セレクトY座標
 }
 
 SceneTitle::SceneTitle():
 	m_graph(LoadGraph(kTitle)),			// タイトルロゴのロード
+	m_select(LoadGraph(kSelect1)),
+	m_select2(LoadGraph(kSelect2)),
+	m_select3(LoadGraph(kSelect3)),
 	m_model(MV1LoadModel(kModelPlayer)),// モデルのロード
 	m_fadeAlpha(kFadeMax),
 	m_scele(kScale),
@@ -67,10 +81,10 @@ shared_ptr<SceneBase> SceneTitle::Update()
 			return make_shared<SceneGame>();	// ゲームシーンへ行く
 		}
 		m_fadeAlpha += 8;
-		if (m_fadeAlpha >= 255)
+		if (m_fadeAlpha >= kFadeMax)
 		{
 			m_isSceneEnd = true;
-			m_fadeAlpha = 255;
+			m_fadeAlpha = kFadeMax;
 		}
 	}
 	return shared_from_this();
@@ -82,8 +96,13 @@ void SceneTitle::Draw()
 	MV1DrawModel(m_model);
 
 	// タイトルロゴ描画
-	DrawGraph(50, 20, m_graph, true);
+	DrawGraph(kTitlePosX, kTitlePosY, m_graph, true);
 
+	// セレクト描画
+	DrawGraph(kSelect1PosX, kSelectPosY, m_select,true);
+	DrawGraph(kSelect2PosX, kSelectPosY, m_select2, true);
+	DrawGraph(kSelect3PosX, kSelectPosY, m_select3, true);
+	
 	// フェードイン・フェードアウト描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, 0x00000, true);

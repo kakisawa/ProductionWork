@@ -68,6 +68,6 @@ void SceneGameClear::Draw()
 
 	// フェードイン・フェードアウト描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
-	DrawBoxAA(0, 0, kScreenWidth, kScreenHeight, 0x00000, true);
+	DrawBox(0, 0, kScreenWidth, kScreenHeight, 0x00000, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
 }

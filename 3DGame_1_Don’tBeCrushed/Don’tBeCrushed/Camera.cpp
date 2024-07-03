@@ -5,7 +5,7 @@ namespace {
 
 	// ÉJÉÅÉâèÓïÒ
 	constexpr float kCameraTitleDist = 20;
-	constexpr float kCameraTitleHeight = 20.0f;
+	constexpr float kCameraTitleHeight = 22.0f;
 
 	constexpr float kCameraDist = 5;
 	constexpr float kCameraHeight = 10;
@@ -19,19 +19,18 @@ namespace {
 	float cameraAddAngle = cameraAngle;
 }
 
-Camera::Camera()
+Camera::Camera():
+	m_cameraAngle(0.0f),
+	m_pos(VGet(0.0f, 0.0f, 0.0f)),
+	cameraPos(VGet(0.0f,0.0f,0.0f)),
+	m_titleModelPos(VGet(0.0f, 0.0f, 0.0f))
 {
 	SetCameraNearFar(kCameraNear, kCameraFar);
 }
 
 void Camera::Init_Title(VECTOR pos)
 {
-	m_playerPos = pos;
-
-	/*cameraPos.x = cosf(cameraAngle) * kCameraDist;
-	cameraPos.y = kCameraHeight;
-	cameraPos.z = sinf(cameraAngle) * kCameraDist;
-	SetCameraPositionAndTarget_UpVecY(cameraPos, VGet(0, 1.2f, 0));*/
+	m_titleModelPos = pos;
 }
 
 void Camera::Init_Game()
@@ -54,5 +53,7 @@ void Camera::Update()
 	cameraPos.x = cosf(cameraAddAngle) * kCameraTitleDist;
 	cameraPos.y = kCameraTitleHeight;
 	cameraPos.z = sinf(cameraAddAngle) * kCameraTitleDist;
-	SetCameraPositionAndTarget_UpVecY(cameraPos, m_playerPos);
+	SetCameraPositionAndTarget_UpVecY(cameraPos, m_titleModelPos);
+
+	ChangeLightTypeDir(VGet(0.0f, -10.0f, 0.0f));
 }

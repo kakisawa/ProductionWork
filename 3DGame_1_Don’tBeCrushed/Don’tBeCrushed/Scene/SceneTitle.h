@@ -18,6 +18,9 @@ public:
 
 private:
 	int m_graph;		// タイトル画像
+	int m_select;
+	int m_select2;
+	int m_select3;
 	int m_model;		// モデル
 	int m_fadeAlpha;	// フェードアウト
 

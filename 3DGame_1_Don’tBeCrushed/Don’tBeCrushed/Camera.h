@@ -18,7 +18,7 @@ private:
 	float m_cameraAngle;
 
 	VECTOR m_pos;		// ÉJÉÅÉâç¿ïW
-	VECTOR m_playerPos;
+	VECTOR m_titleModelPos;
 	VECTOR cameraPos;
 };
 
