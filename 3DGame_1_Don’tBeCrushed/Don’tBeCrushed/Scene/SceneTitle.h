@@ -24,6 +24,8 @@ private:
 	int m_model;		// モデル
 	int m_fadeAlpha;	// フェードアウト
 
+	float m_angle;		// 選択中のUI上下移動
+
 	float m_scele;		// モデルサイズ
 
 	bool m_isFadeIn;	// フェードインフラグ

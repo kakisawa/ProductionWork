@@ -7,7 +7,7 @@
 
 namespace {
 	const char* const kModelPlayer = "data/model/Title.mv1";	// モデル
-	const char* const kTitle = "data/graph/Title5.png";			// タイトル
+	const char* const kTitle = "data/graph/Title6.png";			// タイトル
 	const char* const kSelect1 = "data/graph/GameStart.png";	// セレクト1(ゲームスタート)
 	const char* const kSelect2 = "data/graph/Instructions.png";	// セレクト2(操作説明)
 	const char* const kSelect3 = "data/graph/Finish.png";		// セレクト3(ゲーム終了)
@@ -33,6 +33,7 @@ SceneTitle::SceneTitle():
 	m_model(MV1LoadModel(kModelPlayer)),// モデルのロード
 	m_fadeAlpha(kFadeMax),
 	m_scele(kScale),
+	m_angle(0.0f),
 	m_isFadeIn(true),
 	m_isFadeOut(false),
 	m_isSceneEnd(false),
@@ -56,6 +57,11 @@ shared_ptr<SceneBase> SceneTitle::Update()
 
 	m_pCamera->AddCameraAngle(kCamera);	// カメラの回転量追加
 	m_pCamera->Update();// カメラの更新
+
+
+	m_angle++;
+	float angle2 = m_angle * (DX_PI_F / 180.0f);
+
 
 	// フェードイン
 	if (m_isFadeIn)
@@ -102,6 +108,8 @@ void SceneTitle::Draw()
 	DrawGraph(kSelect1PosX, kSelectPosY, m_select,true);
 	DrawGraph(kSelect2PosX, kSelectPosY, m_select2, true);
 	DrawGraph(kSelect3PosX, kSelectPosY, m_select3, true);
+
+	//angle2
 	
 	// フェードイン・フェードアウト描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
