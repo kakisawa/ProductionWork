@@ -23,6 +23,8 @@ namespace {
 	constexpr int kSelect2PosX = 700;	// セレクト2X座標
 	constexpr int kSelect3PosX = 1300;	// セレクト3X座標
 	constexpr int kSelectPosY = 780;	// セレクトY座標
+	
+	int a = 0;
 }
 
 SceneTitle::SceneTitle():
@@ -58,10 +60,10 @@ shared_ptr<SceneBase> SceneTitle::Update()
 	m_pCamera->AddCameraAngle(kCamera);	// カメラの回転量追加
 	m_pCamera->Update();// カメラの更新
 
-
 	m_angle++;
 	float angle2 = m_angle * (DX_PI_F / 180.0f);
 
+	a += static_cast<float>(sin(angle2))*0.5;
 
 	// フェードイン
 	if (m_isFadeIn)
@@ -105,12 +107,10 @@ void SceneTitle::Draw()
 	DrawGraph(kTitlePosX, kTitlePosY, m_graph, true);
 
 	// セレクト描画
-	DrawGraph(kSelect1PosX, kSelectPosY, m_select,true);
+	DrawGraph(kSelect1PosX, kSelectPosY+a, m_select,true);
 	DrawGraph(kSelect2PosX, kSelectPosY, m_select2, true);
 	DrawGraph(kSelect3PosX, kSelectPosY, m_select3, true);
 
-	//angle2
-	
 	// フェードイン・フェードアウト描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawBox(0, 0, kScreenWidth, kScreenHeight, 0x00000, true);
