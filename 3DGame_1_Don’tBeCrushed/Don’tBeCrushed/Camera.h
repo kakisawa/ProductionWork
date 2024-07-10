@@ -21,4 +21,3 @@ private:
 	VECTOR m_titleModelPos;
 	VECTOR cameraPos;
 };
-

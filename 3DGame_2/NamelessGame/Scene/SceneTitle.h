@@ -13,4 +13,9 @@ public:
 	virtual shared_ptr<SceneBase> Update();
 	virtual void Draw();
 	virtual void End();
+
+private:
+	int graph;
+	int graph2;
+	int graph3;
 };

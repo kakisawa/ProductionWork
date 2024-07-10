@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include "Scene/SceneManager.h"
+#include "Scene/SceneGame.h"
 #include <memory>
 
 // プログラムは WinMain から始まります
@@ -7,6 +8,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
+	// ウインドウ名設定
+	SetMainWindowText("NamelessGame");
+	// ウィンドウのサイズを自分で調整できるようにするか
+	//SetWindowSizeChangeEnableFlag(true);
+	// 画面サイズの設定
+	SetGraphMode(1920, 1000, 32);
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理
 	{
@@ -15,8 +22,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
+	std::shared_ptr<SceneGame> m_pScene = make_shared<SceneGame>();
+
 	// シーン管理
-	std::shared_ptr<SceneManager> m_pScene = make_shared<SceneManager>();
+	//std::shared_ptr<SceneManager> m_pScene = make_shared<SceneManager>();
 	m_pScene->Init();
 
 	// ゲームループ

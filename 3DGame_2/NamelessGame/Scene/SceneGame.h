@@ -1,6 +1,9 @@
 #pragma once
 #include "SceneBase.h"
+#include "DxLib.h"
 
+class Player;
+class Camera;
 class SceneGame :
     public SceneBase
 {
@@ -12,5 +15,13 @@ public:
 	virtual shared_ptr<SceneBase> Update();
 	virtual void Draw();
 	virtual void End();
+
+private:
+	int m_model;
+
+	VECTOR m_pos;
+
+	shared_ptr<Player> m_pPlayer = make_shared<Player>();
+	shared_ptr<Camera> m_pCamera = make_shared<Camera>();
 };
 

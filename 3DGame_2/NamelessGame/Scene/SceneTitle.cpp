@@ -1,4 +1,5 @@
 #include "SceneTitle.h"
+#include "DxLib.h"
 #include "SceneGame.h"
 #include "SceneOption.h"
 #include "SceneRanking.h"
@@ -14,6 +15,10 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Init()
 {
+	graph = LoadGraph("data/UI/Asset1080p.png");	// ŠO˜g
+	graph2 = LoadGraph("data/UI/Asset8_1080p.png");	// –¢‘I‘ð
+	graph3 = LoadGraph("data/UI/Asset_1080p.png");	// ‘I‘ð’†
+
 }
 
 shared_ptr<SceneBase> SceneTitle::Update()
