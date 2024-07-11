@@ -44,27 +44,26 @@ void Camera::Update(const Player& player)
 	//入力状態初期化
 	input.Rx = 0;
 	input.Ry = 0;
+
 	// 入力状態を取得
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
 
-	//if (Pad & PAD_INPUT_LEFT)
-	if (input.Rx > 0.0f)
+	if (input.Rx < 0.0f)			// 右スティックを右に倒したら右回転する
 	{
 		m_angleH -= kAngle;
 	}
-	//if (Pad & PAD_INPUT_RIGHT)
-	if (input.Rx < 0.0f)
+	if (input.Rx > 0.0f)			// 右スティックを左に倒したら左回転する
 	{
 		m_angleH += kAngle;
 	}
-	if (Pad & PAD_INPUT_UP)
+	if(input.Ry>0.0f)				// 右スティックを下に倒したら上方向に回る
 	{
 		m_angleV -= kAngle;
 		// ある一定角度以上にならないようにする
 		m_angleV = (std::max)(m_angleV, kMaxAngleV);
 
 	}
-	if (Pad & PAD_INPUT_DOWN)
+	if (input.Ry < 0.0f)			// 右スティックを上に倒したら下方向に回る
 	{
 		m_angleV += kAngle;
 		// ある一定角度以下にならないようにする
