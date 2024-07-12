@@ -13,7 +13,7 @@ namespace {
 
 	// アニメーション関係
 	constexpr float kAnimChangeFrame = 8.0f;				// アニメーションの切り替えにかかるフレーム数
-	constexpr float kAnimChangeRateSpeed = 1.0f / kAnimChangeFrame;	// アニメーション切り替えにかかる速度
+	constexpr float kAnimChangeRateSpeed = 0.2f;// 1.0f / kAnimChangeFrame;	// アニメーション切り替えにかかる速度
 	constexpr float kAnimBlendAdd = 0.5f;					// アニメーションブレンドの増加値
 	constexpr float kAnimBlendMax = 1.0f;					// アニメーションブレンドの最大値
 	
@@ -74,7 +74,7 @@ void Player::Update()
 	// プレイヤーの状態更新
 	State prevState = m_currentState;
 	m_currentState = MoveValue();		// 移動
-	//m_currentState = Attack();		// 攻撃
+	m_currentState = Attack();		// 攻撃
 
 	//アニメーション状態の更新
 	UpdateAnimState(prevState);
@@ -114,31 +114,37 @@ void Player::UpdateAnimState(State state)
 	{
 		PlayAnim(AnimKind::kWalk);
 	}
-	//// 待機→攻撃
-	//if (state == State::kIdle && m_currentState == State::kAttack)
-	//{
-	//	PlayAnim(AnimKind::kAttack);
-	//}
+	// 待機→攻撃
+	if (state == State::kIdle && m_currentState == State::kAttack)
+	{
+		PlayAnim(AnimKind::kAttack1);
+	}
+
+
 	// 移動→待機
 	if (state == State::kWalk&& m_currentState == State::kIdle)
 	{
 		PlayAnim(AnimKind::kIdle);
 	}
-	//// 移動→攻撃
-	//if (state == State::kWalk&& m_currentState == State::kAttack)
-	//{
-	//	PlayAnim(AnimKind::kAttack);
-	//}
-	//// 攻撃→待機
-	//if (state == State::kAttack&& m_currentState == State::kIdle)
-	//{
-	//	PlayAnim(AnimKind::kIdle);
-	//}
-	//// 攻撃→移動
-	//if (state == State::kAttack && m_currentState == State::kWalk)
-	//{
-	//	PlayAnim(AnimKind::kWalk);
-	//}
+	// 移動→攻撃
+	if (state == State::kWalk&& m_currentState == State::kAttack)
+	{
+		PlayAnim(AnimKind::kAttack1);
+	}
+
+
+	// 攻撃→待機
+	if (state == State::kAttack&& m_currentState == State::kIdle)
+	{
+		PlayAnim(AnimKind::kIdle);
+	}
+	// 攻撃→移動
+	if (state == State::kAttack && m_currentState == State::kWalk)
+	{
+		PlayAnim(AnimKind::kWalk);
+	}
+
+
 }
 
 /// <summary>
@@ -204,8 +210,6 @@ void Player::UpdateAnim()
 		MV1SetAttachAnimTime(m_model, m_prevAnimNo, m_prevAnimCount);
 		// アニメーションのブレンド率を設定する
 		MV1SetAttachAnimBlendRate(m_model, m_prevAnimNo, kAnimBlendMax - m_animBlendRate);
-		// 変更後のアニメーション0%
-		//MV1SetAttachAnimBlendRate(m_model, m_prevAnimNo, m_animBlendRate);
 	}
 }
 
@@ -231,7 +235,7 @@ void Player::PlayAnim(AnimKind animIndex)
 	m_currentAnimCount = 0.0f;
 
 	// ブレンド率はPrevが有効でない場合、1.0fにする
-	if (m_prevAnimNo == 1)
+	if (m_prevAnimNo == -1)
 	{
 		m_animBlendRate = kAnimBlendMax;
 	}
@@ -336,5 +340,12 @@ void Player::Move(const VECTOR& MoveVector)
 /// </summary>
 Player::State Player::Attack()
 {
-	return State();
+	State nextState = m_currentState;
+
+	if (Pad::IsPress(PAD_INPUT_X))
+	{
+		m_isAttack = true;
+		nextState = State::kAttack;
+	}
+	return nextState;
 }

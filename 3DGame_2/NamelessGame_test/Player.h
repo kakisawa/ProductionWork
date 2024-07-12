@@ -30,7 +30,25 @@ private:
 		kUnKnown=0,	// 不明
 		kIdle=1,	// 待機
 		kWalk=2,	// 移動
-		kAttack=30,	// 攻撃
+		kAttack1 = 30,	// 通常剣攻撃1
+		kAttack2 = 31,	// 通常剣攻撃2
+		kAttack3 = 32,	// 通常剣攻撃3
+		kAttack4 = 33,	// 通常剣攻撃4
+
+		kAttack5 = 58,	// 通常銃攻撃(連射のみ)
+	
+	};
+
+	// 通常剣攻撃種類
+	enum class AttackKind
+	{
+		kNormalAttack1 = 1,
+		kNormalAttack2 = 2,
+		kNormalAttack3 = 3,
+		kNormalAttack4 = 4,
+
+		kNormalShot = 5,
+
 	};
 
 	// アニメーション状態の更新
