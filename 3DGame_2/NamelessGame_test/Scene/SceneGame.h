@@ -18,6 +18,7 @@ public:
 
 private:
 	int m_model;
+	int m_arrowModel[4];
 
 	VECTOR m_pos;
 

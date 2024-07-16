@@ -1,22 +1,29 @@
 #include "Player.h"
 #include "DxLib.h"
 #include "Pad.h"
+#include "Camera.h"
 #include <cassert>
 #include <cmath>
+
+// 07/16:連続攻撃処理中
 
 namespace {
 	const char* const kModelPlayer = "data/model/RogueHooded.mv1";	// モデルのファイル名
 
 	constexpr float kInitAngle = -DX_PI_F / 2.0f * 90.0f;	// プレイヤーの初期角度*90(向きを反対にする)
-	constexpr float kModelSize = 5.0f;						// モデルのサイズ
-	constexpr float kSpeed = 0.5f;							// プレイヤー移動速度
+	constexpr float kModelSize = 5.0f;			// モデルのサイズ
+	constexpr float kSpeed = 0.7f;				// プレイヤー移動速度
+	constexpr float kAttackSpeed = 0.5f;		// プレイヤー攻撃時の加速度
+	constexpr float	kAngleSpeed = 0.2f;			// 角度変化速度
+	constexpr float	kJumpPower = 1.8f;			// ジャンプ力
+	constexpr float	kGravity = 0.05f;			// 重力
 
 	// アニメーション関係
 	constexpr float kAnimChangeFrame = 8.0f;				// アニメーションの切り替えにかかるフレーム数
 	constexpr float kAnimChangeRateSpeed = 0.2f;// 1.0f / kAnimChangeFrame;	// アニメーション切り替えにかかる速度
 	constexpr float kAnimBlendAdd = 0.5f;					// アニメーションブレンドの増加値
 	constexpr float kAnimBlendMax = 1.0f;					// アニメーションブレンドの最大値
-	
+
 	// 初期化用値
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
 	constexpr float kInitFloat = 0.0f;				// float値の初期化
@@ -26,18 +33,25 @@ namespace {
 /// コンストラクタ
 /// </summary>
 Player::Player() :
-	m_model		(-1),
-	m_angle		(kInitFloat),
-	m_isAttack	(false),
-	m_isWalk	(false),
+	m_model(-1),
+	m_angle(kInitFloat),
+	m_gravity(kGravity),
+	m_isAttack(false),
+	m_nextAttackFlag(false),
+	m_isWalk(false),
+	m_isJump(false),
+	m_isForward(false),
 	m_currentAnimNo(-1),
 	m_currentAnimCount(kInitFloat),
 	m_prevAnimNo(-1),
 	m_prevAnimCount(kInitFloat),
 	m_animBlendRate(kAnimBlendMax),
+	m_currentJumpPower(0.0f),
+	m_multiAttack(0),
 	m_currentState(State::kIdle),
 	m_pos(kInitVec),
-	m_move(kInitVec)
+	m_move(kInitVec),
+	m_targetDir(VGet(0.0f, 0.0f, 0.0f))
 {
 	// モデル読み込み
 	m_model = MV1LoadModel(kModelPlayer);
@@ -67,17 +81,31 @@ void Player::Init()
 /// <summary>
 /// 更新
 /// </summary>
-void Player::Update()
+void Player::Update(const Camera& camera)
 {
 	Pad::Update();
 
+	// パッド入力によって移動パラメータを設定する
+	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
+	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
+
 	// プレイヤーの状態更新
 	State prevState = m_currentState;
-	m_currentState = MoveValue();		// 移動
-	m_currentState = Attack();		// 攻撃
+	
+	m_currentState = JumpState();
+	m_currentState = AttackState();		// 攻撃
+
+	// 攻撃処理
+	Attack();
+
+	m_currentState = MoveValue(camera, upMoveVec, leftMoveVec);		// 移動
 
 	//アニメーション状態の更新
 	UpdateAnimState(prevState);
+
+	// プレイヤーの移動方向にモデルの方向を近づける
+	Angle();
+
 	// アニメーション処理の更新
 	UpdateAnim();
 
@@ -119,22 +147,30 @@ void Player::UpdateAnimState(State state)
 	{
 		PlayAnim(AnimKind::kAttack1);
 	}
-
+	// 待機→ジャンプ
+	if (state == State::kIdle && m_currentState == State::kJump)
+	{
+		PlayAnim(AnimKind::kJump);
+	}
 
 	// 移動→待機
-	if (state == State::kWalk&& m_currentState == State::kIdle)
+	if (state == State::kWalk && m_currentState == State::kIdle)
 	{
 		PlayAnim(AnimKind::kIdle);
 	}
 	// 移動→攻撃
-	if (state == State::kWalk&& m_currentState == State::kAttack)
+	if (state == State::kWalk && m_currentState == State::kAttack)
 	{
 		PlayAnim(AnimKind::kAttack1);
 	}
-
+	// 移動→ジャンプ
+	if (state == State::kWalk && m_currentState == State::kJump)
+	{
+		PlayAnim(AnimKind::kJump);
+	}
 
 	// 攻撃→待機
-	if (state == State::kAttack&& m_currentState == State::kIdle)
+	if (state == State::kAttack && m_currentState == State::kIdle)
 	{
 		PlayAnim(AnimKind::kIdle);
 	}
@@ -143,8 +179,17 @@ void Player::UpdateAnimState(State state)
 	{
 		PlayAnim(AnimKind::kWalk);
 	}
+	// 攻撃→ジャンプ
+	if (state == State::kAttack && m_currentState == State::kJump)
+	{
+		PlayAnim(AnimKind::kJump);
+	}
 
-
+	// ジャンプ→移動
+	if (state == State::kJump && m_currentState == State::kWalk)
+	{
+		PlayAnim(AnimKind::kWalk);
+	}
 }
 
 /// <summary>
@@ -172,12 +217,19 @@ void Player::UpdateAnim()
 		// アニメーションを進行させる
 		m_currentAnimCount += kAnimBlendAdd;	// アニメーションを進める
 
-		if(m_currentAnimCount > total)
+		if (m_currentAnimCount > total)
 		{
 			// 攻撃アニメーションが終了したら待機に移行
 			if (m_isAttack)
 			{
 				m_isAttack = false;
+				m_currentState = State::kIdle;
+				PlayAnim(AnimKind::kIdle);
+			}
+
+			// ジャンプアニメーションが終了したら待機に移行
+			if (!m_isJump)
+			{
 				m_currentState = State::kIdle;
 				PlayAnim(AnimKind::kIdle);
 			}
@@ -195,8 +247,8 @@ void Player::UpdateAnim()
 	if (m_prevAnimNo != -1)
 	{
 		// アニメーションの総時間獲得
-		total=MV1GetAttachAnimTotalTime(m_model, m_prevAnimNo);
-		
+		total = MV1GetAttachAnimTotalTime(m_model, m_prevAnimNo);
+
 		// アニメーションを進行させる
 		m_prevAnimCount += kAnimBlendAdd;
 
@@ -243,43 +295,54 @@ void Player::PlayAnim(AnimKind animIndex)
 		// 切り替えの瞬間は変更前のアニメーションが再生される状態にする
 		m_animBlendRate = 0.0f;
 	}
-	
+
 }
 
 /// <summary>
 /// 移動パラメータの設定
 /// </summary>
-Player::State Player::MoveValue()
+Player::State Player::MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec)
 {
 	State nextState = m_currentState;
 
+	// プレイヤーの移動方向のベクトルを算出
+	// 方向ボタン「↑」を押したときのプレイヤーの移動ベクトルはカメラの視線方向からＹ成分を抜いたもの
+	upMoveVec = VSub(camera.GetTarget(), camera.GetPosition());
+	upMoveVec.y = 0.0f;
+
+	// 方向ボタン「←」を押したときのプレイヤーの移動ベクトルは上を押したときの方向ベクトルとＹ軸のプラス方向のベクトルに垂直な方向
+	leftMoveVec = VCross(upMoveVec, VGet(0.0f, kSpeed, 0.0f));
+
 	// 移動値を初期値に戻す
 	m_move = VGet(0.0f, 0.0f, 0.0f);
+	
+	//// 攻撃時の加速値を初期値に戻す
+	//m_moveAttack = VGet(0.0f, 0.0f, 0.0f);
 
 	// 移動したか(true:移動した)
 	bool isPressMove = false;
 
+	// 移動処理
 	if (!m_isAttack)
 	{
-
 		if (Pad::IsPress(PAD_INPUT_RIGHT))						// 右方向
 		{
-			m_move = VAdd(m_move, VGet(kSpeed, 0.0f, 0.0f));
+			m_move = VAdd(m_move, VScale(leftMoveVec, -1.0f));
 			isPressMove = true;
 		}
 		if (Pad::IsPress(PAD_INPUT_LEFT))						// 左方向
 		{
-			m_move = VAdd(m_move, VGet(-kSpeed, 0.0f, 0.0f));
+			m_move = VAdd(m_move, leftMoveVec);
 			isPressMove = true;
 		}
 		if (Pad::IsPress(PAD_INPUT_UP))							// 前方向
 		{
-			m_move = VAdd(m_move, VGet(0.0f, 0.0f, kSpeed));
+			m_move = VAdd(m_move, upMoveVec);
 			isPressMove = true;
 		}
 		if (Pad::IsPress(PAD_INPUT_DOWN))						// 後ろ方向
 		{
-			m_move = VAdd(m_move, VGet(0.0f, 0.0f, -kSpeed));
+			m_move = VAdd(m_move, VScale(upMoveVec, -1.0f));
 			isPressMove = true;
 		}
 
@@ -298,7 +361,9 @@ Player::State Player::MoveValue()
 				nextState = State::kWalk;
 			}
 
-			
+			m_targetDir = VNorm(m_move);
+			m_move = VScale(m_targetDir, kSpeed);
+
 		}
 		else	// 移動しない場合
 		{
@@ -309,6 +374,9 @@ Player::State Player::MoveValue()
 			}
 		}
 	}
+
+	//ジャンプ処理
+	Jump();
 
 	return nextState;
 }
@@ -328,6 +396,9 @@ void Player::Move(const VECTOR& MoveVector)
 		m_isWalk = false;
 	}
 
+	//// 攻撃時の前進速度を足す
+	//m_move = VAdd(m_move, m_moveAttack);
+
 	// プレイヤーの位置に移動量を足す
 	m_pos = VAdd(m_pos, m_move);
 
@@ -336,16 +407,146 @@ void Player::Move(const VECTOR& MoveVector)
 }
 
 /// <summary>
+/// プレイヤーの角度処理
+/// </summary>
+void Player::Angle()
+{
+	// プレイヤーの移動方向にモデルの方向を近づける
+	float targetAngle;		// 目標角度
+	float difference;		// 目標角度と現在の角度の差
+
+	// 目標の方向ベクトルから角度値を算出する
+	targetAngle = static_cast<float>(atan2(m_targetDir.x, m_targetDir.z));
+
+	// 目標の角度と現在の角度との差を割り出す
+	difference = targetAngle - m_angle;
+
+	// 差の角度が180度以上になっていたら修正する
+	if (difference < -DX_PI_F)
+	{
+		difference += DX_TWO_PI_F;
+	}
+	else if (difference > DX_PI_F)
+	{
+		difference -= DX_TWO_PI_F;
+	}
+
+	// 角度の差が0に近づける
+	if (difference > 0.0f)
+	{
+		// 差がプラスの場合は引く
+		difference -= kAngleSpeed;
+		if (difference < 0.0f)
+		{
+			difference = 0.0f;
+		}
+	}
+	else
+	{
+		// 差がマイナスの場合は足す
+		difference += kAngleSpeed;
+		if (difference > 0.0f)
+		{
+			difference = 0.0f;
+		}
+	}
+
+	// モデルの角度を更新
+	m_angle = targetAngle - difference;
+	MV1SetRotationXYZ(m_model, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+}
+
+/// <summary>
 /// プレイヤーの攻撃処理
 /// </summary>
-Player::State Player::Attack()
+Player::State Player::AttackState()
 {
 	State nextState = m_currentState;
+
+
+	// 現在、連続攻撃の処理をやってる
+
+
+	switch (m_multiAttack)
+	{
+	case0:
+		break;
+	case1:
+		break;
+	case2:
+		break;
+	case3:
+		break;
+	default:
+		break;
+	}
 
 	if (Pad::IsPress(PAD_INPUT_X))
 	{
 		m_isAttack = true;
+		m_isForward = true;
+
+		m_nextAttackFlag = true;
+
 		nextState = State::kAttack;
 	}
+
+
 	return nextState;
+}
+
+Player::State Player::JumpState()
+{
+	State nextState = m_currentState;
+
+	// プレイヤーの状態が「ジャンプ」ではなく、且つボタン１が押されていたらジャンプする
+	if (nextState != State::kJump && (Pad::IsPress(PAD_INPUT_A)))
+	{
+		m_isJump = true;
+
+		// Ｙ軸方向の速度をセット
+		m_currentJumpPower = kJumpPower;
+
+		nextState = State::kJump;
+	}
+
+	return nextState;
+}
+
+void Player::Attack()
+{
+	if (!m_isAttack)	return;
+
+	/*if (m_isForward)
+	{
+		m_moveAttack = VAdd(m_moveAttack, VGet(0.0f, 0.0f, kAttackSpeed));
+		m_isForward = false;
+	}*/
+
+	
+
+}
+
+void Player::Jump()
+{
+	if (!m_isJump)	return;
+
+	if (m_pos.y >= 0.0f)
+	{
+		// ジャンプ状態なら重力適用
+		if (m_currentState == State::kJump)
+		{
+			// Ｙ軸方向の速度を重力分減算する
+			m_currentJumpPower -= m_gravity;
+			m_gravity += 0.005f;
+		}
+
+		// 移動ベクトルのＹ成分をＹ軸方向の速度にする
+		m_move.y = m_currentJumpPower;
+	}
+	else {
+		m_isJump = false;
+		m_pos.y = 0.0f;
+		m_gravity = kGravity;
+	}
 }
