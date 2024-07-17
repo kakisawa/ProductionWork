@@ -76,11 +76,15 @@ void Camera::Update(const Player& player)
 	// カメラ位置補正
 	FixCameraPos();
 
+	// カメラの情報をライブラリのカメラに反映させる
 	SetCameraPositionAndTarget_UpVecY(m_pos, m_targetPos);
 
 	ChangeLightTypeDir(VGet(0.0f, -30.0f, 0.0f));
 
-	DrawFormatString(0, 20, 0xffffff, "m_pos.x/y/z=%.2f/%.2f/%.2f", m_pos.x, m_pos.y, m_pos.z);
+	DrawFormatString(0, 20, 0xffffff, "Camera:m_pos.x/y/z=%.2f/%.2f/%.2f", m_pos.x, m_pos.y, m_pos.z);
+
+	DrawFormatString(0, 40, 0xffffff, "Player:m_pos.x/y/z=%.2f/%.2f/%.2f",
+		player.GetPos().x, player.GetPos().y, player.GetPos().z);
 }
 
 void Camera::FixCameraPos()

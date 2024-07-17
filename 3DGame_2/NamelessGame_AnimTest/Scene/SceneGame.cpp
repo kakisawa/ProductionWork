@@ -13,7 +13,8 @@ namespace {
 	constexpr float kArrowSize = 30.0f;
 }
 
-SceneGame::SceneGame()
+SceneGame::SceneGame():
+	m_pos(VGet(0.0f,0.0f,0.0f))
 {
 	// ‰¼
 	m_model = MV1LoadModel(kModel);
