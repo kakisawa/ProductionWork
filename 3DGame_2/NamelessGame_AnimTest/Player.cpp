@@ -3,6 +3,7 @@
 #include "PlayerState.h"
 #include "Pad.h"
 #include "Camera.h"
+#include "Time.h"
 #include <cassert>
 #include <cmath>
 
@@ -50,7 +51,8 @@ Player::Player() :
 	m_move(kInitVec),
 	m_targetDir(VGet(0.0f, 0.0f, 0.0f)),
 	m_animSpeed(0),
-	m_animChangeFrameTotal(0)
+	m_animChangeFrameTotal(0),
+	m_pAttackStanTime(std::make_shared<Time>(6))
 {
 	// モデル読み込み
 	m_model = MV1LoadModel(kModelPlayer);
@@ -162,7 +164,7 @@ void Player::End()
 /// </summary>
 /// <param name="state">現在の状態</param>
 /// (一応)自分で書いたやつ
-void Player::UpdateAnimState(State state)
+//void Player::UpdateAnimState(State state)
 {
 	// 待機→移動
 	if (state == State::kIdle && m_currentState == State::kWalk)
@@ -325,6 +327,21 @@ void Player::PlayAnim(AnimKind animIndex)
 		m_animBlendRate = 0.0f;
 	}
 
+}
+
+void Player::EndJumpState()
+{
+	m_isJump = false;
+
+	m_pos.y = 0.0f;
+	m_gravity = kGravity;
+
+	//m_upPower = 0;
+}
+
+void Player::GravityUpdate()
+{
+	m_gravity += 0.005f;
 }
 
 void Player::InitAnim(AnimData& anim)
@@ -503,7 +520,7 @@ void Player::AttackStateUpdate()
 		break;
 	}
 
-
+	// 攻撃ボタンが押された時
 	if (Pad::IsPress(PAD_INPUT_X) && !m_nextAttackFlag)
 	{
 		m_nextAttackFlag = true;
@@ -513,24 +530,31 @@ void Player::AttackStateUpdate()
 	if (IsAnimEnd() && !m_nextAttackFlag)
 	{
 		m_isAttack = false;
+		m_pAttackStanTime->Reset();
 		m_multiAttack = 0;
 		m_pState->EndState();
 	}
 
-	// アニメーションが終わった段階で次の攻撃フラグが経っていたら
-	if (IsAnimEnd() && m_nextAttackFlag)
-	{
 
+	// アニメーションが終わった段階で次の攻撃フラグが立っていたら
+	if (IsAnimEnd() && !m_nextAttackFlag)
+	{
+		// 攻撃硬直時間が0より小さくなったら
+		if (m_pAttackStanTime->Update())
+		{
+			
+			m_pAttackStanTime->Reset();
+			m_nextAttackFlag = false;
+			m_multiAttack++;
+		}
 	}
 }
 
 /// <summary>
 /// 移動パラメータの設定
 /// </summary>
-Player::State Player::MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec)
+VECTOR Player::MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec)
 {
-	State nextState = m_currentState;
-
 	// プレイヤーの移動方向のベクトルを算出
 	// 方向ボタン「↑」を押したときのプレイヤーの移動ベクトルはカメラの視線方向からＹ成分を抜いたもの
 	upMoveVec = VSub(camera.GetTarget(), camera.GetPosition());
@@ -600,8 +624,6 @@ Player::State Player::MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR&
 
 	//ジャンプ処理
 	Jump();
-
-	return nextState;
 }
 
 /// <summary>
@@ -679,42 +701,42 @@ void Player::Angle()
 	MV1SetRotationXYZ(m_model, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
 }
 
-/// <summary>
-/// プレイヤーの攻撃処理
-/// </summary>
-Player::State Player::AttackState()
-{
-	State nextState = m_currentState;
-
-
-	// 現在、連続攻撃の処理をやってる
-
-
-	/**/
-
-	
-
-
-	return nextState;
-}
-
-Player::State Player::JumpState()
-{
-	State nextState = m_currentState;
-
-	// プレイヤーの状態が「ジャンプ」ではなく、且つボタン１が押されていたらジャンプする
-	if (nextState != State::kJump && (Pad::IsPress(PAD_INPUT_A)))
-	{
-		m_isJump = true;
-
-		// Ｙ軸方向の速度をセット
-		m_currentJumpPower = kJumpPower;
-
-		nextState = State::kJump;
-	}
-
-	return nextState;
-}
+///// <summary>
+///// プレイヤーの攻撃処理
+///// </summary>
+//Player::State Player::AttackState()
+//{
+//	State nextState = m_currentState;
+//
+//
+//	// 現在、連続攻撃の処理をやってる
+//
+//
+//	/**/
+//
+//	
+//
+//
+//	return nextState;
+//}
+//
+//Player::State Player::JumpState()
+//{
+//	State nextState = m_currentState;
+//
+//	// プレイヤーの状態が「ジャンプ」ではなく、且つボタン１が押されていたらジャンプする
+//	if (nextState != State::kJump && (Pad::IsPress(PAD_INPUT_A)))
+//	{
+//		m_isJump = true;
+//
+//		// Ｙ軸方向の速度をセット
+//		m_currentJumpPower = kJumpPower;
+//
+//		nextState = State::kJump;
+//	}
+//
+//	return nextState;
+//}
 
 void Player::Attack()
 {
@@ -741,15 +763,13 @@ void Player::Jump()
 		{
 			// Ｙ軸方向の速度を重力分減算する
 			m_currentJumpPower -= m_gravity;
-			m_gravity += 0.005f;
+			GravityUpdate();
 		}
 
 		// 移動ベクトルのＹ成分をＹ軸方向の速度にする
 		m_move.y = m_currentJumpPower;
 	}
 	else {
-		m_isJump = false;
-		m_pos.y = 0.0f;
-		m_gravity = kGravity;
+		EndJumpState();
 	}
 }

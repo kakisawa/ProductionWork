@@ -47,6 +47,7 @@ private:
 	// 通常剣攻撃種類
 	enum class AttackKind
 	{
+		kNone=-1,
 		kNormalAttack1 = 1,
 		kNormalAttack2 = 2,
 		kNormalAttack3 = 3,
@@ -94,6 +95,8 @@ private:
 									// 1.0f:currentが再生される
 
 	int m_multiAttack;		// 連続攻撃用変数
+	bool m_isNextAttack;	// 次の攻撃を行うかのフラグ
+	AttackKind m_attackKind;// 通常攻撃の段階
 
 	State m_currentState;	// 現在のプレイヤーの状態
 

@@ -5,6 +5,7 @@
 
 class Camera;
 class PlayerState;
+class Time;
 class Player
 {
 public:
@@ -54,7 +55,6 @@ private:
 		int8_t kAttack4 = 0;	// 通常剣攻撃4
 
 		int8_t kAttack5 = 0;	// 通常銃攻撃(連射のみ)
-
 	};
 
 	//アニメーション速度
@@ -88,13 +88,20 @@ private:
 	};
 
 
-	// アニメーション状態の更新
-	void UpdateAnimState(State state);
+	//// アニメーション状態の更新
+	//void UpdateAnimState(State state);
 	// アニメーション処理
 	void UpdateAnim();
 	// アニメーションを再生する
 	void PlayAnim(AnimKind animIndex);
 
+
+	// ジャンプ力セット
+	void SetJumpPower(float jumpPower) { m_upPower = jumpPower; }
+	// ジャンプ状態終了処理
+	void EndJumpState();
+	// 重力落下処理
+	void GravityUpdate();
 
 	// 書き直しアニメーション処理
 	void InitAnim(AnimData& anim);
@@ -122,11 +129,11 @@ private:
 	void AttackStateUpdate();		//通常攻撃時の更新
 	
 
-	State MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);						// プレイヤーの移動値設定
+	VECTOR MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);						// プレイヤーの移動値設定
 	void Move(const VECTOR& MoveVector);	// プレイヤーの移動処理
 	void Angle();							// プレイヤーの回転処理
-	State AttackState();					// プレイヤーの攻撃処理
-	State JumpState();						// プレイヤーのジャンプ処理
+	//State AttackState();					// プレイヤーの攻撃処理
+	//State JumpState();						// プレイヤーのジャンプ処理
 
 	void Attack();		// 攻撃処理
 	void Jump();		// ジャンプ処理
@@ -145,7 +152,13 @@ private:
 	bool m_nextAttackFlag;	// 次の攻撃が実行されるかのフラグ
 	bool m_isJump;			// ジャンプ中フラグ
 
+
+
+	float m_upPower;		// 上昇力
+
+
 	// アニメーション情報
+	AnimKindStruct m_animData;
 
 	AnimData m_current;		// 変更後アニメーションデータ
 	AnimData m_prev;		// 変更前アニメーションデータ
@@ -153,7 +166,7 @@ private:
 	int m_animChangeFrameTotal = 1;	// 切り替えにかける総フレーム数
 	int m_animChangeFrame = 1;		// 現在の切り替えフレーム数
 
-	AnimKindStruct m_animData;		
+		
 
 	int m_animSpeed;		
 
@@ -168,7 +181,7 @@ private:
 
 	int m_multiAttack;		// 連続攻撃用変数
 
-	State m_currentState;	// 現在のプレイヤーの状態
+	//State m_currentState;	// 現在のプレイヤーの状態
 
 	VECTOR m_pos;			// プレイヤー位置
 	VECTOR m_move;			// 移動量
@@ -177,4 +190,7 @@ private:
 
 	//プレイヤーステイトポインタ
 	std::shared_ptr<PlayerState> m_pState;
+
+	// 攻撃硬直時間
+	std::shared_ptr<Time> m_pAttackStanTime;
 };

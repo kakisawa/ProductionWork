@@ -6,7 +6,6 @@ class PlayerState
 {
 public:
 	// プレイヤーの状態
-	// プレイヤーの状態
 	enum class StateKind
 	{
 		kIdle = 1,	// 待機
@@ -16,11 +15,23 @@ public:
 	};
 
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	PlayerState();
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	~PlayerState();
 
 	void Update();
 
+	/// <summary>
+	/// ステイト追加
+	/// </summary>
+	/// <param name="stateUpdate"></param>
+	/// <param name="stateInit"></param>
+	/// <param name="stateKind"></param>
 	void AddState(std::function<void(void)> stateUpdate, std::function<void(void)> stateInit, StateKind stateKind);
 
 	//ステイトセット
@@ -52,7 +63,7 @@ private:
 
 	std::vector<StateData> m_pState;	//全部のステイトを格納
 
-	StateData m_pNowState;				//現在選ばれいるステイト
+	StateData m_pNowState;				//現在選ばれているステイト
 
 	bool m_isActionState = false;		//アクション行動を行っているか
 };

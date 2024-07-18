@@ -48,6 +48,7 @@ Player::Player() :
 	m_animBlendRate(kAnimBlendMax),
 	m_currentJumpPower(0.0f),
 	m_multiAttack(0),
+	m_attackKind(AttackKind::kNone),
 	m_currentState(State::kIdle),
 	m_pos(kInitVec),
 	m_move(kInitVec),
@@ -184,6 +185,19 @@ void Player::UpdateAnimState(State state)
 	{
 		PlayAnim(AnimKind::kJump);
 	}
+
+	/*if (state == State::kAttack && m_currentState == State::kAttack && m_attackKind == AttackKind::kNormalAttack2)
+	{
+		PlayAnim(AnimKind::kAttack2);
+	}
+	if (state == State::kAttack && m_currentState == State::kAttack && m_attackKind == AttackKind::kNormalAttack3)
+	{
+		PlayAnim(AnimKind::kAttack3);
+	}
+	if (state == State::kAttack && m_currentState == State::kAttack && m_attackKind == AttackKind::kNormalAttack4)
+	{
+		PlayAnim(AnimKind::kAttack4);
+	}*/
 
 	// ジャンプ→移動
 	if (state == State::kJump && m_currentState == State::kWalk)
@@ -462,32 +476,33 @@ Player::State Player::AttackState()
 
 
 	// 現在、連続攻撃の処理をやってる
-
-
-	switch (m_multiAttack)
-	{
-	case0:
-		break;
-	case1:
-		break;
-	case2:
-		break;
-	case3:
-		break;
-	default:
-		break;
-	}
-
 	if (Pad::IsPress(PAD_INPUT_X))
 	{
 		m_isAttack = true;
 		//m_isForward = true;
-
-		m_nextAttackFlag = true;
+		m_multiAttack++;
+		//m_nextAttackFlag = true;
 
 		nextState = State::kAttack;
 	}
 
+	switch (m_multiAttack)
+	{
+	case 1:
+		m_attackKind=AttackKind::kNormalAttack1;
+		break;
+	case 2:
+		m_attackKind = AttackKind::kNormalAttack2;
+		break;
+	case 3:
+		m_attackKind = AttackKind::kNormalAttack3;
+		break;
+	case 4:
+		m_attackKind = AttackKind::kNormalAttack4;
+		break;
+	default:
+		break;
+	}
 
 	return nextState;
 }
