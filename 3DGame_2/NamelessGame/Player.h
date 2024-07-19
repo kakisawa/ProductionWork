@@ -47,15 +47,29 @@ private:
 	// 通常剣攻撃種類
 	enum class AttackKind
 	{
-		kNone=-1,
-		kNormalAttack1 = 1,
-		kNormalAttack2 = 2,
-		kNormalAttack3 = 3,
-		kNormalAttack4 = 4,
+		kNone=-1,			// 無し
+		kNormalAttack1 = 1,	// 通常剣攻撃1
+		kNormalAttack2 = 2,	// 通常剣攻撃2
+		kNormalAttack3 = 3,	// 通常剣攻撃3
+		kNormalAttack4 = 4,	// 通常剣攻撃4
 
-		kNormalShot = 5,
+		kNormalShot = 5,	// 通常銃攻撃
 
 	};
+
+	struct AnimData			// アニメーションデータ
+	{
+		int animNo;			// アニメーション番号
+		int attachNo;		// アタッチ番号
+		float totalTime;	// アニメーションの総再生時間
+		float elapsedTime;	// アニメーションの経過時間
+		bool isLoop;		// アニメーションがループするか
+	};
+
+	// アニメーション状態の初期化
+	void InitAnim(AnimData& anim);
+	// アニメーション状態の更新(仮)
+	void UpdateAnim(AnimData anim, float dt);
 
 	// アニメーション状態の更新
 	void UpdateAnimState(State state);
@@ -64,7 +78,8 @@ private:
 	// アニメーションを再生する
 	void PlayAnim(AnimKind animIndex);
 
-	State MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);						// プレイヤーの移動値設定
+	// プレイヤーの移動値設定
+	State MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);
 	void Move(const VECTOR& MoveVector);	// プレイヤーの移動処理
 	void Angle();							// プレイヤーの回転処理
 	State AttackState();					// プレイヤーの攻撃処理
@@ -85,11 +100,10 @@ private:
 	bool m_nextAttackFlag;	// 次の攻撃が実行されるかのフラグ
 	bool m_isJump;			// ジャンプ中フラグ
 
+
 	// アニメーション情報
-	int m_currentAnimNo;		// 再生中のアニメーションのアタッチ番号
-	float m_currentAnimCount;	// 再生中のアニメーションの再生時間
-	int m_prevAnimNo;			// 前の再生アニメーションのアタッチ番号
-	float m_prevAnimCount;		// 前の再生アニメーションの再生時間
+	AnimData m_current;		// 変更後アニメーションデータ
+	AnimData m_prev;		// 変更前アニメーションデータ
 	float m_animBlendRate;		// 現在と過去のアニメーションの合成割合
 									// 0.0f:prevが再生される
 									// 1.0f:currentが再生される

@@ -90,6 +90,27 @@ void SceneGame::Draw()
 		MV1DrawModel(m_arrowModel[i]);
 	}
 	
+
+	// 授業用
+	/*
+	int y = 50;
+	for (const auto& loc : m_localData) {
+		DrawFormatString(50, y, 0xffffff, "name=%s : tag=%s : pos=%2.2f,%2.2f,%2.2f : rot=%2.2f,%2.2f,%2.2f : scale=%2.2f,%2.2f,%2.2f",
+			loc.name.c_str(),
+			loc.tag.c_str(),
+			loc.pos.x, loc.pos.y, loc.pos.z,
+			loc.rot.x, loc.rot.y, loc.rot.z,
+			loc.scale.x, loc.scale.y, loc.scale.z);
+
+		if (loc.tag == "Sphere")
+		{
+			DrawSphere3D(VGet(loc.pos.x, loc.pos.y, loc.pos.z), 1.0f, 35,
+				GetColor(255, 255, 255), GetColor(255, 255, 255), true);
+		}
+
+		y += 20;
+	}*/
+	
 }
 
 void SceneGame::End()
@@ -102,3 +123,55 @@ void SceneGame::End()
 		MV1DeleteModel(m_arrowModel[i]);
 	}
 }
+
+// 授業用
+/*
+namespace {
+	float DegreeToRadian(float deg) {
+		return deg + (DX_PI_F);
+	}
+}
+void SceneGame::LoadLocations()
+{
+	int handle= FileRead_open("data/data.loc");
+	// データ数
+	int dataCnt = 0;
+	FileRead_read(&dataCnt, sizeof(dataCnt), handle);
+	m_locationData.resize(dataCnt);
+	for (auto& loc : m_locationData)
+	{
+		// オブジェクト名ロード
+		byte nameCnt = 0;
+		FileRead_read(&nameCnt, sizeof(nameCnt), handle);
+		loc.name.resize(nameCnt);
+		FileRead_read(loc.name.data(), sizeof(char) * loc.name.size(), handle);
+
+		// タグ名
+		byte tagNameCnt= 0;
+		FileRead_read(&tagNameCnt, sizeof(tagNameCnt), handle);
+		loc.name.resize(tagNameCnt);
+		FileRead_read(loc.name.data(), sizeof(char) * loc.name.size(), handle);
+
+
+
+		// 座標情報
+		FileRead_read(&loc.pos, sizeof(loc.pos), handle);
+
+		// 回転情報
+		FileRead_read(&loc.rot, sizeof(loc.rot), handle);
+
+		// スケーリング情報
+		FileRead_read(&loc.scale, sizeof(loc.scale), handle);
+	}
+
+	FileRead_close(dataCnt);
+
+	for (auto& loc : m_locationData)
+	{
+		loc.rot.x = DegreeToRadian(loc.rot.x);
+		loc.rot.y = DegreeToRadian(loc.rot.y);
+		loc.rot.z = DegreeToRadian(loc.rot.z);
+	}
+
+}
+*/
