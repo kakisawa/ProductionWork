@@ -68,9 +68,6 @@ private:
 
 	// アニメーション状態の初期化
 	void InitAnim(AnimData& anim);
-	// アニメーション状態の更新(仮)
-	void UpdateAnim(AnimData anim, float dt);
-
 	// アニメーション状態の更新
 	void UpdateAnimState(State state);
 	// アニメーション処理

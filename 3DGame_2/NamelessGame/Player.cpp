@@ -20,9 +20,9 @@ namespace {
 
 	// アニメーション関係
 	constexpr float kAnimChangeFrame = 8.0f;		// アニメーションの切り替えにかかるフレーム数
-	constexpr float kAnimChangeRateSpeed = 0.2f;	// アニメーション切り替えにかかる速度
+	constexpr float kAnimChangeRateSpeed = 0.1f;	// アニメーション切り替えにかかる速度
 	constexpr float kAnimBlendAdd = 0.5f;			// アニメーションブレンドの増加値
-	constexpr float kAnimBlendMax = 1.0f;			// アニメーションブレンドの最大値
+	constexpr float kAnimBlendMaxFrame = 1.0f;		// アニメーション切り替えに掛ける総フレーム数
 
 	// 初期化用値
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
@@ -41,7 +41,7 @@ Player::Player() :
 	m_isWalk(false),
 	m_isJump(false),
 	//m_isForward(false),
-	m_animBlendRate(kAnimBlendMax),
+	m_animBlendRate(0),
 	m_currentJumpPower(0.0f),
 	m_multiAttack(0),
 	m_attackKind(AttackKind::kNone),
@@ -83,8 +83,6 @@ void Player::Init()
 /// </summary>
 void Player::Update(const Camera& camera)
 {
-	
-
 	// パッド入力によって移動パラメータを設定する
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
 	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
@@ -140,50 +138,6 @@ void Player::InitAnim(AnimData& anim)
 	anim.totalTime = 0.0f;
 	anim.elapsedTime = 0.0f;
 	anim.isLoop = false;
-}
-
-void Player::UpdateAnim(AnimData anim, float dt)
-{
-	// 現在再生中のアニメーションの処理
-	if (anim.animNo != -1)
-	{
-		// 現在再生中のアニメーションの総カウントを取得する
-		anim.totalTime = MV1GetAttachAnimTotalTime(m_model, anim.animNo);
-		// アニメーションを進行させる
-		anim.elapsedTime += kAnimBlendAdd;	// アニメーションを進める
-
-		if (anim.elapsedTime > anim.totalTime)
-		{
-			// 攻撃アニメーションが終了し、かつ次の攻撃が入力されていたら
-			// そのまま次のアニメーションを行う
-
-
-
-			// 攻撃アニメーションが終了したら待機に移行
-			if (m_isAttack)
-			{
-				m_isAttack = false;
-				m_currentState = State::kIdle;
-				PlayAnim(AnimKind::kIdle);
-			}
-
-			// ジャンプアニメーションが終了したら待機に移行
-			if (!m_isJump)
-			{
-				m_currentState = State::kIdle;
-				PlayAnim(AnimKind::kIdle);
-			}
-
-			anim.elapsedTime = static_cast<float>(fmod(anim.elapsedTime, anim.totalTime));
-		}
-
-		// 進めた時間に設定
-		MV1SetAttachAnimTime(m_model, anim.animNo, anim.elapsedTime);
-		// アニメーションのブレンド率を設定する
-		MV1SetAttachAnimBlendRate(m_model, anim.animNo, m_animBlendRate);
-	}
-
-	// 恐らくあいまいなのはanim.totalTimeの事だと思われる
 }
 
 /// <summary>
@@ -268,18 +222,59 @@ void Player::UpdateAnim()
 	float total;		// 再生中アニメーションの最大値
 
 	// test 8フレームで切り替え
-	if (m_animBlendRate < kAnimBlendMax)
+	//if (m_animBlendRate < kAnimBlendMax)
 	{
+		// 指定フレームに掛けてアニメーションを変更する
 		m_animBlendRate += kAnimChangeRateSpeed;
-		if (m_animBlendRate >= kAnimBlendMax)
+		if (m_animBlendRate >= kAnimBlendMaxFrame)
 		{
-			m_animBlendRate = kAnimBlendMax;
+			m_animBlendRate = kAnimBlendMaxFrame;
 		}
 	}
 
-	UpdateAnim(m_current, kAnimBlendAdd);
+	// 現在再生中のアニメーションの処理
+	if (m_current.animNo != -1)
+	{
+		// 現在再生中のアニメーションの総カウントを取得する
+		m_current.totalTime = MV1GetAttachAnimTotalTime(m_model, m_current.animNo);
+		// アニメーションを進行させる
+		m_current.elapsedTime += kAnimBlendAdd;	// アニメーションを進める
 
-	//UpdateAnim(m_prev, kAnimBlendAdd);
+		if (m_current.elapsedTime > m_current.totalTime)
+		{
+			// 攻撃アニメーションが終了し、かつ次の攻撃が入力されていたら
+			// そのまま次のアニメーションを行う
+
+
+
+			// 攻撃アニメーションが終了したら待機に移行
+			if (m_isAttack)
+			{
+				m_isAttack = false;
+				m_currentState = State::kIdle;
+				PlayAnim(AnimKind::kIdle);
+			}
+
+			// ジャンプアニメーションが終了したら待機に移行
+			if (!m_isJump)
+			{
+				m_currentState = State::kIdle;
+				PlayAnim(AnimKind::kIdle);
+			}
+
+			m_current.elapsedTime = static_cast<float>(fmod(m_current.elapsedTime, m_current.totalTime));
+		}
+
+		// 進めた時間に設定
+		MV1SetAttachAnimTime(m_model, m_current.animNo, m_current.elapsedTime);
+
+		// アニメーション変化のフレーム数に応じたブレンド率の設定
+		float rate = m_animBlendRate / kAnimBlendMaxFrame;
+		if (rate > 1.0f)	rate = 1.0f;
+
+		// アニメーションのブレンド率を設定する
+		MV1SetAttachAnimBlendRate(m_model, m_current.animNo, rate);
+	}
 
 	// 一つ前に再生していたアニメーションの処理
 	if (m_prev.animNo != -1)
@@ -298,8 +293,11 @@ void Player::UpdateAnim()
 
 		// 進めた時間に設定
 		MV1SetAttachAnimTime(m_model, m_prev.animNo, m_prev.elapsedTime);
+
+		float rate = m_animBlendRate / kAnimBlendMaxFrame;
+		if (rate > 1.0f)	rate = 1.0f;
 		// アニメーションのブレンド率を設定する
-		MV1SetAttachAnimBlendRate(m_model, m_prev.animNo, kAnimBlendMax - m_animBlendRate);
+		MV1SetAttachAnimBlendRate(m_model, m_prev.animNo, kAnimBlendMaxFrame - rate);
 	}
 }
 
@@ -327,7 +325,7 @@ void Player::PlayAnim(AnimKind animIndex)
 	// ブレンド率はPrevが有効でない場合、1.0fにする
 	if (m_prev.animNo == -1)
 	{
-		m_animBlendRate = kAnimBlendMax;
+		m_animBlendRate = kAnimBlendMaxFrame;
 	}
 	else {
 		// 切り替えの瞬間は変更前のアニメーションが再生される状態にする
