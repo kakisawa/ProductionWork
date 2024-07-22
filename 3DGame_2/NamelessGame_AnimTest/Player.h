@@ -1,8 +1,9 @@
 #pragma once
 #include "DxLib.h"
+#include <memory>
 
 class Camera;
-
+class PlayerState;
 class Player
 {
 public:
@@ -18,43 +19,48 @@ public:
 
 private:
 
-	// プレイヤーの状態
-	enum class State
+	// アニメーション情報
+	struct AnimationData
 	{
-		kIdle=1,	// 待機
-		kWalk=2,	// 移動
-		kJump=3,	// ジャンプ
-		kAttack=4,	// 攻撃
+		int8_t kIdle = 0;		//待機モーション
+		int8_t kWalk = 0;		//歩きモーション
+		int8_t kJump = 0;		//ジャンプ時モーション
+		int8_t kAttack1 = 0;	//攻撃モーション1
+		int8_t kAttack2 = 0;	//攻撃モーション2
+		int8_t kAttack3 = 0;	//攻撃モーション3
+		int8_t kAttack4 = 0;	//攻撃モーション4
 	};
-	// アニメーション種類
-	enum class AnimKind
-	{
-		kNone = -1,	// 無し
-		kUnKnown=0,	// 不明
-		kIdle=1,	// 待機
-		kWalk=2,	// 移動
-		kJump=12,	// ジャンプ
-		kAttack1 = 30,	// 通常剣攻撃1
-		kAttack2 = 31,	// 通常剣攻撃2
-		kAttack3 = 32,	// 通常剣攻撃3
-		kAttack4 = 33,	// 通常剣攻撃4
 
-		kAttack5 = 58,	// 通常銃攻撃(連射のみ)
-	
-	};
+
+	// アニメーション種類
+	//enum class AnimKind
+	//{
+	//	kNone = -1,	// 無し
+	//	kUnKnown=0,	// 不明
+	//	kIdle=1,	// 待機
+	//	kWalk=2,	// 移動
+	//	kJump=12,	// ジャンプ
+	//	kAttack1 = 30,	// 通常剣攻撃1
+	//	kAttack2 = 31,	// 通常剣攻撃2
+	//	kAttack3 = 32,	// 通常剣攻撃3
+	//	kAttack4 = 33,	// 通常剣攻撃4
+
+	//	kAttack5 = 58,	// 通常銃攻撃(連射のみ)
+	//
+	//};
 
 	// 通常剣攻撃種類
-	enum class AttackKind
-	{
-		kNone=-1,			// 無し
-		kNormalAttack1 = 1,	// 通常剣攻撃1
-		kNormalAttack2 = 2,	// 通常剣攻撃2
-		kNormalAttack3 = 3,	// 通常剣攻撃3
-		kNormalAttack4 = 4,	// 通常剣攻撃4
+	//enum class AttackKind
+	//{
+	//	kNone=-1,			// 無し
+	//	kNormalAttack1 = 1,	// 通常剣攻撃1
+	//	kNormalAttack2 = 2,	// 通常剣攻撃2
+	//	kNormalAttack3 = 3,	// 通常剣攻撃3
+	//	kNormalAttack4 = 4,	// 通常剣攻撃4
 
-		kNormalShot = 5,	// 通常銃攻撃
+	//	kNormalShot = 5,	// 通常銃攻撃
 
-	};
+	//};
 
 	struct AnimData			// アニメーションデータ
 	{
@@ -65,6 +71,7 @@ private:
 		bool isLoop;		// アニメーションがループするか
 	};
 
+	// 〇新規作成_アニメーション
 	// アニメーション状態の初期化
 	void InitAnim(AnimData& anim);
 	/// <summary>
@@ -75,18 +82,29 @@ private:
 	/// <param name="isForceChange">既に指定されたアニメーションが再生されている場合も再生するか</param>
 	/// <param name="isChangeFrame">何フレームかけて切り替える</param>
 	void ChangeAnim(int animNo, bool isLoop, bool isForceChange, bool isChangeFrame);
+	// 現在のアニメーション切り替わり情報からアニメーションのブレンド率を設定する
+	void UpdateAnimBlendRate();
+	// アニメーションの更新
+	void UpdateAnimation(AnimData anim,float dt=1.0f);
+
+	// 各状態ごとの更新
+	void IdleStateUpdate();
+	void WalkStateUpdate();
+	void JumpStateUpdate();
+	void AttackStateUpdate();
+
 
 
 
 	// アニメーション状態の更新
-	void UpdateAnimState(State state);
+	void OldUpdateAnimState(State state);
 	// アニメーション処理
-	void UpdateAnim();
+	void OldUpdateAnim();
 	// アニメーションを再生する
-	void PlayAnim(AnimKind animIndex);
+	void OldPlayAnim(AnimKind animIndex);
 
 	// プレイヤーの移動値設定
-	State MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);
+	void OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);
 	void Move(const VECTOR& MoveVector);	// プレイヤーの移動処理
 	void Angle();							// プレイヤーの回転処理
 	State AttackState();					// プレイヤーの攻撃処理
@@ -111,9 +129,19 @@ private:
 	// アニメーション情報
 	AnimData m_current;		// 変更後アニメーションデータ
 	AnimData m_prev;		// 変更前アニメーションデータ
-	float m_animBlendRate;		// 現在と過去のアニメーションの合成割合
+	float m_animBlendRate;		// 現在と過去のアニメーションの合成割合	(フレーム)
 									// 0.0f:prevが再生される
 									// 1.0f:currentが再生される
+
+	float m_animSpeed;		// アニメーション変更速度
+
+	// プレイヤーステイトポインタ
+	std::shared_ptr<PlayerState> m_pState;
+
+	// アニメーションデータ
+	AnimationData m_animData;
+
+
 
 	int m_multiAttack;		// 連続攻撃用変数
 	bool m_isNextAttack;	// 次の攻撃を行うかのフラグ

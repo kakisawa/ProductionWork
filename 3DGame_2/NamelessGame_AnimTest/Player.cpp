@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "Pad.h"
 #include "Camera.h"
+#include "PlayerState.h"
 #include <cassert>
 #include <cmath>
 
@@ -21,8 +22,11 @@ namespace {
 	// アニメーション関係
 	constexpr float kAnimChangeFrame = 8.0f;		// アニメーションの切り替えにかかるフレーム数
 	constexpr float kAnimChangeRateSpeed = 0.2f;	// アニメーション切り替えにかかる速度
+	constexpr float kAnimBlendMax = 1.0f;			// アニメーションの切り替えにかかる最大フレーム数
+	
+
 	constexpr float kAnimBlendAdd = 0.5f;			// アニメーションブレンドの増加値
-	constexpr float kAnimBlendMax = 1.0f;			// アニメーションブレンドの最大値
+	
 
 	// 初期化用値
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
@@ -41,6 +45,7 @@ Player::Player() :
 	m_isWalk(false),
 	m_isJump(false),
 	//m_isForward(false),
+	m_animSpeed(0.0f),
 	m_animBlendRate(kAnimBlendMax),
 	m_currentJumpPower(0.0f),
 	m_multiAttack(0),
@@ -57,6 +62,11 @@ Player::Player() :
 	// アニメーション状態の初期化
 	InitAnim(m_prev);
 	InitAnim(m_current);
+
+	m_pState->AddState([=] {IdleStateUpdate(); }, [=] {IdleStateInit(); }, PlayerState::StateKind::Idle);
+	m_pState->AddState([=] {WalkStateUpdate(); }, [=] {WalkStateInit(); }, PlayerState::StateKind::Walk);
+	m_pState->AddState([=] {JumpStateUpdate(); }, [=] {JumpStateInit(); }, PlayerState::StateKind::Jump);
+	m_pState->AddState([=] {AttackStateUpdate(); }, [=] {AttackStateInit(); }, PlayerState::StateKind::Attack);
 }
 
 /// <summary>
@@ -75,7 +85,7 @@ void Player::Init()
 	MV1SetScale(m_model, VGet(kModelSize, kModelSize, kModelSize));	// プレイヤーの初期サイズ
 	MV1SetRotationXYZ(m_model, VGet(0.0f, kInitAngle, 0.0f));		// プレイヤーの初期角度
 	MV1SetPosition(m_model, m_pos);									// プレイヤーの初期位置	
-	PlayAnim(AnimKind::kIdle);										// プレイヤーの初期アニメーション
+	OldPlayAnim(AnimKind::kIdle);										// プレイヤーの初期アニメーション
 }
 
 /// <summary>
@@ -87,27 +97,59 @@ void Player::Update(const Camera& camera)
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
 	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
 
-	// プレイヤーの状態更新
-	State prevState = m_currentState;
-	
-	m_currentState = JumpState();
-	m_currentState = AttackState();		// 攻撃
+	//// プレイヤーの状態更新
+	//State prevState = m_currentState;
+	//
+	//m_currentState = JumpState();
+	//m_currentState = AttackState();		// 攻撃
 
 	// 攻撃処理
 	Attack();
 
 	Pad::Update();
 
-	m_currentState = MoveValue(camera, upMoveVec, leftMoveVec);		// 移動
+	OldMoveValue(camera, upMoveVec, leftMoveVec);		// 移動
+
+	// ステイトの更新
+	m_pState->Update();
+
+
+	// モデルのアップデート
+	m_animSpeed++;
+	if (m_animSpeed >= kAnimBlendMax)
+	{
+		UpdateAnimation(m_prev);
+		UpdateAnimation(m_current);
+		m_animSpeed = 0.0f;
+	}
+
+	// 指定フレームに掛けてアニメーションを変更する
+	m_animBlendRate += kAnimChangeRateSpeed;
+	if (m_animBlendRate >= kAnimBlendMax)
+	{
+		m_animBlendRate = kAnimBlendMax;
+	}
+
+	// アニメーションのブレンド率を変更する
+	UpdateAnimBlendRate();
+
+
+
+
+
+
+
+
+
 
 	//アニメーション状態の更新
-	UpdateAnimState(prevState);
+	OldUpdateAnimState(prevState);
 
 	// プレイヤーの移動方向にモデルの方向を近づける
 	Angle();
 
 	// アニメーション処理の更新
-	UpdateAnim();
+	OldUpdateAnim();
 
 	// プレイヤーの座標更新
 	Move(m_move);
@@ -165,202 +207,317 @@ void Player::ChangeAnim(int animNo, bool isLoop, bool isForceChange, bool isChan
 	m_current.totalTime = MV1GetAttachAnimTotalTime(m_model, m_current.attachNo);
 	m_current.isLoop = isLoop;
 
+	// アニメーションのブレンド率を設定する
+	UpdateAnimBlendRate();
+}
 
+void Player::UpdateAnimBlendRate()
+{
+	float rate = static_cast<float>(m_animBlendRate) / static_cast<float>(kAnimBlendMax);
+	if (rate > kAnimBlendMax)	rate = kAnimBlendMax;
+
+	// アニメーションのブレンド率を設定する
+	MV1SetAttachAnimBlendRate(m_model, m_prev.animNo, kAnimBlendMax - m_animBlendRate);
+	// アニメーションのブレンド率を設定する
+	MV1SetAttachAnimBlendRate(m_model, m_current.animNo, m_animBlendRate);
+}
+
+void Player::UpdateAnimation(AnimData anim, float dt)
+{
+	// アニメーションが設定されていない場合は何もしない
+	if (anim.attachNo == -1)	return;
+
+	// アニメーションの更新
+	float time = MV1GetAttachAnimTime(m_model, anim.attachNo);
+	time += dt;
+	if (time >= anim.totalTime)
+	{
+		if (anim.isLoop)
+		{
+			// アニメーションのループ
+			time -= anim.totalTime;
+		}
+		else {
+			time = anim.totalTime;
+		}
+	}
+	MV1SetAttachAnimTime(m_model, anim.attachNo, time);
 
 }
+bool Player::IsAnimEnd()
+{
+	// Loopアニメーションの場合は常にfalseを返す
+	if (m_current.isLoop)return false;
+
+	float time = MV1GetAttachAnimTime(m_model, m_current.attachNo);
+	if (time >= m_current.totalTime)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Player::IdleStateUpdate()
+{
+	// アニメーションを待機モーションに変更
+	ChangeAnim(m_animData.kIdle, true, false, 1.0f);
+}
+
+void Player::WalkStateUpdate()
+{
+	// アニメーションを歩きモーションに変更
+	ChangeAnim(m_animData.kWalk, true, false, 1.0f);
+}
+
+void Player::JumpStateUpdate()
+{
+	// アニメーションをジャンプモーションに変更
+	ChangeAnim(m_animData.kJump, false, false, 1.0f);
+}
+
+void Player::AttackStateUpdate()
+{
+	// 現在、連続攻撃の処理をやってる
+	if (Pad::IsTrigger(PAD_INPUT_X))
+	{
+		if (m_isAttack)
+		{
+			m_nextAttackFlag = true;
+		}
+		m_isAttack = true;
+	}
+
+	// アニメーション変更
+	switch (m_multiAttack)
+	{
+	case 0:
+		ChangeAnim(m_animData.kAttack1, false, false, 1.0f);
+		break;
+	case 1:
+		ChangeAnim(m_animData.kAttack2, false, false, 1.0f);
+		break;
+	case 2:
+		ChangeAnim(m_animData.kAttack3, false, false, 1.0f);
+		break;
+	case 3:
+		ChangeAnim(m_animData.kAttack4, false, false, 1.0f);
+		break;
+
+	default:
+		break;
+	}
+
+	// アニメーションが終わった段階で次の攻撃フラグがたっていなかったら
+	if (IsAnimEnd && !m_nextAttackFlag)
+	{
+		m_isAttack = false;
+		m_multiAttack = 0;
+		m_pState->EndState();
+	}
+
+	// アニメーションが終わった段階で次の攻撃フラグがたっていたら
+	if (IsAnimEnd && m_nextAttackFlag)
+	{
+		// 硬直時間を入れるならここ
+		{
+			m_nextAttackFlag = false;
+			m_multiAttack++;
+		}
+	}
+}
+
 
 /// <summary>
 /// アニメーション状態の更新
 /// </summary>
 /// <param name="state">現在の状態</param>
-void Player::UpdateAnimState(State state)
-{
-	// 待機→移動
-	if (state == State::kIdle && m_currentState == State::kWalk)
-	{
-		PlayAnim(AnimKind::kWalk);
-	}
-	// 待機→攻撃
-	if (state == State::kIdle && m_currentState == State::kAttack)
-	{
-		PlayAnim(AnimKind::kAttack1);
-	}
-	// 待機→ジャンプ
-	if (state == State::kIdle && m_currentState == State::kJump)
-	{
-		PlayAnim(AnimKind::kJump);
-	}
-
-	// 移動→待機
-	if (state == State::kWalk && m_currentState == State::kIdle)
-	{
-		PlayAnim(AnimKind::kIdle);
-	}
-	// 移動→攻撃
-	if (state == State::kWalk && m_currentState == State::kAttack)
-	{
-		PlayAnim(AnimKind::kAttack1);
-	}
-	// 移動→ジャンプ
-	if (state == State::kWalk && m_currentState == State::kJump)
-	{
-		PlayAnim(AnimKind::kJump);
-	}
-
-	// 攻撃→待機
-	if (state == State::kAttack && m_currentState == State::kIdle)
-	{
-		PlayAnim(AnimKind::kIdle);
-	}
-	// 攻撃→移動
-	if (state == State::kAttack && m_currentState == State::kWalk)
-	{
-		PlayAnim(AnimKind::kWalk);
-	}
-	// 攻撃→ジャンプ
-	if (state == State::kAttack && m_currentState == State::kJump)
-	{
-		PlayAnim(AnimKind::kJump);
-	}
-
-	/*if (state == State::kAttack && m_currentState == State::kAttack && m_attackKind == AttackKind::kNormalAttack2)
-	{
-		PlayAnim(AnimKind::kAttack2);
-	}
-	if (state == State::kAttack && m_currentState == State::kAttack && m_attackKind == AttackKind::kNormalAttack3)
-	{
-		PlayAnim(AnimKind::kAttack3);
-	}
-	if (state == State::kAttack && m_currentState == State::kAttack && m_attackKind == AttackKind::kNormalAttack4)
-	{
-		PlayAnim(AnimKind::kAttack4);
-	}*/
-
-	// ジャンプ→移動
-	if (state == State::kJump && m_currentState == State::kWalk)
-	{
-		PlayAnim(AnimKind::kWalk);
-	}
-}
+//void Player::OldUpdateAnimState(State state)
+//{
+//	// 待機→移動
+//	if (state == State::kIdle && m_currentState == State::kWalk)
+//	{
+//		OldPlayAnim(AnimKind::kWalk);
+//	}
+//	// 待機→攻撃
+//	if (state == State::kIdle && m_currentState == State::kAttack)
+//	{
+//		OldPlayAnim(AnimKind::kAttack1);
+//	}
+//	// 待機→ジャンプ
+//	if (state == State::kIdle && m_currentState == State::kJump)
+//	{
+//		OldPlayAnim(AnimKind::kJump);
+//	}
+//
+//	// 移動→待機
+//	if (state == State::kWalk && m_currentState == State::kIdle)
+//	{
+//		OldPlayAnim(AnimKind::kIdle);
+//	}
+//	// 移動→攻撃
+//	if (state == State::kWalk && m_currentState == State::kAttack)
+//	{
+//		OldPlayAnim(AnimKind::kAttack1);
+//	}
+//	// 移動→ジャンプ
+//	if (state == State::kWalk && m_currentState == State::kJump)
+//	{
+//		OldPlayAnim(AnimKind::kJump);
+//	}
+//
+//	// 攻撃→待機
+//	if (state == State::kAttack && m_currentState == State::kIdle)
+//	{
+//		OldPlayAnim(AnimKind::kIdle);
+//	}
+//	// 攻撃→移動
+//	if (state == State::kAttack && m_currentState == State::kWalk)
+//	{
+//		OldPlayAnim(AnimKind::kWalk);
+//	}
+//	// 攻撃→ジャンプ
+//	if (state == State::kAttack && m_currentState == State::kJump)
+//	{
+//		OldPlayAnim(AnimKind::kJump);
+//	}
+//
+//	/*if (state == State::kAttack && m_currentState == State::kAttack && m_attackKind == AttackKind::kNormalAttack2)
+//	{
+//		PlayAnim(AnimKind::kAttack2);
+//	}
+//	if (state == State::kAttack && m_currentState == State::kAttack && m_attackKind == AttackKind::kNormalAttack3)
+//	{
+//		PlayAnim(AnimKind::kAttack3);
+//	}
+//	if (state == State::kAttack && m_currentState == State::kAttack && m_attackKind == AttackKind::kNormalAttack4)
+//	{
+//		PlayAnim(AnimKind::kAttack4);
+//	}*/
+//
+//	// ジャンプ→移動
+//	if (state == State::kJump && m_currentState == State::kWalk)
+//	{
+//		OldPlayAnim(AnimKind::kWalk);
+//	}
+//}
 
 /// <summary>
 /// アニメーション処理
 /// </summary>
-void Player::UpdateAnim()
-{
-	float total;		// 再生中アニメーションの最大値
-
-	// test 8フレームで切り替え
-	if (m_animBlendRate < kAnimBlendMax)
-	{
-		m_animBlendRate += kAnimChangeRateSpeed;
-		if (m_animBlendRate >= kAnimBlendMax)
-		{
-			m_animBlendRate = kAnimBlendMax;
-		}
-	}
-
-	// 現在再生中のアニメーションの処理
-	if (m_current.animNo != -1)
-	{
-		// 現在再生中のアニメーションの総カウントを取得する
-		m_current.totalTime = MV1GetAttachAnimTotalTime(m_model, m_current.animNo);
-		// アニメーションを進行させる
-		m_current.elapsedTime += kAnimBlendAdd;	// アニメーションを進める
-
-		if (m_current.elapsedTime > m_current.totalTime)
-		{
-			// 攻撃アニメーションが終了し、かつ次の攻撃が入力されていたら
-			// そのまま次のアニメーションを行う
-
-
-
-			// 攻撃アニメーションが終了したら待機に移行
-			if (m_isAttack)
-			{
-				m_isAttack = false;
-				m_currentState = State::kIdle;
-				PlayAnim(AnimKind::kIdle);
-			}
-
-			// ジャンプアニメーションが終了したら待機に移行
-			if (!m_isJump)
-			{
-				m_currentState = State::kIdle;
-				PlayAnim(AnimKind::kIdle);
-			}
-
-			m_current.elapsedTime = static_cast<float>(fmod(m_current.elapsedTime, m_current.totalTime));
-		}
-
-		// 進めた時間に設定
-		MV1SetAttachAnimTime(m_model, m_current.animNo, m_current.elapsedTime);
-		// アニメーションのブレンド率を設定する
-		MV1SetAttachAnimBlendRate(m_model, m_current.animNo, m_animBlendRate);
-	}
-
-	// 一つ前に再生していたアニメーションの処理
-	if (m_prev.animNo != -1)
-	{
-		// アニメーションの総時間獲得
-		total = MV1GetAttachAnimTotalTime(m_model, m_prev.animNo);
-
-		// アニメーションを進行させる
-		m_prev.elapsedTime += kAnimBlendAdd;
-
-		// アニメーションの再生時間をループ
-		if (m_prev.animNo > total)
-		{
-			m_prev.elapsedTime = static_cast<float>(fmod(m_prev.elapsedTime, total));
-		}
-
-		// 進めた時間に設定
-		MV1SetAttachAnimTime(m_model, m_prev.animNo, m_prev.elapsedTime);
-		// アニメーションのブレンド率を設定する
-		MV1SetAttachAnimBlendRate(m_model, m_prev.animNo, kAnimBlendMax - m_animBlendRate);
-	}
-}
+//void Player::OldUpdateAnim()
+//{
+//	float total;		// 再生中アニメーションの最大値
+//
+//	// test 8フレームで切り替え
+//	if (m_animBlendRate < kAnimBlendMax)
+//	{
+//		m_animBlendRate += kAnimChangeRateSpeed;
+//		if (m_animBlendRate >= kAnimBlendMax)
+//		{
+//			m_animBlendRate = kAnimBlendMax;
+//		}
+//	}
+//
+//	// 現在再生中のアニメーションの処理
+//	if (m_current.animNo != -1)
+//	{
+//		// 現在再生中のアニメーションの総カウントを取得する
+//		m_current.totalTime = MV1GetAttachAnimTotalTime(m_model, m_current.animNo);
+//		// アニメーションを進行させる
+//		m_current.elapsedTime += kAnimBlendAdd;	// アニメーションを進める
+//
+//		if (m_current.elapsedTime > m_current.totalTime)
+//		{
+//			// 攻撃アニメーションが終了し、かつ次の攻撃が入力されていたら
+//			// そのまま次のアニメーションを行う
+//
+//
+//
+//			// 攻撃アニメーションが終了したら待機に移行
+//			if (m_isAttack)
+//			{
+//				m_isAttack = false;
+//				m_currentState = State::kIdle;
+//				OldPlayAnim(AnimKind::kIdle);
+//			}
+//
+//			// ジャンプアニメーションが終了したら待機に移行
+//			if (!m_isJump)
+//			{
+//				m_currentState = State::kIdle;
+//				OldPlayAnim(AnimKind::kIdle);
+//			}
+//
+//			m_current.elapsedTime = static_cast<float>(fmod(m_current.elapsedTime, m_current.totalTime));
+//		}
+//
+//		// 進めた時間に設定
+//		MV1SetAttachAnimTime(m_model, m_current.animNo, m_current.elapsedTime);
+//		// アニメーションのブレンド率を設定する
+//		MV1SetAttachAnimBlendRate(m_model, m_current.animNo, m_animBlendRate);
+//	}
+//
+//	// 一つ前に再生していたアニメーションの処理
+//	if (m_prev.animNo != -1)
+//	{
+//		// アニメーションの総時間獲得
+//		total = MV1GetAttachAnimTotalTime(m_model, m_prev.animNo);
+//
+//		// アニメーションを進行させる
+//		m_prev.elapsedTime += kAnimBlendAdd;
+//
+//		// アニメーションの再生時間をループ
+//		if (m_prev.animNo > total)
+//		{
+//			m_prev.elapsedTime = static_cast<float>(fmod(m_prev.elapsedTime, total));
+//		}
+//
+//		// 進めた時間に設定
+//		MV1SetAttachAnimTime(m_model, m_prev.animNo, m_prev.elapsedTime);
+//		// アニメーションのブレンド率を設定する
+//		MV1SetAttachAnimBlendRate(m_model, m_prev.animNo, kAnimBlendMax - m_animBlendRate);
+//	}
+//}
 
 /// <summary>
 /// アニメーションの再生
 /// </summary>
 /// <param name="animIndex">再生するアニメーションの状態</param>
-void Player::PlayAnim(AnimKind animIndex)
-{
-	// 更に古いアニメーションがアタッチされている場合はこの時点で削除しておく
-	if (m_prev.animNo != -1)
-	{
-		MV1DetachAnim(m_model, m_prev.animNo);
-		m_prev.animNo = -1;
-	}
-
-	// 現在再生中の待機アニメーションは変更前のアニメーション扱いに
-	m_prev.animNo = m_current.animNo;
-	m_prev.elapsedTime = m_current.elapsedTime;
-
-	// 変更後のアニメーションとして攻撃アニメーションを改めて設定する
-	m_current.animNo = MV1AttachAnim(m_model, static_cast<int>(animIndex), -1, false);
-	m_current.elapsedTime = 0.0f;
-
-	// ブレンド率はPrevが有効でない場合、1.0fにする
-	if (m_prev.animNo == -1)
-	{
-		m_animBlendRate = kAnimBlendMax;
-	}
-	else {
-		// 切り替えの瞬間は変更前のアニメーションが再生される状態にする
-		m_animBlendRate = 0.0f;
-	}
-
-}
+//void Player::OldPlayAnim(AnimKind animIndex)
+//{
+//	// 更に古いアニメーションがアタッチされている場合はこの時点で削除しておく
+//	if (m_prev.animNo != -1)
+//	{
+//		MV1DetachAnim(m_model, m_prev.animNo);
+//		m_prev.animNo = -1;
+//	}
+//
+//	// 現在再生中の待機アニメーションは変更前のアニメーション扱いに
+//	m_prev.animNo = m_current.animNo;
+//	m_prev.elapsedTime = m_current.elapsedTime;
+//
+//	// 変更後のアニメーションとして攻撃アニメーションを改めて設定する
+//	m_current.animNo = MV1AttachAnim(m_model, static_cast<int>(animIndex), -1, false);
+//	m_current.elapsedTime = 0.0f;
+//
+//	// ブレンド率はPrevが有効でない場合、1.0fにする
+//	if (m_prev.animNo == -1)
+//	{
+//		m_animBlendRate = kAnimBlendMax;
+//	}
+//	else {
+//		// 切り替えの瞬間は変更前のアニメーションが再生される状態にする
+//		m_animBlendRate = 0.0f;
+//	}
+//
+//}
 
 /// <summary>
 /// 移動パラメータの設定
 /// </summary>
-Player::State Player::MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec)
+void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec)
 {
-	State nextState = m_currentState;
-
 	// プレイヤーの移動方向のベクトルを算出
 	// 方向ボタン「↑」を押したときのプレイヤーの移動ベクトルはカメラの視線方向からＹ成分を抜いたもの
 	upMoveVec = VSub(camera.GetTarget(), camera.GetPosition());
@@ -405,33 +562,10 @@ Player::State Player::MoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR&
 			m_move = VNorm(m_move);
 			m_move = VScale(m_move, kSpeed);
 		}
-
-		if (isPressMove)
-		{
-			// 待機状態の場合
-			if (m_currentState == State::kIdle)
-			{
-				nextState = State::kWalk;
-			}
-
-			m_targetDir = VNorm(m_move);
-			m_move = VScale(m_targetDir, kSpeed);
-
-		}
-		else	// 移動しない場合
-		{
-			if (m_currentState == State::kWalk)
-			{
-				// 待機状態にする
-				nextState = State::kIdle;
-			}
-		}
 	}
 
 	//ジャンプ処理
 	Jump();
-
-	return nextState;
 }
 
 /// <summary>
@@ -512,48 +646,9 @@ void Player::Angle()
 /// <summary>
 /// プレイヤーの攻撃処理
 /// </summary>
-Player::State Player::AttackState()
-{
-	State nextState = m_currentState;
-
-
-	// 現在、連続攻撃の処理をやってる
-	if (Pad::IsTrigger(PAD_INPUT_X))
-	{
-		if (m_isAttack)
-		{
-			m_nextAttackFlag = true;
-		}
-		m_isAttack = true;
-		//m_isForward = true;
-		m_multiAttack++;
-		
-
-		nextState = State::kAttack;
-	}
-
-
-
-	switch (m_multiAttack)
-	{
-	case 1:
-		m_attackKind=AttackKind::kNormalAttack1;
-		break;
-	case 2:
-		m_attackKind = AttackKind::kNormalAttack2;
-		break;
-	case 3:
-		m_attackKind = AttackKind::kNormalAttack3;
-		break;
-	case 4:
-		m_attackKind = AttackKind::kNormalAttack4;
-		break;
-	default:
-		break;
-	}
-
-	return nextState;
-}
+//Player::State Player::AttackState()
+//{
+//}
 
 Player::State Player::JumpState()
 {
