@@ -87,6 +87,9 @@ private:
 	// アニメーションの更新
 	void UpdateAnimation(AnimData anim,float dt=1.0f);
 
+	// 現在のアニメーションが終了しているかどうかを取得する(Loopアニメの場合は取得できない = falseを返す)
+	bool IsAnimEnd();
+
 	// 各状態ごとの更新
 	void IdleStateUpdate();
 	void WalkStateUpdate();
