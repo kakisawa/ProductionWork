@@ -5,7 +5,8 @@
 #include "SceneRanking.h"
 #include "../Pad.h"
 
-SceneTitle::SceneTitle()
+SceneTitle::SceneTitle():
+	m_nextScene(nextScene::kGameScene)
 {
 }
 
@@ -19,37 +20,71 @@ void SceneTitle::Init()
 	graph2 = LoadGraph("data/UI/Asset8_1080p.png");	// 未選択
 	graph3 = LoadGraph("data/UI/Asset_1080p.png");	// 選択中
 
+	m_titleGraph = LoadGraph("data/Title.png");
 }
 
 shared_ptr<SceneBase> SceneTitle::Update()
 {
-	Pad::Update();
+	
+
+	// 下キーを押すと次のシーンの変更をする
+	if (Pad::IsTrigger(PAD_INPUT_DOWN))
+	{
+		if (m_nextScene == nextScene::kGameScene)
+		{
+			m_nextScene = nextScene::kOptionScene;
+		}
+		else if (m_nextScene == nextScene::kOptionScene)
+		{
+			m_nextScene = nextScene::kRankingScene;
+		}
+		else if (m_nextScene == nextScene::kRankingScene)
+		{
+			m_nextScene = nextScene::kGameScene;
+		}
+	}
+	// 上キーを押すと次のシーンの変更をする
+	if (Pad::IsTrigger(PAD_INPUT_UP))
+	{
+		if (m_nextScene == nextScene::kGameScene)
+		{
+			m_nextScene = nextScene::kRankingScene;
+		}
+		else if (m_nextScene == nextScene::kRankingScene)
+		{
+			m_nextScene = nextScene::kOptionScene;
+		}
+		else if (m_nextScene == nextScene::kOptionScene)
+		{
+			m_nextScene = nextScene::kGameScene;
+		}
+	}
 
 
-
-
-	//if (Pad::IsTrigger(PAD_INPUT_1))		// Zキー(PAD::A)を押したら
-	//{
-	//	return make_shared<SceneGame>();	// ゲームシーンへ行く
-	//	return make_shared<SceneOption>();	// オプション行く
-	//	return make_shared<SceneRanking>();	// ランキングへ行く
-	//}
-
-#ifdef _DEBUG
 	if (Pad::IsTrigger(PAD_INPUT_1))		// Zキー(PAD::A)を押したら
 	{
-		return make_shared<SceneGame>();	// ゲームシーンへ行く
+		if (m_nextScene == nextScene::kGameScene)
+		{
+			return make_shared<SceneGame>();	// ゲームシーンへ行く
+		}
+
+		if (m_nextScene == nextScene::kOptionScene)
+		{
+			return make_shared<SceneOption>();	// オプションシーンへ行く
+		}
+
+		if (m_nextScene == nextScene::kRankingScene)
+		{
+			return make_shared<SceneRanking>();	// ランキングシーンへ行く
+		}
 	}
-	if (Pad::IsTrigger(PAD_INPUT_2))		// Xキー(PAD::B)を押したら
-	{
-		return make_shared<SceneOption>();	// オプション行く
-	}
-	if (Pad::IsTrigger(PAD_INPUT_3))		// Cキー(PAD::X)を押したら
-	{
-		return make_shared<SceneRanking>();	// ランキングへ行く
-	}
+
+#ifdef _DEBUG
+	
+	
 #endif // DEBUG
 
+	Pad::Update();
 
 	return shared_from_this();
 }
@@ -57,6 +92,10 @@ shared_ptr<SceneBase> SceneTitle::Update()
 void SceneTitle::Draw()
 {
 	DrawString(0, 0, "SceneTitle", 0xffffff);
+
+	DrawFormatString(0, 700, 0xffffff, "m_nextScene=%d", m_nextScene);
+
+	DrawExtendGraph(150, 20,1350,450, m_titleGraph, true);
 }
 
 void SceneTitle::End()

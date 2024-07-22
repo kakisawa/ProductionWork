@@ -22,10 +22,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	std::shared_ptr<SceneGame> m_pScene = make_shared<SceneGame>();
+	//std::shared_ptr<SceneGame> m_pScene = make_shared<SceneGame>();
 
 	// シーン管理
-	//std::shared_ptr<SceneManager> m_pScene = make_shared<SceneManager>();
+	std::shared_ptr<SceneManager> m_pScene = make_shared<SceneManager>();
 	m_pScene->Init();
 
 	// ゲームループ

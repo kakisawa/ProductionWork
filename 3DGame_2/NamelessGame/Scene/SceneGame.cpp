@@ -53,8 +53,6 @@ void SceneGame::Init()
 
 shared_ptr<SceneBase> SceneGame::Update()
 {
-	Pad::Update();
-
 	m_pPlayer->Update(*m_pCamera);
 	m_pCamera->Update(*m_pPlayer);
 
@@ -67,11 +65,15 @@ shared_ptr<SceneBase> SceneGame::Update()
 	{
 		return make_shared<SceneGameOver>();	// ゲームオーバーへ行く
 	}
+
+	
 #endif // _DEBUG
 
 	// 仮
 	VECTOR pos = VGet(-10.0f, 0.0f, 0.0f);
 	MV1SetPosition(m_model, pos);
+
+	Pad::Update();
 
 	return shared_from_this();
 }
