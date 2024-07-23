@@ -99,12 +99,12 @@ private:
 
 
 
-	// アニメーション状態の更新
-	void OldUpdateAnimState(State state);
-	// アニメーション処理
-	void OldUpdateAnim();
-	// アニメーションを再生する
-	void OldPlayAnim(AnimKind animIndex);
+	//// アニメーション状態の更新
+	//void OldUpdateAnimState(State state);
+	//// アニメーション処理
+	//void OldUpdateAnim();
+	//// アニメーションを再生する
+	//void OldPlayAnim(AnimKind animIndex);
 
 	// プレイヤーの移動値設定
 	void OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);

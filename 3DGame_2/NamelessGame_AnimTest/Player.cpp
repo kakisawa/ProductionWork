@@ -49,8 +49,8 @@ Player::Player() :
 	m_animBlendRate(kAnimBlendMax),
 	m_currentJumpPower(0.0f),
 	m_multiAttack(0),
-	m_attackKind(AttackKind::kNone),
-	m_currentState(State::kIdle),
+	//m_attackKind(AttackKind::kNone),
+	//m_currentState(State::kIdle),
 	m_pos(kInitVec),
 	m_move(kInitVec),
 	m_targetDir(VGet(0.0f, 0.0f, 0.0f))
@@ -85,7 +85,7 @@ void Player::Init()
 	MV1SetScale(m_model, VGet(kModelSize, kModelSize, kModelSize));	// プレイヤーの初期サイズ
 	MV1SetRotationXYZ(m_model, VGet(0.0f, kInitAngle, 0.0f));		// プレイヤーの初期角度
 	MV1SetPosition(m_model, m_pos);									// プレイヤーの初期位置	
-	OldPlayAnim(AnimKind::kIdle);										// プレイヤーの初期アニメーション
+	//OldPlayAnim(AnimKind::kIdle);										// プレイヤーの初期アニメーション
 }
 
 /// <summary>
@@ -142,14 +142,14 @@ void Player::Update(const Camera& camera)
 
 
 
-	//アニメーション状態の更新
-	OldUpdateAnimState(prevState);
+	////アニメーション状態の更新
+	//OldUpdateAnimState(prevState);
 
 	// プレイヤーの移動方向にモデルの方向を近づける
 	Angle();
 
-	// アニメーション処理の更新
-	OldUpdateAnim();
+	//// アニメーション処理の更新
+	//OldUpdateAnim();
 
 	// プレイヤーの座標更新
 	Move(m_move);
@@ -650,23 +650,23 @@ void Player::Angle()
 //{
 //}
 
-Player::State Player::JumpState()
-{
-	State nextState = m_currentState;
-
-	// プレイヤーの状態が「ジャンプ」ではなく、且つボタン１が押されていたらジャンプする
-	if (nextState != State::kJump && (Pad::IsTrigger(PAD_INPUT_A)))
-	{
-		m_isJump = true;
-
-		// Ｙ軸方向の速度をセット
-		m_currentJumpPower = kJumpPower;
-
-		nextState = State::kJump;
-	}
-
-	return nextState;
-}
+//Player::State Player::JumpState()
+//{
+//	State nextState = m_currentState;
+//
+//	// プレイヤーの状態が「ジャンプ」ではなく、且つボタン１が押されていたらジャンプする
+//	if (nextState != State::kJump && (Pad::IsTrigger(PAD_INPUT_A)))
+//	{
+//		m_isJump = true;
+//
+//		// Ｙ軸方向の速度をセット
+//		m_currentJumpPower = kJumpPower;
+//
+//		nextState = State::kJump;
+//	}
+//
+//	return nextState;
+//}
 
 void Player::Attack()
 {
