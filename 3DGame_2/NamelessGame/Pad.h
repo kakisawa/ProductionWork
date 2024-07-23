@@ -12,4 +12,7 @@ namespace Pad
 	bool IsTrigger(int key);
 	// —£‚µ‚½uŠÔ‚ğæ“¾
 	bool IsRelase(int key);
+
+	// ‰Ÿ‚µ‚Ä‚¢‚È‚¢‚©‚Ìæ“¾
+	bool IsNotPress(int key);
 }

@@ -1,6 +1,8 @@
 #include "SceneGame.h"
 #include "SceneGameClear.h"
 #include "SceneGameOver.h"
+#include "Enemy/EnemyRight.h"
+#include "../EnemyLeft.h"
 #include "../Player.h"
 #include "../Camera.h"
 #include "../Pad.h"
@@ -13,7 +15,8 @@ namespace {
 	constexpr float kArrowSize = 30.0f;
 }
 
-SceneGame::SceneGame()
+SceneGame::SceneGame():
+	m_pos(VGet(0.0f,0.0f,0.0f))
 {
 	// 仮
 	m_model = MV1LoadModel(kModel);
@@ -48,20 +51,25 @@ SceneGame::~SceneGame()
 void SceneGame::Init()
 {
 	m_pPlayer->Init();
+	m_pEnemyRight->Init();
+	m_pEnemyLeft->Init();
 	m_pCamera->Init();
 }
 
 shared_ptr<SceneBase> SceneGame::Update()
 {
 	m_pPlayer->Update(*m_pCamera);
+	m_pEnemyRight->Update();
+	m_pEnemyLeft->Update();
 	m_pCamera->Update(*m_pPlayer);
 
+
 #ifdef _DEBUG
-	if (Pad::IsTrigger(PAD_INPUT_2))		// Xキー(PAD::B)を押したら
+	if (Pad::IsTrigger(PAD_INPUT_Y))		// LBボタンを押したら
 	{
 		return make_shared<SceneGameClear>();	// ゲームクリアへ行く
 	}
-	if (Pad::IsTrigger(PAD_INPUT_3))		// Cキー(PAD::X)を押したら
+	if (Pad::IsTrigger(PAD_INPUT_Z))		// RBボタンを押したら
 	{
 		return make_shared<SceneGameOver>();	// ゲームオーバーへ行く
 	}
@@ -73,15 +81,16 @@ shared_ptr<SceneBase> SceneGame::Update()
 	VECTOR pos = VGet(-10.0f, 0.0f, 0.0f);
 	MV1SetPosition(m_model, pos);
 
-	Pad::Update();
-
 	return shared_from_this();
 }
 
 void SceneGame::Draw()
 {
 	DrawString(0, 0, "SceneGame", 0xffffff);
+	DrawString(0, 80, "Please Press Button RB or LB", 0x00ffff);
 
+	m_pEnemyRight->Draw();
+	m_pEnemyLeft->Draw();
 	m_pPlayer->Draw();
 
 	// 仮
@@ -118,6 +127,8 @@ void SceneGame::Draw()
 void SceneGame::End()
 {
 	m_pPlayer->End();
+	m_pEnemyRight->End();
+	m_pEnemyLeft->End();
 
 	MV1DeleteModel(m_model);
 	for (int i = 0; i < 4; i++)

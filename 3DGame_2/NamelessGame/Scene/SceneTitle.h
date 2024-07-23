@@ -14,8 +14,14 @@ public:
 	virtual void Draw();
 	virtual void End();
 
+	/// <summary>
+	/// Ÿ‚ÌƒV[ƒ“‚ğ‘I‘ğ
+	/// </summary>
+	void SwitchingScene();
+
 	enum class nextScene
 	{
+		kNone,
 		kGameScene,
 		kOptionScene,
 		kRankingScene,
@@ -26,6 +32,8 @@ private:
 	int graph;
 	int graph2;
 	int graph3;
+
+	
 
 	nextScene m_nextScene;
 };

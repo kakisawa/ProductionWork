@@ -49,4 +49,16 @@ namespace Pad
 		}
 		return false;
 	}
+	bool IsNotPress(int key)
+	{
+		bool isNow = (nowPad & key);	// このフレーム
+		bool isLast = (lastPad & key);	// 前のフレーム
+
+		if (!isNow && !isLast)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }

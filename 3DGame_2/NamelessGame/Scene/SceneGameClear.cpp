@@ -16,13 +16,23 @@ void SceneGameClear::Init()
 
 shared_ptr<SceneBase> SceneGameClear::Update()
 {
-	Pad::Update();
+	
 
-	if (Pad::IsTrigger(PAD_INPUT_1))		// Zキー(PAD::A)を押したら
+	if (m_isNextSceneFlag)
 	{
-		return make_shared<SceneTitle>();	// タイトルシーンへ行く
+
+		if (Pad::IsTrigger(PAD_INPUT_Z))		// RBボタン
+		{
+			return make_shared<SceneTitle>();	// タイトルシーンへ行く
+		}
 	}
 
+#ifdef _DEBUG
+	// デバッグ用?(フェード入れたら使わないかも)
+	if (Pad::IsNotPress(PAD_INPUT_Z)) {	// RBボタン
+		m_isNextSceneFlag = true;
+	}
+#endif // DEBUG
 
 	return shared_from_this();
 }
@@ -30,6 +40,7 @@ shared_ptr<SceneBase> SceneGameClear::Update()
 void SceneGameClear::Draw()
 {
 	DrawString(0, 0, "SceneGameClear", 0xffffff);
+	DrawString(0, 20, "Please Press Button RB", 0x00ffff);
 }
 
 void SceneGameClear::End()

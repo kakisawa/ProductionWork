@@ -2,6 +2,7 @@
 #include "SceneBase.h"
 #include "SceneTitle.h"
 #include "DxLib.h"
+#include "../Pad.h"
 
 SceneManager::SceneManager() :
 	m_pScene(nullptr)
@@ -17,6 +18,8 @@ void SceneManager::Init()
 
 void SceneManager::Update()
 {
+	Pad::Update();
+
 	shared_ptr<SceneBase> pNext = m_pScene->Update();	// ƒV[ƒ“‚ÌUpdate‚ðŒÄ‚Ño‚·
 	if (pNext != m_pScene)
 	{
@@ -27,6 +30,8 @@ void SceneManager::Update()
 		m_pScene = pNext;
 		m_pScene->Init();
 	}
+
+
 }
 
 void SceneManager::Draw()

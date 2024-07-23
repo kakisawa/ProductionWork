@@ -90,16 +90,14 @@ void Player::Update(const Camera& camera)
 	// プレイヤーの状態更新
 	State prevState = m_currentState;
 	
+	m_currentState = MoveValue(camera, upMoveVec, leftMoveVec);		// 移動
+
 	m_currentState = JumpState();
 	m_currentState = AttackState();		// 攻撃
 
 	// 攻撃処理
 	Attack();
-
-	Pad::Update();
-
-	m_currentState = MoveValue(camera, upMoveVec, leftMoveVec);		// 移動
-
+	
 	//アニメーション状態の更新
 	UpdateAnimState(prevState);
 
