@@ -11,5 +11,10 @@ public:
 	void Update()override;
 	void Draw()override;
 	void End()override;
+
+	void SetModelFramePosition(int ModelHandle, char *FrameName, int SetModelHandle);
+
+private:
+	int m_sordModel;
 };
 

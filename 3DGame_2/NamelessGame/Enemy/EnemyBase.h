@@ -13,7 +13,9 @@ public:
 	virtual void End();
 
 protected:
-	int m_model;		// “Gƒ‚ƒfƒ‹
+	int m_model;	// “Gƒ‚ƒfƒ‹
 
-	VECTOR m_pos;		// “GÀ•W
+	int m_hp;		// “GHP	
+
+	VECTOR m_pos;	// “GÀ•W
 };

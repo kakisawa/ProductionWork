@@ -3,10 +3,12 @@
 
 namespace {
 	constexpr float kModelSize = 10.0f;
+	constexpr int kHPMax = 100;
 }
 
 EnemyBase::EnemyBase(const char* model):
 	m_model(-1),
+	m_hp(kHPMax),
 	m_pos(VGet(0.0f,0.0f,0.0f))
 {
 	m_model = MV1LoadModel(model);	// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İ
