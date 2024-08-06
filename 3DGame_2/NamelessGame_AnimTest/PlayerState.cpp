@@ -61,12 +61,14 @@ void PlayerState::StateTransitionIdle()
 void PlayerState::StateTransitionWalk()
 {
 	// アクション中だったら処理を返す
-	if (m_isActionState)return;
+	if (m_isActionState) return;
 
-	// 移動ボタンが押されていたら
-	if (Pad::IsPress(PAD_INPUT_RIGHT) && Pad::IsPress(PAD_INPUT_LEFT) &&
-		Pad::IsPress(PAD_INPUT_UP) && Pad::IsPress(PAD_INPUT_DOWN))
+	//移動ボタンが押されていたら
+	if (Pad::IsPress(PAD_INPUT_LEFT) || Pad::IsPress(PAD_INPUT_RIGHT) ||
+		Pad::IsPress(PAD_INPUT_UP) || Pad::IsPress(PAD_INPUT_DOWN))
 	{
+		int a = 1;
+
 		ChangeState(State::kWalk);
 	}
 }

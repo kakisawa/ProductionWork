@@ -1,10 +1,11 @@
 #pragma once
+#include "Animation.h"
 #include "DxLib.h"
 #include <memory>
 
 class Camera;
 class PlayerState;
-class Player
+class Player:public Animation
 {
 public:
 	Player();
@@ -22,13 +23,13 @@ private:
 	// アニメーション情報
 	struct AnimationData
 	{
-		int8_t kIdle = 0;		//待機モーション
-		int8_t kWalk = 0;		//歩きモーション
-		int8_t kJump = 0;		//ジャンプ時モーション
-		int8_t kAttack1 = 0;	//攻撃モーション1
-		int8_t kAttack2 = 0;	//攻撃モーション2
-		int8_t kAttack3 = 0;	//攻撃モーション3
-		int8_t kAttack4 = 0;	//攻撃モーション4
+		int8_t kIdle = 1;		//待機モーション
+		int8_t kWalk = 2;		//歩きモーション
+		int8_t kJump = 12;		//ジャンプ時モーション
+		int8_t kAttack1 = 30;	//攻撃モーション1
+		int8_t kAttack2 = 31;	//攻撃モーション2
+		int8_t kAttack3 = 32;	//攻撃モーション3
+		int8_t kAttack4 = 33;	//攻撃モーション4
 	};
 
 
@@ -62,33 +63,12 @@ private:
 
 	//};
 
-	struct AnimData			// アニメーションデータ
-	{
-		int animNo;			// アニメーション番号
-		int attachNo;		// アタッチ番号
-		float totalTime;	// アニメーションの総再生時間
-		float elapsedTime;	// アニメーションの経過時間
-		bool isLoop;		// アニメーションがループするか
-	};
+	// 各状態ごとの初期化
+	void IdleStateInit() {};			//待機状態の初期化
+	void WalkStateInit() {};			//歩き状態の初期化
 
-	// 〇新規作成_アニメーション
-	// アニメーション状態の初期化
-	void InitAnim(AnimData& anim);
-	/// <summary>
-	/// アニメーション変更
-	/// </summary>
-	/// <param name="animNo">変更先アニメーション番号</param>
-	/// <param name="isLoop">ループ再生させるか</param>
-	/// <param name="isForceChange">既に指定されたアニメーションが再生されている場合も再生するか</param>
-	/// <param name="isChangeFrame">何フレームかけて切り替える</param>
-	void ChangeAnim(int animNo, bool isLoop, bool isForceChange, bool isChangeFrame);
-	// 現在のアニメーション切り替わり情報からアニメーションのブレンド率を設定する
-	void UpdateAnimBlendRate();
-	// アニメーションの更新
-	void UpdateAnimation(AnimData anim,float dt=1.0f);
-
-	// 現在のアニメーションが終了しているかどうかを取得する(Loopアニメの場合は取得できない = falseを返す)
-	bool IsAnimEnd();
+	void JumpStateInit();			//ジャンプ状態の初期化
+	void AttackStateInit();			//攻撃状態の初期化
 
 	// 各状態ごとの更新
 	void IdleStateUpdate();
@@ -110,50 +90,31 @@ private:
 	void OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);
 	void Move(const VECTOR& MoveVector);	// プレイヤーの移動処理
 	void Angle();							// プレイヤーの回転処理
-	State AttackState();					// プレイヤーの攻撃処理
-	State JumpState();						// プレイヤーのジャンプ処理
-
+	
 	void Attack();		// 攻撃処理
 	void Jump();		// ジャンプ処理
 
 private:
 	int m_model;				// プレイヤーモデル
 	float m_angle;				// プレイヤー向き角度
-	float m_currentJumpPower;	// Ｙ軸方向の速度
+	float m_jumpPower;			// Ｙ軸方向の速度
 	float m_gravity;			// プレイヤーにかかる重力
 	
 	bool m_isWalk;			// 移動中フラグ
 	bool m_isAttack;		// 攻撃中フラグ
-	//bool m_isForward;		// 攻撃時に少し前進するフラグ
 	bool m_nextAttackFlag;	// 次の攻撃が実行されるかのフラグ
 	bool m_isJump;			// ジャンプ中フラグ
-
-
-	// アニメーション情報
-	AnimData m_current;		// 変更後アニメーションデータ
-	AnimData m_prev;		// 変更前アニメーションデータ
-	float m_animBlendRate;		// 現在と過去のアニメーションの合成割合	(フレーム)
-									// 0.0f:prevが再生される
-									// 1.0f:currentが再生される
-
-	float m_animSpeed;		// アニメーション変更速度
 
 	// プレイヤーステイトポインタ
 	std::shared_ptr<PlayerState> m_pState;
 
-	// アニメーションデータ
+	// プレイヤーアニメーションデータ
 	AnimationData m_animData;
-
-
 
 	int m_multiAttack;		// 連続攻撃用変数
 	bool m_isNextAttack;	// 次の攻撃を行うかのフラグ
-	AttackKind m_attackKind;// 通常攻撃の段階
-
-	State m_currentState;	// 現在のプレイヤーの状態
 
 	VECTOR m_pos;			// プレイヤー位置
 	VECTOR m_move;			// 移動量
-	//VECTOR m_moveAttack;	// 攻撃時の加速値
 	VECTOR m_targetDir;		// プレイヤーが向くべき方向のベクトル
 };
