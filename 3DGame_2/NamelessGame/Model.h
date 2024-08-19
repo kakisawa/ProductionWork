@@ -58,7 +58,7 @@ private:
 	void InitAnim(AnimData& anim);
 
 	// アニメーションの更新
-	void UpdateAnimation(AnimData anim, float dt = 1.0f);
+	void UpdateAnimation(AnimData anim, float dt = 0.7f);
 
 	// 現在のアニメーション切り替わり情報からアニメーションのブレンド率を設定する
 	void UpdateAnimBlendRate();

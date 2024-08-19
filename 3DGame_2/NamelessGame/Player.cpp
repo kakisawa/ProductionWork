@@ -34,6 +34,7 @@ Player::Player() :
 	m_gravity(kGravity),
 	m_isAttack(false),
 	m_nextAttackFlag(false),
+	m_isFirstAttack(false),
 	m_isWalk(false),
 	m_isJump(false),
 	m_jumpPower(0.0f),
@@ -44,10 +45,8 @@ Player::Player() :
 {
 	//モデルインスタンス作成
 	m_pModel = std::make_shared<Model>(kModelPlayer);
-	// アニメーション状態の初期化
-	m_pModel->Init();
 	// アイドル状態のアニメーションを再生させる
-	m_pModel->SetAnim(m_animData.kIdle, false, true);
+	//m_pModel->SetAnim(m_animData.kIdle, false, true);
 
 	//ステイトクラスのインスタンス生成
 	m_pState = std::make_shared<PlayerState>();
@@ -89,11 +88,23 @@ void Player::Update(const Camera& camera)
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
 	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
 
+	// プレイヤーが移動しているかを判定する
+	if (Pad::IsPress(PAD_INPUT_UP) || Pad::IsPress(PAD_INPUT_DOWN) ||
+		Pad::IsPress(PAD_INPUT_LEFT) || Pad::IsPress(PAD_INPUT_RIGHT))
+	{
+		m_isWalk = true;
+	}
+	else
+	{
+		m_isWalk = false;
+	}
 
 	// ステイトの更新
 	m_pState->Update();
 
-	//// プレイヤーの状態更新
+
+
+	// プレイヤーの状態更新
 	// 攻撃処理
 	Attack();
 	// 移動処理
@@ -101,7 +112,6 @@ void Player::Update(const Camera& camera)
 
 	// モデルのアップデート
 	m_pModel->Update();
-
 
 	// プレイヤーの移動方向にモデルの方向を近づける
 	Angle();
@@ -118,6 +128,7 @@ void Player::Draw()
 	m_pModel->Draw();
 
 	DrawFormatString(0, 200, 0xffffff, "State=%d", m_pState->GetState());
+	DrawFormatString(0, 220, 0xffffff, "m_isWalk=%d", m_isWalk);
 }
 
 /// <summary>
@@ -139,10 +150,13 @@ void Player::AttackStateInit()
 	m_isAttack = true;
 	m_multiAttack = 0;
 	m_nextAttackFlag = false;
+	m_isFirstAttack = true;
 }
 
 void Player::IdleStateUpdate()
 {
+	if (m_isWalk)	return;
+
 	// アニメーションを待機モーションに変更
 	m_pModel->ChangeAnim(m_animData.kIdle, true, false, 0.5f);
 }
@@ -155,23 +169,12 @@ void Player::WalkStateUpdate()
 
 void Player::JumpStateUpdate()
 {
-	//m_isJump = true;
 	// アニメーションをジャンプモーションに変更
 	m_pModel->ChangeAnim(m_animData.kJump, false, false, 1.0f);
 }
 
 void Player::AttackStateUpdate()
 {
-	// 現在、連続攻撃の処理をやってる
-	if (Pad::IsTrigger(PAD_INPUT_X))
-	{
-		if (m_isAttack)
-		{
-			m_nextAttackFlag = true;
-		}
-		m_isAttack = true;
-	}
-
 	// アニメーション変更
 	switch (m_multiAttack)
 	{
@@ -187,9 +190,18 @@ void Player::AttackStateUpdate()
 	case 3:
 		m_pModel->ChangeAnim(m_animData.kAttack4, false, false, 1.0f);
 		break;
-
 	default:
 		break;
+	}
+
+	
+	if (Pad::IsTrigger(PAD_INPUT_X) && !m_nextAttackFlag)
+	{	
+		if (!m_isFirstAttack)
+		{
+			m_nextAttackFlag = true;
+		}
+		m_isFirstAttack = false;
 	}
 
 	// アニメーションが終わった段階で次の攻撃フラグがたっていなかったら
@@ -226,6 +238,7 @@ void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftM
 
 	// 移動値を初期値に戻す
 	m_move = VGet(0.0f, 0.0f, 0.0f);
+	m_isWalk = false;
 
 	// 移動したか(true:移動した)
 	bool isPressMove = false;
@@ -233,6 +246,7 @@ void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftM
 	// 移動処理
 	if (!m_isAttack)
 	{
+		m_isWalk = true;
 		if (Pad::IsPress(PAD_INPUT_RIGHT))						// 右方向
 		{
 			m_move = VAdd(m_move, VScale(leftMoveVec, -1.0f));
@@ -374,5 +388,6 @@ void Player::Jump()
 		m_isJump = false;
 		m_pos.y = 0.0f;
 		m_gravity = kGravity;
+		m_pState->EndState();
 	}
 }

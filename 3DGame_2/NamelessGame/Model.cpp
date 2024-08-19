@@ -6,7 +6,7 @@ namespace {
 
 	// アニメーション関係
 	constexpr float kAnimChangeFrame = 8.0f;		// アニメーションの切り替えにかかるフレーム数
-	constexpr float kAnimChangeRateSpeed = 0.2f;	// アニメーション切り替えにかかる速度
+	constexpr float kAnimChangeRateSpeed = 1.0f;	//0.2f アニメーション切り替えにかかる速度
 	constexpr float kAnimBlendAdd = 0.5f;			// アニメーションブレンドの増加値
 	constexpr float kAnimBlendMax = 1.0f;			// アニメーションの切り替えにかかる最大フレーム数
 }
@@ -130,11 +130,11 @@ void Model::ChangeAnim(int animNo, bool isLoop, bool isForceChange, bool isChang
 	// 現在再生中のアニメーションを前のアニメーションに移行する
 	m_prev = m_current;
 
-	// 新しくアニメーションを設定する
-	m_current.animNo = animNo;
-	m_current.attachNo = MV1AttachAnim(m_model, animNo, -1, false);
-	m_current.totalTime = MV1GetAttachAnimTotalTime(m_model, m_current.attachNo);
-	m_current.isLoop = isLoop;
+	 // 新しいアニメーションを設定
+    m_current.animNo = animNo;
+    m_current.attachNo = MV1AttachAnim(m_model, animNo, -1, false);
+    m_current.totalTime = MV1GetAttachAnimTotalTime(m_model, m_current.attachNo);
+    m_current.isLoop = isLoop;
 
 	// 変更にかけるフレーム数を覚えておく
 	m_animChangeFrameTotal = isChangeFrame;
@@ -200,4 +200,6 @@ void Model::UpdateAnimBlendRate()
 	MV1SetAttachAnimBlendRate(m_model, m_prev.animNo, kAnimBlendMax - rate);
 	// アニメーションのブレンド率を設定する
 	MV1SetAttachAnimBlendRate(m_model, m_current.animNo, rate);
+
+//ここ修正
 }
