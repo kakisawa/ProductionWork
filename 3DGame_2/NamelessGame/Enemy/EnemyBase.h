@@ -1,10 +1,12 @@
 #pragma once
+#include "../Model.h"
 #include "DxLib.h"
+#include <memory>
 
 class EnemyBase
 {
 public:
-	EnemyBase(const char*);
+	EnemyBase(const char* model,VECTOR pos);
 	virtual ~EnemyBase();
 
 	virtual void Init();
@@ -17,5 +19,8 @@ protected:
 
 	int m_hp;		// 敵HP	
 
-	VECTOR m_pos;	// 敵座標
+	VECTOR m_pos = m_pModel->GetPos();			// プレイヤー位置
+
+	//モデルクラス
+	std::shared_ptr<Model> m_pModel;
 };

@@ -26,7 +26,7 @@ private:
 	struct AnimationData
 	{
 		int8_t kIdle = 1;		//待機モーション
-		int8_t kWalk = 2;		//歩きモーション
+		int8_t kWalk = 3;		//歩きモーション
 		int8_t kJump = 12;		//ジャンプ時モーション
 		int8_t kAttack1 = 30;	//攻撃モーション1
 		int8_t kAttack2 = 31;	//攻撃モーション2

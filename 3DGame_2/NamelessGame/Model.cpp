@@ -6,7 +6,7 @@ namespace {
 
 	// アニメーション関係
 	constexpr float kAnimChangeFrame = 8.0f;		// アニメーションの切り替えにかかるフレーム数
-	constexpr float kAnimChangeRateSpeed = 1.0f;	//0.2f アニメーション切り替えにかかる速度
+	constexpr float kAnimChangeRateSpeed = 0.2f;	// アニメーション切り替えにかかる速度
 	constexpr float kAnimBlendAdd = 0.5f;			// アニメーションブレンドの増加値
 	constexpr float kAnimBlendMax = 1.0f;			// アニメーションの切り替えにかかる最大フレーム数
 }

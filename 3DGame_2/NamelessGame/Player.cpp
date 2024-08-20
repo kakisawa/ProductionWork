@@ -46,7 +46,7 @@ Player::Player() :
 	//モデルインスタンス作成
 	m_pModel = std::make_shared<Model>(kModelPlayer);
 	// アイドル状態のアニメーションを再生させる
-	//m_pModel->SetAnim(m_animData.kIdle, false, true);
+	m_pModel->SetAnim(m_animData.kIdle, false, true);
 
 	//ステイトクラスのインスタンス生成
 	m_pState = std::make_shared<PlayerState>();
@@ -88,21 +88,8 @@ void Player::Update(const Camera& camera)
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
 	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
 
-	// プレイヤーが移動しているかを判定する
-	if (Pad::IsPress(PAD_INPUT_UP) || Pad::IsPress(PAD_INPUT_DOWN) ||
-		Pad::IsPress(PAD_INPUT_LEFT) || Pad::IsPress(PAD_INPUT_RIGHT))
-	{
-		m_isWalk = true;
-	}
-	else
-	{
-		m_isWalk = false;
-	}
-
 	// ステイトの更新
 	m_pState->Update();
-
-
 
 	// プレイヤーの状態更新
 	// 攻撃処理
@@ -155,7 +142,7 @@ void Player::AttackStateInit()
 
 void Player::IdleStateUpdate()
 {
-	if (m_isWalk)	return;
+	if (!m_isWalk)	return;
 
 	// アニメーションを待機モーションに変更
 	m_pModel->ChangeAnim(m_animData.kIdle, true, false, 0.5f);
@@ -238,7 +225,6 @@ void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftM
 
 	// 移動値を初期値に戻す
 	m_move = VGet(0.0f, 0.0f, 0.0f);
-	m_isWalk = false;
 
 	// 移動したか(true:移動した)
 	bool isPressMove = false;
@@ -246,7 +232,6 @@ void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftM
 	// 移動処理
 	if (!m_isAttack)
 	{
-		m_isWalk = true;
 		if (Pad::IsPress(PAD_INPUT_RIGHT))						// 右方向
 		{
 			m_move = VAdd(m_move, VScale(leftMoveVec, -1.0f));

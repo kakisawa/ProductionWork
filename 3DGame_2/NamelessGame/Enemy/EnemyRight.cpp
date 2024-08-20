@@ -6,15 +6,13 @@ namespace {
 	const char* kSord = "data/model/EnemyModel/Blade.mv1";
 
 	VECTOR kSordSize = VGet(0.01f, 0.01f, 0.01f);
+	VECTOR kInitPos = VGet(10.0f, 0.0f, 10.0f);
 }
 
 EnemyRight::EnemyRight():
-	EnemyBase(kModelEnemy),
+	EnemyBase(kModelEnemy, kInitPos),
 	m_sordModel(-1)
 {
-	m_pos = VGet(10.0f, 0.0f, 10.0f);
-	MV1SetPosition(m_model, m_pos);							// ƒvƒŒƒCƒ„[‚Ì‰ŠúˆÊ’u	
-
 	m_sordModel = MV1LoadModel(kSord);
 }
 
@@ -29,13 +27,13 @@ void EnemyRight::Init()
 
 void EnemyRight::Update()
 {
-	SetModelFramePosition(m_model, "handIK.r", m_sordModel);
+	SetModelFramePosition(m_pModel->GetModel(), "handIK.r", m_sordModel);
 }
 
 void EnemyRight::Draw()
 {
 	// ƒ‚ƒfƒ‹‚Ì•`‰æ
-	MV1DrawModel(m_model);
+	m_pModel->Draw();
 	// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
 	MV1DrawModel(m_sordModel);
 }

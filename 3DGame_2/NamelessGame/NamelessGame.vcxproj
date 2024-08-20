@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy\EnemyState.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy\EnemyBase.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Scene\SceneTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy\EnemyState.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Enemy\EnemyBase.h" />
