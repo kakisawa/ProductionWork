@@ -22,7 +22,6 @@ private:
 	{
 		int8_t kIdle = 15;
 		int8_t kWalk = 89;
-
 	};
 
 	// Šeó‘Ô‚²‚Æ‚Ì‰Šú‰»
@@ -35,12 +34,10 @@ private:
 
 private:
 	int m_sordModel;
+	bool m_isWalk;
 
 	std::shared_ptr<EnemyState> m_pState;
 
 	AnimationData m_animData;
-
-
-
 };
 

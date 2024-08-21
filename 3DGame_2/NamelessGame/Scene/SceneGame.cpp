@@ -1,6 +1,7 @@
 #include "SceneGame.h"
 #include "SceneGameClear.h"
 #include "SceneGameOver.h"
+#include "../GameMap.h"
 #include "../Enemy/EnemyRight.h"
 #include "../Enemy/EnemyLeft.h"
 #include "../Player.h"
@@ -9,18 +10,19 @@
 #include <cassert>
 
 namespace {
-	const char* const kModel = "data/model/artifact.mv1";
+	const char* const kCupModel = "data/model/artifact.mv1";
 	const char* const kArrowModel = "data/model/Arrow.mv1";
 
 	constexpr float kArrowSize = 30.0f;
 }
 
 SceneGame::SceneGame():
-	m_pos(VGet(0.0f,0.0f,0.0f))
+	m_pos(VGet(0.0f,0.0f,0.0f)),
+	m_modelCup(-1)
 {
 	// ‰¼
-	m_model = MV1LoadModel(kModel);
-	MV1SetScale(m_model, VGet(5.0f, 5.0f, 5.0f));
+	m_modelCup = MV1LoadModel(kCupModel);
+	MV1SetScale(m_modelCup, VGet(5.0f, 5.0f, 5.0f));
 
 	m_arrowModel[0] = MV1LoadModel(kArrowModel);
 	m_arrowModel[1] = MV1DuplicateModel(m_arrowModel[0]);
@@ -40,8 +42,6 @@ SceneGame::SceneGame():
 	MV1SetRotationXYZ(m_arrowModel[0], VGet(0.0f, 180.0f * DX_PI_F/180.0f, 0.0f));
 	MV1SetRotationXYZ(m_arrowModel[2], VGet(0.0f, -90.0f * DX_PI_F / 180.0f, 90.0f * DX_PI_F / 180.0f));
 	MV1SetRotationXYZ(m_arrowModel[3], VGet(0.0f, 90.0f * DX_PI_F / 180.0f, 90.0f * DX_PI_F / 180.0f));
-
-
 }
 
 SceneGame::~SceneGame()
@@ -50,7 +50,8 @@ SceneGame::~SceneGame()
 
 void SceneGame::Init()
 {
-	m_pPlayer->Init();
+	m_pMap->Init();
+	m_pPlayer->Init(m_pMap);
 	m_pEnemyRight->Init();
 	m_pEnemyLeft->Init();
 	m_pCamera->Init();
@@ -79,7 +80,7 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 	// ‰¼
 	VECTOR pos = VGet(-10.0f, 0.0f, 0.0f);
-	MV1SetPosition(m_model, pos);
+	MV1SetPosition(m_modelCup, pos);
 
 	return shared_from_this();
 }
@@ -89,12 +90,13 @@ void SceneGame::Draw()
 	DrawString(0, 0, "SceneGame", 0xffffff);
 	DrawString(0, 80, "Please Press Button RB or LB", 0x00ffff);
 
+	m_pMap->Draw();
 	m_pEnemyRight->Draw();
 	m_pEnemyLeft->Draw();
 	m_pPlayer->Draw();
 
 	// ‰¼
-	MV1DrawModel(m_model);
+	MV1DrawModel(m_modelCup);
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -126,11 +128,12 @@ void SceneGame::Draw()
 
 void SceneGame::End()
 {
+	m_pMap->End();
 	m_pPlayer->End();
 	m_pEnemyRight->End();
 	m_pEnemyLeft->End();
 
-	MV1DeleteModel(m_model);
+	MV1DeleteModel(m_modelCup);
 	for (int i = 0; i < 4; i++)
 	{
 		MV1DeleteModel(m_arrowModel[i]);

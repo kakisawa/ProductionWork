@@ -11,8 +11,8 @@ public:
 	{
 		kIdle = 1,	// 待機
 		kWalk = 2,	// 移動
-		kJump = 3,	// ジャンプ
-		kAttack = 4,// 攻撃
+		//kJump = 3,	// ジャンプ
+		//kAttack = 4,// 攻撃
 	};
 
 public:
@@ -37,6 +37,7 @@ public:
 
 	// 現在のステイト取得
 	State GetState() const { return m_pNowState.stateKind; }
+	bool GetIsWalk() const { return m_isWalk; }
 
 private:
 	// ステイトデータ

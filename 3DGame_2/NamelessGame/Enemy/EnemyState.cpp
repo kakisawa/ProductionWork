@@ -1,5 +1,6 @@
 #include "EnemyState.h"
 #include "DxLib.h"
+#include "../Pad.h"
 
 EnemyState::EnemyState():
 	m_isActionState(false),
@@ -50,8 +51,10 @@ void EnemyState::StateTransitionIdle()
 	// アクション中だったら処理を返す
 	if (m_isActionState)return;
 
-	ChangeState(State::kIdle);
-
+	if (!Pad::IsPress(PAD_INPUT_B))
+	{
+		ChangeState(State::kIdle);
+	}
 }
 
 void EnemyState::StateTransitionWalk()
@@ -60,7 +63,7 @@ void EnemyState::StateTransitionWalk()
 	if (m_isActionState) return;
 
 	//移動ボタンが押されていたら
-	if (m_isWalk)
+	if (Pad::IsPress(PAD_INPUT_B))
 	{
 		ChangeState(State::kWalk);
 	}

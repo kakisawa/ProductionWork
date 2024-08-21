@@ -4,6 +4,7 @@
 #include "Pad.h"
 #include "Camera.h"
 #include "PlayerState.h"
+#include "GameMap.h"
 #include <cassert>
 #include <cmath>
 
@@ -70,12 +71,15 @@ Player::~Player()
 /// <summary>
 /// 初期化
 /// </summary>
-void Player::Init()
+void Player::Init(std::shared_ptr<GameMap> pMap)
 {
 	// プレイヤー初期設定
 	m_pModel->SetSize(VGet(kModelSize, kModelSize, kModelSize));
 	m_pModel->SetRota(VGet(0.0f, kInitAngle, 0.0f));
 	m_pModel->SetPos(m_pos);
+
+	mp.leftBack = pMap->GetMapLeftBack();
+	mp.rightFront = pMap->GetMapRightFront();
 }
 
 
@@ -116,6 +120,10 @@ void Player::Draw()
 
 	DrawFormatString(0, 200, 0xffffff, "State=%d", m_pState->GetState());
 	DrawFormatString(0, 220, 0xffffff, "m_isWalk=%d", m_isWalk);
+	DrawFormatString(0, 240, 0xffffff, "m_pos.x,y,z=%.2f,=%.2f,=%.2f", m_pos.x, m_pos.y, m_pos.z);
+	DrawFormatString(0, 260, 0xffffff, "m_move.x,y,z=%.2f,=%.2f,=%.2f", m_move.x, m_move.y, m_move.z);
+
+	DrawFormatString(0, 280, 0xffffff, "m_angle=%.2f", m_angle);
 }
 
 /// <summary>
@@ -142,8 +150,6 @@ void Player::AttackStateInit()
 
 void Player::IdleStateUpdate()
 {
-	if (!m_isWalk)	return;
-
 	// アニメーションを待機モーションに変更
 	m_pModel->ChangeAnim(m_animData.kIdle, true, false, 0.5f);
 }
@@ -257,6 +263,7 @@ void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftM
 		if (VSize(m_move) > 0.0f)
 		{
 			m_move = VNorm(m_move);
+			m_targetDir = m_move;
 			m_move = VScale(m_move, kSpeed);
 		}
 	}
@@ -282,6 +289,25 @@ void Player::Move(const VECTOR& MoveVector)
 
 	// プレイヤーの位置に移動量を足す
 	m_pos = VAdd(m_pos, m_move);
+
+
+	// プレイヤーが画面外に出ないようする処理
+	if (m_pos.x < mp.leftBack.x)
+	{
+		m_pos.x -= m_move.x;		// 左
+	}
+	if (m_pos.x > mp.rightFront.x)
+	{
+		m_pos.x -= m_move.x;		// 右
+	}
+	if (m_pos.z < mp.rightFront.z)
+	{
+		m_pos.z -= m_move.z;		// 前
+	}
+	if (m_pos.z > mp.leftBack.z)
+	{
+		m_pos.z -= m_move.z;		// 奥
+	}
 
 	// プレイヤーの位置セット
 	MV1SetPosition(m_pModel->GetModel(), m_pos);

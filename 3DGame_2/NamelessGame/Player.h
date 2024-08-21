@@ -5,13 +5,14 @@
 
 class Camera;
 class PlayerState;
+class GameMap;
 class Player
 {
 public:
 	Player();
 	~Player();
 
-	void Init();
+	void Init(std::shared_ptr<GameMap> pMap);
 	void Update(const Camera& camera);
 	void Draw();
 	void End();
@@ -65,6 +66,12 @@ private:
 	bool m_nextAttackFlag;	// 次の攻撃が実行されるかのフラグ
 	bool m_isFirstAttack;	// 最初の攻撃かフラグ
 	bool m_isJump;			// ジャンプ中フラグ
+
+	struct MapPlace
+	{
+		VECTOR leftBack;		// マップ左奥座標
+		VECTOR rightFront;	// マップ右前座標
+	}mp;
 
 	// プレイヤーステイトポインタ
 	std::shared_ptr<PlayerState> m_pState;

@@ -6,8 +6,7 @@
 #include <string>
 #include <vector>
 
-
-
+class GameMap;
 class Player;
 class EnemyRight;
 class EnemyLeft;
@@ -42,11 +41,13 @@ public:
 	*/
 
 private:
-	int m_model;
+	int m_modelMap;
+	int m_modelCup;
 	int m_arrowModel[4];
 
 	VECTOR m_pos;
 
+	shared_ptr<GameMap> m_pMap = make_shared<GameMap>();
 	shared_ptr<Player> m_pPlayer = make_shared<Player>();
 	shared_ptr<EnemyRight> m_pEnemyRight = make_shared<EnemyRight>();
 	shared_ptr<EnemyLeft> m_pEnemyLeft = make_shared<EnemyLeft>();

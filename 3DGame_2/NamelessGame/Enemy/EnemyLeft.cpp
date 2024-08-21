@@ -1,5 +1,6 @@
 #include "EnemyLeft.h"
 #include "EnemyState.h"
+#include "../Pad.h"
 #include <math.h>
 
 namespace {
@@ -12,7 +13,8 @@ namespace {
 
 EnemyLeft::EnemyLeft():
 	EnemyBase(kModelEnemy,kInitPos),
-	m_sordModel(-1)
+	m_sordModel(-1),
+	m_isWalk(false)
 {
 	m_sordModel = MV1LoadModel(kSord);
 
