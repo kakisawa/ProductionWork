@@ -9,9 +9,9 @@ PlayerState::PlayerState() :
 
 void PlayerState::Update()
 {
-	StateTransition();
+	StateTransition();	// 各状態の呼び出し
 
-	m_pNowState.stateUpdate();
+	m_pNowState.stateUpdate();	// 現在のステイト更新
 }
 
 void PlayerState::AddState(std::function<void(void)> stateUpdate, std::function<void(void)> stateInit, State stateKind)

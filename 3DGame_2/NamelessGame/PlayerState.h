@@ -16,10 +16,10 @@ public:
 	};
 
 public:
-	PlayerState();		// PlayerStateのコンストラクタ
-	~PlayerState() {};
+	PlayerState();		// コンストラクタ
+	~PlayerState() {};	// デストラクタ
 
-	void Update();	//更新処理 
+	void Update();	//更新
 
 	/// <summary>
 	/// ステイトの追加
@@ -29,13 +29,21 @@ public:
 	/// <param name="stateKind">ステイトの種類</param>
 	void AddState(std::function<void(void)> stateUpdate, std::function<void(void)> stateInit, State stateKind);
 
-	// ステイトのセット
+	/// <summary>
+	/// ステイトのセット
+	/// </summary>
+	/// <param name="state"></param>
 	void SetState(State state);
 
-	// ステイト終了処理
+	/// <summary>
+	/// ステイトの終了
+	/// </summary>
 	void EndState();
 
-	// 現在のステイト取得
+	/// <summary>
+	/// 現在のステイト取得
+	/// </summary>
+	/// <returns></returns>
 	State GetState() const { return m_pNowState.stateKind; }
 
 private:
@@ -65,7 +73,7 @@ private:
 	// 現在選ばれているステイト
 	StateData m_pNowState;
 
-	// アクション行動をとっているか
-	bool m_isActionState;
+private:
+	bool m_isActionState;	// アクション行動をとっているか
 };
 
