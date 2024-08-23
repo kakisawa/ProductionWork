@@ -89,7 +89,13 @@ void PlayerState::StateTransitionAttack()
 	// ƒAƒNƒVƒ‡ƒ“’†‚¾‚Á‚½‚çˆ—‚ğ•Ô‚·
 	if (m_isActionState)return;
 
-	if (Pad::IsTrigger(PAD_INPUT_X))
+	if (Pad::IsTrigger(PAD_INPUT_X))// Œ•
+	{
+		m_isActionState = true;
+		ChangeState(State::kAttack);
+	}
+
+	if (Pad::IsTrigger(PAD_INPUT_B))// ‹|
 	{
 		m_isActionState = true;
 		ChangeState(State::kAttack);

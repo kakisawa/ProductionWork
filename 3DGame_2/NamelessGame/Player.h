@@ -33,20 +33,23 @@ private:
 		int8_t kAttack2 = 31;	//攻撃モーション2
 		int8_t kAttack3 = 32;	//攻撃モーション3
 		int8_t kAttack4 = 33;	//攻撃モーション4
+		int8_t kAttackBow = 54;	//攻撃モーション(銃)
 	};
 
 	// 各状態ごとの初期化
-	void IdleStateInit() {};			//待機状態の初期化
-	void WalkStateInit() {};			//歩き状態の初期化
+	void IdleStateInit() {};		//待機状態の初期化
+	void WalkStateInit() {};		//歩き状態の初期化
 
 	void JumpStateInit();			//ジャンプ状態の初期化
-	void AttackStateInit();			//攻撃状態の初期化
+	void AttackSordStateInit();		//剣攻撃状態の初期化
+	void AttackBowStateInit();		// 弓攻撃状態の初期化
 
 	// 各状態ごとの更新
 	void IdleStateUpdate();
 	void WalkStateUpdate();
 	void JumpStateUpdate();
-	void AttackStateUpdate();
+	void AttackSordStateUpdate();
+	void AttackBowStateUpdate();	
 
 	// プレイヤーの移動値設定
 	void OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);

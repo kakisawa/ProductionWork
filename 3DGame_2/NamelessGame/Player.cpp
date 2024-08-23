@@ -55,7 +55,8 @@ Player::Player() :
 	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, PlayerState::State::kIdle);
 	m_pState->AddState([=] { WalkStateUpdate(); }, [=] { WalkStateInit(); }, PlayerState::State::kWalk);
 	m_pState->AddState([=] { JumpStateUpdate(); }, [=] { JumpStateInit(); }, PlayerState::State::kJump);
-	m_pState->AddState([=] { AttackStateUpdate(); }, [=] { AttackStateInit(); }, PlayerState::State::kAttack);
+	m_pState->AddState([=] { AttackSordStateUpdate(); }, [=] { AttackSordStateInit(); }, PlayerState::State::kAttack);
+	m_pState->AddState([=] { AttackBowStateUpdate(); }, [=] { AttackBowStateInit(); }, PlayerState::State::kAttack);
 
 	//初期ステイトセット
 	m_pState->SetState(PlayerState::State::kIdle);	//ステイトセット(最初はIdle状態)
@@ -140,10 +141,17 @@ void Player::JumpStateInit()
 	m_jumpPower = kJumpPower;
 }
 
-void Player::AttackStateInit()
+void Player::AttackSordStateInit()
 {
 	m_isAttack = true;
 	m_multiAttack = 0;
+	m_nextAttackFlag = false;
+	m_isFirstAttack = true;
+}
+
+void Player::AttackBowStateInit()
+{
+	m_isAttack = true;
 	m_nextAttackFlag = false;
 	m_isFirstAttack = true;
 }
@@ -166,7 +174,7 @@ void Player::JumpStateUpdate()
 	m_pModel->ChangeAnim(m_animData.kJump, false, false, 1.0f);
 }
 
-void Player::AttackStateUpdate()
+void Player::AttackSordStateUpdate()
 {
 	// アニメーション変更
 	switch (m_multiAttack)
@@ -187,9 +195,9 @@ void Player::AttackStateUpdate()
 		break;
 	}
 
-	
+
 	if (Pad::IsTrigger(PAD_INPUT_X) && !m_nextAttackFlag)
-	{	
+	{
 		if (!m_isFirstAttack)
 		{
 			m_nextAttackFlag = true;
@@ -212,6 +220,37 @@ void Player::AttackStateUpdate()
 		{
 			m_nextAttackFlag = false;
 			m_multiAttack++;
+		}
+	}
+}
+
+void Player::AttackBowStateUpdate()
+{
+	m_pModel->ChangeAnim(m_animData.kAttackBow, false, false, 0.5f);
+
+	if (Pad::IsPress(PAD_INPUT_B) && !m_nextAttackFlag)	// Xキー
+	{
+		int m = 0;
+		if (!m_isFirstAttack)
+		{
+			m_nextAttackFlag = true;
+		}
+		m_isFirstAttack = false;
+	}
+
+	// アニメーションが終わった段階で次の攻撃フラグがたっていなかったら
+	if (m_pModel->IsAnimEnd() && !m_nextAttackFlag)
+	{
+		m_isAttack = false;
+		m_pState->EndState();
+	}
+
+	// アニメーションが終わった段階で次の攻撃フラグがたっていたら
+	if (m_pModel->IsAnimEnd() && m_nextAttackFlag)
+	{
+		// 硬直時間を入れるならここ
+		{
+			m_nextAttackFlag = false;
 		}
 	}
 }
