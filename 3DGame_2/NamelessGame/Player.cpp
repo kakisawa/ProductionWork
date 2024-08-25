@@ -141,6 +141,9 @@ void Player::JumpStateInit()
 	m_jumpPower = kJumpPower;
 }
 
+/// <summary>
+/// Œ•UŒ‚
+/// </summary>
 void Player::AttackSordStateInit()
 {
 	m_isAttack = true;
@@ -149,6 +152,9 @@ void Player::AttackSordStateInit()
 	m_isFirstAttack = true;
 }
 
+/// <summary>
+/// ‹|UŒ‚
+/// </summary>
 void Player::AttackBowStateInit()
 {
 	m_isAttack = true;
@@ -174,6 +180,9 @@ void Player::JumpStateUpdate()
 	m_pModel->ChangeAnim(m_animData.kJump, false, false, 1.0f);
 }
 
+/// <summary>
+/// Œ•UŒ‚
+/// </summary>
 void Player::AttackSordStateUpdate()
 {
 	// ƒAƒjƒ[ƒVƒ‡ƒ“•ÏX
@@ -224,6 +233,9 @@ void Player::AttackSordStateUpdate()
 	}
 }
 
+/// <summary>
+/// ‹|UŒ‚
+/// </summary>
 void Player::AttackBowStateUpdate()
 {
 	m_pModel->ChangeAnim(m_animData.kAttackBow, false, false, 0.5f);
