@@ -20,7 +20,6 @@ EnemyBase::EnemyBase(const char* model, VECTOR pos):
 	m_pModel->SetSize(VGet(kModelSize, kModelSize, kModelSize));
 	m_pModel->SetRota(VGet(0.0f, 0.0f, 0.0f));
 	m_pModel->SetPos(pos);
-
 }
 
 EnemyBase::~EnemyBase()

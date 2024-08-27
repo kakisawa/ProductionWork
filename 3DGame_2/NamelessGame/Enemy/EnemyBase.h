@@ -22,6 +22,7 @@ protected:
 
 	VECTOR m_pos = m_pModel->GetPos();			// プレイヤー位置
 
+	
 	//モデルクラス
 	std::shared_ptr<Model> m_pModel;
 };

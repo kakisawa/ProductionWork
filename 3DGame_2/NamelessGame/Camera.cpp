@@ -81,9 +81,9 @@ void Camera::Update(const Player& player)
 
 	ChangeLightTypeDir(VGet(0.0f, -30.0f, 0.0f));
 
-	DrawFormatString(0, 20, 0xffffff, "Camera:m_pos.x/y/z=%.2f/%.2f/%.2f", m_pos.x, m_pos.y, m_pos.z);
+	DrawFormatString(0, 160, 0xffffff, "Camera:m_pos.x/y/z=%.2f/%.2f/%.2f", m_pos.x, m_pos.y, m_pos.z);
 
-	DrawFormatString(0, 40, 0xffffff, "Player:m_pos.x/y/z=%.2f/%.2f/%.2f",
+	DrawFormatString(0, 180, 0xffffff, "Player:m_pos.x/y/z=%.2f/%.2f/%.2f",
 		player.GetPos().x, player.GetPos().y, player.GetPos().z);
 }
 

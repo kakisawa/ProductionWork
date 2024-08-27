@@ -64,6 +64,11 @@ shared_ptr<SceneBase> SceneGame::Update()
 	m_pEnemyLeft->Update(*m_pPlayer);
 	m_pCamera->Update(*m_pPlayer);
 
+	if (m_pPlayer->GetDeathFlag())
+	{
+		return make_shared<SceneGameOver>();	// ゲームオーバーへ行く
+	}
+
 
 #ifdef _DEBUG
 	if (Pad::IsTrigger(PAD_INPUT_Y))		// LBボタンを押したら
@@ -87,9 +92,6 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 void SceneGame::Draw()
 {
-	DrawString(0, 0, "SceneGame", 0xffffff);
-	DrawString(0, 80, "Please Press Button RB or LB", 0x00ffff);
-
 	m_pMap->Draw();
 	m_pEnemyRight->Draw();
 	m_pEnemyLeft->Draw();
@@ -103,6 +105,8 @@ void SceneGame::Draw()
 		MV1DrawModel(m_arrowModel[i]);
 	}
 	
+	DrawString(0, 120, "SceneGame", 0xffffff);
+	DrawString(0, 140, "Please Press Button RB or LB", 0x00ffff);
 
 	// 授業用
 	/*

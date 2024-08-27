@@ -19,6 +19,7 @@ public:
 
 
 	int GetAddDamage() const { return m_addDamage; }
+	bool GetDeathFlag() const { return m_isDeath; }
 	VECTOR GetPos()const { return m_pos; }	// 座標渡し
 
 private:
@@ -67,9 +68,12 @@ private:
 	void Attack();		// 攻撃処理
 	void Jump();		// ジャンプ処理
 
+	void Death();		// 死亡処理
+
 private:
 	int m_hp;					// プレイヤーHP
 	int m_addDamage;			// プレイヤーが敵に与えるダメージ量
+	int m_uiGraph;				// プレイヤー用UI画像
 
 	float m_angle;				// プレイヤー向き角度
 	float m_jumpPower;			// Ｙ軸方向の速度
@@ -81,6 +85,7 @@ private:
 	bool m_isFirstAttack;	// 最初の攻撃かフラグ
 	bool m_isAttackDamage;	// ダメージを受けてHPが変動するかのフラグ
 	bool m_isJump;			// ジャンプ中フラグ
+	bool m_isDeath;			// 死亡したかフラグ
 
 	struct MapPlace
 	{
@@ -103,6 +108,7 @@ private:
 	VECTOR m_pos = m_pModel->GetPos();			// プレイヤー位置
 	VECTOR m_move;			// 移動量
 	VECTOR m_targetDir;		// プレイヤーが向くべき方向のベクトル
+	VECTOR m_UpPos;			// カプセル上座標
 
 	//モデルクラス
 	std::shared_ptr<Model> m_pModel;

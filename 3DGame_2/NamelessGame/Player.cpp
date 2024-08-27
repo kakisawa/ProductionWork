@@ -12,6 +12,7 @@
 
 namespace {
 	const char* const kModelPlayer = "data/model/RogueHooded.mv1";	// モデルのファイル名
+	const char* const kUIPlayer = "data/UI/HPdata.png";			// プレイヤー用UI画像名
 
 	constexpr float kInitAngle = -DX_PI_F / 2.0f * 90.0f;	// プレイヤーの初期角度*90(向きを反対にする)
 	constexpr float kModelSize = 5.0f;			// モデルのサイズ
@@ -21,8 +22,17 @@ namespace {
 	constexpr float	kJumpPower = 1.8f;			// ジャンプ力
 	constexpr float	kGravity = 0.05f;			// 重力
 	constexpr int	kMaxHp = 100;				// 体力最大値
-	constexpr int	kAttack = 10;				// 攻撃力
+	constexpr int	kAttack = 5;				// 攻撃力
 
+	constexpr int kHpGageUIPosX = 0;
+	constexpr int kHpGageUIPosY = 0;
+	constexpr int kHpGagePosX = kHpGageUIPosX + 70;
+	constexpr int kHpGagePosY = kHpGageUIPosY + 32;
+
+	constexpr int kHpGageWide = kHpGagePosX + 848;
+	constexpr int kHpGageHeight = kHpGagePosY + 57;
+
+	const VECTOR kUpPos = VGet(0.0f, 7.0f, 0.0f);
 
 	// 初期化用値
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
@@ -35,6 +45,7 @@ namespace {
 /// コンストラクタ
 /// </summary>
 Player::Player() :
+	m_uiGraph(-1),
 	m_angle(kInitFloat),
 	m_gravity(kGravity),
 	m_addDamage(0),
@@ -44,13 +55,18 @@ Player::Player() :
 	m_isAttackDamage(false),
 	m_isWalk(false),
 	m_isJump(false),
+	m_isDeath(false),
 	m_jumpPower(0.0f),
 	m_multiAttack(0),
 	m_pos(kInitVec),
 	m_move(kInitVec),
+	m_UpPos(kInitVec),
 	m_hp(kMaxHp),
 	m_targetDir(VGet(0.0f, 0.0f, 0.0f))
 {
+	// UI画像の読み込み
+	m_uiGraph = LoadGraph(kUIPlayer);
+
 	//モデルインスタンス作成
 	m_pModel = std::make_shared<Model>(kModelPlayer);
 	// アイドル状態のアニメーションを再生させる
@@ -74,6 +90,7 @@ Player::Player() :
 /// </summary>
 Player::~Player()
 {
+	DeleteGraph(m_uiGraph);
 }
 
 /// <summary>
@@ -86,6 +103,7 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 	m_pModel->SetRota(VGet(0.0f, kInitAngle, 0.0f));
 	m_pModel->SetPos(m_pos);
 
+	
 	mp.leftBack = pMap->GetMapLeftBack();
 	mp.rightFront = pMap->GetMapRightFront();
 }
@@ -117,6 +135,12 @@ void Player::Update(const Camera& camera)
 
 	// プレイヤーの座標更新
 	Move(m_move);
+
+	// プレイヤーの死亡確認処理
+	Death();
+
+	// プレイヤー当たり判定用カプセル型の座標更新
+	m_UpPos = VAdd(m_pos, kUpPos);
 }
 
 /// <summary>
@@ -124,15 +148,22 @@ void Player::Update(const Camera& camera)
 /// </summary>
 void Player::Draw()
 {
+	DrawRectExtendGraph(kHpGagePosX, kHpGagePosY, kHpGagePosX+(848 * (m_hp *0.01f)), kHpGageHeight,
+					51, 38, 42, 5, m_uiGraph, true);
+
+	DrawRectExtendGraph(kHpGageUIPosX, kHpGageUIPosY, 1000, 150,0,3,48,14, m_uiGraph, true);
+	
 	m_pModel->Draw();
 
-	DrawFormatString(0, 60, 0xffffff, "Player:m_move.x,y,z=%.2f,=%.2f,=%.2f", m_move.x, m_move.y, m_move.z);
+	DrawCapsule3D(m_pos, m_UpPos, 2.5, 32, 0xff0000, 0xff0000, false);	// 当たり判定描画
 
-	DrawFormatString(0, 120, 0xffffff, "Player:m_hp=%d", m_hp);
+	DrawFormatString(0, 200, 0xffffff, "Player:m_move.x,y,z=%.2f,=%.2f,=%.2f", m_move.x, m_move.y, m_move.z);
 
-	DrawFormatString(0, 200, 0xffffff, "State=%d", m_pState->GetState());
-	DrawFormatString(0, 220, 0xffffff, "m_isWalk=%d", m_isWalk);
-	DrawFormatString(0, 280, 0xffffff, "m_angle=%.2f", m_angle);
+	DrawFormatString(0, 220, 0xffffff, "Player:m_hp=%d", m_hp);
+
+	DrawFormatString(0, 280, 0xffffff, "State=%d", m_pState->GetState());
+	DrawFormatString(0, 300, 0xffffff, "m_isWalk=%d", m_isWalk);
+	DrawFormatString(0, 320, 0xffffff, "m_angle=%.2f", m_angle);
 }
 
 /// <summary>
@@ -273,11 +304,6 @@ void Player::AttackBowStateUpdate()
 		m_pState->EndState();
 		waitTime = 0;
 	}
-
-
-	
-
-	
 }
 
 /// <summary>
@@ -441,11 +467,14 @@ void Player::Attack()
 	}*/
 	if (m_isAttackDamage)
 	{
-		m_hp -= 10;
+		m_hp -= kAttack;
 		m_addDamage = kAttack;
 		m_isAttackDamage = false;
 	}
-	
+
+
+	int HitCheck_Capsule_Capsule(VECTOR Cap1Pos1, VECTOR Cap1Pos2,
+		float Cap1R, VECTOR Cap2Pos1, VECTOR Cap2Pos2, float Cap2R);// カプセル同士の当たり判定( TRUE:当たっている FALSE:当たっていない )
 
 }
 
@@ -471,5 +500,13 @@ void Player::Jump()
 		m_pos.y = 0.0f;
 		m_gravity = kGravity;
 		m_pState->EndState();
+	}
+}
+
+void Player::Death()
+{
+	if (m_hp <= 0)
+	{
+		m_isDeath = true;
 	}
 }

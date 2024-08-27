@@ -36,6 +36,8 @@ private:
 	int m_sordModel;
 	bool m_isWalk;
 
+	VECTOR m_UpPos;			// カプセル上座標
+
 	std::shared_ptr<EnemyState> m_pState;
 
 	AnimationData m_animData;

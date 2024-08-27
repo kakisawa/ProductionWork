@@ -34,6 +34,9 @@ private:
 
 private:
 	int m_sordModel;
+	
+	VECTOR m_UpPos;			// カプセル上座標
+
 
 	std::shared_ptr<EnemyState> m_pState;
 
