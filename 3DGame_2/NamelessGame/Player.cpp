@@ -20,11 +20,15 @@ namespace {
 	constexpr float	kAngleSpeed = 0.2f;			// 角度変化速度
 	constexpr float	kJumpPower = 1.8f;			// ジャンプ力
 	constexpr float	kGravity = 0.05f;			// 重力
+	constexpr int	kMaxHp = 100;				// 体力最大値
+	constexpr int	kAttack = 10;				// 攻撃力
 
 
 	// 初期化用値
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
 	constexpr float kInitFloat = 0.0f;				// float値の初期化
+
+	int waitTime = 0;
 }
 
 /// <summary>
@@ -33,15 +37,18 @@ namespace {
 Player::Player() :
 	m_angle(kInitFloat),
 	m_gravity(kGravity),
+	m_addDamage(0),
 	m_isAttack(false),
-	m_nextAttackFlag(false),
+	m_isNextAttackFlag(false),
 	m_isFirstAttack(false),
+	m_isAttackDamage(false),
 	m_isWalk(false),
 	m_isJump(false),
 	m_jumpPower(0.0f),
 	m_multiAttack(0),
 	m_pos(kInitVec),
 	m_move(kInitVec),
+	m_hp(kMaxHp),
 	m_targetDir(VGet(0.0f, 0.0f, 0.0f))
 {
 	//モデルインスタンス作成
@@ -55,8 +62,8 @@ Player::Player() :
 	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, PlayerState::State::kIdle);
 	m_pState->AddState([=] { WalkStateUpdate(); }, [=] { WalkStateInit(); }, PlayerState::State::kWalk);
 	m_pState->AddState([=] { JumpStateUpdate(); }, [=] { JumpStateInit(); }, PlayerState::State::kJump);
-	m_pState->AddState([=] { AttackSordStateUpdate(); }, [=] { AttackSordStateInit(); }, PlayerState::State::kAttack);
-	m_pState->AddState([=] { AttackBowStateUpdate(); }, [=] { AttackBowStateInit(); }, PlayerState::State::kAttack);
+	m_pState->AddState([=] { AttackSordStateUpdate(); }, [=] { AttackSordStateInit(); }, PlayerState::State::kAttackSord);
+	m_pState->AddState([=] { AttackBowStateUpdate(); }, [=] { AttackBowStateInit(); }, PlayerState::State::kAttackBow);
 
 	//初期ステイトセット
 	m_pState->SetState(PlayerState::State::kIdle);	//ステイトセット(最初はIdle状態)
@@ -119,11 +126,12 @@ void Player::Draw()
 {
 	m_pModel->Draw();
 
+	DrawFormatString(0, 60, 0xffffff, "Player:m_move.x,y,z=%.2f,=%.2f,=%.2f", m_move.x, m_move.y, m_move.z);
+
+	DrawFormatString(0, 120, 0xffffff, "Player:m_hp=%d", m_hp);
+
 	DrawFormatString(0, 200, 0xffffff, "State=%d", m_pState->GetState());
 	DrawFormatString(0, 220, 0xffffff, "m_isWalk=%d", m_isWalk);
-	DrawFormatString(0, 240, 0xffffff, "m_pos.x,y,z=%.2f,=%.2f,=%.2f", m_pos.x, m_pos.y, m_pos.z);
-	DrawFormatString(0, 260, 0xffffff, "m_move.x,y,z=%.2f,=%.2f,=%.2f", m_move.x, m_move.y, m_move.z);
-
 	DrawFormatString(0, 280, 0xffffff, "m_angle=%.2f", m_angle);
 }
 
@@ -148,8 +156,10 @@ void Player::AttackSordStateInit()
 {
 	m_isAttack = true;
 	m_multiAttack = 0;
-	m_nextAttackFlag = false;
+	m_isNextAttackFlag = false;
 	m_isFirstAttack = true;
+	m_isAttackDamage = true;
+	m_attackKind = AttackKind::kAttackSord;
 }
 
 /// <summary>
@@ -158,8 +168,9 @@ void Player::AttackSordStateInit()
 void Player::AttackBowStateInit()
 {
 	m_isAttack = true;
-	m_nextAttackFlag = false;
+	m_isNextAttackFlag = false;
 	m_isFirstAttack = true;
+	m_attackKind = AttackKind::kAttackBow;
 }
 
 void Player::IdleStateUpdate()
@@ -205,17 +216,18 @@ void Player::AttackSordStateUpdate()
 	}
 
 
-	if (Pad::IsTrigger(PAD_INPUT_X) && !m_nextAttackFlag)
+	if (Pad::IsTrigger(PAD_INPUT_X) && !m_isNextAttackFlag)
 	{
 		if (!m_isFirstAttack)
 		{
-			m_nextAttackFlag = true;
+			m_isNextAttackFlag = true;
+			m_isAttackDamage = true;
 		}
 		m_isFirstAttack = false;
 	}
 
 	// アニメーションが終わった段階で次の攻撃フラグがたっていなかったら
-	if (m_pModel->IsAnimEnd() && !m_nextAttackFlag)
+	if (m_pModel->IsAnimEnd() && !m_isNextAttackFlag)
 	{
 		m_isAttack = false;
 		m_multiAttack = 0;
@@ -223,11 +235,11 @@ void Player::AttackSordStateUpdate()
 	}
 
 	// アニメーションが終わった段階で次の攻撃フラグがたっていたら
-	if (m_pModel->IsAnimEnd() && m_nextAttackFlag)
+	if (m_pModel->IsAnimEnd() && m_isNextAttackFlag)
 	{
 		// 硬直時間を入れるならここ
 		{
-			m_nextAttackFlag = false;
+			m_isNextAttackFlag = false;
 			m_multiAttack++;
 		}
 	}
@@ -238,33 +250,34 @@ void Player::AttackSordStateUpdate()
 /// </summary>
 void Player::AttackBowStateUpdate()
 {
-	m_pModel->ChangeAnim(m_animData.kAttackBow, false, false, 0.5f);
-
-	if (Pad::IsPress(PAD_INPUT_B) && !m_nextAttackFlag)	// Xキー
+	bool loop = false;
+	if (Pad::IsPress(PAD_INPUT_B))	// Bボタン
 	{
-		int m = 0;
-		if (!m_isFirstAttack)
+		loop = true;
+
+		waitTime--;
+		if (waitTime<=0)
 		{
-			m_nextAttackFlag = true;
-		}
-		m_isFirstAttack = false;
+			m_isAttackDamage = true;
+			waitTime = 20;
+		}	
 	}
 
-	// アニメーションが終わった段階で次の攻撃フラグがたっていなかったら
-	if (m_pModel->IsAnimEnd() && !m_nextAttackFlag)
+	m_pModel->ChangeAnim(m_animData.kAttackBow, loop, false, 0.5f);
+
+	// アニメーションが終わったら
+	if (!loop)
 	{
 		m_isAttack = false;
+		m_isAttackDamage = false;
 		m_pState->EndState();
+		waitTime = 0;
 	}
 
-	// アニメーションが終わった段階で次の攻撃フラグがたっていたら
-	if (m_pModel->IsAnimEnd() && m_nextAttackFlag)
-	{
-		// 硬直時間を入れるならここ
-		{
-			m_nextAttackFlag = false;
-		}
-	}
+
+	
+
+	
 }
 
 /// <summary>
@@ -417,6 +430,8 @@ void Player::Angle()
 
 void Player::Attack()
 {
+	m_addDamage = 0;
+
 	if (!m_isAttack)	return;
 
 	/*if (m_isForward)
@@ -424,8 +439,13 @@ void Player::Attack()
 		m_moveAttack = VAdd(m_moveAttack, VGet(0.0f, 0.0f, kAttackSpeed));
 		m_isForward = false;
 	}*/
-
-
+	if (m_isAttackDamage)
+	{
+		m_hp -= 10;
+		m_addDamage = kAttack;
+		m_isAttackDamage = false;
+	}
+	
 
 }
 

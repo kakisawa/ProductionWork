@@ -18,10 +18,18 @@ public:
 	void End();
 
 
-
+	int GetAddDamage() const { return m_addDamage; }
 	VECTOR GetPos()const { return m_pos; }	// 座標渡し
 
 private:
+
+	// 攻撃の種類
+	enum class AttackKind
+	{
+		kNone = -1,
+		kAttackSord = 0,
+		kAttackBow = 1
+	};
 
 	// アニメーション情報
 	struct AnimationData
@@ -49,7 +57,7 @@ private:
 	void WalkStateUpdate();
 	void JumpStateUpdate();
 	void AttackSordStateUpdate();
-	void AttackBowStateUpdate();	
+	void AttackBowStateUpdate();
 
 	// プレイヤーの移動値設定
 	void OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);
@@ -60,14 +68,18 @@ private:
 	void Jump();		// ジャンプ処理
 
 private:
+	int m_hp;					// プレイヤーHP
+	int m_addDamage;			// プレイヤーが敵に与えるダメージ量
+
 	float m_angle;				// プレイヤー向き角度
 	float m_jumpPower;			// Ｙ軸方向の速度
 	float m_gravity;			// プレイヤーにかかる重力
 
 	bool m_isWalk;			// 移動中フラグ
 	bool m_isAttack;		// 攻撃中フラグ
-	bool m_nextAttackFlag;	// 次の攻撃が実行されるかのフラグ
+	bool m_isNextAttackFlag;	// 次の攻撃が実行されるかのフラグ
 	bool m_isFirstAttack;	// 最初の攻撃かフラグ
+	bool m_isAttackDamage;	// ダメージを受けてHPが変動するかのフラグ
 	bool m_isJump;			// ジャンプ中フラグ
 
 	struct MapPlace
@@ -81,6 +93,9 @@ private:
 
 	// プレイヤーアニメーションデータ
 	AnimationData m_animData;
+
+	// 攻撃種類データ
+	AttackKind m_attackKind;
 
 	int m_multiAttack;		// 連続攻撃用変数
 	bool m_isNextAttack;	// 次の攻撃を行うかのフラグ

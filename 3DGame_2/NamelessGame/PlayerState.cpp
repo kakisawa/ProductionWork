@@ -84,21 +84,33 @@ void PlayerState::StateTransitionJump()
 	}
 }
 
-void PlayerState::StateTransitionAttack()
+/// <summary>
+/// Œ•UŒ‚
+/// </summary>
+void PlayerState::StateTransitionAttackSord()
 {
 	// ƒAƒNƒVƒ‡ƒ“’†‚¾‚Á‚½‚çˆ—‚ğ•Ô‚·
 	if (m_isActionState)return;
 
-	if (Pad::IsTrigger(PAD_INPUT_X))// Œ•
+	if (Pad::IsTrigger(PAD_INPUT_X))
 	{
 		m_isActionState = true;
-		ChangeState(State::kAttack);
-	}
+		ChangeState(State::kAttackSord);
+	}	
+}
 
-	if (Pad::IsTrigger(PAD_INPUT_B))// ‹|
+/// <summary>
+/// ‹|UŒ‚
+/// </summary>
+void PlayerState::StateTransitionAttackBow()
+{
+	// ƒAƒNƒVƒ‡ƒ“’†‚¾‚Á‚½‚çˆ—‚ğ•Ô‚·
+	//if (m_isActionState)return;
+
+	if (Pad::IsPress(PAD_INPUT_B))
 	{
 		m_isActionState = true;
-		ChangeState(State::kAttack);
+		ChangeState(State::kAttackBow);
 	}
 }
 
@@ -108,7 +120,8 @@ void PlayerState::StateTransition()
 	StateTransitionIdle();
 	StateTransitionWalk();
 	StateTransitionJump();
-	StateTransitionAttack();
+	StateTransitionAttackSord();
+	StateTransitionAttackBow();
 }
 
 void PlayerState::ChangeState(State state)

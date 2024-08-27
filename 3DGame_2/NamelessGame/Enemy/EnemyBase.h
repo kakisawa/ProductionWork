@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include <memory>
 
+class Player;
 class EnemyBase
 {
 public:
@@ -10,7 +11,7 @@ public:
 	virtual ~EnemyBase();
 
 	virtual void Init();
-	virtual void Update();
+	virtual void Update(const Player& player);
 	virtual void Draw();
 	virtual void End();
 

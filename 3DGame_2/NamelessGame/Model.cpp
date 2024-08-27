@@ -147,7 +147,7 @@ void Model::ChangeAnim(int animNo, bool isLoop, bool isForceChange, bool isChang
 bool Model::IsAnimEnd()
 {
 	// Loopアニメーションの場合は常にfalseを返す
-	if (m_current.isLoop)return false;
+	if (m_current.isLoop) return false;
 
 	float time = MV1GetAttachAnimTime(m_model, m_current.attachNo);
 	if (time >= m_current.totalTime)

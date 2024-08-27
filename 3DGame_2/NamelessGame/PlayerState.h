@@ -12,7 +12,8 @@ public:
 		kIdle = 1,	// 待機
 		kWalk = 2,	// 移動
 		kJump = 3,	// ジャンプ
-		kAttack = 4,// 攻撃
+		kAttackSord = 4,// 剣攻撃
+		kAttackBow=5,	// 弓攻撃
 	};
 
 public:
@@ -59,7 +60,8 @@ private:
 	void StateTransitionIdle();		// 待機状態に条件が合えば変更
 	void StateTransitionWalk();		// 歩き状態に条件が合えば変更
 	void StateTransitionJump();		// ジャンプ状態に条件が合えば変更
-	void StateTransitionAttack();	// 攻撃状態に条件が合えば変更
+	void StateTransitionAttackSord();	// 剣攻撃状態に条件が合えば変更
+	void StateTransitionAttackBow();	// 弓攻撃状態に条件が合えば変更
 
 	// 各状態遷移呼び出し
 	void StateTransition();

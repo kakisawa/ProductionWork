@@ -60,8 +60,8 @@ void SceneGame::Init()
 shared_ptr<SceneBase> SceneGame::Update()
 {
 	m_pPlayer->Update(*m_pCamera);
-	m_pEnemyRight->Update();
-	m_pEnemyLeft->Update();
+	m_pEnemyRight->Update(*m_pPlayer);
+	m_pEnemyLeft->Update(*m_pPlayer);
 	m_pCamera->Update(*m_pPlayer);
 
 

@@ -1,11 +1,14 @@
 #include "EnemyLeft.h"
 #include "EnemyState.h"
+#include "../Player.h"
 #include "../Pad.h"
 #include <math.h>
 
 namespace {
 	const char* kModelEnemy = "data/model/EnemyModel/Enemy2.mv1";
 	const char* kSord = "data/model/EnemyModel/Blade.mv1";
+
+	constexpr int	kMaxHp = 100;				// ‘Ì—ÍÅ‘å’l
 
 	VECTOR kSordSize = VGet(0.01f, 0.01f, 0.01f);
 	VECTOR kInitPos= VGet(-10.0f, 0.0f, 10.0f);
@@ -36,11 +39,13 @@ void EnemyLeft::Init()
 {
 }
 
-void EnemyLeft::Update()
+void EnemyLeft::Update(const Player& player)
 {
 	m_pState->Update();
 
 	m_pModel->Update();
+	
+	m_hp -= player.GetAddDamage();
 
 	SetModelFramePosition(m_pModel->GetModel(), "handIK.r", m_sordModel);
 }
@@ -51,6 +56,8 @@ void EnemyLeft::Draw()
 	m_pModel->Draw();
 	// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
 	MV1DrawModel(m_sordModel);
+
+	DrawFormatString(0, 160, 0xffffff, "EnemyLeft:m_hp=%d", m_hp);
 }
 
 void EnemyLeft::End()

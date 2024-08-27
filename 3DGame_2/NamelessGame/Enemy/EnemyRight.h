@@ -1,6 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
-
+class Player;
 class EnemyState;
 class EnemyRight :
 	public EnemyBase
@@ -10,7 +10,7 @@ public:
 	~EnemyRight();
 
 	void Init()override;
-	void Update()override;
+	void Update(const Player& player)override;
 	void Draw()override;
 	void End()override;
 	

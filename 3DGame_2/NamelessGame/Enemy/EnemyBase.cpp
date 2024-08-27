@@ -1,4 +1,5 @@
 #include "EnemyBase.h"
+#include "../Player.h"
 #include "../Model.h"
 #include "DxLib.h"
 
@@ -32,7 +33,7 @@ void EnemyBase::Init()
 
 }
 
-void EnemyBase::Update()
+void EnemyBase::Update(const Player& player)
 {
 }
 

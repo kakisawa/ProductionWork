@@ -34,7 +34,7 @@ void EnemyRight::Init()
 
 }
 
-void EnemyRight::Update()
+void EnemyRight::Update(const Player& player)
 {
 	m_pState->Update();
 
@@ -49,6 +49,9 @@ void EnemyRight::Draw()
 	m_pModel->Draw();
 	// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
 	MV1DrawModel(m_sordModel);
+
+	DrawFormatString(0, 140, 0xffffff, "EnemyRight:m_hp=%d", m_hp);
+
 }
 
 void EnemyRight::End()
