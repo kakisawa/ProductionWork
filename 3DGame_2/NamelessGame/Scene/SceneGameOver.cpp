@@ -16,23 +16,13 @@ void SceneGameOver::Init()
 
 shared_ptr<SceneBase> SceneGameOver::Update()
 {
-
-
-	if (m_isNextSceneFlag)
+	if (Pad::IsTrigger(PAD_INPUT_R))		// RBボタン
 	{
-		if (Pad::IsTrigger(PAD_INPUT_Z))		// RBボタン
-		{
-			return make_shared<SceneTitle>();	// タイトルシーンへ行く
-		}
+		return make_shared<SceneTitle>();	// タイトルシーンへ行く
 	}
-
 
 
 #ifdef _DEBUG
-	// デバッグ用?(フェード入れたら使わないかも)
-	if (Pad::IsNotPress(PAD_INPUT_Z)) {	// RBボタン
-		m_isNextSceneFlag = true;
-	}
 #endif // DEBUG
 
 	return shared_from_this();

@@ -4,7 +4,7 @@
 #include "../GameMap.h"
 #include "../Enemy/EnemyRight.h"
 #include "../Enemy/EnemyLeft.h"
-#include "../Player.h"
+#include "../Player/Player.h"
 #include "../Camera.h"
 #include "../Pad.h"
 #include <cassert>
@@ -71,16 +71,17 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 
 #ifdef _DEBUG
-	if (Pad::IsTrigger(PAD_INPUT_Y))		// LBボタンを押したら
+	if (Pad::IsTrigger(PAD_INPUT_L))		// LBボタンを押したら
 	{
 		return make_shared<SceneGameClear>();	// ゲームクリアへ行く
 	}
-	if (Pad::IsTrigger(PAD_INPUT_Z))		// RBボタンを押したら
+	if (Pad::IsTrigger(PAD_INPUT_R))		// RBボタンを押したら
 	{
 		return make_shared<SceneGameOver>();	// ゲームオーバーへ行く
 	}
 
 	
+
 #endif // _DEBUG
 
 	// 仮

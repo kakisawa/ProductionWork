@@ -1,10 +1,10 @@
 #include "Player.h"
 #include "DxLib.h"
-#include "Model.h"
-#include "Pad.h"
-#include "Camera.h"
+#include "../Model.h"
+#include "../Pad.h"
+#include "../Camera.h"
 #include "PlayerState.h"
-#include "GameMap.h"
+#include "../GameMap.h"
 #include <cassert>
 #include <cmath>
 

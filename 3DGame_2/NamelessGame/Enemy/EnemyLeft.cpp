@@ -1,6 +1,6 @@
 #include "EnemyLeft.h"
 #include "EnemyState.h"
-#include "../Player.h"
+#include "../Player/Player.h"
 #include "../Pad.h"
 #include <math.h>
 

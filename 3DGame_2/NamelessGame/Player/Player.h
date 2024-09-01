@@ -1,5 +1,5 @@
 #pragma once
-#include "Model.h"
+#include "../Model.h"
 #include "DxLib.h"
 #include <memory>
 

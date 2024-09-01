@@ -1,5 +1,5 @@
 #include "EnemyBase.h"
-#include "../Player.h"
+#include "../Player/Player.h"
 #include "../Model.h"
 #include "DxLib.h"
 

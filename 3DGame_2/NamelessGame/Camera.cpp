@@ -1,6 +1,6 @@
 #include "DxLib.h"
 #include "Camera.h"
-#include "Player.h"
+#include "Player/Player.h"
 #include <algorithm>
 #include <cmath>
 

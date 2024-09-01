@@ -146,8 +146,8 @@
     <ClCompile Include="Enemy\EnemyRight.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Pad.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerState.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Player\PlayerState.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Scene\SceneGame.cpp" />
     <ClCompile Include="Scene\SceneGameClear.cpp" />
@@ -156,6 +156,7 @@
     <ClCompile Include="Scene\SceneOption.cpp" />
     <ClCompile Include="Scene\SceneRanking.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy\EnemyState.h" />
@@ -166,8 +167,8 @@
     <ClInclude Include="Enemy\EnemyLeft.h" />
     <ClInclude Include="Enemy\EnemyRight.h" />
     <ClInclude Include="Pad.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Player\PlayerState.h" />
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Scene\SceneGame.h" />
     <ClInclude Include="Scene\SceneGameClear.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Scene\SceneOption.h" />
     <ClInclude Include="Scene\SceneRanking.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

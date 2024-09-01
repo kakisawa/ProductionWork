@@ -5,7 +5,7 @@
 #include "SceneRanking.h"
 #include "../Pad.h"
 
-SceneTitle::SceneTitle():
+SceneTitle::SceneTitle() :
 	graph(-1),
 	graph2(-1),
 	graph3(-1),
@@ -31,28 +31,26 @@ void SceneTitle::Init()
 
 shared_ptr<SceneBase> SceneTitle::Update()
 {
-	
 	// シーン遷移
-	if (m_isNextSceneFlag)
-	{
-		if (Pad::IsTrigger(PAD_INPUT_Z)) {		// RBボタン
-			if (m_nextScene == nextScene::kGameScene)
-			{
-				return make_shared<SceneGame>();	// ゲームシーンへ行く
-			}
 
-			if (m_nextScene == nextScene::kOptionScene)
-			{
-				return make_shared<SceneOption>();	// オプションシーンへ行く
-			}
-
-			if (m_nextScene == nextScene::kRankingScene)
-			{
-				return make_shared<SceneRanking>();	// ランキングシーンへ行く
-			}
+	if (Pad::IsTrigger(PAD_INPUT_R)) {		// RBボタン
+		if (m_nextScene == nextScene::kGameScene)
+		{
+			return make_shared<SceneGame>();	// ゲームシーンへ行く
 		}
-		
+
+		if (m_nextScene == nextScene::kOptionScene)
+		{
+			return make_shared<SceneOption>();	// オプションシーンへ行く
+		}
+
+		if (m_nextScene == nextScene::kRankingScene)
+		{
+			return make_shared<SceneRanking>();	// ランキングシーンへ行く
+		}
 	}
+
+
 
 	SwitchingScene();
 
@@ -62,11 +60,10 @@ shared_ptr<SceneBase> SceneTitle::Update()
 	if (m_nextScene == nextScene::kNone)
 	{
 		if (Pad::IsNotPress(PAD_INPUT_Z)) {	// RBボタン
-			m_isNextSceneFlag = true;
 			m_nextScene = nextScene::kGameScene;
 		}
 	}
-	
+
 #endif // DEBUG
 
 	return shared_from_this();
