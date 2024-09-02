@@ -22,7 +22,7 @@ void Collision::DrawMain(const float radius, unsigned int color, bool isFill)
 
 void Collision::DrawAttack(const float radius, unsigned int color, bool isFill)
 {
-	DrawCapsule3D(m_pos, m_attackRange,
+	DrawCapsule3D(VAdd(m_pos,VGet(0.0f,3.0f,0.0f)), VAdd(m_attackRange,VGet(0.0f, 3.0f, 0.0f)),
 		radius, 32, color, color, isFill);	// “–‚½‚è”»’è•`‰æ
 }
 

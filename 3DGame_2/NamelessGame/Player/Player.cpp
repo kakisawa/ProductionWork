@@ -33,7 +33,7 @@ namespace {
 	constexpr int kHpGageHeight = kHpGagePosY + 57;
 
 	const VECTOR kUpPos = VGet(0.0f, 7.0f, 0.0f);
-	const VECTOR kAttackRange = VGet(3.0f, 0.0f, 0.0f);
+	const VECTOR kAttackRange = VGet(0.0f, 0.0f, 7.0f);
 
 	// 初期化用値
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
@@ -140,10 +140,13 @@ void Player::Update(const Camera& camera)
 	Death();
 
 	// プレイヤー当たり判定用カプセル型の座標更新
-	VECTOR posCenter = VAdd(m_pos, VGet(0.0f, 2.0f, 0.0f));
 	m_UpPos = VAdd(m_pos, kUpPos);
-	m_attackRange = VAdd(m_pos, kAttackRange);
-	m_colSphere.UpdateCol(posCenter, m_UpPos,m_attackRange);
+
+	// プレイヤーの向きをもとに当たり判定の位置を調整する
+	MATRIX rotationMatrix = MGetRotY(m_angle);
+	m_attackRange = VAdd(m_pos, VTransform(kAttackRange,rotationMatrix));
+
+	m_colSphere.UpdateCol(m_pos, m_UpPos,m_attackRange);
 }
 
 /// <summary>
