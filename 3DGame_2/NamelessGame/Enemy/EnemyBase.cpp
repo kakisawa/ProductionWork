@@ -11,7 +11,7 @@ namespace {
 EnemyBase::EnemyBase(const char* model, VECTOR pos):
 	m_model(-1),
 	m_hp(kHPMax),
-	m_pos(VGet(0.0f,0.0f,0.0f))
+	m_pos(pos)
 {
 	//モデルインスタンス作成
 	m_pModel = std::make_shared<Model>(model);

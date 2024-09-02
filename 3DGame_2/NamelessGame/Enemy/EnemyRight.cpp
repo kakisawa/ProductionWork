@@ -44,10 +44,11 @@ void EnemyRight::Update(const Player& player)
 
 	m_pModel->Update();
 
-	// 当たり判定用カプセル型の座標更新
-	m_UpPos = VAdd(m_pModel->GetPos(), kUpPos);
-
 	SetModelFramePosition(m_pModel->GetModel(), "handIK.r", m_sordModel);
+
+	// 当たり判定用カプセル型の座標更新
+	m_UpPos = VAdd(m_pos, kUpPos);
+	m_colSphere.UpdateCol(m_pos, m_UpPos,kInitPos);
 }
 
 void EnemyRight::Draw()
@@ -57,11 +58,11 @@ void EnemyRight::Draw()
 	// 棒モデルの描画
 	MV1DrawModel(m_sordModel);
 
-	DrawCapsule3D(m_pModel->GetPos(), m_UpPos, 4, 32, 0x00ff00, 0x00ff00, false);	// 当たり判定描画
-
+#ifdef _DEBUG
+	m_colSphere.DrawMain(5.0f,0x00ff00, false);	// 当たり判定描画
 
 	DrawFormatString(0, 280, 0xffffff, "EnemyRight:m_hp=%d", m_hp);
-
+#endif
 }
 
 void EnemyRight::End()

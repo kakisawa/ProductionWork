@@ -1,6 +1,7 @@
 #pragma once
 #include "../Model.h"
 #include "DxLib.h"
+#include "../Collision.h"
 #include <memory>
 
 class Camera;
@@ -105,10 +106,15 @@ private:
 	int m_multiAttack;		// 連続攻撃用変数
 	bool m_isNextAttack;	// 次の攻撃を行うかのフラグ
 
-	VECTOR m_pos = m_pModel->GetPos();			// プレイヤー位置
+	VECTOR m_pos;			// プレイヤー位置
 	VECTOR m_move;			// 移動量
 	VECTOR m_targetDir;		// プレイヤーが向くべき方向のベクトル
+
 	VECTOR m_UpPos;			// カプセル上座標
+	VECTOR m_attackRange;	// 攻撃範囲
+
+	Collision m_colSphere;			// 当たり判定
+
 
 	//モデルクラス
 	std::shared_ptr<Model> m_pModel;

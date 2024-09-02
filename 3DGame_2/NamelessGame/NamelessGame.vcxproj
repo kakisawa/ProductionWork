@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Enemy\EnemyState.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Enemy\EnemyState.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="Model.h" />

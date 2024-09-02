@@ -1,5 +1,7 @@
 #pragma once
 #include "EnemyBase.h"
+#include "../Collision.h"
+
 class Player;
 class EnemyState;
 class EnemyRight :
@@ -41,4 +43,6 @@ private:
 	std::shared_ptr<EnemyState> m_pState;
 
 	AnimationData m_animData;
+
+	Collision m_colSphere;
 };

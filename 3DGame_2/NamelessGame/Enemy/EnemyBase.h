@@ -17,12 +17,10 @@ public:
 
 protected:
 	int m_model;	// 敵モデル
-
 	int m_hp;		// 敵HP	
 
-	VECTOR m_pos = m_pModel->GetPos();			// プレイヤー位置
+	VECTOR m_pos;
 
-	
 	//モデルクラス
 	std::shared_ptr<Model> m_pModel;
 };

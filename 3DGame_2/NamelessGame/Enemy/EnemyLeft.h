@@ -1,5 +1,7 @@
 #pragma once
 #include "EnemyBase.h"
+#include "../Collision.h"
+
 class Player;
 class EnemyState;
 class EnemyLeft :
@@ -36,10 +38,12 @@ private:
 	int m_sordModel;
 	bool m_isWalk;
 
-	VECTOR m_UpPos;			// カプセル上座標
+	VECTOR m_upPos;			// カプセル上座標
 
 	std::shared_ptr<EnemyState> m_pState;
 
 	AnimationData m_animData;
+
+	Collision m_colSphere;
 };
 

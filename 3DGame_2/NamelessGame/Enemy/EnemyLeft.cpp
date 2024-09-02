@@ -15,13 +15,15 @@ namespace {
 
 	const VECTOR kUpPos = VGet(0.0f, 20.0f, 0.0f);
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
+
+	
 }
 
 EnemyLeft::EnemyLeft():
 	EnemyBase(kModelEnemy,kInitPos),
 	m_sordModel(-1),
 	m_isWalk(false),
-	m_UpPos(kInitVec)
+	m_upPos(kInitVec)
 {
 	m_sordModel = MV1LoadModel(kSord);
 
@@ -54,7 +56,8 @@ void EnemyLeft::Update(const Player& player)
 	SetModelFramePosition(m_pModel->GetModel(), "handIK.r", m_sordModel);
 
 	// 当たり判定用カプセル型の座標更新
-	m_UpPos = VAdd(m_pModel->GetPos(), kUpPos);
+	m_upPos = VAdd(m_pos, kUpPos);
+	m_colSphere.UpdateCol(m_pos, m_upPos,kInitPos);
 }
 
 void EnemyLeft::Draw()
@@ -64,9 +67,11 @@ void EnemyLeft::Draw()
 	// 棒モデルの描画
 	MV1DrawModel(m_sordModel);
 
-	DrawCapsule3D(m_pModel->GetPos(), m_UpPos, 4, 32, 0x00ff00, 0x00ff00, false);	// 当たり判定描画
+#ifdef _DEBUG
+	m_colSphere.DrawMain(5.0f,0x00ff00, false);	// 当たり判定描画
 
 	DrawFormatString(0, 260, 0xffffff, "EnemyLeft:m_hp=%d", m_hp);
+#endif
 }
 
 void EnemyLeft::End()

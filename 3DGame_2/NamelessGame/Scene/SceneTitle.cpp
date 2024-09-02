@@ -5,6 +5,12 @@
 #include "SceneRanking.h"
 #include "../Pad.h"
 
+namespace {
+	constexpr int kTitlePosX= 300;
+	constexpr int kTitlePosY= 20;
+
+}
+
 SceneTitle::SceneTitle() :
 	graph(-1),
 	graph2(-1),
@@ -71,16 +77,13 @@ shared_ptr<SceneBase> SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-	DrawString(0, 0, "SceneTitle", 0xffffff);
+	DrawExtendGraph(kTitlePosX, kTitlePosY, kTitlePosX+1200, kTitlePosY+430, m_titleGraph, true);
 
-	DrawExtendGraph(150, 20, 1350, 450, m_titleGraph, true);
-
-	DrawString(0, 20, "Please Press Button RB", 0x00ffff);
+	DrawString(0, 20, "Please Press Button Start", 0x00ffff);
 
 #ifdef _DEBUG
-
+	DrawString(0, 0, "SceneTitle", 0xffffff);
 	DrawFormatString(0, 700, 0xffffff, "m_nextScene=%d", m_nextScene);
-
 #endif // DEBUG
 }
 

@@ -33,6 +33,7 @@ namespace {
 	constexpr int kHpGageHeight = kHpGagePosY + 57;
 
 	const VECTOR kUpPos = VGet(0.0f, 7.0f, 0.0f);
+	const VECTOR kAttackRange = VGet(3.0f, 0.0f, 0.0f);
 
 	// 初期化用値
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
@@ -102,7 +103,6 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 	m_pModel->SetSize(VGet(kModelSize, kModelSize, kModelSize));
 	m_pModel->SetRota(VGet(0.0f, kInitAngle, 0.0f));
 	m_pModel->SetPos(m_pos);
-
 	
 	mp.leftBack = pMap->GetMapLeftBack();
 	mp.rightFront = pMap->GetMapRightFront();
@@ -140,7 +140,10 @@ void Player::Update(const Camera& camera)
 	Death();
 
 	// プレイヤー当たり判定用カプセル型の座標更新
+	VECTOR posCenter = VAdd(m_pos, VGet(0.0f, 2.0f, 0.0f));
 	m_UpPos = VAdd(m_pos, kUpPos);
+	m_attackRange = VAdd(m_pos, kAttackRange);
+	m_colSphere.UpdateCol(posCenter, m_UpPos,m_attackRange);
 }
 
 /// <summary>
@@ -155,15 +158,19 @@ void Player::Draw()
 	
 	m_pModel->Draw();
 
-	DrawCapsule3D(m_pos, m_UpPos, 2.5, 32, 0xff0000, 0xff0000, false);	// 当たり判定描画
+#ifdef _DEBUG
+	m_colSphere.DrawMain(2.5,0xff0000, false);	// 当たり判定描画
+	m_colSphere.DrawAttack(2.0,0x0000ff, false);	// 当たり判定描画
 
 	DrawFormatString(0, 200, 0xffffff, "Player:m_move.x,y,z=%.2f,=%.2f,=%.2f", m_move.x, m_move.y, m_move.z);
 
+	DrawFormatString(0, 180, 0xffffff, "Player:m_pos.x,y,z=%.2f,=%.2f,=%.2f", m_pos.x, m_pos.y, m_pos.z);
 	DrawFormatString(0, 220, 0xffffff, "Player:m_hp=%d", m_hp);
 
 	DrawFormatString(0, 280, 0xffffff, "State=%d", m_pState->GetState());
 	DrawFormatString(0, 300, 0xffffff, "m_isWalk=%d", m_isWalk);
 	DrawFormatString(0, 320, 0xffffff, "m_angle=%.2f", m_angle);
+#endif // DEBUG
 }
 
 /// <summary>
