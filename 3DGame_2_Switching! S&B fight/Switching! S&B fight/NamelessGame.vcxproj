@@ -24,6 +24,7 @@
     <ProjectGuid>{5cc89389-745f-44f6-8078-cbf07086c257}</ProjectGuid>
     <RootNamespace>NamelessGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Switching! SB fight</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
