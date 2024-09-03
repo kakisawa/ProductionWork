@@ -1,5 +1,5 @@
 #include "PlayerState.h"
-#include "../Pad.h"
+#include "../Util/Pad.h"
 #include "DxLib.h"
 
 PlayerState::PlayerState() :

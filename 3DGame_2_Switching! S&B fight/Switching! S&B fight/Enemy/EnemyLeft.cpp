@@ -1,7 +1,7 @@
 #include "EnemyLeft.h"
 #include "EnemyState.h"
 #include "../Player/Player.h"
-#include "../Pad.h"
+#include "../Util/Pad.h"
 #include <math.h>
 
 namespace {

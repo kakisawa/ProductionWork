@@ -1,6 +1,6 @@
 #pragma once
 #include "EnemyBase.h"
-#include "../Collision.h"
+#include "../Util/Collision.h"
 
 class Player;
 class EnemyState;

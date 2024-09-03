@@ -2,7 +2,7 @@
 #include "SceneBase.h"
 #include "SceneTitle.h"
 #include "DxLib.h"
-#include "../Pad.h"
+#include "../Util/Pad.h"
 
 SceneManager::SceneManager() :
 	m_pScene(nullptr)

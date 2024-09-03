@@ -5,8 +5,8 @@
 #include "../Enemy/EnemyRight.h"
 #include "../Enemy/EnemyLeft.h"
 #include "../Player/Player.h"
-#include "../Camera.h"
-#include "../Pad.h"
+#include "../Util/Camera.h"
+#include "../Util/Pad.h"
 #include <cassert>
 
 namespace {

@@ -1,6 +1,6 @@
 #include "SceneOption.h"
 #include "SceneTitle.h"
-#include "../Pad.h"
+#include "../Util/Pad.h"
 
 SceneOption::SceneOption()
 {

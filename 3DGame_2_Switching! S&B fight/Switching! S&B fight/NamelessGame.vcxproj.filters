@@ -54,10 +54,10 @@
     <ClCompile Include="Scene\SceneTitle.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Pad.cpp">
+    <ClCompile Include="Util\Pad.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Util\Camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Player\Player.cpp">
@@ -84,10 +84,10 @@
     <ClCompile Include="GameMap.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
+    <ClCompile Include="Manager\SoundManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
+    <ClCompile Include="Util\Collision.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,10 +116,10 @@
     <ClInclude Include="Scene\SceneTitle.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Pad.h">
+    <ClInclude Include="Util\Pad.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="Util\Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Player\Player.h">
@@ -146,10 +146,10 @@
     <ClInclude Include="GameMap.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SoundManager.h">
+    <ClInclude Include="Manager\SoundManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
+    <ClInclude Include="Util\Collision.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

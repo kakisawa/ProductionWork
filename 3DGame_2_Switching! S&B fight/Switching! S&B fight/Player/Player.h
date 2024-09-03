@@ -1,7 +1,7 @@
 #pragma once
 #include "../Model.h"
 #include "DxLib.h"
-#include "../Collision.h"
+#include "../Util/Collision.h"
 #include <memory>
 
 class Camera;

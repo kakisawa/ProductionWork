@@ -1,6 +1,6 @@
 #include "SceneGameClear.h"
 #include "SceneTitle.h"
-#include "../Pad.h"
+#include "../Util/Pad.h"
 
 SceneGameClear::SceneGameClear()
 {

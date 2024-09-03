@@ -2,6 +2,9 @@
 #include "SceneBase.h"
 
 using namespace std;
+
+class SoundManager;
+
 class SceneTitle :
     public SceneBase
 {
@@ -33,7 +36,7 @@ private:
 	int graph2;
 	int graph3;
 
-	
-
 	nextScene m_nextScene;
+
+	std::shared_ptr<SoundManager> m_pSound;
 };
