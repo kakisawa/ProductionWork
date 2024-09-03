@@ -72,6 +72,11 @@ shared_ptr<SceneBase> SceneGame::Update()
 		return make_shared<SceneGameOver>();	// ゲームオーバーへ行く
 	}
 
+	if (m_pEnemyLeft->GetHp() <= 0 && m_pEnemyRight->GetHp() <= 0)
+	{
+		return make_shared<SceneGameClear>();	// ゲームクリアへ行く
+	}
+
 
 #ifdef _DEBUG
 	if (Pad::IsTrigger(PAD_INPUT_L))		// LBボタンを押したら

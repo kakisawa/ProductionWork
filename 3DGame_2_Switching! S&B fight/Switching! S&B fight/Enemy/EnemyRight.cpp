@@ -1,5 +1,6 @@
 #include "EnemyRight.h"
 #include "EnemyState.h"
+#include "../Player/Player.h"
 
 namespace {
 	const char* kModelEnemy = "data/model/EnemyModel/Enemy1.mv1";
@@ -48,6 +49,11 @@ void EnemyRight::Update(const Player& player)
 
 	m_pModel->Update();
 
+	if (player.GetAttackRight())
+	{
+		m_hp -= player.GetAddDamage();
+	}
+
 	SetModelFramePosition(m_pModel->GetModel(), "handIK.r", m_sordModel);
 
 	// “–‚½‚è”»’è—pƒJƒvƒZƒ‹Œ^‚ÌÀ•WXV
@@ -57,13 +63,18 @@ void EnemyRight::Update(const Player& player)
 
 void EnemyRight::Draw()
 {
-	// ƒ‚ƒfƒ‹‚Ì•`‰æ
-	m_pModel->Draw();
-	// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
-	MV1DrawModel(m_sordModel);
+	if (m_hp > 0)
+	{
+		// ƒ‚ƒfƒ‹‚Ì•`‰æ
+		m_pModel->Draw();
+		// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
+		MV1DrawModel(m_sordModel);
+
+		m_colSphere.DrawMain(0x00ff00, false);	// “–‚½‚è”»’è•`‰æ
+	}
 
 #ifdef _DEBUG
-	m_colSphere.DrawMain(0x00ff00, false);	// “–‚½‚è”»’è•`‰æ
+	
 
 	DrawFormatString(0, 280, 0xffffff, "EnemyRight:m_hp=%d", m_hp);
 #endif

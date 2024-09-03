@@ -20,6 +20,8 @@ public:
 
 	Collision GetColSphere() const { return m_colSphere; }
 
+	int GetHp() const { return m_hp; }
+
 private:
 	// アニメーション情報
 	struct AnimationData
@@ -39,6 +41,8 @@ private:
 private:
 	int m_sordModel;
 	bool m_isWalk;
+	int m_outGauge;
+	int m_inGauge;
 
 	VECTOR m_upPos;			// カプセル上座標
 

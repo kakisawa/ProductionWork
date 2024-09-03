@@ -22,8 +22,13 @@ public:
 
 
 	int GetAddDamage() const { return m_addDamage; }
+
 	bool GetDeathFlag() const { return m_isDeath; }
 	VECTOR GetPos()const { return m_pos; }	// 座標渡し
+	Collision GetCol() const { return m_colSphere; }
+
+	bool GetAttackRight()const { return m_isAttackRight; }
+	bool GetAttackLeft()const { return m_isAttackLeft; }
 
 private:
 
@@ -89,6 +94,9 @@ private:
 	bool m_isAttackDamage;	// ダメージを受けてHPが変動するかのフラグ
 	bool m_isJump;			// ジャンプ中フラグ
 	bool m_isDeath;			// 死亡したかフラグ
+
+	bool m_isAttackRight;
+	bool m_isAttackLeft;
 
 	struct MapPlace
 	{

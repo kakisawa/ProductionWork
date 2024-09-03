@@ -30,7 +30,7 @@ shared_ptr<SceneBase> SceneOption::Update()
 void SceneOption::Draw()
 {
 	DrawString(0, 0, "SceneOption", 0xffffff);
-	DrawString(0, 20, "Please Press Button RB", 0x00ffff);
+	DrawString(0, 20, "Please Press Button START", 0x00ffff);
 }
 
 void SceneOption::End()

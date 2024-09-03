@@ -2,7 +2,13 @@
 #include "SceneTitle.h"
 #include "../Util/Pad.h"
 
-SceneGameClear::SceneGameClear()
+namespace {
+	constexpr int kTitlePosX = 500;
+	constexpr int kTitlePosY = 150;
+}
+
+SceneGameClear::SceneGameClear():
+	m_graph(-1)
 {
 }
 
@@ -12,6 +18,7 @@ SceneGameClear::~SceneGameClear()
 
 void SceneGameClear::Init()
 {
+	m_graph = LoadGraph("data/GameClear!!.png");
 }
 
 shared_ptr<SceneBase> SceneGameClear::Update()
@@ -31,9 +38,15 @@ shared_ptr<SceneBase> SceneGameClear::Update()
 void SceneGameClear::Draw()
 {
 	DrawString(0, 0, "SceneGameClear", 0xffffff);
-	DrawString(0, 20, "Please Press Button RB", 0x00ffff);
+	DrawString(0, 20, "Please Press Button START", 0x00ffff);
+
+	/*DrawExtendGraph(kTitlePosX, kTitlePosY,
+		kTitlePosX + 1200, kTitlePosY + 430, m_graph, true);*/
+
+	DrawGraph(kTitlePosX, kTitlePosY, m_graph, true);
 }
 
 void SceneGameClear::End()
 {
+	DeleteGraph(m_graph);
 }

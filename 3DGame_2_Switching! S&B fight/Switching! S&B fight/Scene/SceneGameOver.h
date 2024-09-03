@@ -12,5 +12,7 @@ public:
 	virtual shared_ptr<SceneBase> Update();
 	virtual void Draw();
 	virtual void End();
-};
 
+private:
+	int m_graph;
+};

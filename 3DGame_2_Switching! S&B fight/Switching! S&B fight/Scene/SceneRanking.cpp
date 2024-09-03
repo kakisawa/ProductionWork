@@ -21,7 +21,7 @@ shared_ptr<SceneBase> SceneRanking::Update()
 	{
 			return make_shared<SceneTitle>();	// タイトルシーンへ行く
 	}
-	DrawString(0, 20, "Please Press Button RB", 0x00ffff);
+	DrawString(0, 20, "Please Press Button START", 0x00ffff);
 
 #ifdef _DEBUG
 

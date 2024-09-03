@@ -20,6 +20,8 @@ public:
 
 	Collision GetColSphere() const { return m_colSphere; }
 
+	int GetHp() const { return m_hp; }
+
 private:
 	// アニメーション情報
 	struct AnimationData

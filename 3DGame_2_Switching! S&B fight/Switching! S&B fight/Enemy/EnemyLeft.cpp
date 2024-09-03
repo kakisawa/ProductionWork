@@ -54,7 +54,10 @@ void EnemyLeft::Update(const Player& player)
 
 	m_pModel->Update();
 	
-	m_hp -= player.GetAddDamage();
+	if (player.GetAttackLeft())
+	{
+		m_hp -= player.GetAddDamage();
+	}
 
 	SetModelFramePosition(m_pModel->GetModel(), "handIK.r", m_sordModel);
 
@@ -65,13 +68,18 @@ void EnemyLeft::Update(const Player& player)
 
 void EnemyLeft::Draw()
 {
-	// ƒ‚ƒfƒ‹‚Ì•`‰æ
-	m_pModel->Draw();
-	// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
-	MV1DrawModel(m_sordModel);
+	if (m_hp > 0)
+	{
+		// ƒ‚ƒfƒ‹‚Ì•`‰æ
+		m_pModel->Draw();
+		// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
+		MV1DrawModel(m_sordModel);
+
+		m_colSphere.DrawMain(0x00ff00, false);	// “–‚½‚è”»’è•`‰æ
+	}
 
 #ifdef _DEBUG
-	m_colSphere.DrawMain(0x00ff00, false);	// “–‚½‚è”»’è•`‰æ
+	
 
 	DrawFormatString(0, 260, 0xffffff, "EnemyLeft:m_hp=%d", m_hp);
 #endif

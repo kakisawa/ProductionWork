@@ -24,7 +24,7 @@ namespace {
 	constexpr float	kJumpPower = 1.8f;			// ジャンプ力
 	constexpr float	kGravity = 0.05f;			// 重力
 	constexpr int	kMaxHp = 100;				// 体力最大値
-	constexpr int	kAttack = 5;				// 攻撃力
+	constexpr int	kAttack = 20;				// 攻撃力
 
 	constexpr int kHpGageUIPosX = 0;
 	constexpr int kHpGageUIPosY = 0;
@@ -61,6 +61,8 @@ Player::Player() :
 	m_isWalk(false),
 	m_isJump(false),
 	m_isDeath(false),
+	m_isAttackLeft(false),
+	m_isAttackRight(false),
 	m_jumpPower(0.0f),
 	m_multiAttack(0),
 	m_pos(kInitVec),
@@ -108,7 +110,7 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 	m_pModel->SetSize(VGet(kModelSize, kModelSize, kModelSize));
 	m_pModel->SetRota(VGet(0.0f, kInitAngle, 0.0f));
 	m_pModel->SetPos(m_pos);
-	
+
 	mp.leftBack = pMap->GetMapLeftBack();
 	mp.rightFront = pMap->GetMapRightFront();
 }
@@ -124,22 +126,12 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
 	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
 
-	//if (m_colSphere.IsCollision(enemyR.GetColSphere()))
-	//{
-	//	isCol = true;
-	//}
-	//if (m_colSphere.IsCollision(enemyL.GetColSphere()))
-	//{
-	//	isCol = true;
-	//}
-
-
 	// ステイトの更新
 	m_pState->Update();
 
 	// プレイヤーの状態更新
 	// 攻撃処理
-	Attack(enemyR,enemyL);
+	Attack(enemyR, enemyL);
 	// 移動処理
 	OldMoveValue(camera, upMoveVec, leftMoveVec);
 
@@ -161,7 +153,7 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 	MATRIX rotationMatrix = MGetRotY(m_angle);
 	m_attackRange = VAdd(m_pos, VTransform(kAttackRange, rotationMatrix));
 
-	m_colSphere.UpdateCol(m_pos, m_UpPos, m_attackRange, 
+	m_colSphere.UpdateCol(m_pos, m_UpPos, m_attackRange,
 		kColRadius, kAttackColRadius);
 }
 
@@ -170,11 +162,11 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 /// </summary>
 void Player::Draw()
 {
-	DrawRectExtendGraph(kHpGagePosX, kHpGagePosY, kHpGagePosX+(848 * (m_hp *0.01f)), kHpGageHeight,
-					51, 38, 42, 5, m_uiGraph, true);
+	DrawRectExtendGraph(kHpGagePosX, kHpGagePosY, kHpGagePosX + (848 * (m_hp * 0.01f)), kHpGageHeight,
+		51, 38, 42, 5, m_uiGraph, true);
 
-	DrawRectExtendGraph(kHpGageUIPosX, kHpGageUIPosY, 1000, 150,0,3,48,14, m_uiGraph, true);
-	
+	DrawRectExtendGraph(kHpGageUIPosX, kHpGageUIPosY, 1000, 150, 0, 3, 48, 14, m_uiGraph, true);
+
 	m_pModel->Draw();
 
 #ifdef _DEBUG
@@ -321,11 +313,11 @@ void Player::AttackBowStateUpdate()
 		loop = true;
 
 		waitTime--;
-		if (waitTime<=0)
+		if (waitTime <= 0)
 		{
 			m_isAttackDamage = true;
 			waitTime = 20;
-		}	
+		}
 	}
 
 	m_pModel->ChangeAnim(m_animData.kAttackBow, loop, false, 0.5f);
@@ -494,6 +486,8 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 	Collision enemyLeftCol = enemyL.GetColSphere();
 
 	m_addDamage = 0;
+	m_isAttackLeft = false;
+	m_isAttackRight = false;
 
 	if (!m_isAttack)	return;
 
@@ -507,14 +501,16 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 	if (m_colSphere.IsCollision(enemyLeftCol))
 	{
 		isCol = true;
+		m_isAttackLeft = true;
 	}
 	if (m_colSphere.IsCollision(enemyRightCol))
 	{
 		isCol = true;
+		m_isAttackRight = true;
 	}
 
 
-	if (m_isAttackDamage)
+	if (isCol && m_isAttackDamage)
 	{
 		m_addDamage = kAttack;
 		m_isAttackDamage = false;
