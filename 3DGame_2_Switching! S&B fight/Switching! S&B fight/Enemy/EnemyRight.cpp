@@ -6,6 +6,14 @@ namespace {
 	const char* kModelEnemy = "data/model/EnemyModel/Enemy1.mv1";
 	const char* kSord = "data/model/EnemyModel/Blade.mv1";
 
+	const char* kParts = "handIK.r";
+
+	const char* const kHpOutGauge = "data/UI/EnemyGauge.png";			// HPゲージ外側UI
+	const char* const kHpInGauge = "data/UI/EnemyRightGauge.png";		// HPゲージ内側UI
+
+	constexpr int kHpGaugePosX = 500;
+	constexpr int kHpGaugePosY = 890;
+
 	VECTOR kSordSize = VGet(0.01f, 0.01f, 0.01f);
 	VECTOR kInitPos = VGet(10.0f, 0.0f, 10.0f);
 
@@ -17,7 +25,7 @@ namespace {
 	constexpr float kAttackColRadius = 0.0;
 }
 
-EnemyRight::EnemyRight():
+EnemyRight::EnemyRight() :
 	EnemyBase(kModelEnemy, kInitPos),
 	m_sordModel(-1),
 	m_upPos(kInitVec)
@@ -38,9 +46,10 @@ EnemyRight::~EnemyRight()
 	MV1DeleteModel(m_sordModel);
 }
 
-void EnemyRight::Init()
+void EnemyRight::Init(std::shared_ptr<GameMap> pMap)
 {
-
+	m_outGauge = LoadGraph(kHpOutGauge);
+	m_inGauge = LoadGraph(kHpInGauge);
 }
 
 void EnemyRight::Update(const Player& player)
@@ -53,6 +62,29 @@ void EnemyRight::Update(const Player& player)
 	{
 		m_hp -= player.GetAddDamage();
 	}
+
+
+	// move
+	{
+		// 敵が画面外に出ないようする処理
+		if (m_pos.x < mp.leftBack.x)
+		{
+			m_pos.x -= m_move.x;		// 左
+		}
+		if (m_pos.x > mp.rightFront.x)
+		{
+			m_pos.x -= m_move.x;		// 右
+		}
+		if (m_pos.z < mp.rightFront.z)
+		{
+			m_pos.z -= m_move.z;		// 前
+		}
+		if (m_pos.z > mp.leftBack.z)
+		{
+			m_pos.z -= m_move.z;		// 奥
+		}
+	}
+
 
 	SetModelFramePosition(m_pModel->GetModel(), "handIK.r", m_sordModel);
 
@@ -73,18 +105,24 @@ void EnemyRight::Draw()
 		m_colSphere.DrawMain(0x00ff00, false);	// 当たり判定描画
 	}
 
-#ifdef _DEBUG
-	
+	DrawExtendGraph(kHpGaugePosX, kHpGaugePosY,
+		kHpGaugePosX + (852 * (m_hp * 0.01f)), (kHpGaugePosY + 42),
+		m_inGauge, true);
+	DrawGraph(kHpGaugePosX, kHpGaugePosY, m_outGauge, true);
 
-	DrawFormatString(0, 280, 0xffffff, "EnemyRight:m_hp=%d", m_hp);
+
+#ifdef _DEBUG
+	//DrawFormatString(0, 280, 0xffffff, "EnemyRight:m_hp=%d", m_hp);
 #endif
 }
 
 void EnemyRight::End()
 {
+	DeleteGraph(m_inGauge);
+	DeleteGraph(m_outGauge);
 }
 
-void EnemyRight::SetModelFramePosition(int ModelHandle, char* FrameName, int SetModelHandle)
+void EnemyRight::SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle)
 {
 	MATRIX FrameMatrix;
 	int FrameIndex;

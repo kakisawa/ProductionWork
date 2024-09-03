@@ -55,8 +55,8 @@ void SceneGame::Init()
 {
 	m_pMap->Init();
 	m_pPlayer->Init(m_pMap);
-	m_pEnemyRight->Init();
-	m_pEnemyLeft->Init();
+	m_pEnemyRight->Init(m_pMap);
+	m_pEnemyLeft->Init(m_pMap);
 	m_pCamera->Init();
 }
 

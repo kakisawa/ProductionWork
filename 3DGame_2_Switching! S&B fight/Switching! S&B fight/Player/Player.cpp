@@ -300,6 +300,11 @@ void Player::AttackSordStateUpdate()
 			m_multiAttack++;
 		}
 	}
+
+	if (m_multiAttack >= 4)
+	{
+		m_multiAttack = 0;
+	}
 }
 
 /// <summary>
@@ -509,13 +514,14 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 		m_isAttackRight = true;
 	}
 
-
 	if (isCol && m_isAttackDamage)
 	{
-		m_addDamage = kAttack;
-		m_isAttackDamage = false;
+		if (m_multiAttack==0||m_pModel->IsAnimEnd())
+		{
+			m_addDamage = kAttack;
+			m_isAttackDamage = false;
+		}
 	}
-
 }
 
 void Player::Jump()

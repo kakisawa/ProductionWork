@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "SceneBase.h"
 #include "SceneTitle.h"
+#include "SceneDebug.h"
 #include "DxLib.h"
 #include "../Util/Pad.h"
 
@@ -11,8 +12,15 @@ SceneManager::SceneManager() :
 
 void SceneManager::Init()
 {
+#ifdef _DEBUG
+
+	m_pScene = make_shared<SceneDebug>();
+#else
 	// 最初のシーンのメモリを確保する
 	m_pScene = make_shared<SceneTitle>();
+	
+#endif // DEBUG
+
 	m_pScene->Init();					// シーンのInitを呼び出す
 }
 
@@ -30,13 +38,11 @@ void SceneManager::Update()
 		m_pScene = pNext;
 		m_pScene->Init();
 	}
-
-
 }
 
 void SceneManager::Draw()
 {
-	m_pScene->Draw();	// シーンのDrawを呼び出す
+	m_pScene->Draw();
 }
 
 void SceneManager::End()

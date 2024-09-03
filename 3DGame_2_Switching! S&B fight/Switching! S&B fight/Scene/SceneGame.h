@@ -14,17 +14,6 @@ class Camera;
 class SceneGame :
     public SceneBase
 {
-	/*授業用
-private:
-	// 配置情報データ
-	struct LocationData {
-		std::string name;	// 名前
-		std::string tag;	// タグ
-		VECTOR pos;			// 座標
-		VECTOR rot;			// 回転
-		VECTOR scale;		// スケーリング
-	};*/
-
 public:
 	SceneGame();
 	virtual ~SceneGame();
@@ -33,12 +22,6 @@ public:
 	virtual shared_ptr<SceneBase> Update();
 	virtual void Draw();
 	virtual void End();
-
-	
-	/*授業用
-	void LoadLocations();
-	std::vector<LocationData> m_localData;
-	*/
 
 private:
 	int m_modelMap;

@@ -4,13 +4,14 @@
 #include <memory>
 
 class Player;
+class GameMap;
 class EnemyBase
 {
 public:
 	EnemyBase(const char* model,VECTOR pos);
 	virtual ~EnemyBase();
 
-	virtual void Init();
+	virtual void Init(std::shared_ptr<GameMap> pMap);
 	virtual void Update(const Player& player);
 	virtual void Draw();
 	virtual void End();
@@ -21,6 +22,7 @@ protected:
 
 	VECTOR m_pos;
 
+	VECTOR m_move;
 	//ƒ‚ƒfƒ‹ƒNƒ‰ƒX
 	std::shared_ptr<Model> m_pModel;
 };

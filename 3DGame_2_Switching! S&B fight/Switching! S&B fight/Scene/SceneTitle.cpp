@@ -17,7 +17,7 @@ SceneTitle::SceneTitle() :
 	graph2(-1),
 	graph3(-1),
 	m_titleGraph(-1),
-	m_nextScene(nextScene::kNone)
+	m_nextScene(nextScene::kGameScene)
 {
 }
 
@@ -42,39 +42,31 @@ void SceneTitle::Init()
 
 shared_ptr<SceneBase> SceneTitle::Update()
 {
-	// シーン遷移
 
-	if (Pad::IsTrigger(PAD_INPUT_R)) {		// RBボタン
+	// 次のシーン選択
+	SwitchingScene();
+
+	// シーン遷移
+	if (Pad::IsTrigger(PAD_INPUT_R)) {			// STARTボタン
 		if (m_nextScene == nextScene::kGameScene)
 		{
 			return make_shared<SceneGame>();	// ゲームシーンへ行く
 		}
-
 		if (m_nextScene == nextScene::kOptionScene)
 		{
 			return make_shared<SceneOption>();	// オプションシーンへ行く
 		}
-
 		if (m_nextScene == nextScene::kRankingScene)
 		{
 			return make_shared<SceneRanking>();	// ランキングシーンへ行く
 		}
-	}
-
-
-
-	SwitchingScene();
-
-
-#ifdef _DEBUG
-
-	if (m_nextScene == nextScene::kNone)
-	{
-		if (Pad::IsNotPress(PAD_INPUT_Z)) {	// RBボタン
-			m_nextScene = nextScene::kGameScene;
+		if (m_nextScene == nextScene::kGameEnd)
+		{
+			DxLib_End();						// ゲームを終了する
 		}
 	}
 
+#ifdef _DEBUG
 #endif // DEBUG
 
 	return shared_from_this();
@@ -84,7 +76,7 @@ void SceneTitle::Draw()
 {
 	DrawExtendGraph(kTitlePosX, kTitlePosY, kTitlePosX+1200, kTitlePosY+430, m_titleGraph, true);
 
-	DrawString(0, 20, "Please Press Button Start", 0x00ffff);
+	DrawString(0, 20, "Please Press AnyButton", 0x00ffff);
 
 #ifdef _DEBUG
 	DrawString(0, 0, "SceneTitle", 0xffffff);
@@ -111,6 +103,10 @@ void SceneTitle::SwitchingScene()
 		}
 		else if (m_nextScene == nextScene::kRankingScene)
 		{
+			m_nextScene = nextScene::kGameEnd;
+		}
+		else if(m_nextScene == nextScene::kGameEnd)
+		{ 
 			m_nextScene = nextScene::kGameScene;
 		}
 	}
@@ -119,6 +115,10 @@ void SceneTitle::SwitchingScene()
 	if (Pad::IsTrigger(PAD_INPUT_UP))
 	{
 		if (m_nextScene == nextScene::kGameScene)
+		{
+			m_nextScene = nextScene::kGameEnd;
+		}
+		else if (m_nextScene == nextScene::kGameEnd)
 		{
 			m_nextScene = nextScene::kRankingScene;
 		}

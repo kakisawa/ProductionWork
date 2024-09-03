@@ -11,12 +11,12 @@ public:
 	EnemyRight();
 	~EnemyRight();
 
-	void Init()override;
+	void Init(std::shared_ptr<GameMap> pMap)override;
 	void Update(const Player& player)override;
 	void Draw()override;
 	void End()override;
 	
-	void SetModelFramePosition(int ModelHandle, char* FrameName, int SetModelHandle);
+	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle);
 
 	Collision GetColSphere() const { return m_colSphere; }
 
@@ -40,6 +40,15 @@ private:
 
 private:
 	int m_sordModel;
+
+	int m_outGauge;
+	int m_inGauge;
+
+	struct MapPlace
+	{
+		VECTOR leftBack;		// マップ左奥座標
+		VECTOR rightFront;	// マップ右前座標
+	}mp;
 	
 	VECTOR m_upPos;			// カプセル上座標
 

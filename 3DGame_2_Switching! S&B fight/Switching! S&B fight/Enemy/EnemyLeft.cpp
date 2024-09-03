@@ -2,11 +2,20 @@
 #include "EnemyState.h"
 #include "../Player/Player.h"
 #include "../Util/Pad.h"
+#include "../GameMap.h"
 #include <math.h>
 
 namespace {
 	const char* kModelEnemy = "data/model/EnemyModel/Enemy2.mv1";
 	const char* kSord = "data/model/EnemyModel/Blade.mv1";
+
+	const char* kParts = "handIK.r";
+
+	const char* const kHpOutGauge = "data/UI/EnemyGauge.png";			// HPゲージ外側UI
+	const char* const kHpInGauge = "data/UI/EnemyLeftGauge.png";		// HPゲージ内側UI
+
+	constexpr int kHpGaugePosX = 500;
+	constexpr int kHpGaugePosY = 950;
 
 	constexpr int	kMaxHp = 100;				// 体力最大値
 
@@ -44,8 +53,13 @@ EnemyLeft::~EnemyLeft()
 	MV1DeleteModel(m_sordModel);
 }
 
-void EnemyLeft::Init()
+void EnemyLeft::Init(std::shared_ptr<GameMap> pMap)
 {
+	m_outGauge = LoadGraph(kHpOutGauge);
+	m_inGauge = LoadGraph(kHpInGauge);
+
+	mp.leftBack = pMap->GetMapLeftBack();
+	mp.rightFront = pMap->GetMapRightFront();
 }
 
 void EnemyLeft::Update(const Player& player)
@@ -59,7 +73,10 @@ void EnemyLeft::Update(const Player& player)
 		m_hp -= player.GetAddDamage();
 	}
 
-	SetModelFramePosition(m_pModel->GetModel(), "handIK.r", m_sordModel);
+	Move();
+
+
+	SetModelFramePosition(m_pModel->GetModel(), kParts, m_sordModel);
 
 	// 当たり判定用カプセル型の座標更新
 	m_upPos = VAdd(m_pos, kUpPos);
@@ -78,18 +95,47 @@ void EnemyLeft::Draw()
 		m_colSphere.DrawMain(0x00ff00, false);	// 当たり判定描画
 	}
 
-#ifdef _DEBUG
-	
+	DrawExtendGraph(kHpGaugePosX, kHpGaugePosY,
+		kHpGaugePosX + (852 * (m_hp * 0.01f)), (kHpGaugePosY + 42),
+		m_inGauge, true);
+	DrawGraph(kHpGaugePosX, kHpGaugePosY, m_outGauge, true);
 
-	DrawFormatString(0, 260, 0xffffff, "EnemyLeft:m_hp=%d", m_hp);
+#ifdef _DEBUG
+	//DrawFormatString(0, 260, 0xffffff, "EnemyLeft:m_hp=%d", m_hp);
 #endif
 }
 
 void EnemyLeft::End()
 {
+	DeleteGraph(m_inGauge);
+	DeleteGraph(m_outGauge);
 }
 
-void EnemyLeft::SetModelFramePosition(int ModelHandle, char *FrameName, int SetModelHandle)
+void EnemyLeft::Move()
+{
+
+
+
+	//敵が画面外に出ないようする処理
+	if (m_pos.x < mp.leftBack.x)
+	{
+		m_pos.x -= m_move.x;		// 左
+	}
+	if (m_pos.x > mp.rightFront.x)
+	{
+		m_pos.x -= m_move.x;		// 右
+	}
+	if (m_pos.z < mp.rightFront.z)
+	{
+		m_pos.z -= m_move.z;		// 前
+	}
+	if (m_pos.z > mp.leftBack.z)
+	{
+		m_pos.z -= m_move.z;		// 奥
+	}
+}
+
+void EnemyLeft::SetModelFramePosition(int ModelHandle, const char *FrameName, int SetModelHandle)
 {
 	MATRIX FrameMatrix;
 	int FrameIndex;

@@ -22,12 +22,18 @@ public:
 	/// </summary>
 	void SwitchingScene();
 
+	/// <summary>
+	/// Ÿ‚ÌƒV[ƒ“‚ÖŒü‚©‚¤
+	/// </summary>
+	void ChangeScene();
+
 	enum class nextScene
 	{
 		kNone,
 		kGameScene,
 		kOptionScene,
 		kRankingScene,
+		kGameEnd,
 	};
 
 private:

@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Scene\SceneDebug.cpp" />
     <ClCompile Include="Util\Collision.cpp" />
     <ClCompile Include="Enemy\EnemyState.cpp" />
     <ClCompile Include="GameMap.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Manager\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Scene\SceneDebug.h" />
     <ClInclude Include="Util\Collision.h" />
     <ClInclude Include="Enemy\EnemyState.h" />
     <ClInclude Include="GameMap.h" />
