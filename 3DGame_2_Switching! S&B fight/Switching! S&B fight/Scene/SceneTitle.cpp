@@ -33,10 +33,10 @@ void SceneTitle::Init()
 
 	m_titleGraph = LoadGraph("data/Title.png");
 
-	m_pSound->InitSound();	// サウンドの初期化
-	m_pSound->LoadBGM(SoundManager::BGM_Type::kTitleBGM);	// サウンドの読み込み
+	//m_pSound->InitSound();	// サウンドの初期化
+	//m_pSound->LoadBGM(SoundManager::BGM_Type::kTitleBGM);	// サウンドの読み込み
 
-	m_pSound->PlayBGM(SoundManager::BGM_Type::kTitleBGM, DX_PLAYTYPE_LOOP);
+	//m_pSound->PlayBGM(SoundManager::BGM_Type::kTitleBGM, DX_PLAYTYPE_LOOP);
 	m_isNextSceneFlag = false;
 }
 
