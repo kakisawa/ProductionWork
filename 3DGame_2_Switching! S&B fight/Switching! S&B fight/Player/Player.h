@@ -5,6 +5,8 @@
 #include <memory>
 
 class Camera;
+class EnemyRight;
+class EnemyLeft;
 class PlayerState;
 class GameMap;
 class Player
@@ -14,7 +16,7 @@ public:
 	~Player();
 
 	void Init(std::shared_ptr<GameMap> pMap);
-	void Update(const Camera& camera);
+	void Update(const Camera& camera,const EnemyRight& enemyR, const EnemyLeft& enemyL);
 	void Draw();
 	void End();
 
@@ -66,7 +68,7 @@ private:
 	void Move(const VECTOR& MoveVector);	// プレイヤーの移動処理
 	void Angle();							// プレイヤーの回転処理
 
-	void Attack();		// 攻撃処理
+	void Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL);		// 攻撃処理
 	void Jump();		// ジャンプ処理
 
 	void Death();		// 死亡処理
@@ -118,4 +120,6 @@ private:
 
 	//モデルクラス
 	std::shared_ptr<Model> m_pModel;
+
+	bool isCol;	// 当たり判定仮
 };

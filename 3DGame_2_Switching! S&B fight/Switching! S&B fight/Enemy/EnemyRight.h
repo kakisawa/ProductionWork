@@ -18,6 +18,8 @@ public:
 	
 	void SetModelFramePosition(int ModelHandle, char* FrameName, int SetModelHandle);
 
+	Collision GetColSphere() const { return m_colSphere; }
+
 private:
 	// アニメーション情報
 	struct AnimationData
@@ -37,7 +39,7 @@ private:
 private:
 	int m_sordModel;
 	
-	VECTOR m_UpPos;			// カプセル上座標
+	VECTOR m_upPos;			// カプセル上座標
 
 
 	std::shared_ptr<EnemyState> m_pState;

@@ -20,6 +20,8 @@ SceneGame::SceneGame():
 	m_pos(VGet(0.0f,0.0f,0.0f)),
 	m_modelCup(-1)
 {
+
+#ifdef _DEBUG
 	// ‰¼
 	m_modelCup = MV1LoadModel(kCupModel);
 	MV1SetScale(m_modelCup, VGet(5.0f, 5.0f, 5.0f));
@@ -42,6 +44,7 @@ SceneGame::SceneGame():
 	MV1SetRotationXYZ(m_arrowModel[0], VGet(0.0f, 180.0f * DX_PI_F/180.0f, 0.0f));
 	MV1SetRotationXYZ(m_arrowModel[2], VGet(0.0f, -90.0f * DX_PI_F / 180.0f, 90.0f * DX_PI_F / 180.0f));
 	MV1SetRotationXYZ(m_arrowModel[3], VGet(0.0f, 90.0f * DX_PI_F / 180.0f, 90.0f * DX_PI_F / 180.0f));
+#endif
 }
 
 SceneGame::~SceneGame()
@@ -59,7 +62,7 @@ void SceneGame::Init()
 
 shared_ptr<SceneBase> SceneGame::Update()
 {
-	m_pPlayer->Update(*m_pCamera);
+	m_pPlayer->Update(*m_pCamera,*m_pEnemyRight,*m_pEnemyLeft);
 	m_pEnemyRight->Update(*m_pPlayer);
 	m_pEnemyLeft->Update(*m_pPlayer);
 	m_pCamera->Update(*m_pPlayer);

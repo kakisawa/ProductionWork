@@ -8,14 +8,17 @@ public:
 	virtual ~Collision();
 
 	// 描画
-	void DrawMain(const float radius,unsigned int color, bool isFill);
-	void DrawAttack(const float radius, unsigned int color, bool isFill);
+	void DrawMain(unsigned int color, bool isFill);
+	void DrawAttack(unsigned int color, bool isFill);
 
-	void UpdateCol(VECTOR pos,VECTOR upPos, VECTOR attackRange);	// 当たり判定の更新
+	void UpdateCol(VECTOR pos,VECTOR upPos, VECTOR attackRange, float colRadius, float attackColRadius);	// 当たり判定の更新
 
 	bool IsCollision(const Collision& col);		// 当たり判定
 
 private:
+	float m_attackColRadius;
+	float m_colRadius;
+
 	VECTOR m_pos;
 	VECTOR m_vertexPos;
 	VECTOR m_attackRange;

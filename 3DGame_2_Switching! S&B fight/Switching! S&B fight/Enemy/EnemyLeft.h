@@ -18,6 +18,8 @@ public:
 
 	void SetModelFramePosition(int ModelHandle, char *FrameName, int SetModelHandle);
 
+	Collision GetColSphere() const { return m_colSphere; }
+
 private:
 	// アニメーション情報
 	struct AnimationData

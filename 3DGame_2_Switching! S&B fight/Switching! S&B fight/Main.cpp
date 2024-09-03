@@ -9,7 +9,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// 一部の関数はDxLib_Init()の前に実行する必要がある
 	ChangeWindowMode(true);
 	// ウインドウ名設定
-	SetMainWindowText("NamelessGame");
+	SetMainWindowText("Switching! S&B fight");
 	// ウィンドウのサイズを自分で調整できるようにするか
 	//SetWindowSizeChangeEnableFlag(true);
 

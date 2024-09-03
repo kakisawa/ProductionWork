@@ -13,9 +13,12 @@ namespace {
 	VECTOR kSordSize = VGet(0.01f, 0.01f, 0.01f);
 	VECTOR kInitPos= VGet(-10.0f, 0.0f, 10.0f);
 
-	const VECTOR kUpPos = VGet(0.0f, 20.0f, 0.0f);
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
-
+	
+	const VECTOR kUpPos = VGet(0.0f, 20.0f, 0.0f);
+	const VECTOR kAttackRange = VGet(0.0f, 0.0f, 0.0f);
+	constexpr float kColRadius = 5.0;
+	constexpr float kAttackColRadius = 0.0;
 	
 }
 
@@ -57,7 +60,7 @@ void EnemyLeft::Update(const Player& player)
 
 	// 当たり判定用カプセル型の座標更新
 	m_upPos = VAdd(m_pos, kUpPos);
-	m_colSphere.UpdateCol(m_pos, m_upPos,kInitPos);
+	m_colSphere.UpdateCol(m_pos, m_upPos,kInitPos, kColRadius,kAttackColRadius);
 }
 
 void EnemyLeft::Draw()
@@ -68,7 +71,7 @@ void EnemyLeft::Draw()
 	MV1DrawModel(m_sordModel);
 
 #ifdef _DEBUG
-	m_colSphere.DrawMain(5.0f,0x00ff00, false);	// 当たり判定描画
+	m_colSphere.DrawMain(0x00ff00, false);	// 当たり判定描画
 
 	DrawFormatString(0, 260, 0xffffff, "EnemyLeft:m_hp=%d", m_hp);
 #endif

@@ -5,6 +5,8 @@
 #include "../Camera.h"
 #include "PlayerState.h"
 #include "../GameMap.h"
+#include "../Enemy/EnemyRight.h"
+#include "../Enemy/EnemyLeft.h"
 #include <cassert>
 #include <cmath>
 
@@ -33,7 +35,9 @@ namespace {
 	constexpr int kHpGageHeight = kHpGagePosY + 57;
 
 	const VECTOR kUpPos = VGet(0.0f, 7.0f, 0.0f);
-	const VECTOR kAttackRange = VGet(3.0f, 0.0f, 0.0f);
+	const VECTOR kAttackRange = VGet(0.0f, 0.0f, 8.0f);
+	constexpr float kColRadius = 2.5;
+	constexpr float kAttackColRadius = 3.0;
 
 	// 初期化用値
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
@@ -63,7 +67,8 @@ Player::Player() :
 	m_move(kInitVec),
 	m_UpPos(kInitVec),
 	m_hp(kMaxHp),
-	m_targetDir(VGet(0.0f, 0.0f, 0.0f))
+	m_targetDir(VGet(0.0f, 0.0f, 0.0f)),
+	isCol(false)
 {
 	// UI画像の読み込み
 	m_uiGraph = LoadGraph(kUIPlayer);
@@ -112,18 +117,29 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 /// <summary>
 /// 更新
 /// </summary>
-void Player::Update(const Camera& camera)
+void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
+	isCol = false;
 	// パッド入力によって移動パラメータを設定する
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
 	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
+
+	//if (m_colSphere.IsCollision(enemyR.GetColSphere()))
+	//{
+	//	isCol = true;
+	//}
+	//if (m_colSphere.IsCollision(enemyL.GetColSphere()))
+	//{
+	//	isCol = true;
+	//}
+
 
 	// ステイトの更新
 	m_pState->Update();
 
 	// プレイヤーの状態更新
 	// 攻撃処理
-	Attack();
+	Attack(enemyR,enemyL);
 	// 移動処理
 	OldMoveValue(camera, upMoveVec, leftMoveVec);
 
@@ -140,10 +156,13 @@ void Player::Update(const Camera& camera)
 	Death();
 
 	// プレイヤー当たり判定用カプセル型の座標更新
-	VECTOR posCenter = VAdd(m_pos, VGet(0.0f, 2.0f, 0.0f));
 	m_UpPos = VAdd(m_pos, kUpPos);
-	m_attackRange = VAdd(m_pos, kAttackRange);
-	m_colSphere.UpdateCol(posCenter, m_UpPos,m_attackRange);
+
+	MATRIX rotationMatrix = MGetRotY(m_angle);
+	m_attackRange = VAdd(m_pos, VTransform(kAttackRange, rotationMatrix));
+
+	m_colSphere.UpdateCol(m_pos, m_UpPos, m_attackRange, 
+		kColRadius, kAttackColRadius);
 }
 
 /// <summary>
@@ -159,8 +178,8 @@ void Player::Draw()
 	m_pModel->Draw();
 
 #ifdef _DEBUG
-	m_colSphere.DrawMain(2.5,0xff0000, false);	// 当たり判定描画
-	m_colSphere.DrawAttack(2.0,0x0000ff, false);	// 当たり判定描画
+	m_colSphere.DrawMain(0xff0000, false);	// 当たり判定描画
+	m_colSphere.DrawAttack(0x0000ff, false);	// 当たり判定描画
 
 	DrawFormatString(0, 200, 0xffffff, "Player:m_move.x,y,z=%.2f,=%.2f,=%.2f", m_move.x, m_move.y, m_move.z);
 
@@ -170,6 +189,15 @@ void Player::Draw()
 	DrawFormatString(0, 280, 0xffffff, "State=%d", m_pState->GetState());
 	DrawFormatString(0, 300, 0xffffff, "m_isWalk=%d", m_isWalk);
 	DrawFormatString(0, 320, 0xffffff, "m_angle=%.2f", m_angle);
+
+	if (isCol)
+	{
+		DrawString(0, 500, "当たっている", 0xffffff);
+	}
+	else
+	{
+		DrawString(0, 500, "当たっていない", 0xffffff);
+	}
 #endif // DEBUG
 }
 
@@ -179,7 +207,6 @@ void Player::Draw()
 void Player::End()
 {
 }
-
 
 void Player::JumpStateInit()
 {
@@ -461,8 +488,11 @@ void Player::Angle()
 }
 
 
-void Player::Attack()
+void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
+	Collision enemyRightCol = enemyR.GetColSphere();
+	Collision enemyLeftCol = enemyL.GetColSphere();
+
 	m_addDamage = 0;
 
 	if (!m_isAttack)	return;
@@ -472,16 +502,23 @@ void Player::Attack()
 		m_moveAttack = VAdd(m_moveAttack, VGet(0.0f, 0.0f, kAttackSpeed));
 		m_isForward = false;
 	}*/
-	if (m_isAttackDamage)
+
+
+	if (m_colSphere.IsCollision(enemyLeftCol))
 	{
-		m_hp -= kAttack;
-		m_addDamage = kAttack;
-		m_isAttackDamage = false;
+		isCol = true;
+	}
+	if (m_colSphere.IsCollision(enemyRightCol))
+	{
+		isCol = true;
 	}
 
 
-	int HitCheck_Capsule_Capsule(VECTOR Cap1Pos1, VECTOR Cap1Pos2,
-		float Cap1R, VECTOR Cap2Pos1, VECTOR Cap2Pos2, float Cap2R);// カプセル同士の当たり判定( TRUE:当たっている FALSE:当たっていない )
+	if (m_isAttackDamage)
+	{
+		m_addDamage = kAttack;
+		m_isAttackDamage = false;
+	}
 
 }
 
