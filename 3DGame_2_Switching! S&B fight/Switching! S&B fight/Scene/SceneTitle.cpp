@@ -3,13 +3,11 @@
 #include "SceneGame.h"
 #include "SceneOption.h"
 #include "SceneRanking.h"
-#include "../Manager/SoundManager.h"
 #include "../Util/Pad.h"
 
 namespace {
 	constexpr int kTitlePosX= 300;
 	constexpr int kTitlePosY= 20;
-
 }
 
 SceneTitle::SceneTitle() :
@@ -33,10 +31,14 @@ void SceneTitle::Init()
 
 	m_titleGraph = LoadGraph("data/Title.png");
 
-	//m_pSound->InitSound();	// サウンドの初期化
-	//m_pSound->LoadBGM(SoundManager::BGM_Type::kTitleBGM);	// サウンドの読み込み
+	//ポインタの確保はSceneBase
+	m_pSound->InitSound();	// サウンドの初期化
+	m_pSound->LoadBGM(SoundManager::BGM_Type::kTitleBGM);	// サウンドの読み込み
+	m_pSound->LoadSE(SoundManager::SE_Type::kSelectSE);
+	m_pSound->LoadSE(SoundManager::SE_Type::kButtonSE);
 
-	//m_pSound->PlayBGM(SoundManager::BGM_Type::kTitleBGM, DX_PLAYTYPE_LOOP);
+	m_pSound->PlayBGM(SoundManager::BGM_Type::kTitleBGM, DX_PLAYTYPE_LOOP);
+
 	m_isNextSceneFlag = false;
 }
 
@@ -48,6 +50,9 @@ shared_ptr<SceneBase> SceneTitle::Update()
 
 	// シーン遷移
 	if (Pad::IsTrigger(PAD_INPUT_R)) {			// STARTボタン
+
+		m_pSound->PlaySE(SoundManager::SE_Type::kButtonSE, DX_PLAYTYPE_NORMAL);
+
 		if (m_nextScene == nextScene::kGameScene)
 		{
 			return make_shared<SceneGame>();	// ゲームシーンへ行く
@@ -86,6 +91,7 @@ void SceneTitle::Draw()
 
 void SceneTitle::End()
 {
+	SceneBase::End();
 }
 
 void SceneTitle::SwitchingScene()
@@ -93,6 +99,8 @@ void SceneTitle::SwitchingScene()
 	// 下キーを押すと次のシーンの変更をする
 	if (Pad::IsTrigger(PAD_INPUT_DOWN))
 	{
+		m_pSound->PlaySE(SoundManager::SE_Type::kSelectSE, DX_PLAYTYPE_BACK);
+
 		if (m_nextScene == nextScene::kGameScene)
 		{
 			m_nextScene = nextScene::kOptionScene;
@@ -114,6 +122,8 @@ void SceneTitle::SwitchingScene()
 	// 上キーを押すと次のシーンの変更をする
 	if (Pad::IsTrigger(PAD_INPUT_UP))
 	{
+		m_pSound->PlaySE(SoundManager::SE_Type::kSelectSE, DX_PLAYTYPE_BACK);
+
 		if (m_nextScene == nextScene::kGameScene)
 		{
 			m_nextScene = nextScene::kGameEnd;

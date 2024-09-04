@@ -18,6 +18,7 @@ SceneGameClear::~SceneGameClear()
 
 void SceneGameClear::Init()
 {
+	m_pSound->InitSound();	// ƒTƒEƒ“ƒh‚Ì‰Šú‰»
 	m_graph = LoadGraph("data/GameClear!!.png");
 }
 
@@ -49,4 +50,5 @@ void SceneGameClear::Draw()
 void SceneGameClear::End()
 {
 	DeleteGraph(m_graph);
+	SceneBase::End();
 }

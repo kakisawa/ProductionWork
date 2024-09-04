@@ -12,6 +12,7 @@ SceneRanking::~SceneRanking()
 
 void SceneRanking::Init()
 {
+	m_pSound->InitSound();	// ƒTƒEƒ“ƒh‚Ì‰Šú‰»
 }
 
 shared_ptr<SceneBase> SceneRanking::Update()
@@ -36,4 +37,5 @@ void SceneRanking::Draw()
 
 void SceneRanking::End()
 {
+	SceneBase::End();
 }

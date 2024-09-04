@@ -1,10 +1,6 @@
 #pragma once
 #include "SceneBase.h"
 
-using namespace std;
-
-class SoundManager;
-
 class SceneTitle :
     public SceneBase
 {
@@ -15,17 +11,12 @@ public:
 	virtual void Init();
 	virtual shared_ptr<SceneBase> Update();
 	virtual void Draw();
-	virtual void End();
+	void End() override;
 
 	/// <summary>
 	/// 次のシーンを選択
 	/// </summary>
 	void SwitchingScene();
-
-	/// <summary>
-	/// 次のシーンへ向かう
-	/// </summary>
-	void ChangeScene();
 
 	enum class nextScene
 	{
@@ -43,6 +34,4 @@ private:
 	int graph3;
 
 	nextScene m_nextScene;
-
-	std::shared_ptr<SoundManager> m_pSound;
 };

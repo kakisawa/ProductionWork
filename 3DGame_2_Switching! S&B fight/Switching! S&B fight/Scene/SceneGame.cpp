@@ -58,6 +58,7 @@ void SceneGame::Init()
 	m_pEnemyRight->Init(m_pMap);
 	m_pEnemyLeft->Init(m_pMap);
 	m_pCamera->Init();
+	m_pSound->InitSound();	// サウンドの初期化
 }
 
 shared_ptr<SceneBase> SceneGame::Update()
@@ -115,28 +116,7 @@ void SceneGame::Draw()
 	}
 	
 	DrawString(0, 120, "SceneGame", 0xffffff);
-	DrawString(0, 140, "Please Press Button RB or LB", 0x00ffff);
-
-	// 授業用
-	/*
-	int y = 50;
-	for (const auto& loc : m_localData) {
-		DrawFormatString(50, y, 0xffffff, "name=%s : tag=%s : pos=%2.2f,%2.2f,%2.2f : rot=%2.2f,%2.2f,%2.2f : scale=%2.2f,%2.2f,%2.2f",
-			loc.name.c_str(),
-			loc.tag.c_str(),
-			loc.pos.x, loc.pos.y, loc.pos.z,
-			loc.rot.x, loc.rot.y, loc.rot.z,
-			loc.scale.x, loc.scale.y, loc.scale.z);
-
-		if (loc.tag == "Sphere")
-		{
-			DrawSphere3D(VGet(loc.pos.x, loc.pos.y, loc.pos.z), 1.0f, 35,
-				GetColor(255, 255, 255), GetColor(255, 255, 255), true);
-		}
-
-		y += 20;
-	}*/
-	
+	DrawString(0, 140, "Please Press Button RB or LB", 0x00ffff);	
 }
 
 void SceneGame::End()
@@ -145,6 +125,8 @@ void SceneGame::End()
 	m_pPlayer->End();
 	m_pEnemyRight->End();
 	m_pEnemyLeft->End();
+
+	SceneBase::End();
 
 	MV1DeleteModel(m_modelCup);
 	for (int i = 0; i < 4; i++)

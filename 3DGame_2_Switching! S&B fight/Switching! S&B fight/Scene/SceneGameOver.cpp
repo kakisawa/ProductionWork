@@ -18,6 +18,7 @@ SceneGameOver::~SceneGameOver()
 
 void SceneGameOver::Init()
 {
+	m_pSound->InitSound();	// ƒTƒEƒ“ƒh‚Ì‰Šú‰»
 	m_graph = LoadGraph("data/GameOver_.png");
 }
 
@@ -46,4 +47,5 @@ void SceneGameOver::Draw()
 void SceneGameOver::End()
 {
 	DeleteGraph(m_graph);
+	SceneBase::End();
 }
