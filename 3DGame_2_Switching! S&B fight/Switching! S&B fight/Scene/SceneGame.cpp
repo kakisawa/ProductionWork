@@ -1,11 +1,11 @@
 #include "SceneGame.h"
 #include "SceneGameClear.h"
 #include "SceneGameOver.h"
-#include "../GameMap.h"
-#include "../Enemy/EnemyRight.h"
-#include "../Enemy/EnemyLeft.h"
-#include "../Player/Player.h"
-#include "../Util/Camera.h"
+#include "../Object/GameMap.h"
+#include "../Object/Enemy/EnemyRight.h"
+#include "../Object/Enemy/EnemyLeft.h"
+#include "../Object/Player/Player.h"
+#include "../Object/Camera.h"
 #include "../Util/Pad.h"
 #include <cassert>
 
@@ -59,6 +59,9 @@ void SceneGame::Init()
 	m_pEnemyLeft->Init(m_pMap);
 	m_pCamera->Init();
 	m_pSound->InitSound();	// サウンドの初期化
+
+	m_pSound->LoadBGM(SoundManager::BGM_Type::kGameBGM);	// サウンドの読み込み
+	m_pSound->PlayBGM(SoundManager::BGM_Type::kGameBGM, DX_PLAYTYPE_LOOP);
 }
 
 shared_ptr<SceneBase> SceneGame::Update()
@@ -70,14 +73,15 @@ shared_ptr<SceneBase> SceneGame::Update()
 
 	if (m_pPlayer->GetDeathFlag())
 	{
+		//End();
 		return make_shared<SceneGameOver>();	// ゲームオーバーへ行く
 	}
 
 	if (m_pEnemyLeft->GetHp() <= 0 && m_pEnemyRight->GetHp() <= 0)
 	{
+		//End();
 		return make_shared<SceneGameClear>();	// ゲームクリアへ行く
 	}
-
 
 #ifdef _DEBUG
 	if (Pad::IsTrigger(PAD_INPUT_L))		// LBボタンを押したら
@@ -88,8 +92,6 @@ shared_ptr<SceneBase> SceneGame::Update()
 	{
 		return make_shared<SceneGameOver>();	// ゲームオーバーへ行く
 	}
-
-	
 
 #endif // _DEBUG
 

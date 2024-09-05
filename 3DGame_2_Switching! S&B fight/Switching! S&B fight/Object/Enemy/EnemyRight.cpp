@@ -1,40 +1,33 @@
-#include "EnemyLeft.h"
+#include "EnemyRight.h"
 #include "EnemyState.h"
 #include "../Player/Player.h"
-#include "../Util/Pad.h"
-#include "../GameMap.h"
-#include <math.h>
 
 namespace {
-	const char* kModelEnemy = "data/model/EnemyModel/Enemy2.mv1";
+	const char* kModelEnemy = "data/model/EnemyModel/Enemy1.mv1";
 	const char* kSord = "data/model/EnemyModel/Blade.mv1";
 
 	const char* kParts = "handIK.r";
 
 	const char* const kHpOutGauge = "data/UI/EnemyGauge.png";			// HPゲージ外側UI
-	const char* const kHpInGauge = "data/UI/EnemyLeftGauge.png";		// HPゲージ内側UI
+	const char* const kHpInGauge = "data/UI/EnemyRightGauge.png";		// HPゲージ内側UI
 
 	constexpr int kHpGaugePosX = 500;
-	constexpr int kHpGaugePosY = 950;
-
-	constexpr int	kMaxHp = 100;				// 体力最大値
+	constexpr int kHpGaugePosY = 890;
 
 	VECTOR kSordSize = VGet(0.01f, 0.01f, 0.01f);
-	VECTOR kInitPos= VGet(-10.0f, 0.0f, 10.0f);
+	VECTOR kInitPos = VGet(10.0f, 0.0f, 10.0f);
 
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
-	
+
 	const VECTOR kUpPos = VGet(0.0f, 20.0f, 0.0f);
 	const VECTOR kAttackRange = VGet(0.0f, 0.0f, 0.0f);
 	constexpr float kColRadius = 5.0;
 	constexpr float kAttackColRadius = 0.0;
-	
 }
 
-EnemyLeft::EnemyLeft():
-	EnemyBase(kModelEnemy,kInitPos),
+EnemyRight::EnemyRight() :
+	EnemyBase(kModelEnemy, kInitPos),
 	m_sordModel(-1),
-	m_isWalk(false),
 	m_upPos(kInitVec)
 {
 	m_sordModel = MV1LoadModel(kSord);
@@ -48,42 +41,60 @@ EnemyLeft::EnemyLeft():
 	m_pState->SetState(EnemyState::State::kIdle);	//ステイトセット(最初はIdle状態)
 }
 
-EnemyLeft::~EnemyLeft()
+EnemyRight::~EnemyRight()
 {
 	MV1DeleteModel(m_sordModel);
 }
 
-void EnemyLeft::Init(std::shared_ptr<GameMap> pMap)
+void EnemyRight::Init(std::shared_ptr<GameMap> pMap)
 {
 	m_outGauge = LoadGraph(kHpOutGauge);
 	m_inGauge = LoadGraph(kHpInGauge);
-
-	mp.leftBack = pMap->GetMapLeftBack();
-	mp.rightFront = pMap->GetMapRightFront();
 }
 
-void EnemyLeft::Update(const Player& player)
+void EnemyRight::Update(const Player& player)
 {
 	m_pState->Update();
 
 	m_pModel->Update();
-	
-	if (player.GetAttackLeft())
+
+	if (player.GetAttackRight())
 	{
 		m_hp -= player.GetAddDamage();
+		m_hp = max(m_hp, 0);
 	}
 
-	Move();
+
+	// move
+	{
+		// 敵が画面外に出ないようする処理
+		if (m_pos.x < mp.leftBack.x)
+		{
+			m_pos.x -= m_move.x;		// 左
+		}
+		if (m_pos.x > mp.rightFront.x)
+		{
+			m_pos.x -= m_move.x;		// 右
+		}
+		if (m_pos.z < mp.rightFront.z)
+		{
+			m_pos.z -= m_move.z;		// 前
+		}
+		if (m_pos.z > mp.leftBack.z)
+		{
+			m_pos.z -= m_move.z;		// 奥
+		}
+	}
 
 
-	SetModelFramePosition(m_pModel->GetModel(), kParts, m_sordModel);
+	SetModelFramePosition(m_pModel->GetModel(), "handIK.r", m_sordModel);
 
 	// 当たり判定用カプセル型の座標更新
 	m_upPos = VAdd(m_pos, kUpPos);
-	m_colSphere.UpdateCol(m_pos, m_upPos,kInitPos, kColRadius,kAttackColRadius);
+	m_colSphere.UpdateCol(m_pos, m_upPos, kInitPos, kColRadius, kAttackColRadius);
 }
 
-void EnemyLeft::Draw()
+void EnemyRight::Draw()
 {
 	if (m_hp > 0)
 	{
@@ -100,42 +111,19 @@ void EnemyLeft::Draw()
 		m_inGauge, true);
 	DrawGraph(kHpGaugePosX, kHpGaugePosY, m_outGauge, true);
 
+
 #ifdef _DEBUG
-	//DrawFormatString(0, 260, 0xffffff, "EnemyLeft:m_hp=%d", m_hp);
+	//DrawFormatString(0, 280, 0xffffff, "EnemyRight:m_hp=%d", m_hp);
 #endif
 }
 
-void EnemyLeft::End()
+void EnemyRight::End()
 {
 	DeleteGraph(m_inGauge);
 	DeleteGraph(m_outGauge);
 }
 
-void EnemyLeft::Move()
-{
-
-
-
-	//敵が画面外に出ないようする処理
-	if (m_pos.x < mp.leftBack.x)
-	{
-		m_pos.x -= m_move.x;		// 左
-	}
-	if (m_pos.x > mp.rightFront.x)
-	{
-		m_pos.x -= m_move.x;		// 右
-	}
-	if (m_pos.z < mp.rightFront.z)
-	{
-		m_pos.z -= m_move.z;		// 前
-	}
-	if (m_pos.z > mp.leftBack.z)
-	{
-		m_pos.z -= m_move.z;		// 奥
-	}
-}
-
-void EnemyLeft::SetModelFramePosition(int ModelHandle, const char *FrameName, int SetModelHandle)
+void EnemyRight::SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle)
 {
 	MATRIX FrameMatrix;
 	int FrameIndex;
@@ -151,12 +139,12 @@ void EnemyLeft::SetModelFramePosition(int ModelHandle, const char *FrameName, in
 	MV1SetMatrix(SetModelHandle, MMult(MGetScale(kSordSize), FrameMatrix));
 }
 
-void EnemyLeft::IdleStateUpdate()
+void EnemyRight::IdleStateUpdate()
 {
 	m_pModel->ChangeAnim(m_animData.kIdle, true, false, 0.5f);
 }
 
-void EnemyLeft::WalkStateUpdate()
+void EnemyRight::WalkStateUpdate()
 {
 	m_pModel->ChangeAnim(m_animData.kWalk, true, false, 0.5f);
 }

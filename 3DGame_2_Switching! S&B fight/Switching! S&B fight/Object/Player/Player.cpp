@@ -1,16 +1,17 @@
 #include "Player.h"
 #include "DxLib.h"
 #include "../Model.h"
-#include "../Util/Pad.h"
-#include "../Util/Camera.h"
+#include "../../Util/Pad.h"
+#include "../../Object/Camera.h"
 #include "PlayerState.h"
 #include "../GameMap.h"
 #include "../Enemy/EnemyRight.h"
 #include "../Enemy/EnemyLeft.h"
+#include "../../Manager/SoundManager.h"
 #include <cassert>
 #include <cmath>
 
-// 07/16:連続攻撃処理中
+bool col;
 
 namespace {
 	const char* const kModelPlayer = "data/model/RogueHooded.mv1";	// モデルのファイル名
@@ -91,6 +92,14 @@ Player::Player() :
 
 	//初期ステイトセット
 	m_pState->SetState(PlayerState::State::kIdle);	//ステイトセット(最初はIdle状態)
+
+	m_pSound = new SoundManager;
+	m_pSound->InitSound();
+	m_pSound->LoadSE(SoundManager::SE_Type::kSord1SE);
+	m_pSound->LoadSE(SoundManager::SE_Type::kSord2SE);
+	m_pSound->LoadSE(SoundManager::SE_Type::kSord3SE);
+
+	col = false;
 }
 
 /// <summary>
@@ -98,7 +107,6 @@ Player::Player() :
 /// </summary>
 Player::~Player()
 {
-	DeleteGraph(m_uiGraph);
 }
 
 /// <summary>
@@ -122,6 +130,7 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
 	isCol = false;
+	col = false;
 	// パッド入力によって移動パラメータを設定する
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
 	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
@@ -142,7 +151,7 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 	Angle();
 
 	// プレイヤーの座標更新
-	Move(m_move);
+	Move(m_move, enemyR, enemyL);
 
 	// プレイヤーの死亡確認処理
 	Death();
@@ -182,13 +191,21 @@ void Player::Draw()
 	DrawFormatString(0, 300, 0xffffff, "m_isWalk=%d", m_isWalk);
 	DrawFormatString(0, 320, 0xffffff, "m_angle=%.2f", m_angle);
 
-	if (isCol)
-	{
+	if(col) {
 		DrawString(0, 500, "当たっている", 0xffffff);
 	}
 	else
 	{
 		DrawString(0, 500, "当たっていない", 0xffffff);
+	}
+
+	if (isCol)
+	{
+		DrawString(0, 520, "当たっている", 0xffffff);
+	}
+	else
+	{
+		DrawString(0, 520, "当たっていない", 0xffffff);
 	}
 #endif // DEBUG
 }
@@ -198,6 +215,12 @@ void Player::Draw()
 /// </summary>
 void Player::End()
 {
+	DeleteGraph(m_uiGraph);
+
+	m_pSound->ReleaseSound();
+
+	delete m_pSound;
+	m_pSound = nullptr;
 }
 
 void Player::JumpStateInit()
@@ -215,8 +238,8 @@ void Player::AttackSordStateInit()
 	m_multiAttack = 0;
 	m_isNextAttackFlag = false;
 	m_isFirstAttack = true;
-	m_isAttackDamage = true;
 	m_attackKind = AttackKind::kAttackSord;
+	m_pSound->PlaySE(SoundManager::SE_Type::kSord1SE, DX_PLAYTYPE_BACK);
 }
 
 /// <summary>
@@ -272,32 +295,35 @@ void Player::AttackSordStateUpdate()
 		break;
 	}
 
-
 	if (Pad::IsTrigger(PAD_INPUT_X) && !m_isNextAttackFlag)
 	{
 		if (!m_isFirstAttack)
 		{
 			m_isNextAttackFlag = true;
-			m_isAttackDamage = true;
 		}
 		m_isFirstAttack = false;
 	}
 
-	// アニメーションが終わった段階で次の攻撃フラグがたっていなかったら
-	if (m_pModel->IsAnimEnd() && !m_isNextAttackFlag)
+	if (m_pModel->IsAnimEnd())
 	{
-		m_isAttack = false;
-		m_multiAttack = 0;
-		m_pState->EndState();
-	}
-
-	// アニメーションが終わった段階で次の攻撃フラグがたっていたら
-	if (m_pModel->IsAnimEnd() && m_isNextAttackFlag)
-	{
-		// 硬直時間を入れるならここ
+		// アニメーションが終わった段階で次の攻撃フラグがたっていなかったら
+		if (!m_isNextAttackFlag)
 		{
+			m_isAttackDamage = true;
+			m_isAttack = false;
+			m_multiAttack = 0;
+			m_pState->EndState();
+		}
+
+		// アニメーションが終わった段階で次の攻撃フラグがたっていたら
+		if (m_isNextAttackFlag)
+		{
+			m_isAttackDamage = true;
+			m_pSound->PlaySE(SoundManager::SE_Type::kSord1SE, DX_PLAYTYPE_BACK);
+
 			m_isNextAttackFlag = false;
 			m_multiAttack++;
+
 		}
 	}
 
@@ -397,7 +423,7 @@ void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftM
 /// プレイヤーの移動処理
 /// </summary>
 /// <param name="MoveVector">移動量</param>
-void Player::Move(const VECTOR& MoveVector)
+void Player::Move(const VECTOR& MoveVector, const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
 	if (fabs(MoveVector.x) > 0.0f || fabs(MoveVector.z) > 0.0f)
 	{
@@ -408,8 +434,23 @@ void Player::Move(const VECTOR& MoveVector)
 		m_isWalk = false;
 	}
 
+	//Collision enemyRightColNormal = VNorm(VSub(m_pos,enemyR.))
+	//	enemyR.GetColSphere();
+	Collision enemyLeftCol = enemyL.GetColSphere();
+
+	if (m_colSphere.IsBodyCollision(enemyRightColNormal))
+	{
+		col = true;
+	}
+	if (m_colSphere.IsBodyCollision(enemyLeftCol))
+	{
+		col = true;
+	}
+
 	// プレイヤーの位置に移動量を足す
 	m_pos = VAdd(m_pos, m_move);
+
+	
 
 
 	// プレイヤーが画面外に出ないようする処理
@@ -494,8 +535,6 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 	m_isAttackLeft = false;
 	m_isAttackRight = false;
 
-	if (!m_isAttack)	return;
-
 	/*if (m_isForward)
 	{
 		m_moveAttack = VAdd(m_moveAttack, VGet(0.0f, 0.0f, kAttackSpeed));
@@ -503,12 +542,12 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 	}*/
 
 
-	if (m_colSphere.IsCollision(enemyLeftCol))
+	if (m_colSphere.IsAttackCollision(enemyLeftCol))
 	{
 		isCol = true;
 		m_isAttackLeft = true;
 	}
-	if (m_colSphere.IsCollision(enemyRightCol))
+	if (m_colSphere.IsAttackCollision(enemyRightCol))
 	{
 		isCol = true;
 		m_isAttackRight = true;
@@ -516,11 +555,8 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 
 	if (isCol && m_isAttackDamage)
 	{
-		if (m_multiAttack==0||m_pModel->IsAnimEnd())
-		{
-			m_addDamage = kAttack;
-			m_isAttackDamage = false;
-		}
+		m_addDamage = kAttack;
+		m_isAttackDamage = false;
 	}
 }
 

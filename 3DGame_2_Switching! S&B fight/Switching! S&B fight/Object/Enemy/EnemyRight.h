@@ -1,25 +1,22 @@
 #pragma once
 #include "EnemyBase.h"
-#include "../Util/Collision.h"
+#include "../../Util/Collision.h"
 
 class Player;
 class EnemyState;
-class GameMap;
-class EnemyLeft :
-    public EnemyBase
+class EnemyRight :
+	public EnemyBase
 {
 public:
-	EnemyLeft();
-	~EnemyLeft();
-	
+	EnemyRight();
+	~EnemyRight();
+
 	void Init(std::shared_ptr<GameMap> pMap)override;
 	void Update(const Player& player)override;
 	void Draw()override;
 	void End()override;
-
-	void Move();
-
-	void SetModelFramePosition(int ModelHandle, const char *FrameName, int SetModelHandle);
+	
+	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle);
 
 	Collision GetColSphere() const { return m_colSphere; }
 
@@ -43,7 +40,7 @@ private:
 
 private:
 	int m_sordModel;
-	bool m_isWalk;
+
 	int m_outGauge;
 	int m_inGauge;
 
@@ -52,8 +49,9 @@ private:
 		VECTOR leftBack;		// マップ左奥座標
 		VECTOR rightFront;	// マップ右前座標
 	}mp;
-
+	
 	VECTOR m_upPos;			// カプセル上座標
+
 
 	std::shared_ptr<EnemyState> m_pState;
 
@@ -61,4 +59,3 @@ private:
 
 	Collision m_colSphere;
 };
-

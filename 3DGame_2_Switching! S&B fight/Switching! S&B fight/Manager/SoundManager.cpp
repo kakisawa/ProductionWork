@@ -10,7 +10,7 @@ void SoundManager::InitSound(void)
 void SoundManager::InitBGM(void)
 {
 	m_bgmPass[BGM_Type::kTitleBGM] = "Title.mp3";
-	m_bgmPass[BGM_Type::kGameBGM] = "";
+	m_bgmPass[BGM_Type::kGameBGM] = "MECHANICAL_DEATH.mp3";
 	m_bgmPass[BGM_Type::kGameClearBGM] = "";
 	m_bgmPass[BGM_Type::kGameOverBGM] = "";
 	m_bgmPass[BGM_Type::kOptionBGM] = "Option.mp3";
@@ -26,11 +26,15 @@ void SoundManager::InitSE(void)
 	m_sePass[SE_Type::kSelectSE] = "カーソル移動2.mp3";
 	m_sePass[SE_Type::kButtonSE] = "決定ボタンを押す6.mp3";
 	m_sePass[SE_Type::kBackSE] = "キャンセル7.mp3";
+	m_sePass[SE_Type::kSord1SE] = "しなる風切り音.mp3";
+	m_sePass[SE_Type::kSord2SE] = "しなる風切り音_2.mp3";
+	m_sePass[SE_Type::kSord3SE] = "しなる風切り音_3.mp3";
 }
 
 void SoundManager::LoadSE(SE_Type se)
 {
-	m_se[se] = LoadSoundMem(("Data/Sound/SE/" + m_sePass[se]).c_str());
+	SetCreateSoundDataType(DX_SOUNDDATATYPE_MEMNOPRESS);
+	m_se[se] = LoadSoundMem(("Data/Sound/SE/" + m_sePass[se]).c_str(),6);
 }
 
 void SoundManager::PlayBGM(BGM_Type bgm, int playType, int volumePar, bool topPositionFlag)

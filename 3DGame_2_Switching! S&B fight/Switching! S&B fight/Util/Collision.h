@@ -13,7 +13,8 @@ public:
 
 	void UpdateCol(VECTOR pos,VECTOR upPos, VECTOR attackRange, float colRadius, float attackColRadius);	// “–‚½‚è”»’è‚ÌXV
 
-	bool IsCollision(const Collision& col);		// “–‚½‚è”»’è
+	bool IsAttackCollision(const Collision& col);		// “–‚½‚è”»’è
+	bool IsBodyCollision(const Collision& col);		// ‘Ì‚Ì“–‚½‚è”»’è
 
 private:
 	float m_attackColRadius;

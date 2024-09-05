@@ -23,6 +23,11 @@ public:
 		kSelectSE,		// セレクトSE
 		kButtonSE,		// 決定SE
 		kBackSE,		// キャンセルSE
+
+		kSord1SE,		// 剣攻撃SE1
+		kSord2SE,		// 剣攻撃SE2
+		kSord3SE,		// 剣攻撃SE3
+
 		MAX,
 	};
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "../Model.h"
 #include "DxLib.h"
-#include "../Util/Collision.h"
+#include "../../Util/Collision.h"
 #include <memory>
 
 class Camera;
@@ -9,6 +9,7 @@ class EnemyRight;
 class EnemyLeft;
 class PlayerState;
 class GameMap;
+class SoundManager;
 class Player
 {
 public:
@@ -70,7 +71,7 @@ private:
 
 	// プレイヤーの移動値設定
 	void OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);
-	void Move(const VECTOR& MoveVector);	// プレイヤーの移動処理
+	void Move(const VECTOR& MoveVector, const EnemyRight& enemyR, const EnemyLeft& enemyL);	// プレイヤーの移動処理
 	void Angle();							// プレイヤーの回転処理
 
 	void Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL);		// 攻撃処理
@@ -128,6 +129,8 @@ private:
 
 	//モデルクラス
 	std::shared_ptr<Model> m_pModel;
+
+	SoundManager* m_pSound;
 
 	bool isCol;	// 当たり判定仮
 };
