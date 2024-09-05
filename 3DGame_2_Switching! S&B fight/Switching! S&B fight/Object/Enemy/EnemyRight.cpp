@@ -92,6 +92,8 @@ void EnemyRight::Update(const Player& player)
 	// “–‚½‚è”»’è—pƒJƒvƒZƒ‹Œ^‚ÌÀ•WXV
 	m_upPos = VAdd(m_pos, kUpPos);
 	m_colSphere.UpdateCol(m_pos, m_upPos, kInitPos, kColRadius, kAttackColRadius);
+
+
 }
 
 void EnemyRight::Draw()
@@ -102,8 +104,6 @@ void EnemyRight::Draw()
 		m_pModel->Draw();
 		// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
 		MV1DrawModel(m_sordModel);
-
-		m_colSphere.DrawMain(0x00ff00, false);	// “–‚½‚è”»’è•`‰æ
 	}
 
 	DrawExtendGraph(kHpGaugePosX, kHpGaugePosY,
@@ -113,7 +113,10 @@ void EnemyRight::Draw()
 
 
 #ifdef _DEBUG
-	//DrawFormatString(0, 280, 0xffffff, "EnemyRight:m_hp=%d", m_hp);
+	if (m_hp > 0)
+	{
+		m_colSphere.DrawMain(0x00ff00, false);	// “–‚½‚è”»’è•`‰æ
+	}
 #endif
 }
 

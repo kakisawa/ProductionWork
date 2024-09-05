@@ -116,9 +116,10 @@ void SceneGame::Draw()
 	{
 		MV1DrawModel(m_arrowModel[i]);
 	}
-	
+#ifdef _DEBUG
 	DrawString(0, 120, "SceneGame", 0xffffff);
 	DrawString(0, 140, "Please Press Button RB or LB", 0x00ffff);	
+#endif
 }
 
 void SceneGame::End()

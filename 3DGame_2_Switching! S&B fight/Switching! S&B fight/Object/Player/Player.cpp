@@ -171,10 +171,10 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 /// </summary>
 void Player::Draw()
 {
-	DrawRectExtendGraph(kHpGagePosX, kHpGagePosY, kHpGagePosX + (848 * (m_hp * 0.01f)), kHpGageHeight,
+	/*DrawRectExtendGraph(kHpGagePosX, kHpGagePosY, kHpGagePosX + (848 * (m_hp * 0.01f)), kHpGageHeight,
 		51, 38, 42, 5, m_uiGraph, true);
 
-	DrawRectExtendGraph(kHpGageUIPosX, kHpGageUIPosY, 1000, 150, 0, 3, 48, 14, m_uiGraph, true);
+	DrawRectExtendGraph(kHpGageUIPosX, kHpGageUIPosY, 1000, 150, 0, 3, 48, 14, m_uiGraph, true);*/
 
 	m_pModel->Draw();
 
@@ -434,16 +434,19 @@ void Player::Move(const VECTOR& MoveVector, const EnemyRight& enemyR, const Enem
 		m_isWalk = false;
 	}
 
-	//Collision enemyRightColNormal = VNorm(VSub(m_pos,enemyR.))
-	//	enemyR.GetColSphere();
+	Collision enemyRightCol = enemyR.GetColSphere();
 	Collision enemyLeftCol = enemyL.GetColSphere();
 
-	if (m_colSphere.IsBodyCollision(enemyRightColNormal))
+	if (m_colSphere.IsBodyCollision(enemyRightCol))
 	{
+		VECTOR colNormal = VNorm(VSub(m_pos, enemyR.GetPos()));
+		m_pos = VAdd(m_pos, VScale(colNormal, 0.7f));
 		col = true;
 	}
 	if (m_colSphere.IsBodyCollision(enemyLeftCol))
 	{
+		VECTOR colNormal = VNorm(VSub(m_pos, enemyL.GetPos()));
+		m_pos = VAdd(m_pos, VScale(colNormal, 0.7f));
 		col = true;
 	}
 

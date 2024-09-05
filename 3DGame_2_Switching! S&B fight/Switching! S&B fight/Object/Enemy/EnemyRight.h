@@ -21,6 +21,7 @@ public:
 	Collision GetColSphere() const { return m_colSphere; }
 
 	int GetHp() const { return m_hp; }
+	VECTOR GetPos() const { return m_pos; }
 
 private:
 	// アニメーション情報

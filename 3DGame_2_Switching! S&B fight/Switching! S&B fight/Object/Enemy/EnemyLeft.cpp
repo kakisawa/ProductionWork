@@ -91,17 +91,18 @@ void EnemyLeft::Draw()
 		m_pModel->Draw();
 		// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
 		MV1DrawModel(m_sordModel);
-
-		m_colSphere.DrawMain(0x00ff00, true);	// “–‚½‚è”»’è•`‰æ
 	}
 
-	DrawExtendGraph(kHpGaugePosX, kHpGaugePosY,
+	/*DrawExtendGraph(kHpGaugePosX, kHpGaugePosY,
 		kHpGaugePosX + (852 * (m_hp * 0.01f)), (kHpGaugePosY + 42),
 		m_inGauge, true);
-	DrawGraph(kHpGaugePosX, kHpGaugePosY, m_outGauge, true);
+	DrawGraph(kHpGaugePosX, kHpGaugePosY, m_outGauge, true);*/
 
 #ifdef _DEBUG
-	//DrawFormatString(0, 260, 0xffffff, "EnemyLeft:m_hp=%d", m_hp);
+	if (m_hp > 0)
+	{
+		m_colSphere.DrawMain(0x00ff00, false);	// “–‚½‚è”»’è•`‰æ
+	}
 #endif
 }
 
