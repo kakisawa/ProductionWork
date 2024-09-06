@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneBase.h"
+#include <array>
 
 class SceneTitle :
     public SceneBase
@@ -28,10 +29,19 @@ public:
 	};
 
 private:
+	int m_bgGraph;
+
+
 	int m_titleGraph;
-	int graph;
-	int graph2;
-	int graph3;
+	int m_pressBgGraph;
+	int m_pressEnyButtonGraph;
+	int m_gameStart;
+	int m_option;
+	int m_ranking;
+	int m_gameFinish;
+
+
+	std::array<int, 7> m_uiGraph{};	// UI—p‰æ‘œ
 
 	nextScene m_nextScene;
 };

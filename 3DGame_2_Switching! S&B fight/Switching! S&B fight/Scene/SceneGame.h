@@ -24,9 +24,6 @@ public:
 	virtual void End();
 
 private:
-	int m_modelMap;
-	int m_modelCup;
-	int m_arrowModel[4];
 
 	VECTOR m_pos;
 

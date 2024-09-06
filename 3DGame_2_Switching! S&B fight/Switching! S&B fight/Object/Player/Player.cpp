@@ -14,8 +14,16 @@
 bool col;
 
 namespace {
+
+	const char* const kUI[5]{
+		"data/UI/GameScene/Player/HPOurGauge.png",// HPUI(外側)
+		"data/UI/GameScene/Player/HPInGauge.png",	// HPUI(内側)
+		"data/UI/GameScene/Player/NameBg.png",	// 名前背景UI
+		"data/UI/GameScene/Player/Fukuoka.png",	// 名前UI
+		"data/UI/GameScene/Player/Face.png"		// 顔アイコン
+	};
+
 	const char* const kModelPlayer = "data/model/RogueHooded.mv1";	// モデルのファイル名
-	const char* const kUIPlayer = "data/UI/HPdata.png";			// プレイヤー用UI画像名
 
 	constexpr float kInitAngle = -DX_PI_F / 2.0f * 90.0f;	// プレイヤーの初期角度*90(向きを反対にする)
 	constexpr float kModelSize = 5.0f;			// モデルのサイズ
@@ -27,13 +35,26 @@ namespace {
 	constexpr int	kMaxHp = 100;				// 体力最大値
 	constexpr int	kAttack = 20;				// 攻撃力
 
-	constexpr int kHpGageUIPosX = 0;
-	constexpr int kHpGageUIPosY = 0;
-	constexpr int kHpGagePosX = kHpGageUIPosX + 70;
-	constexpr int kHpGagePosY = kHpGageUIPosY + 32;
+	// アイコン位置
+	constexpr int kFaceUIPosX = 0;
+	constexpr int kFaceUIPosY = 30;
 
-	constexpr int kHpGageWide = kHpGagePosX + 848;
-	constexpr int kHpGageHeight = kHpGagePosY + 57;
+	// HPゲージ(外側)位置
+	constexpr int kHpGaugeUIPosX = 130;
+	constexpr int kHpGaugeUIPosY = 85;
+
+	// HPゲージ(内側)右側位置(Exted用右端座標)
+	constexpr int kHpGaugePosX = 852;
+	constexpr int kHpGaugePosY = kHpGaugeUIPosY + 42;
+
+	// 名前背景位置
+	constexpr int kNameBgX = 130;
+	constexpr int kNameBgY = 10;
+
+	// 名前位置
+	constexpr int kNameX = kNameBgX + 80;
+	constexpr int kNameY = kNameBgY + 10;
+
 
 	const VECTOR kUpPos = VGet(0.0f, 7.0f, 0.0f);
 	const VECTOR kAttackRange = VGet(0.0f, 0.0f, 8.0f);
@@ -51,7 +72,7 @@ namespace {
 /// コンストラクタ
 /// </summary>
 Player::Player() :
-	m_uiGraph(-1),
+//	m_uiGraph(-1),
 	m_angle(kInitFloat),
 	m_gravity(kGravity),
 	m_addDamage(0),
@@ -74,7 +95,11 @@ Player::Player() :
 	isCol(false)
 {
 	// UI画像の読み込み
-	m_uiGraph = LoadGraph(kUIPlayer);
+	for (int i = 0; i < m_uiGraph.size(); i++)
+	{
+		m_uiGraph[i] = LoadGraph(kUI[i]);
+		assert(m_uiGraph[i] != -1);
+	}
 
 	//モデルインスタンス作成
 	m_pModel = std::make_shared<Model>(kModelPlayer);
@@ -171,10 +196,15 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 /// </summary>
 void Player::Draw()
 {
-	/*DrawRectExtendGraph(kHpGagePosX, kHpGagePosY, kHpGagePosX + (848 * (m_hp * 0.01f)), kHpGageHeight,
-		51, 38, 42, 5, m_uiGraph, true);
+	// HPゲージ描画
+	DrawExtendGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, kHpGaugeUIPosX + (kHpGaugePosX * (m_hp * 0.01f)), kHpGaugePosY,m_uiGraph[1], true);
+	DrawGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, m_uiGraph[0], true);
 
-	DrawRectExtendGraph(kHpGageUIPosX, kHpGageUIPosY, 1000, 150, 0, 3, 48, 14, m_uiGraph, true);*/
+	// プレイヤー情報描画
+	DrawGraph(kNameBgX, kNameBgY, m_uiGraph[2], true);
+	DrawGraph(kNameX, kNameY, m_uiGraph[3], true);
+	DrawGraph(kFaceUIPosX, kFaceUIPosY, m_uiGraph[4], true);
+
 
 	m_pModel->Draw();
 
@@ -215,7 +245,11 @@ void Player::Draw()
 /// </summary>
 void Player::End()
 {
-	DeleteGraph(m_uiGraph);
+	// UI画像の読み込み
+	for (int i = 0; i < m_uiGraph.size(); i++)
+	{
+		DeleteGraph(m_uiGraph[i]);
+	}
 
 	m_pSound->ReleaseSound();
 

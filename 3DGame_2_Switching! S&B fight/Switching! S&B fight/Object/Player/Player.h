@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include "../../Util/Collision.h"
 #include <memory>
+#include <array>
 
 class Camera;
 class EnemyRight;
@@ -82,7 +83,8 @@ private:
 private:
 	int m_hp;					// プレイヤーHP
 	int m_addDamage;			// プレイヤーが敵に与えるダメージ量
-	int m_uiGraph;				// プレイヤー用UI画像
+
+	std::array<int, 5> m_uiGraph{};	// UI用画像
 
 	float m_angle;				// プレイヤー向き角度
 	float m_jumpPower;			// Ｙ軸方向の速度

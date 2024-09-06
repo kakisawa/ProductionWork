@@ -1,6 +1,7 @@
 #pragma once
 #include "EnemyBase.h"
 #include "../../Util/Collision.h"
+#include <array>
 
 class Player;
 class EnemyState;
@@ -18,6 +19,8 @@ public:
 	void End()override;
 
 	void Move();
+
+	void UIDraw();
 
 	void SetModelFramePosition(int ModelHandle, const char *FrameName, int SetModelHandle);
 
@@ -45,8 +48,10 @@ private:
 private:
 	int m_sordModel;
 	bool m_isWalk;
-	int m_outGauge;
-	int m_inGauge;
+
+
+	std::array<int, 4> m_uiGraph{};	// UI—p‰æ‘œ
+
 
 	struct MapPlace
 	{

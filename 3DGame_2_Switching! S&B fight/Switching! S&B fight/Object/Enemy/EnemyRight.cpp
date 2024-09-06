@@ -1,6 +1,7 @@
 #include "EnemyRight.h"
 #include "EnemyState.h"
 #include "../Player/Player.h"
+#include <cassert>
 
 namespace {
 	const char* kModelEnemy = "data/model/EnemyModel/Enemy1.mv1";
@@ -8,11 +9,28 @@ namespace {
 
 	const char* kParts = "handIK.r";
 
-	const char* const kHpOutGauge = "data/UI/EnemyGauge.png";			// HPゲージ外側UI
-	const char* const kHpInGauge = "data/UI/EnemyRightGauge.png";		// HPゲージ内側UI
+	const char* const kUI[4]{
+		"data/UI/GameScene/EnemyRight/HPOurGauge.png",	// HPUI(外側)
+		"data/UI/GameScene/EnemyRight/HPInGauge.png",	// HPUI(内側)
+		"data/UI/GameScene/EnemyRight/NameBg.png",		// 名前背景UI
+		"data/UI/GameScene/EnemyRight/Shimane.png",		// 名前UI
+	};
 
-	constexpr int kHpGaugePosX = 500;
-	constexpr int kHpGaugePosY = 890;
+	// HPゲージ(外側)位置
+	constexpr int kHpGaugeUIPosX = 650;
+	constexpr int kHpGaugeUIPosY = 1020;
+
+	// HPゲージ(内側)右側位置(Exted用右端座標)
+	constexpr int kHpGaugePosX = 852;
+	constexpr int kHpGaugePosY = kHpGaugeUIPosY + 42;
+
+	// 名前背景位置
+	constexpr int kNameBgX = 300;
+	constexpr int kNameBgY = 1000;
+
+	// 名前位置
+	constexpr int kNameX = kNameBgX + 80;
+	constexpr int kNameY = kNameBgY + 10;
 
 	VECTOR kSordSize = VGet(0.01f, 0.01f, 0.01f);
 	VECTOR kInitPos = VGet(10.0f, 0.0f, 10.0f);
@@ -32,6 +50,13 @@ EnemyRight::EnemyRight() :
 {
 	m_sordModel = MV1LoadModel(kSord);
 
+	// UI画像の読み込み
+	for (int i = 0; i < m_uiGraph.size(); i++)
+	{
+		m_uiGraph[i] = LoadGraph(kUI[i]);
+		assert(m_uiGraph[i] != -1);
+	}
+
 	m_pState = std::make_shared<EnemyState>();
 
 	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, EnemyState::State::kIdle);
@@ -48,8 +73,6 @@ EnemyRight::~EnemyRight()
 
 void EnemyRight::Init(std::shared_ptr<GameMap> pMap)
 {
-	m_outGauge = LoadGraph(kHpOutGauge);
-	m_inGauge = LoadGraph(kHpInGauge);
 }
 
 void EnemyRight::Update(const Player& player)
@@ -106,12 +129,6 @@ void EnemyRight::Draw()
 		MV1DrawModel(m_sordModel);
 	}
 
-	DrawExtendGraph(kHpGaugePosX, kHpGaugePosY,
-		kHpGaugePosX + (852 * (m_hp * 0.01f)), (kHpGaugePosY + 42),
-		m_inGauge, true);
-	DrawGraph(kHpGaugePosX, kHpGaugePosY, m_outGauge, true);
-
-
 #ifdef _DEBUG
 	if (m_hp > 0)
 	{
@@ -122,8 +139,24 @@ void EnemyRight::Draw()
 
 void EnemyRight::End()
 {
-	DeleteGraph(m_inGauge);
-	DeleteGraph(m_outGauge);
+	// UI画像の削除
+	for (int i = 0; i < m_uiGraph.size(); i++)
+	{
+		DeleteGraph(m_uiGraph[i]);
+	}
+}
+
+void EnemyRight::UIDraw()
+{
+	// HPゲージ描画
+	DrawExtendGraph(kHpGaugeUIPosX, kHpGaugeUIPosY,
+		kHpGaugeUIPosX + (kHpGaugePosX * (m_hp * 0.01f)), kHpGaugePosY, m_uiGraph[1], true);
+	DrawGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, m_uiGraph[0], true);
+
+	// 敵情報描画
+	DrawGraph(kNameBgX, kNameBgY, m_uiGraph[2], true);
+	DrawGraph(kNameX, kNameY, m_uiGraph[3], true);
+
 }
 
 void EnemyRight::SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle)
