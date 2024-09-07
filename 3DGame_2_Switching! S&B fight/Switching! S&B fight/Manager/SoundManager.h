@@ -31,6 +31,27 @@ public:
 		MAX,
 	};
 
+	enum Select
+	{
+		kBgmVolume,   // BGM
+		kSeVolume,    // SE
+		kBack,
+	};
+
+	void Init();
+	void Draw();
+
+	// 調整した音量に変換する
+	void SetBgmVolume();
+	void SetSeVolume();
+
+	void ChangeSound();		// 音量変更
+	void SelectOption();	// オプション用設定
+
+	int GetSoundSelect() const { return m_select; }
+	float GetBgmVolume() const { return m_bgmVolume; }
+	float GetSeVolume() const { return m_seVolume; }
+
 	//サウンドの初期化
 	void InitSound(void);
 
@@ -98,8 +119,12 @@ public:
 
 	//サウンドの解放
 	void ReleaseSound(void);
-
 private:
+
+	float m_seVolume;	// SE音量
+	float m_bgmVolume;	// BGM音量
+
+	int m_select;		// 選択中のメニュー
 
 	//サウンドのパス
 	std::map<BGM_Type, std::string> m_bgmPass;	//BGMのパス

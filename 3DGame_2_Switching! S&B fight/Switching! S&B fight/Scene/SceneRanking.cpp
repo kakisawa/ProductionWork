@@ -20,7 +20,7 @@ shared_ptr<SceneBase> SceneRanking::Update()
 
 	if (Pad::IsTrigger(PAD_INPUT_R))		// RBボタン
 	{
-			return make_shared<SceneTitle>();	// タイトルシーンへ行く
+		return make_shared<SceneTitle>();	// タイトルシーンへ行く
 	}
 	DrawString(0, 20, "Please Press Button START", 0x00ffff);
 
