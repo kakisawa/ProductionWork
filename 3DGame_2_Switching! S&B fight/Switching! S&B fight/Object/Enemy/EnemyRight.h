@@ -5,6 +5,7 @@
 
 class Player;
 class EnemyState;
+class Effect;
 class EnemyRight :
 	public EnemyBase
 {
@@ -18,6 +19,8 @@ public:
 	void End()override;
 
 	void UIDraw();
+
+	void Move();
 	
 	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle);
 
@@ -44,6 +47,8 @@ private:
 
 private:
 	int m_sordModel;
+	bool m_isWalk;
+	float m_angle;
 
 	std::array<int, 4> m_uiGraph{};	// UI用画像
 
@@ -54,11 +59,14 @@ private:
 	}mp;
 	
 	VECTOR m_upPos;			// カプセル上座標
-
+	VECTOR m_vecToPlayer;	// プレイヤー迄の距離
+	VECTOR m_targetPos;
 
 	std::shared_ptr<EnemyState> m_pState;
 
 	AnimationData m_animData;
 
 	Collision m_colSphere;
+
+	std::shared_ptr<Effect> m_pEffect;		// エフェクト
 };

@@ -1,6 +1,7 @@
 #include "SceneGameClear.h"
 #include "SceneTitle.h"
 #include "../Util/Pad.h"
+#include "../Util/Fade.h"
 
 namespace {
 	constexpr int kTitlePosX = 500;
@@ -24,7 +25,7 @@ void SceneGameClear::Init()
 
 shared_ptr<SceneBase> SceneGameClear::Update()
 {
-	if (Pad::IsTrigger(PAD_INPUT_R))		// RBボタン
+	if (Pad::IsTrigger(PAD_INPUT_A))		// Aボタン
 	{
 		return make_shared<SceneTitle>();	// タイトルシーンへ行く
 	}
@@ -38,13 +39,15 @@ shared_ptr<SceneBase> SceneGameClear::Update()
 
 void SceneGameClear::Draw()
 {
+	DrawGraph(kTitlePosX, kTitlePosY, m_graph, true);
+
+#ifdef _DEBUG
 	DrawString(0, 0, "SceneGameClear", 0xffffff);
 	DrawString(0, 20, "Please Press Button START", 0x00ffff);
 
 	/*DrawExtendGraph(kTitlePosX, kTitlePosY,
 		kTitlePosX + 1200, kTitlePosY + 430, m_graph, true);*/
-
-	DrawGraph(kTitlePosX, kTitlePosY, m_graph, true);
+#endif // DEBUG
 }
 
 void SceneGameClear::End()

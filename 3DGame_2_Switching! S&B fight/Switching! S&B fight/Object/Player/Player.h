@@ -11,6 +11,7 @@ class EnemyLeft;
 class PlayerState;
 class GameMap;
 class SoundManager;
+class Effect;
 class Player
 {
 public:
@@ -100,6 +101,7 @@ private:
 
 	bool m_isAttackRight;
 	bool m_isAttackLeft;
+	bool m_isAttackEffect;
 
 	struct MapPlace
 	{
@@ -109,6 +111,10 @@ private:
 
 	// プレイヤーステイトポインタ
 	std::shared_ptr<PlayerState> m_pState;
+
+
+	std::shared_ptr<Effect> m_pEffect;		// エフェクト
+
 
 	// プレイヤーアニメーションデータ
 	AnimationData m_animData;

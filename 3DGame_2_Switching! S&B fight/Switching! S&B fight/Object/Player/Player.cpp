@@ -8,8 +8,10 @@
 #include "../Enemy/EnemyRight.h"
 #include "../Enemy/EnemyLeft.h"
 #include "../../Manager/SoundManager.h"
+#include "../../Util/Effect.h"
 #include <cassert>
 #include <cmath>
+#include <vector>
 
 bool col;
 
@@ -34,6 +36,8 @@ namespace {
 	constexpr float	kGravity = 0.05f;			// 重力
 	constexpr int	kMaxHp = 100;				// 体力最大値
 	constexpr int	kAttack = 20;				// 攻撃力
+
+	constexpr float kEffectHeight = 10.0f;			// エフェクトを表示する高さ
 
 	// アイコン位置
 	constexpr int kFaceUIPosX = 0;
@@ -85,6 +89,7 @@ Player::Player() :
 	m_isDeath(false),
 	m_isAttackLeft(false),
 	m_isAttackRight(false),
+	m_isAttackEffect(false),
 	m_jumpPower(0.0f),
 	m_multiAttack(0),
 	m_pos(kInitVec),
@@ -108,6 +113,7 @@ Player::Player() :
 
 	//ステイトクラスのインスタンス生成
 	m_pState = std::make_shared<PlayerState>();
+	m_pEffect = std::make_shared<Effect>();
 
 	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, PlayerState::State::kIdle);
 	m_pState->AddState([=] { WalkStateUpdate(); }, [=] { WalkStateInit(); }, PlayerState::State::kWalk);
@@ -123,6 +129,8 @@ Player::Player() :
 	m_pSound->LoadSE(SoundManager::SE_Type::kSord1SE);
 	m_pSound->LoadSE(SoundManager::SE_Type::kSord2SE);
 	m_pSound->LoadSE(SoundManager::SE_Type::kSord3SE);
+
+	
 
 	col = false;
 }
@@ -146,6 +154,8 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 
 	mp.leftBack = pMap->GetMapLeftBack();
 	mp.rightFront = pMap->GetMapRightFront();
+
+	m_pEffect->Init();
 }
 
 
@@ -189,6 +199,8 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 
 	m_colSphere.UpdateCol(m_pos, m_UpPos, m_attackRange,
 		kColRadius, kAttackColRadius);
+
+	m_pEffect->Update();		// エフェクト更新
 }
 
 /// <summary>
@@ -208,6 +220,8 @@ void Player::Draw()
 
 	m_pModel->Draw();
 
+	m_pEffect->Draw();			 // エフェクト描画
+
 #ifdef _DEBUG
 	m_colSphere.DrawMain(0xff0000, false);	// 当たり判定描画
 	m_colSphere.DrawAttack(0x0000ff, false);	// 当たり判定描画
@@ -220,6 +234,8 @@ void Player::Draw()
 	DrawFormatString(0, 280, 0xffffff, "State=%d", m_pState->GetState());
 	DrawFormatString(0, 300, 0xffffff, "m_isWalk=%d", m_isWalk);
 	DrawFormatString(0, 320, 0xffffff, "m_angle=%.2f", m_angle);
+
+	DrawFormatString(0, 420, 0xffffff, "m_animSpeed=%.2f", m_pModel->GetAnimSpeed());
 
 	if(col) {
 		DrawString(0, 500, "当たっている", 0xffffff);
@@ -343,7 +359,7 @@ void Player::AttackSordStateUpdate()
 		// アニメーションが終わった段階で次の攻撃フラグがたっていなかったら
 		if (!m_isNextAttackFlag)
 		{
-			m_isAttackDamage = true;
+			//m_isAttackDamage = true;
 			m_isAttack = false;
 			m_multiAttack = 0;
 			m_pState->EndState();
@@ -352,12 +368,10 @@ void Player::AttackSordStateUpdate()
 		// アニメーションが終わった段階で次の攻撃フラグがたっていたら
 		if (m_isNextAttackFlag)
 		{
-			m_isAttackDamage = true;
+			//m_isAttackDamage = true;
 			m_pSound->PlaySE(SoundManager::SE_Type::kSord1SE, DX_PLAYTYPE_BACK);
-
 			m_isNextAttackFlag = false;
 			m_multiAttack++;
-
 		}
 	}
 
@@ -380,7 +394,7 @@ void Player::AttackBowStateUpdate()
 		waitTime--;
 		if (waitTime <= 0)
 		{
-			m_isAttackDamage = true;
+			//m_isAttackDamage = true;
 			waitTime = 20;
 		}
 	}
@@ -391,7 +405,7 @@ void Player::AttackBowStateUpdate()
 	if (!loop)
 	{
 		m_isAttack = false;
-		m_isAttackDamage = false;
+		//m_isAttackDamage = false;
 		m_pState->EndState();
 		waitTime = 0;
 	}
@@ -577,8 +591,7 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 		m_moveAttack = VAdd(m_moveAttack, VGet(0.0f, 0.0f, kAttackSpeed));
 		m_isForward = false;
 	}*/
-
-
+	
 	if (m_colSphere.IsAttackCollision(enemyLeftCol))
 	{
 		isCol = true;
@@ -590,11 +603,21 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 		m_isAttackRight = true;
 	}
 
+	if (m_isAttack && isCol) {
+		if (m_pModel->GetAnimSpeed() >= 5.0f && m_pModel->GetAnimSpeed() < 6.0f)
+		{
+			m_isAttackDamage = true;
+			m_pEffect->PlayDamageEffect(VGet(m_pos.x, m_pos.y + kEffectHeight, m_pos.z));
+		}
+	}
+
 	if (isCol && m_isAttackDamage)
 	{
 		m_addDamage = kAttack;
 		m_isAttackDamage = false;
 	}
+
+	
 }
 
 void Player::Jump()

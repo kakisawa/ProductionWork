@@ -15,7 +15,8 @@ Model::Model(const char* fileName) :
 	m_model(MV1LoadModel(fileName)),
 	m_animChangeFrame(0),
 	m_animChangeFrameTotal(0),
-	m_animSpeed(0.0f)
+	m_animSpeed(0.0f),
+	m_animTime(0.0f)
 {
 	//コピーに失敗した場合
 	assert(m_model != -1);
@@ -149,8 +150,8 @@ bool Model::IsAnimEnd()
 	// Loopアニメーションの場合は常にfalseを返す
 	if (m_current.isLoop) return false;
 
-	float time = MV1GetAttachAnimTime(m_model, m_current.attachNo);
-	if (time >= m_current.totalTime)
+	m_animTime = MV1GetAttachAnimTime(m_model, m_current.attachNo);
+	if (m_animTime >= m_current.totalTime)
 	{
 		return true;
 	}

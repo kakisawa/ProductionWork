@@ -6,6 +6,7 @@
 class Player;
 class EnemyState;
 class GameMap;
+class Effect;
 class EnemyLeft :
     public EnemyBase
 {
@@ -48,7 +49,9 @@ private:
 private:
 	int m_sordModel;
 	bool m_isWalk;
+	bool m_isEffect;
 
+	float m_angle;
 
 	std::array<int, 4> m_uiGraph{};	// UI用画像
 
@@ -60,11 +63,15 @@ private:
 	}mp;
 
 	VECTOR m_upPos;			// カプセル上座標
+	VECTOR m_vecToPlayer;	// プレイヤー迄の距離
+	VECTOR m_targetPos;
 
 	std::shared_ptr<EnemyState> m_pState;
 
 	AnimationData m_animData;
 
 	Collision m_colSphere;
+
+	std::shared_ptr<Effect> m_pEffect;		// エフェクト
 };
 

@@ -6,7 +6,7 @@
 
 namespace {
 	constexpr float kModelSize = 10.0f;
-	constexpr int kHPMax = 100;
+	constexpr int kHPMax = 250;
 
 	const VECTOR kInit = VGet(0.0f, 0.0f, 0.0f);
 }
@@ -15,7 +15,8 @@ EnemyBase::EnemyBase(const char* model, VECTOR pos):
 	m_model(-1),
 	m_hp(kHPMax),
 	m_pos(pos),
-	m_move(kInit)
+	m_move(kInit),
+	m_isAlive(false)
 {
 	//モデルインスタンス作成
 	m_pModel = std::make_shared<Model>(model);

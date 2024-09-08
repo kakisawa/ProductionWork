@@ -2,6 +2,7 @@
 #include "DxLib.h"
 #include "SceneTitle.h"
 #include "../Util/Pad.h"
+#include "../Util/Fade.h"
 #include <cassert>
 
 namespace
@@ -58,8 +59,8 @@ namespace
 
 	constexpr float kBgScroll1 = 1.5f;
 
-	constexpr int kExplanationBgPosY = 1003;
-	constexpr int kExplanationPosY = 1015;
+	constexpr int kCaptionBgPosY = 1003;
+	constexpr int kCaptionPosY = 1015;
 }
 
 SceneOption::SceneOption() :
@@ -80,6 +81,8 @@ void SceneOption::Init()
 		assert(m_uiGraph[i] != -1);
 	}
 
+	m_pFade = std::make_shared<Fade>();
+
 	m_isNextSceneFlag = false;
 
 	m_pSound->Init();
@@ -95,17 +98,27 @@ void SceneOption::Init()
 
 shared_ptr<SceneBase> SceneOption::Update()
 {
+	m_pFade->FadeIn(m_pFade->GatFadeInFlag());
+
 	// 背景スクロール
 	m_scrollX_1 += kBgScroll1;
 
 	m_pSound->SelectOption();
 
-	if (m_pSound->GetSoundSelect() == m_pSound->Select::kBack && Pad::IsTrigger(PAD_INPUT_R))		// RBボタン
+	m_pFade->FadeOut(m_pFade->GatFadeOutFlag());
+	m_isNextSceneFlag = m_pFade->GatNextSceneFlag();
+
+	if (m_isNextSceneFlag)
 	{
-		m_isNextSceneFlag = true;
-		m_pSound->PlaySE(SoundManager::SE_Type::kButtonSE, DX_PLAYTYPE_NORMAL);
 		return make_shared<SceneTitle>();	// タイトルシーンへ行く
 	}
+
+	if (m_pSound->GetSoundSelect() == m_pSound->Select::kBack && Pad::IsTrigger(PAD_INPUT_A))		// Aボタン
+	{
+		m_pFade->SetFadeOutFlag(true);
+		m_pSound->PlaySE(SoundManager::SE_Type::kButtonSE, DX_PLAYTYPE_BACK);
+	}
+	
 
 	m_pSound->ChangeSound();
 
@@ -152,6 +165,7 @@ void SceneOption::Draw()
 	DrawSelect();
 	DrawExplanation();
 
+	m_pFade->Draw();
 #ifdef _DEBUG
 	DrawString(0, 0, "SceneOption", 0xffffff);
 	DrawString(0, 20, "Please Press Button START", 0x00ffff);
@@ -214,11 +228,11 @@ void SceneOption::DrawExplanation()
 	for (int index = 0; index < 4; index++)
 	{
 		DrawGraph(-scrollBg + index * expBgSize.m_width,
-			static_cast<int>(kExplanationBgPosY),
+			static_cast<int>(kCaptionBgPosY),
 			m_uiGraph[0], true);
 
 		DrawGraph(-scrollBg + index * expSize.m_width,
-			static_cast<int>(kExplanationPosY),
+			static_cast<int>(kCaptionPosY),
 			m_uiGraph[1], true);
 	}
 }

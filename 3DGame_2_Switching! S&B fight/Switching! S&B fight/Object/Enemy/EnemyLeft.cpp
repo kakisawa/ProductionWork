@@ -3,6 +3,7 @@
 #include "../Player/Player.h"
 #include "../../Util/Pad.h"
 #include "../GameMap.h"
+#include "../../Util/Effect.h"
 #include <math.h>
 #include <cassert>
 
@@ -35,11 +36,12 @@ namespace {
 	constexpr int kNameX = kNameBgX + 80;
 	constexpr int kNameY = kNameBgY + 10;
 
+	constexpr float kInitAngle = -DX_PI_F / 2.0f * 90.0f;	// プレイヤーの初期角度*90(向きを反対にする)
 
 	constexpr int	kMaxHp = 100;				// 体力最大値
 
 	VECTOR kSordSize = VGet(0.01f, 0.01f, 0.01f);
-	VECTOR kInitPos= VGet(-10.0f, 0.0f, 10.0f);
+	VECTOR kInitPos= VGet(-40.0f, 0.0f, 100.0f);
 
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
 	
@@ -54,7 +56,11 @@ EnemyLeft::EnemyLeft():
 	EnemyBase(kModelEnemy,kInitPos),
 	m_sordModel(-1),
 	m_isWalk(false),
-	m_upPos(kInitVec)
+	m_isEffect(true),
+	m_angle(0.0f),
+	m_upPos(kInitVec),
+	m_vecToPlayer(kInitVec),
+	m_targetPos(kInitVec)
 {
 	m_sordModel = MV1LoadModel(kSord);
 
@@ -65,7 +71,10 @@ EnemyLeft::EnemyLeft():
 		assert(m_uiGraph[i] != -1);
 	}
 
+	m_isAlive = true;
+
 	m_pState = std::make_shared<EnemyState>();
+	m_pEffect = std::make_shared<Effect>();
 
 	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, EnemyState::State::kIdle);
 	m_pState->AddState([=] { WalkStateUpdate(); }, [=] { WalkStateInit(); }, EnemyState::State::kWalk);
@@ -83,42 +92,73 @@ void EnemyLeft::Init(std::shared_ptr<GameMap> pMap)
 {
 	mp.leftBack = pMap->GetMapLeftBack();
 	mp.rightFront = pMap->GetMapRightFront();
+
+	m_pEffect->Init();
 }
 
 void EnemyLeft::Update(const Player& player)
 {
-	m_pState->Update();
+	m_pEffect->Update();
 
-	m_pModel->Update();
-	
-	if (player.GetAttackLeft())
+	if (m_isAlive)
 	{
-		m_hp -= player.GetAddDamage();
-		m_hp=max(m_hp, 0);
+		m_pState->Update();
+
+		m_pModel->Update();
+
+		m_targetPos = player.GetPos();
+
+		if (player.GetAttackLeft())
+		{
+			m_hp -= player.GetAddDamage();
+			m_hp = max(m_hp, 0);
+			if (m_hp <= 0)
+			{
+				m_isAlive = false;
+			}
+		}
+
+		Move();
+
+		SetModelFramePosition(m_pModel->GetModel(), kParts, m_sordModel);
+
+		// 当たり判定用カプセル型の座標更新
+		m_upPos = VAdd(m_pos, kUpPos);
+		m_colSphere.UpdateCol(m_pos, m_upPos, kInitPos, kColRadius, kAttackColRadius);
 	}
+	else
+	{
+		m_colSphere.Init();
+		
+		if (m_isEffect)
+		{
+			m_pEffect->PlayDeathEffect(m_pos);
+			m_isEffect = false;
+		}
 
-	Move();
-
-	SetModelFramePosition(m_pModel->GetModel(), kParts, m_sordModel);
-
-	// 当たり判定用カプセル型の座標更新
-	m_upPos = VAdd(m_pos, kUpPos);
-	m_colSphere.UpdateCol(m_pos, m_upPos,kInitPos, kColRadius,kAttackColRadius);
+		
+	}
+	
 }
 
 void EnemyLeft::Draw()
 {
-	if (m_hp > 0)
+	if (m_isAlive)
 	{
 		// モデルの描画
 		m_pModel->Draw();
 		// 棒モデルの描画
 		MV1DrawModel(m_sordModel);
 	}
+	else
+	{
+		m_pEffect->Draw();			 // エフェクト描画
+	}
 
 #ifdef _DEBUG
-	if (m_hp > 0)
+	if (m_isAlive)
 	{
+		DrawFormatString(0, 600, 0xffffff, "m_hp=%d", m_hp);
 		m_colSphere.DrawMain(0x00ff00, false);	// 当たり判定描画
 	}
 #endif
@@ -152,13 +192,21 @@ void EnemyLeft::Move()
 	{
 		m_pos.z -= m_move.z;		// 奥
 	}
+
+	m_vecToPlayer = VSub(m_pos, m_targetPos);
+	// atan2 を使用して角度を取得
+	m_angle = atan2(m_vecToPlayer.x, m_vecToPlayer.z);
+
+	// atan2 で取得した角度に３Ｄモデルを正面に向かせるための補正値( DX_PI_F )を
+		// 足した値を３Ｄモデルの Y軸回転値として設定
+	MV1SetRotationXYZ(m_pModel->GetModel(), VGet(0.0f, m_angle + DX_PI_F + kInitAngle, 0.0f));
 }
 
 void EnemyLeft::UIDraw()
 {
 	// HPゲージ描画
 	DrawExtendGraph(kHpGaugeUIPosX, kHpGaugeUIPosY,
-		kHpGaugeUIPosX + (kHpGaugePosX * (m_hp * 0.01f)), kHpGaugePosY, m_uiGraph[1], true);
+		kHpGaugeUIPosX + (kHpGaugePosX * (m_hp * 0.004f)), kHpGaugePosY, m_uiGraph[1], true);
 	DrawGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, m_uiGraph[0], true);
 
 	// 敵情報描画
