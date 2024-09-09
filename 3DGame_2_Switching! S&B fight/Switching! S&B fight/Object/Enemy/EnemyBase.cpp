@@ -6,7 +6,7 @@
 
 namespace {
 	constexpr float kModelSize = 10.0f;
-	constexpr int kHPMax = 250;
+	constexpr int kHPMax = 300;
 
 	const VECTOR kInit = VGet(0.0f, 0.0f, 0.0f);
 }

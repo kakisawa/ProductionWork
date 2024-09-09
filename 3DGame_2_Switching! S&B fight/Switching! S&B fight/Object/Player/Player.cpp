@@ -660,11 +660,13 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 		{
 			if (!m_isLeftEnemyAttack)	// 右の敵にダメージ
 			{
+				m_pEffect->PlayDamageEffect(VGet(enemyR.GetPos().x,enemyR.GetPos().y+10, enemyR.GetPos().z));
 				m_addDamage = kBowDamage;
 				m_isBowAttackDamage = false;
 				m_isAttackRight = true;
 			}
 			else {
+				m_pEffect->PlayDamageEffect(VGet(enemyL.GetPos().x, enemyL.GetPos().y + 10, enemyL.GetPos().z));
 				m_addDamage = kBowDamage;
 				m_isBowAttackDamage = false;
 				m_isAttackLeft = true;

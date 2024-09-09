@@ -217,7 +217,7 @@ void EnemyLeft::UIDraw()
 {
 	// HPÉQÅ[ÉWï`âÊ
 	DrawExtendGraph(kHpGaugeUIPosX, kHpGaugeUIPosY,
-		kHpGaugeUIPosX + (kHpGaugePosX * (m_hp * 0.004f)), kHpGaugePosY, m_uiGraph[1], true);
+		kHpGaugeUIPosX + (kHpGaugePosX * (m_hp * 0.00333f)), kHpGaugePosY, m_uiGraph[1], true);
 	DrawGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, m_uiGraph[0], true);
 
 	// ìGèÓïÒï`âÊ

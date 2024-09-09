@@ -8,7 +8,7 @@ namespace {
 
 	// ‰Šú‰¹—Ê
 	constexpr float kInitBgmVolume = kMaxVolume * 0.6f;
-	constexpr float kInitSeVolume = kMaxVolume * 1.0f;
+	constexpr float kInitSeVolume = kMaxVolume * 0.6f;
 
 	// •ÏXŒã‰¹—Ê•Û‘¶
 	float kChangeBgm = kInitBgmVolume;

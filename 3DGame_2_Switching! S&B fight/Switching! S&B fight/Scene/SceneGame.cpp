@@ -26,7 +26,7 @@ SceneGame::SceneGame() :
 	m_isExplanationFinishFlag(false),
 	m_isExplanationSet(false),
 	m_explanationGraph(-1),
-	m_waitCount(100)
+	m_waitCount(60)
 {
 }
 
