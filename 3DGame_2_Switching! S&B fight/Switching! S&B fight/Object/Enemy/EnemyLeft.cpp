@@ -59,12 +59,19 @@ EnemyLeft::EnemyLeft():
 	m_sordModel(-1),
 	m_isWalk(false),
 	m_isEffect(false),
+<<<<<<< HEAD
 	m_isSurvival(true),
 	m_angle(0.0f),
 	m_upPos(kInitVec),
 	m_vecToPlayer(kInitVec),
 	m_targetPos(kInitVec),
 	m_distance(kInitVec)
+=======
+	m_angle(0.0f),
+	m_upPos(kInitVec),
+	m_vecToPlayer(kInitVec),
+	m_targetPos(kInitVec)
+>>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 {
 	m_sordModel = MV1LoadModel(kSord);
 	m_pos = m_pModel->GetPos();
@@ -110,8 +117,11 @@ void EnemyLeft::Update(const Player& player)
 {
 	if (m_isAlive)
 	{
+<<<<<<< HEAD
 		m_move = kInitVec;
 
+=======
+>>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 		m_pState->Update();
 
 		m_pModel->Update();
@@ -166,7 +176,11 @@ void EnemyLeft::Draw()
 
 	
 #ifdef _DEBUG
+<<<<<<< HEAD
 	//DrawFormatString(0, 800, 0xffffff, "m_pos=%.2f:=%.2f:=%.2f", m_pos.x, m_pos.y, m_pos.z);
+=======
+	DrawFormatString(0, 800, 0xffffff, "m_pos=%.2f:=%.2f:=%.2f", m_pos.x, m_pos.y, m_pos.z);
+>>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	if (m_isAlive)
 	{
 		DrawFormatString(0, 600, 0xffffff, "m_hp=%d", m_hp);
@@ -210,6 +224,7 @@ void EnemyLeft::Move()
 	}
 
 	m_vecToPlayer = VSub(m_pos, m_targetPos);
+<<<<<<< HEAD
 
 
 	// ƒxƒNƒgƒ‹‚Ì³‹K‰»
@@ -221,12 +236,18 @@ void EnemyLeft::Move()
 	m_pos = VAdd(m_pos, m_move);
 
 	// atan2 ‚ðŽg—p‚µ‚ÄŠp“x‚ðŽæ“¾						// •ûŒü—p
+=======
+	// atan2 ‚ðŽg—p‚µ‚ÄŠp“x‚ðŽæ“¾
+>>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	m_angle = atan2(m_vecToPlayer.x, m_vecToPlayer.z);
 
 	// atan2 ‚ÅŽæ“¾‚µ‚½Šp“x‚É‚R‚cƒ‚ƒfƒ‹‚ð³–Ê‚ÉŒü‚©‚¹‚é‚½‚ß‚Ì•â³’l( DX_PI_F )‚ð
 		// ‘«‚µ‚½’l‚ð‚R‚cƒ‚ƒfƒ‹‚Ì YŽ²‰ñ“]’l‚Æ‚µ‚ÄÝ’è
 	MV1SetRotationXYZ(m_pModel->GetModel(), VGet(0.0f, m_angle + DX_PI_F + kInitAngle, 0.0f));
+<<<<<<< HEAD
 	MV1SetPosition(m_pModel->GetModel(), m_pos);
+=======
+>>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 }
 
 void EnemyLeft::UIDraw()

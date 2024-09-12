@@ -7,8 +7,13 @@ namespace {
 	constexpr int kMaxVolume = 255;
 
 	// ‰Šú‰¹—Ê
+<<<<<<< HEAD
 	constexpr float kInitBgmVolume = kMaxVolume;// *0.6f;
 	constexpr float kInitSeVolume = kMaxVolume; //* 0.6f;
+=======
+	constexpr float kInitBgmVolume = kMaxVolume * 0.6f;
+	constexpr float kInitSeVolume = kMaxVolume * 0.6f;
+>>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 	// •ÏXŒã‰¹—Ê•Û‘¶
 	float kChangeBgm = kInitBgmVolume;

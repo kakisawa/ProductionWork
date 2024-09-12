@@ -53,7 +53,10 @@ private:
 	int m_sordModel;
 	bool m_isWalk;
 	bool m_isEffect;
+<<<<<<< HEAD
 	bool m_isSurvival;
+=======
+>>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 	float m_angle;
 
@@ -69,8 +72,11 @@ private:
 	VECTOR m_upPos;			// カプセル上座標
 	VECTOR m_vecToPlayer;	// プレイヤー迄の距離
 	VECTOR m_targetPos;
+<<<<<<< HEAD
 	VECTOR m_move;
 	VECTOR m_distance;
+=======
+>>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 	std::shared_ptr<EnemyState> m_pState;
 

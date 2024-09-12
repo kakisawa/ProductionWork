@@ -171,7 +171,12 @@ bool Model::IsAnimEnd()
 	if (m_current.isLoop) return false;
 
 	m_animTime = MV1GetAttachAnimTime(m_model, m_current.attachNo);
+<<<<<<< HEAD
 	if (m_animTime >= m_current.totalTime){
+=======
+	if (m_animTime >= m_current.totalTime)
+	{
+>>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 		return true;
 	}
 
