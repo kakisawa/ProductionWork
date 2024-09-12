@@ -38,10 +38,12 @@ shared_ptr<SceneBase> SceneGameOver::Update()
 
 void SceneGameOver::Draw()
 {
+	DrawGraph(kTitlePosX, kTitlePosY, m_graph, true);
+
+#ifdef _DEBUG
 	DrawString(0, 0, "SceneGameOver", 0xffffff);
 	DrawString(0, 20, "Please Press Button START", 0x00ffff);
-
-	DrawGraph(kTitlePosX, kTitlePosY, m_graph, true);
+#endif // DEBUG
 }
 
 void SceneGameOver::End()

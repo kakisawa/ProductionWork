@@ -1,5 +1,101 @@
 #include "SoundManager.h"
+#include "../Util/Pad.h"
 #include "DxLib.h"
+
+namespace {
+	// 音量の最大
+	constexpr int kMaxVolume = 255;
+
+	// 初期音量
+	constexpr float kInitBgmVolume = kMaxVolume;// *0.6f;
+	constexpr float kInitSeVolume = kMaxVolume; //* 0.6f;
+
+	// 変更後音量保存
+	float kChangeBgm = kInitBgmVolume;
+	float kChangeSe = kInitSeVolume;
+}
+
+void SoundManager::Init()
+{
+	m_bgmVolume = kChangeBgm;
+	m_seVolume = kChangeSe;
+
+	m_select == Select::kBgmVolume;
+
+	InitSound();
+}
+
+void SoundManager::ChangeSound()
+{
+	if (Pad::IsTrigger(PAD_INPUT_RIGHT))
+	{
+		if (m_select == kSeVolume)
+		{
+			m_seVolume += kMaxVolume * 0.08f;
+			SetSeVolume();
+			PlaySE(SE_Type::kSelectSE, DX_PLAYTYPE_BACK);
+			if (m_seVolume >= kMaxVolume)
+			{
+				m_seVolume = kMaxVolume;
+			}
+			kChangeSe = m_seVolume;
+		}
+		else if (m_select == kBgmVolume)
+		{
+			m_bgmVolume += kMaxVolume * 0.08f;
+			SetBgmVolume();
+			if (m_bgmVolume >= kMaxVolume)
+			{
+				m_bgmVolume = kMaxVolume;
+			}
+			kChangeBgm = m_bgmVolume;
+		}
+	}
+	else if (Pad::IsTrigger(PAD_INPUT_LEFT))
+	{
+		if (m_select == kBgmVolume)
+		{
+			m_bgmVolume -= kMaxVolume * 0.08f;
+			SetBgmVolume();
+			if (m_bgmVolume <= 0)
+			{
+				m_bgmVolume = 0;
+			}
+			kChangeBgm = m_bgmVolume;
+		}
+		if (m_select == kSeVolume)
+		{
+			m_seVolume -= kMaxVolume * 0.08f;
+			SetSeVolume();
+			PlaySE(SE_Type::kSelectSE, DX_PLAYTYPE_BACK);
+			if (m_seVolume <= 0)
+			{
+				m_seVolume = 0;
+			}
+			kChangeSe = m_seVolume;
+		}
+	}
+}
+
+void SoundManager::SelectOption()
+{
+	if (Pad::IsTrigger(PAD_INPUT_DOWN))
+	{
+		m_select += 1;
+		if (m_select >= 3)
+		{
+			m_select = Select::kBgmVolume;
+		}
+	}
+	if (Pad::IsTrigger(PAD_INPUT_UP))
+	{
+		m_select -= 1;
+		if (m_select <= -1)
+		{
+			m_select = Select::kBack;
+		}
+	}
+}
 
 void SoundManager::InitSound(void)
 {
@@ -11,7 +107,7 @@ void SoundManager::InitBGM(void)
 {
 	m_bgmPass[BGM_Type::kTitleBGM] = "Title.mp3";
 	m_bgmPass[BGM_Type::kGameBGM] = "MECHANICAL_DEATH.mp3";
-	m_bgmPass[BGM_Type::kGameClearBGM] = "";
+	m_bgmPass[BGM_Type::kGameClearBGM] = "ゲームクリアー！.mp3";
 	m_bgmPass[BGM_Type::kGameOverBGM] = "";
 	m_bgmPass[BGM_Type::kOptionBGM] = "Option.mp3";
 }
@@ -26,9 +122,9 @@ void SoundManager::InitSE(void)
 	m_sePass[SE_Type::kSelectSE] = "カーソル移動2.mp3";
 	m_sePass[SE_Type::kButtonSE] = "決定ボタンを押す6.mp3";
 	m_sePass[SE_Type::kBackSE] = "キャンセル7.mp3";
-	m_sePass[SE_Type::kSord1SE] = "しなる風切り音.mp3";
-	m_sePass[SE_Type::kSord2SE] = "しなる風切り音_2.mp3";
-	m_sePass[SE_Type::kSord3SE] = "しなる風切り音_3.mp3";
+	m_sePass[SE_Type::kSordSE] = "しなる風切り音.mp3";
+	m_sePass[SE_Type::kBowSE] = "se_gun_fire05.mp3";
+	m_sePass[SE_Type::kExtinction] = "データ表示4.mp3";
 }
 
 void SoundManager::LoadSE(SE_Type se)
@@ -39,14 +135,22 @@ void SoundManager::LoadSE(SE_Type se)
 
 void SoundManager::PlayBGM(BGM_Type bgm, int playType, int volumePar, bool topPositionFlag)
 {
-	ChangeVolumeSoundMem((255 * volumePar / 100), m_bgm[bgm]);
+	// 今回用
+	ChangeVolumeSoundMem(m_bgmVolume, m_bgm[bgm]);
 	PlaySoundMem(m_bgm[bgm], playType, topPositionFlag);
+
+	/*ChangeVolumeSoundMem((255 * volumePar / 100), m_bgm[bgm]);
+	PlaySoundMem(m_bgm[bgm], playType, topPositionFlag);*/
 }
 
 void SoundManager::PlaySE(SE_Type se, int playType, int volumePar, bool topPositionFlag)
 {
-	ChangeVolumeSoundMem((255 * volumePar / 100), m_se[se]);
+	// 今回用
+	ChangeVolumeSoundMem(m_seVolume, m_se[se]);
 	PlaySoundMem(m_se[se], playType, topPositionFlag);
+
+	//ChangeVolumeSoundMem((255 * volumePar / 100), m_se[se]);
+	//PlaySoundMem(m_se[se], playType, topPositionFlag);
 }
 
 bool SoundManager::CheckPlayBGM(BGM_Type bgm)
@@ -80,4 +184,24 @@ void SoundManager::ReleaseSound(void)
 	{
 		DeleteSoundMem(m_se[static_cast<SE_Type>(s)]);
 	}
+}
+
+void SoundManager::SetBgmVolume()
+{
+	for (const auto& entry : m_bgm) {
+		ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume),entry.second);
+	}
+}
+
+void SoundManager::SetSeVolume()
+{
+	for (const auto& entry : m_se) {
+		ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), entry.second);
+	}
+}
+
+void SoundManager::Draw()
+{
+	DrawFormatString(0, 500, 0xffffff, "Volume=%.2f", m_seVolume);
+	
 }

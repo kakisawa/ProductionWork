@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include "EffekseerForDXLib.h"
 #include "Scene/SceneManager.h"
 #include "Scene/SceneGame.h"
 #include <memory>
@@ -24,9 +25,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;			// エラーが起きたら直ちに終了
 	}
 
-	SetDrawScreen(DX_SCREEN_BACK);
+	// Effekseerの初期化
+	Effekseer_Init(8000);
 
-	//std::shared_ptr<SceneGame> m_pScene = make_shared<SceneGame>();
+	// フルスクリーン切り替え時におかしくならないように
+	SetChangeScreenModeGraphicsSystemResetFlag(false);
+	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
+
+	// Zバッファの設定
+	SetUseZBuffer3D(true);
+	SetWriteZBuffer3D(true);
+	SetUseBackCulling(true);
+
+	SetDrawScreen(DX_SCREEN_BACK);
 
 	// シーン管理
 	std::shared_ptr<SceneManager> m_pScene = make_shared<SceneManager>();

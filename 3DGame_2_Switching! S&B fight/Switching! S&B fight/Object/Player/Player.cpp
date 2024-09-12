@@ -1,29 +1,33 @@
 #include "Player.h"
 #include "DxLib.h"
+#include "PlayerState.h"
 #include "../Model.h"
+#include "../GameMap.h"
 #include "../../Util/Pad.h"
 #include "../../Object/Camera.h"
-#include "PlayerState.h"
-#include "../GameMap.h"
+#include "../../Util/Effect.h"
 #include "../Enemy/EnemyRight.h"
 #include "../Enemy/EnemyLeft.h"
 #include "../../Manager/SoundManager.h"
-#include <cassert>
 #include <cmath>
-
-bool col;
+#include <vector>
+#include <cassert>
 
 namespace {
-
+	// UI画像
 	const char* const kUI[5]{
-		"data/UI/GameScene/Player/HPOurGauge.png",// HPUI(外側)
-		"data/UI/GameScene/Player/HPInGauge.png",	// HPUI(内側)
-		"data/UI/GameScene/Player/NameBg.png",	// 名前背景UI
-		"data/UI/GameScene/Player/Fukuoka.png",	// 名前UI
-		"data/UI/GameScene/Player/Face.png"		// 顔アイコン
+		"data/Image/GameScene/UI/Player/HPOurGauge.png",// HPUI(外側)
+		"data/Image/GameScene/UI/Player/HPInGauge.png",	// HPUI(内側)
+		"data/Image/GameScene/UI/Player/NameBg.png",	// 名前背景UI
+		"data/Image/GameScene/UI/Player/Fukuoka.png",	// 名前UI
+		"data/Image/GameScene/UI/Player/Face.png"		// 顔アイコン
 	};
 
 	const char* const kModelPlayer = "data/model/RogueHooded.mv1";	// モデルのファイル名
+
+	constexpr int	kMaxHp = 100;				// 体力最大値
+	constexpr int	kSordDamage = 20;			// 剣の攻撃力
+	constexpr int	kBowDamage = 1;				// 弓の攻撃力
 
 	constexpr float kInitAngle = -DX_PI_F / 2.0f * 90.0f;	// プレイヤーの初期角度*90(向きを反対にする)
 	constexpr float kModelSize = 5.0f;			// モデルのサイズ
@@ -32,71 +36,70 @@ namespace {
 	constexpr float	kAngleSpeed = 0.2f;			// 角度変化速度
 	constexpr float	kJumpPower = 1.8f;			// ジャンプ力
 	constexpr float	kGravity = 0.05f;			// 重力
-	constexpr int	kMaxHp = 100;				// 体力最大値
-	constexpr int	kAttack = 20;				// 攻撃力
+	constexpr float kEffectHeight = 10.0f;		// エフェクトを表示する高さ
 
 	// アイコン位置
 	constexpr int kFaceUIPosX = 0;
 	constexpr int kFaceUIPosY = 30;
-
 	// HPゲージ(外側)位置
 	constexpr int kHpGaugeUIPosX = 130;
 	constexpr int kHpGaugeUIPosY = 85;
-
 	// HPゲージ(内側)右側位置(Exted用右端座標)
 	constexpr int kHpGaugePosX = 852;
 	constexpr int kHpGaugePosY = kHpGaugeUIPosY + 42;
-
 	// 名前背景位置
 	constexpr int kNameBgX = 130;
 	constexpr int kNameBgY = 10;
-
 	// 名前位置
 	constexpr int kNameX = kNameBgX + 80;
 	constexpr int kNameY = kNameBgY + 10;
 
-
-	const VECTOR kUpPos = VGet(0.0f, 7.0f, 0.0f);
-	const VECTOR kAttackRange = VGet(0.0f, 0.0f, 8.0f);
-	constexpr float kColRadius = 2.5;
-	constexpr float kAttackColRadius = 3.0;
+	const VECTOR kUpPos = VGet(0.0f, 7.0f, 0.0f);		// プレイヤーの当たり判定上
+	const VECTOR kAttackRange = VGet(0.0f, 0.0f,13.0f);	// プレイヤーの攻撃当たり判定
+	constexpr float kColRadius = 2.5;					// プレイヤーの当たり判定半径
+	constexpr float kAttackColRadius = 3.0;				// プレイヤーの攻撃当たり判定半径
 
 	// 初期化用値
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ベクトルの初期化
 	constexpr float kInitFloat = 0.0f;				// float値の初期化
+	constexpr int kInitInt = 0;						// int値の初期化
 
-	int waitTime = 0;
+	int waitTime = 0;								// 弓を連続で撃つ時のインターバル
 }
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 Player::Player() :
-//	m_uiGraph(-1),
 	m_angle(kInitFloat),
 	m_gravity(kGravity),
-	m_addDamage(0),
-	m_isAttack(false),
-	m_isNextAttackFlag(false),
+	m_addDamage(kInitInt),
+	m_jumpPower(kInitFloat),
+	m_multiAttack(kInitInt),
+	m_hp(kMaxHp),
+	m_isAttack(false), 
 	m_isFirstAttack(false),
-	m_isAttackDamage(false),
+	m_isNextAttackFlag(false),
+	m_isSordAttackDamage(false),
+	m_isBowAttackDamage(false),
 	m_isWalk(false),
 	m_isJump(false),
 	m_isDeath(false),
-	m_isAttackLeft(false),
-	m_isAttackRight(false),
-	m_jumpPower(0.0f),
-	m_multiAttack(0),
+	m_isCol(false),
+	m_isBodyCol(false),
+	m_isSordAttackToLeftEnemy(false),
+	m_isSordAttackToRightEnemy(false),
+	m_isBowAttackToLeftEnemy(true),
 	m_pos(kInitVec),
 	m_move(kInitVec),
 	m_UpPos(kInitVec),
-	m_hp(kMaxHp),
-	m_targetDir(VGet(0.0f, 0.0f, 0.0f)),
-	isCol(false)
+	m_targetDir(kInitVec),
+	m_vecToEnemy(kInitVec),
+	m_attackRange(kInitVec),
+	m_attackKind(AttackKind::kNone)
 {
 	// UI画像の読み込み
-	for (int i = 0; i < m_uiGraph.size(); i++)
-	{
+	for (int i = 0; i < m_uiGraph.size(); i++){
 		m_uiGraph[i] = LoadGraph(kUI[i]);
 		assert(m_uiGraph[i] != -1);
 	}
@@ -104,27 +107,25 @@ Player::Player() :
 	//モデルインスタンス作成
 	m_pModel = std::make_shared<Model>(kModelPlayer);
 	// アイドル状態のアニメーションを再生させる
-	m_pModel->SetAnim(m_animData.kIdle, false, true);
+	m_pModel->SetAnim(m_animData.kIdle, false, true);	
 
 	//ステイトクラスのインスタンス生成
 	m_pState = std::make_shared<PlayerState>();
+	m_pEffect = std::make_shared<Effect>();
 
-	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, PlayerState::State::kIdle);
-	m_pState->AddState([=] { WalkStateUpdate(); }, [=] { WalkStateInit(); }, PlayerState::State::kWalk);
-	m_pState->AddState([=] { JumpStateUpdate(); }, [=] { JumpStateInit(); }, PlayerState::State::kJump);
-	m_pState->AddState([=] { AttackSordStateUpdate(); }, [=] { AttackSordStateInit(); }, PlayerState::State::kAttackSord);
-	m_pState->AddState([=] { AttackBowStateUpdate(); }, [=] { AttackBowStateInit(); }, PlayerState::State::kAttackBow);
+	// ステイトクラスのインスタンス追加
+	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, PlayerState::State::kIdle);					// 待機状態
+	m_pState->AddState([=] { WalkStateUpdate(); }, [=] { WalkStateInit(); }, PlayerState::State::kWalk);					// 歩き状態
+	m_pState->AddState([=] { JumpStateUpdate(); }, [=] { JumpStateInit(); }, PlayerState::State::kJump);					// ジャンプ状態
+	m_pState->AddState([=] { AttackSordStateUpdate(); }, [=] { AttackSordStateInit(); }, PlayerState::State::kAttackSord);	// 剣攻撃状態
+	m_pState->AddState([=] { AttackBowStateUpdate(); }, [=] { AttackBowStateInit(); }, PlayerState::State::kAttackBow);		// 弓攻撃状態
 
 	//初期ステイトセット
-	m_pState->SetState(PlayerState::State::kIdle);	//ステイトセット(最初はIdle状態)
+	m_pState->SetState(PlayerState::State::kIdle);
 
+
+	// サウンド
 	m_pSound = new SoundManager;
-	m_pSound->InitSound();
-	m_pSound->LoadSE(SoundManager::SE_Type::kSord1SE);
-	m_pSound->LoadSE(SoundManager::SE_Type::kSord2SE);
-	m_pSound->LoadSE(SoundManager::SE_Type::kSord3SE);
-
-	col = false;
 }
 
 /// <summary>
@@ -132,6 +133,8 @@ Player::Player() :
 /// </summary>
 Player::~Player()
 {
+	delete m_pSound;
+	m_pSound = nullptr;
 }
 
 /// <summary>
@@ -144,8 +147,18 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 	m_pModel->SetRota(VGet(0.0f, kInitAngle, 0.0f));
 	m_pModel->SetPos(m_pos);
 
+	// マップの端
 	mp.leftBack = pMap->GetMapLeftBack();
 	mp.rightFront = pMap->GetMapRightFront();
+
+	// サウンド
+	m_pSound->Init();
+	// 使用サウンドのロード
+	m_pSound->LoadSE(SoundManager::SE_Type::kSordSE);
+	m_pSound->LoadSE(SoundManager::SE_Type::kBowSE);
+
+	// エフェクト
+	m_pEffect->Init();
 }
 
 
@@ -154,41 +167,42 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 /// </summary>
 void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
-	isCol = false;
-	col = false;
+	m_isCol = false;
+	m_isBodyCol = false;
 	// パッド入力によって移動パラメータを設定する
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
 	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
 
-	// ステイトの更新
-	m_pState->Update();
+	//現在の敵との距離を求める
+	NearByEnemy(enemyR, enemyL);
 
-	// プレイヤーの状態更新
-	// 攻撃処理
-	Attack(enemyR, enemyL);
 	// 移動処理
 	OldMoveValue(camera, upMoveVec, leftMoveVec);
-
-	// モデルのアップデート
-	m_pModel->Update();
 
 	// プレイヤーの移動方向にモデルの方向を近づける
 	Angle();
 
-	// プレイヤーの座標更新
+	// プレイヤーの状態更新
+	// 攻撃処理
+	Attack(enemyR, enemyL);
+
+	// 座標更新
 	Move(m_move, enemyR, enemyL);
 
-	// プレイヤーの死亡確認処理
+	// 死亡確認処理
 	Death();
 
-	// プレイヤー当たり判定用カプセル型の座標更新
-	m_UpPos = VAdd(m_pos, kUpPos);
+	// 当たり判定の更新処理
+	ColUpdate();
 
-	MATRIX rotationMatrix = MGetRotY(m_angle);
-	m_attackRange = VAdd(m_pos, VTransform(kAttackRange, rotationMatrix));
+	// ステイトの更新
+	m_pState->Update();
 
-	m_colSphere.UpdateCol(m_pos, m_UpPos, m_attackRange,
-		kColRadius, kAttackColRadius);
+	// モデルの更新
+	m_pModel->Update();
+
+	// エフェクトの更新
+	m_pEffect->Update();
 }
 
 /// <summary>
@@ -201,12 +215,15 @@ void Player::Draw()
 	DrawGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, m_uiGraph[0], true);
 
 	// プレイヤー情報描画
-	DrawGraph(kNameBgX, kNameBgY, m_uiGraph[2], true);
-	DrawGraph(kNameX, kNameY, m_uiGraph[3], true);
-	DrawGraph(kFaceUIPosX, kFaceUIPosY, m_uiGraph[4], true);
+	DrawGraph(kNameBgX, kNameBgY, m_uiGraph[2], true);		// 名前拝啓
+	DrawGraph(kNameX, kNameY, m_uiGraph[3], true);			// 名前
+	DrawGraph(kFaceUIPosX, kFaceUIPosY, m_uiGraph[4], true);// アイコン
 
-
+	// モデルの描画
 	m_pModel->Draw();
+
+	// エフェクトの描画
+	m_pEffect->Draw();
 
 #ifdef _DEBUG
 	m_colSphere.DrawMain(0xff0000, false);	// 当たり判定描画
@@ -221,20 +238,21 @@ void Player::Draw()
 	DrawFormatString(0, 300, 0xffffff, "m_isWalk=%d", m_isWalk);
 	DrawFormatString(0, 320, 0xffffff, "m_angle=%.2f", m_angle);
 
-	if(col) {
+	DrawFormatString(0, 360, 0xffffff, "m_isLeftEnemyAttack=%d", m_isBowAttackToLeftEnemy);
+
+	DrawFormatString(0, 420, 0xffffff, "m_animSpeed=%.2f", m_pModel->GetAnimSpeed());
+
+	if(m_isBodyCol) {
 		DrawString(0, 500, "当たっている", 0xffffff);
 	}
-	else
-	{
+	else{
 		DrawString(0, 500, "当たっていない", 0xffffff);
 	}
 
-	if (isCol)
-	{
+	if (m_isCol){
 		DrawString(0, 520, "当たっている", 0xffffff);
 	}
-	else
-	{
+	else{
 		DrawString(0, 520, "当たっていない", 0xffffff);
 	}
 #endif // DEBUG
@@ -245,18 +263,66 @@ void Player::Draw()
 /// </summary>
 void Player::End()
 {
-	// UI画像の読み込み
-	for (int i = 0; i < m_uiGraph.size(); i++)
-	{
+	// UI画像の削除
+	for (int i = 0; i < m_uiGraph.size(); i++){
 		DeleteGraph(m_uiGraph[i]);
 	}
 
+	// サウンドの解放
 	m_pSound->ReleaseSound();
-
-	delete m_pSound;
-	m_pSound = nullptr;
 }
 
+/// <summary>
+/// 距離の近い敵を探す
+/// </summary>
+/// <param name="enemyR">右の敵</param>
+/// <param name="enemyL">左の敵</param>
+void Player::NearByEnemy(const EnemyRight& enemyR, const EnemyLeft& enemyL)
+{
+	// プレイヤーから右の敵までの距離
+	double distance1 = sqrt((enemyR.GetPos().x - m_pos.x) * (enemyR.GetPos().x - m_pos.x) +
+		(enemyR.GetPos().y - m_pos.y) * (enemyR.GetPos().y - m_pos.y)+
+		(enemyR.GetPos().z - m_pos.z) * (enemyR.GetPos().z - m_pos.z));
+
+	// プレイヤーから左の敵までの距離
+	double distance2 = sqrt((enemyL.GetPos().x - m_pos.x) * (enemyL.GetPos().x - m_pos.x) +
+		(enemyL.GetPos().y - m_pos.y) * (enemyL.GetPos().y - m_pos.y) +
+		(enemyL.GetPos().z - m_pos.z) * (enemyL.GetPos().z - m_pos.z));
+
+	// 距離が小さいほうの値を入れる
+	double nearPos = min(distance1, distance2);
+
+	// 右の敵の方が近かった場合
+	if (nearPos == distance1)
+	{
+		// 右の敵が生存していたら
+		if(enemyR.GetAlive())
+		{
+			// 弓の狙いを右の敵にする
+			m_isBowAttackToLeftEnemy = false;
+		}
+		else { // 生きていなかったら
+			// 弓の狙いを左の敵にする
+			m_isBowAttackToLeftEnemy = true;
+		}
+	}
+	else{ // 右の敵の方が近かったら
+		
+		// 左の敵が生存していたら
+		if (enemyL.GetAlive()) {
+			// 弓の狙いを左の敵にする
+			m_isBowAttackToLeftEnemy = true;
+		}
+		else { // 生きていなかったら
+			// 弓の狙いを右の敵にする
+			m_isBowAttackToLeftEnemy = false;
+		}
+	}
+}
+
+/// <summary>
+/// ジャンプステイトの初期化
+/// </summary>
 void Player::JumpStateInit()
 {
 	m_isJump = true;
@@ -264,7 +330,7 @@ void Player::JumpStateInit()
 }
 
 /// <summary>
-/// 剣攻撃
+/// 剣攻撃の初期化
 /// </summary>
 void Player::AttackSordStateInit()
 {
@@ -273,11 +339,10 @@ void Player::AttackSordStateInit()
 	m_isNextAttackFlag = false;
 	m_isFirstAttack = true;
 	m_attackKind = AttackKind::kAttackSord;
-	m_pSound->PlaySE(SoundManager::SE_Type::kSord1SE, DX_PLAYTYPE_BACK);
 }
 
 /// <summary>
-/// 弓攻撃
+/// 弓攻撃の初期化
 /// </summary>
 void Player::AttackBowStateInit()
 {
@@ -287,18 +352,27 @@ void Player::AttackBowStateInit()
 	m_attackKind = AttackKind::kAttackBow;
 }
 
+/// <summary>
+/// 待機状態の更新処理
+/// </summary>
 void Player::IdleStateUpdate()
 {
 	// アニメーションを待機モーションに変更
 	m_pModel->ChangeAnim(m_animData.kIdle, true, false, 0.5f);
 }
 
+/// <summary>
+/// 歩き状態の更新処理
+/// </summary>
 void Player::WalkStateUpdate()
 {
 	// アニメーションを歩きモーションに変更
 	m_pModel->ChangeAnim(m_animData.kWalk, true, false, 0.5f);
 }
 
+/// <summary>
+/// ジャンプ状態の更新処理
+/// </summary>
 void Player::JumpStateUpdate()
 {
 	// アニメーションをジャンプモーションに変更
@@ -306,7 +380,7 @@ void Player::JumpStateUpdate()
 }
 
 /// <summary>
-/// 剣攻撃
+/// 剣攻撃状態の更新
 /// </summary>
 void Player::AttackSordStateUpdate()
 {
@@ -329,8 +403,7 @@ void Player::AttackSordStateUpdate()
 		break;
 	}
 
-	if (Pad::IsTrigger(PAD_INPUT_X) && !m_isNextAttackFlag)
-	{
+	if (Pad::IsTrigger(PAD_INPUT_X) && !m_isNextAttackFlag){
 		if (!m_isFirstAttack)
 		{
 			m_isNextAttackFlag = true;
@@ -343,7 +416,6 @@ void Player::AttackSordStateUpdate()
 		// アニメーションが終わった段階で次の攻撃フラグがたっていなかったら
 		if (!m_isNextAttackFlag)
 		{
-			m_isAttackDamage = true;
 			m_isAttack = false;
 			m_multiAttack = 0;
 			m_pState->EndState();
@@ -352,12 +424,8 @@ void Player::AttackSordStateUpdate()
 		// アニメーションが終わった段階で次の攻撃フラグがたっていたら
 		if (m_isNextAttackFlag)
 		{
-			m_isAttackDamage = true;
-			m_pSound->PlaySE(SoundManager::SE_Type::kSord1SE, DX_PLAYTYPE_BACK);
-
 			m_isNextAttackFlag = false;
 			m_multiAttack++;
-
 		}
 	}
 
@@ -380,7 +448,8 @@ void Player::AttackBowStateUpdate()
 		waitTime--;
 		if (waitTime <= 0)
 		{
-			m_isAttackDamage = true;
+			m_pSound->PlaySE(SoundManager::SE_Type::kBowSE, DX_PLAYTYPE_BACK);
+			m_isBowAttackDamage = true;
 			waitTime = 20;
 		}
 	}
@@ -391,7 +460,6 @@ void Player::AttackBowStateUpdate()
 	if (!loop)
 	{
 		m_isAttack = false;
-		m_isAttackDamage = false;
 		m_pState->EndState();
 		waitTime = 0;
 	}
@@ -459,12 +527,10 @@ void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftM
 /// <param name="MoveVector">移動量</param>
 void Player::Move(const VECTOR& MoveVector, const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
-	if (fabs(MoveVector.x) > 0.0f || fabs(MoveVector.z) > 0.0f)
-	{
+	if (fabs(MoveVector.x) > 0.0f || fabs(MoveVector.z) > 0.0f){
 		m_isWalk = true;
 	}
-	else
-	{
+	else{
 		m_isWalk = false;
 	}
 
@@ -475,13 +541,13 @@ void Player::Move(const VECTOR& MoveVector, const EnemyRight& enemyR, const Enem
 	{
 		VECTOR colNormal = VNorm(VSub(m_pos, enemyR.GetPos()));
 		m_pos = VAdd(m_pos, VScale(colNormal, 0.7f));
-		col = true;
+		m_isBodyCol = true;
 	}
 	if (m_colSphere.IsBodyCollision(enemyLeftCol))
 	{
 		VECTOR colNormal = VNorm(VSub(m_pos, enemyL.GetPos()));
 		m_pos = VAdd(m_pos, VScale(colNormal, 0.7f));
-		col = true;
+		m_isBodyCol = true;
 	}
 
 	// プレイヤーの位置に移動量を足す
@@ -565,35 +631,74 @@ void Player::Angle()
 
 void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
+	// 剣攻撃
 	Collision enemyRightCol = enemyR.GetColSphere();
 	Collision enemyLeftCol = enemyL.GetColSphere();
 
 	m_addDamage = 0;
-	m_isAttackLeft = false;
-	m_isAttackRight = false;
-
-	/*if (m_isForward)
-	{
-		m_moveAttack = VAdd(m_moveAttack, VGet(0.0f, 0.0f, kAttackSpeed));
-		m_isForward = false;
-	}*/
-
-
+	m_isSordAttackToLeftEnemy = false;
+	m_isSordAttackToRightEnemy = false;
+	
 	if (m_colSphere.IsAttackCollision(enemyLeftCol))
 	{
-		isCol = true;
-		m_isAttackLeft = true;
+		m_isCol = true;
+		m_isSordAttackToLeftEnemy = true;
 	}
 	if (m_colSphere.IsAttackCollision(enemyRightCol))
 	{
-		isCol = true;
-		m_isAttackRight = true;
+		m_isCol = true;
+		m_isSordAttackToRightEnemy = true;
 	}
 
-	if (isCol && m_isAttackDamage)
+	if (m_isAttack && m_isCol) {
+		if (m_pModel->GetAnimSpeed() >= 5.0f && m_pModel->GetAnimSpeed() < 6.0f)
+		{
+			m_pSound->PlaySE(SoundManager::SE_Type::kSordSE, DX_PLAYTYPE_BACK);
+			m_isSordAttackDamage = true;
+			m_pEffect->PlayDamageEffect(VGet(m_pos.x , m_pos.y + kEffectHeight, m_pos.z));
+		}
+	}
+
+	if (m_isCol && m_isSordAttackDamage)
 	{
-		m_addDamage = kAttack;
-		m_isAttackDamage = false;
+		m_addDamage = kSordDamage;
+		m_isSordAttackDamage = false;
+	}	
+
+	if (Pad::IsTrigger(PAD_INPUT_A)) {
+		m_isNextAttackFlag = false;
+	}
+
+	// RBを押したら敵の方向を向くプログラム書け
+	if (Pad::IsPress(PAD_INPUT_Z))
+	{
+		if (m_isBowAttackToLeftEnemy) {
+			m_vecToEnemy = VSub(m_pos, enemyL.GetPos());
+			m_angle = atan2(-m_vecToEnemy.x, -m_vecToEnemy.z);
+		}
+		else{
+			m_vecToEnemy = VSub(m_pos, enemyR.GetPos());
+			m_angle = atan2(-m_vecToEnemy.x, -m_vecToEnemy.z);
+		}
+		MV1SetRotationXYZ(m_pModel->GetModel(), VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+
+		// 弓攻撃
+		if (m_isBowAttackDamage)
+		{
+			if (!m_isBowAttackToLeftEnemy)	// 右の敵にダメージ
+			{
+				m_pEffect->PlayDamageEffect(VGet(enemyR.GetPos().x + enemyR.GetMovePos().x*10, enemyR.GetPos().y + 10, enemyR.GetPos().z + enemyR.GetMovePos().z * 100));
+				m_addDamage = kBowDamage;
+				m_isBowAttackDamage = false;
+				m_isSordAttackToRightEnemy = true;
+			}
+			else{
+				m_pEffect->PlayDamageEffect(VGet(enemyL.GetPos().x + enemyL.GetMovePos().x * 100, enemyL.GetPos().y + 10, enemyL.GetPos().z + enemyL.GetMovePos().z * 100));
+				m_addDamage = kBowDamage;
+				m_isBowAttackDamage = false;
+				m_isSordAttackToLeftEnemy = true;
+			}
+		}
 	}
 }
 
@@ -601,24 +706,23 @@ void Player::Jump()
 {
 	if (!m_isJump)	return;
 
-	if (m_pos.y >= 0.0f)
+	if (m_pos.y < 0.0f) {
+		m_pState->EndState();
+		m_isJump = false;
+		m_pos.y = 0.0f;
+		m_gravity = kGravity;
+	}
+	else if (m_pos.y >= 0.0f)
 	{
 		// ジャンプ状態なら重力適用
 		if (m_isJump)
 		{
 			// Ｙ軸方向の速度を重力分減算する
 			m_jumpPower -= m_gravity;
-			m_gravity += 0.005f;
+			m_gravity += 0.0002f;
 		}
-
 		// 移動ベクトルのＹ成分をＹ軸方向の速度にする
 		m_move.y = m_jumpPower;
-	}
-	else {
-		m_isJump = false;
-		m_pos.y = 0.0f;
-		m_gravity = kGravity;
-		m_pState->EndState();
 	}
 }
 
@@ -628,4 +732,16 @@ void Player::Death()
 	{
 		m_isDeath = true;
 	}
+}
+
+void Player::ColUpdate()
+{
+	// プレイヤー当たり判定用カプセル型の座標更新
+	m_UpPos = VAdd(m_pos, kUpPos);
+
+	MATRIX rotationMatrix = MGetRotY(m_angle);
+	m_attackRange = VAdd(m_pos, VTransform(kAttackRange, rotationMatrix));
+
+	m_colSphere.UpdateCol(m_pos, m_UpPos, m_attackRange,
+		kColRadius, kAttackColRadius);
 }

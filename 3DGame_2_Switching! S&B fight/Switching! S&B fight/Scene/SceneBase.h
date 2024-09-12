@@ -5,6 +5,7 @@
 
 using namespace std;
 
+class Fade;
 // ゲームシーン基底クラス
 class SceneBase :
 	public enable_shared_from_this<SceneBase>
@@ -19,6 +20,8 @@ public:
 
 protected:
 	bool m_isNextSceneFlag;			// シーン切り替えフラグ
+
+	std::shared_ptr<Fade> m_pFade;
 
 	SoundManager* m_pSound;
 };

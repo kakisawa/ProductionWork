@@ -15,5 +15,6 @@ public:
 
 private:
 	int m_graph;
+	int m_movie;
 };
 

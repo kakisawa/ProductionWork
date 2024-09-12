@@ -20,9 +20,10 @@ protected:
 	int m_model;	// 敵モデル
 	int m_hp;		// 敵HP	
 
+	bool m_isAlive;	// 生存しているかフラグ
+
 	VECTOR m_pos;
 
-	VECTOR m_move;
 	//モデルクラス
 	std::shared_ptr<Model> m_pModel;
 };

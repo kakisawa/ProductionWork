@@ -9,13 +9,17 @@ namespace {
 	constexpr float kAnimChangeRateSpeed = 0.2f;	// アニメーション切り替えにかかる速度
 	constexpr float kAnimBlendAdd = 0.5f;			// アニメーションブレンドの増加値
 	constexpr float kAnimBlendMax = 1.0f;			// アニメーションの切り替えにかかる最大フレーム数
+
+
+	float rate = 0.0f;
 }
 
 Model::Model(const char* fileName) :
 	m_model(MV1LoadModel(fileName)),
 	m_animChangeFrame(0),
 	m_animChangeFrameTotal(0),
-	m_animSpeed(0.0f)
+	m_animSpeed(0.0f),
+	m_animTime(0.0f)
 {
 	//コピーに失敗した場合
 	assert(m_model != -1);
@@ -61,6 +65,23 @@ void Model::Draw()
 {
 	// モデルの描画
 	MV1DrawModel(m_model);
+
+
+#ifdef _DEBUG
+	DrawFormatString(0, 700, 0xffffff, "m_current.animNo=%d", m_current.animNo);
+	DrawFormatString(0, 720, 0xffffff, "m_current.attachNo=%d", m_current.attachNo);
+	DrawFormatString(0, 740, 0xffffff, "m_current.elapsedTime=%.2f", m_current.elapsedTime);
+	DrawFormatString(0, 760, 0xffffff, "m_current.totalTime=%.2f", m_current.totalTime);
+
+	DrawFormatString(0, 780, 0xffffff, "m_prev.animNo=%d", m_prev.animNo);
+	DrawFormatString(0, 800, 0xffffff, "m_prev.attachNo=%d", m_prev.attachNo);
+	DrawFormatString(0, 820, 0xffffff, "m_prev.elapsedTime=%.2f", m_prev.elapsedTime);
+	DrawFormatString(0, 840, 0xffffff, "m_prev.totalTime=%.2f", m_prev.totalTime);
+	DrawFormatString(0, 860, 0xffffff, "rate=%.2f", rate);
+	DrawFormatString(0, 880, 0xffffff, "m_animChangeFrame=%.2f", m_animChangeFrame);
+	DrawFormatString(0, 900, 0xffffff, "m_animSpeed=%.2f", m_animSpeed);
+	
+#endif // DEBUG
 }
 
 void Model::SetSize(const VECTOR& size)
@@ -149,9 +170,8 @@ bool Model::IsAnimEnd()
 	// Loopアニメーションの場合は常にfalseを返す
 	if (m_current.isLoop) return false;
 
-	float time = MV1GetAttachAnimTime(m_model, m_current.attachNo);
-	if (time >= m_current.totalTime)
-	{
+	m_animTime = MV1GetAttachAnimTime(m_model, m_current.attachNo);
+	if (m_animTime >= m_current.totalTime){
 		return true;
 	}
 
@@ -187,19 +207,18 @@ void Model::UpdateAnimation(AnimData anim, float dt)
 		}
 	}
 	MV1SetAttachAnimTime(m_model, anim.attachNo, time);
-
 }
 
 void Model::UpdateAnimBlendRate()
 {
 	// アニメーション変化のフレーム数に応じたブレンド率を設定する
-	float rate = static_cast<float>(m_animChangeFrame) / static_cast<float>(m_animChangeFrameTotal);
+	rate = static_cast<float>(m_animChangeFrame) / static_cast<float>(m_animChangeFrameTotal);
 	if (rate > kAnimBlendMax)	rate = kAnimBlendMax;
 
 	// アニメーションのブレンド率を設定する
 	MV1SetAttachAnimBlendRate(m_model, m_prev.animNo, kAnimBlendMax - rate);
 	// アニメーションのブレンド率を設定する
-	MV1SetAttachAnimBlendRate(m_model, m_current.animNo, rate);
+	MV1SetAttachAnimBlendRate(m_model, m_current.animNo);
 
 //ここ修正
 }

@@ -6,6 +6,8 @@
 class Player;
 class EnemyState;
 class GameMap;
+class Effect;
+class SoundManager;
 class EnemyLeft :
     public EnemyBase
 {
@@ -27,7 +29,9 @@ public:
 	Collision GetColSphere() const { return m_colSphere; }
 
 	int GetHp() const { return m_hp; }
+	int GetAlive()const { return m_isAlive; }
 	VECTOR GetPos() const { return m_pos; }
+	VECTOR GetMovePos() const { return m_move; }
 
 private:
 	// アニメーション情報
@@ -48,7 +52,10 @@ private:
 private:
 	int m_sordModel;
 	bool m_isWalk;
+	bool m_isEffect;
+	bool m_isSurvival;
 
+	float m_angle;
 
 	std::array<int, 4> m_uiGraph{};	// UI用画像
 
@@ -60,11 +67,18 @@ private:
 	}mp;
 
 	VECTOR m_upPos;			// カプセル上座標
+	VECTOR m_vecToPlayer;	// プレイヤー迄の距離
+	VECTOR m_targetPos;
+	VECTOR m_move;
+	VECTOR m_distance;
 
 	std::shared_ptr<EnemyState> m_pState;
 
 	AnimationData m_animData;
 
 	Collision m_colSphere;
-};
 
+	SoundManager* m_pSound;
+
+	std::shared_ptr<Effect> m_pEffect;		// エフェクト
+};

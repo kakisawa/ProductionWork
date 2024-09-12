@@ -107,7 +107,7 @@ void PlayerState::StateTransitionAttackBow()
 	// ƒAƒNƒVƒ‡ƒ“’†‚¾‚Á‚½‚çˆ—‚ğ•Ô‚·
 	//if (m_isActionState)return;
 
-	if (Pad::IsPress(PAD_INPUT_B))
+	if (Pad::IsPress(PAD_INPUT_B)&&Pad::IsPress(PAD_INPUT_Z))
 	{
 		m_isActionState = true;
 		ChangeState(State::kAttackBow);

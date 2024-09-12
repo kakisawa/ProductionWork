@@ -14,6 +14,15 @@ Collision::~Collision()
 {
 }
 
+void Collision::Init()
+{
+	m_pos = kInitVec;
+	m_vertexPos = kInitVec;
+	m_attackRange = kInitVec;
+	m_colRadius = 0.0f;
+	m_attackColRadius = 0.0f;
+}
+
 void Collision::DrawMain(unsigned int color, bool isFill)
 {
 	DrawCapsule3D(m_pos, m_vertexPos,

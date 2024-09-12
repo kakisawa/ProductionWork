@@ -7,10 +7,10 @@
 namespace {
 
 	// カメラ情報
-	constexpr float kCameraHeight = 20.0f;	// カメラの注視点
+	constexpr float kCameraHeight = 15.0f;	// カメラの注視点
 	constexpr float kCameraNear = 1.0f;		// カメラ手前クリップ距離
 	constexpr float kCameraFar = 10000.0f;	// カメラ最奥クリップ距離
-	constexpr float kDist = 50.0f;			// カメラからプレイヤーまでの距離
+	constexpr float kDist = 30.0f;			// カメラからプレイヤーまでの距離
 	constexpr float kAngle = 0.05f;			// カメラを動かす角度
 
 	constexpr float kInitAngleH = -DX_PI_F / 2.0f;	// カメラの初期平行角度
@@ -79,12 +79,14 @@ void Camera::Update(const Player& player)
 	// カメラの情報をライブラリのカメラに反映させる
 	SetCameraPositionAndTarget_UpVecY(m_pos, m_targetPos);
 
-	ChangeLightTypeDir(VGet(0.0f, -30.0f, 0.0f));
+	ChangeLightTypeDir(VGet(20.0f, -50.0f, 0.0f));
 
+#ifdef _DEBUG
 	DrawFormatString(0, 160, 0xffffff, "Camera:m_pos.x/y/z=%.2f/%.2f/%.2f", m_pos.x, m_pos.y, m_pos.z);
 
 	DrawFormatString(0, 180, 0xffffff, "Player:m_pos.x/y/z=%.2f/%.2f/%.2f",
 		player.GetPos().x, player.GetPos().y, player.GetPos().z);
+#endif // DEBUG
 }
 
 void Camera::FixCameraPos()

@@ -60,10 +60,10 @@ void EnemyState::StateTransitionIdle()
 void EnemyState::StateTransitionWalk()
 {
 	// アクション中だったら処理を返す
-	if (m_isActionState) return;
+	if (!m_isActionState) return;
 
-	//移動ボタンが押されていたら
-	if (Pad::IsPress(PAD_INPUT_B))
+	////移動ボタンが押されていたら
+	//if (Pad::IsPress(PAD_INPUT_B))
 	{
 		ChangeState(State::kWalk);
 	}

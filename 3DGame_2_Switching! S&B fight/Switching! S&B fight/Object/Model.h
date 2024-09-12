@@ -18,6 +18,8 @@ public:
 	int GetModel() const { return m_model; }// モデル渡し
 	VECTOR GetPos() const { return m_pos; }	// モデルの座標渡し
 
+	float GetAnimSpeed() const { return m_animTime; }
+
 public:
 	// アニメーションの制御
 
@@ -66,6 +68,8 @@ private:
 private:
 	int m_model;				// モデル
 	VECTOR m_pos;				// 座標
+
+	float m_animTime;
 
 	// アニメーションの切り替え情報
 	int m_animChangeFrame;			// 現在の切り替えフレーム数

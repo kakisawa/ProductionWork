@@ -7,6 +7,8 @@ public:
 	Collision();
 	virtual ~Collision();
 
+	void Init();
+
 	// •`‰æ
 	void DrawMain(unsigned int color, bool isFill);
 	void DrawAttack(unsigned int color, bool isFill);
