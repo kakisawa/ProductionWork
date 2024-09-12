@@ -100,10 +100,7 @@ void EnemyRight::Init(std::shared_ptr<GameMap> pMap)
 void EnemyRight::Update(const Player& player)
 {
 	if (m_isAlive) {
-<<<<<<< HEAD
 		m_move = kInitVec;
-=======
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 		m_pState->Update();
 
@@ -219,7 +216,6 @@ void EnemyRight::Move()
 	}
 
 	m_vecToPlayer = VSub(m_pos, m_targetPos);
-<<<<<<< HEAD
 
 
 	// ƒxƒNƒgƒ‹‚Ì³‹K‰»					// ˆÚ“®—p
@@ -232,18 +228,12 @@ void EnemyRight::Move()
 
 
 	// atan2 ‚ðŽg—p‚µ‚ÄŠp“x‚ðŽæ“¾					// •ûŒü—p
-=======
-	// atan2 ‚ðŽg—p‚µ‚ÄŠp“x‚ðŽæ“¾
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	m_angle = atan2(m_vecToPlayer.x, m_vecToPlayer.z);
 
 	// atan2 ‚ÅŽæ“¾‚µ‚½Šp“x‚É‚R‚cƒ‚ƒfƒ‹‚ð³–Ê‚ÉŒü‚©‚¹‚é‚½‚ß‚Ì•â³’l( DX_PI_F )‚ð
 		// ‘«‚µ‚½’l‚ð‚R‚cƒ‚ƒfƒ‹‚Ì YŽ²‰ñ“]’l‚Æ‚µ‚ÄÝ’è
 	MV1SetRotationXYZ(m_pModel->GetModel(), VGet(0.0f, m_angle + DX_PI_F+ kInitAngle, 0.0f));
-<<<<<<< HEAD
 	MV1SetPosition(m_pModel->GetModel(), m_pos);
-=======
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 }
 
 void EnemyRight::SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle)

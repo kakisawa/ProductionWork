@@ -49,7 +49,6 @@ public:
 	/// </summary>
 	void End();
 
-<<<<<<< HEAD
 	/// <summary>
 	/// 距離の近い敵を探す
 	/// </summary>
@@ -118,42 +117,6 @@ public:
 
 	VECTOR GetPos()const { return m_pos; }					// プレイヤーの座標渡し
 	Collision GetCol() const { return m_colSphere; }		// プレイヤーの当たり判定渡し
-=======
-	void NearByEnemy(const EnemyRight& enemyR, const EnemyLeft& enemyL);
-
-	// プレイヤーの移動値設定
-	void OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);
-	void Move(const VECTOR& MoveVector, const EnemyRight& enemyR, const EnemyLeft& enemyL);	// プレイヤーの移動処理
-	void Angle();							// プレイヤーの回転処理
-
-	void Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL);		// 攻撃処理
-	void Jump();		// ジャンプ処理
-
-	void Death();		// 死亡処理
-
-
-	// 各状態ごとの初期化
-	void IdleStateInit() {};		//待機状態の初期化
-	void WalkStateInit() {};		//歩き状態の初期化
-	void JumpStateInit();			//ジャンプ状態の初期化
-	void AttackSordStateInit();		//剣攻撃状態の初期化
-	void AttackBowStateInit();		// 弓攻撃状態の初期化
-
-	// 各状態ごとの更新
-	void IdleStateUpdate();
-	void WalkStateUpdate();
-	void JumpStateUpdate();
-	void AttackSordStateUpdate();
-	void AttackBowStateUpdate();
-
-	int GetAddDamage() const { return m_addDamage; }
-	bool GetAttackRight()const { return m_isAttackRight; }
-	bool GetAttackLeft()const { return m_isAttackLeft; }
-	bool GetDeathFlag() const { return m_isDeath; }
-
-	VECTOR GetPos()const { return m_pos; }	// 座標渡し
-	Collision GetCol() const { return m_colSphere; }
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 private:
 
@@ -176,7 +139,6 @@ private:
 		int8_t kAttackBow = 54;	//攻撃モーション(銃)
 	};
 
-<<<<<<< HEAD
 	struct MapPlace{
 		VECTOR leftBack;		// マップ左奥座標
 		VECTOR rightFront;		// マップ右前座標
@@ -207,39 +169,6 @@ private:
 	bool m_isBodyCol;				// 敵の体とプレイヤーの体との当たり判定
 
 	VECTOR m_pos;			// 座標
-=======
-	struct MapPlace
-	{
-		VECTOR leftBack;		// マップ左奥座標
-		VECTOR rightFront;	// マップ右前座標
-	}mp;
-
-private:
-	int m_hp;					// プレイヤーHP
-	int m_addDamage;			// プレイヤーが敵に与えるダメージ量
-	int m_multiAttack;		// 連続攻撃用変数
-	std::array<int, 5> m_uiGraph{};	// UI用画像
-
-	float m_angle;				// プレイヤー向き角度
-	float m_jumpPower;			// Ｙ軸方向の速度
-	float m_gravity;			// プレイヤーにかかる重力
-
-	bool m_isWalk;			// 移動中フラグ
-	bool m_isAttack;		// 攻撃中フラグ
-	bool m_isNextAttackFlag;// 次の攻撃が実行されるかのフラグ
-	bool m_isFirstAttack;	// 最初の攻撃かフラグ
-	bool m_isSordAttackDamage;	// 剣攻撃を受けてHPが変動するかのフラグ
-	bool m_isBowAttackDamage;	// 剣攻撃を受けてHPが変動するかのフラグ
-	bool m_isJump;			// ジャンプ中フラグ
-	bool m_isDeath;			// 死亡したかフラグ
-	bool m_isAttackCancel;	// 攻撃をキャンセルしたかフラグ
-	bool m_isAttackRight;	// 右の敵を攻撃しているフラグ
-	bool m_isAttackLeft;	// 左の敵を攻撃しているフラグ
-	bool m_isNextAttack;	// 次の攻撃を行うかのフラグ
-	bool m_isLeftEnemyAttack;
-
-	VECTOR m_pos;			// プレイヤー位置
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	VECTOR m_move;			// 移動量
 	VECTOR m_targetDir;		// プレイヤーが向くべき方向のベクトル
 	VECTOR m_vecToEnemy;	// プレイヤー迄の距離
@@ -252,22 +181,6 @@ private:
 	AttackKind m_attackKind;
 	// 当たり判定
 	Collision m_colSphere;
-<<<<<<< HEAD
-=======
-
-
-	std::shared_ptr<PlayerState> m_pState;	// プレイヤーステイト
-
-	std::shared_ptr<Effect> m_pEffect;		// エフェクト
-
-
-	
-
-	
-
-	
-
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 	// プレイヤーステイト
 	std::shared_ptr<PlayerState> m_pState;

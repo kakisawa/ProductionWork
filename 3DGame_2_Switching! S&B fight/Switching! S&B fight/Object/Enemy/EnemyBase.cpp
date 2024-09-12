@@ -15,10 +15,6 @@ EnemyBase::EnemyBase(const char* model, VECTOR pos):
 	m_model(-1),
 	m_hp(kHPMax),
 	m_pos(pos),
-<<<<<<< HEAD
-=======
-	m_move(kInit),
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	m_isAlive(false)
 {
 	//モデルインスタンス作成

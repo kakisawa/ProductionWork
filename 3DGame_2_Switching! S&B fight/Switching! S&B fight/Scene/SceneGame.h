@@ -37,10 +37,7 @@ public:
 	/// </summary>
 	virtual void End();
 
-	void GameClearDirection();
-
 private:
-<<<<<<< HEAD
 	int m_explanationGraph;	// 操作説明画像
 	int m_waitCount;		// ゲームクリア条件達成後の待機時間
 
@@ -58,23 +55,6 @@ private:
 	bool m_isPause;					// ポーズ切り替えフラグ
 
 	// マップ
-=======
-	bool m_isGameClearFlag;
-	bool m_isExplanationFinishFlag;
-	bool m_isExplanationSet;
-	int m_explanationGraph;
-	int m_waitCount;
-
-	struct Size {
-		int m_width;
-		int m_height;
-		int m_widthMax;
-		int m_heightMax;
-	};
-
-	Size size;
-	
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	shared_ptr<GameMap> m_pMap = make_shared<GameMap>();
 	// カメラ
 	shared_ptr<Camera> m_pCamera = make_shared<Camera>();

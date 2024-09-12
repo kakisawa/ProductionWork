@@ -12,7 +12,6 @@
 #include <cassert>
 
 namespace {
-<<<<<<< HEAD
 	constexpr int kExplanationInitPosX = 620;	// 操作説明画像の初期位置X
 	constexpr int kExplanationInitPosY = 130;	// 操作説明画像の初期位置Y
 	constexpr int kExplanationPosX = 1472;		// 操作説明画像の最終位置X
@@ -34,24 +33,6 @@ SceneGame::SceneGame() :
 	m_isExplanationSet(false),
 	m_isExplanationView(true),
 	m_isPause(false)
-=======
-	constexpr int kExplanationInitPosX = 620;
-	constexpr int kExplanationInitPosY = 130;
-
-	constexpr int kExplanationPosX = 1472;
-	constexpr int kExplanationPosY = 0;
-
-	constexpr int kExplanationSizeX = 448;
-	constexpr int kExplanationSizeY = 530;
-}
-
-SceneGame::SceneGame() :
-	m_isGameClearFlag(false),
-	m_isExplanationFinishFlag(false),
-	m_isExplanationSet(false),
-	m_explanationGraph(-1),
-	m_waitCount(60)
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 {
 	// フェード
 	m_pFade = std::make_shared<Fade>();
@@ -69,25 +50,16 @@ void SceneGame::Init()
 	m_pEnemyRight->Init(m_pMap);
 	m_pEnemyLeft->Init(m_pMap);
 	m_pCamera->Init();
-<<<<<<< HEAD
-=======
-	m_pFade = std::make_shared<Fade>();
-
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	m_pSound->Init();	// サウンドの初期化
 
 	// 使用サウンドのロード
 	m_pSound->LoadBGM(SoundManager::BGM_Type::kGameBGM);	// サウンドの読み込み
 	m_pSound->PlayBGM(SoundManager::BGM_Type::kGameBGM, DX_PLAYTYPE_LOOP);
 
-<<<<<<< HEAD
 	// 画像のロード
 	m_explanationGraph = LoadGraph("data/Image/GameScene/UI/操作説明.png");
 
 	// 操作説明画像の位置設定
-=======
-	m_explanationGraph = LoadGraph("data/Image/GameScene/UI/操作説明.png");
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	size.m_width = kExplanationInitPosX;
 	size.m_height = kExplanationInitPosY;
 	size.m_widthMax = kExplanationInitPosX + 800;
@@ -96,7 +68,6 @@ void SceneGame::Init()
 
 shared_ptr<SceneBase> SceneGame::Update()
 {
-<<<<<<< HEAD
 	// スタートボタンを押したらポーズ状態にする
 	if (Pad::IsTrigger(PAD_INPUT_R)) {	
 		if (m_isPause) {
@@ -188,72 +159,6 @@ shared_ptr<SceneBase> SceneGame::Update()
 			}
 		}
 	}
-=======
-	m_pFade->FadeIn(m_pFade->GatFadeInFlag());
-
-	m_pCamera->Update(*m_pPlayer);
-
-	if (m_isExplanationFinishFlag) {
-		m_pFade->FadeOut(m_pFade->GatFadeOutFlag());
-		m_isNextSceneFlag = m_pFade->GatNextSceneFlag();
-
-		m_pPlayer->Update(*m_pCamera, *m_pEnemyRight, *m_pEnemyLeft);
-		m_pEnemyRight->Update(*m_pPlayer);
-		m_pEnemyLeft->Update(*m_pPlayer);
-		
-
-		m_isGameClearFlag = m_pEnemyLeft->GetHp() <= 0 && m_pEnemyRight->GetHp() <= 0;
-
-		
-
-		if (m_isGameClearFlag)
-		{	
-			m_waitCount--;
-			if (m_waitCount <= 0) {
-				m_pFade->SetFadeOutFlag(true);
-				if (m_isNextSceneFlag)
-				{
-					return make_shared<SceneGameClear>();	// ゲームクリアへ行く
-				}
-			}
-		}
-
-		if (m_pPlayer->GetDeathFlag())
-		{
-			//End();
-			m_pFade->SetFadeOutFlag(true);
-			if (m_isNextSceneFlag)
-			{
-				return make_shared<SceneGameOver>();	// ゲームオーバーへ行く
-			}
-		}
-	}
-	else {	// ゲーム開始前処理
-
-		if (Pad::IsTrigger(PAD_INPUT_A)) {
-			m_isExplanationSet = true;
-		}
-
-		if (size.m_height <= 0 && size.m_width >= kExplanationPosX)
-		{
-			m_isExplanationFinishFlag = true;
-		}
-
-		if (m_isExplanationSet)
-		{
-			size.m_width= min(size.m_width, kExplanationPosX);
-			size.m_widthMax= min(size.m_widthMax, 1920);
-			size.m_height= max(size.m_height, 0);
-			size.m_heightMax = max(size.m_heightMax, kExplanationSizeY);
-
-			size.m_height-=9;
-			size.m_heightMax-=9;
-			size.m_width+=16;
-			size.m_widthMax+=16;
-		}
-	}
-
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 #ifdef _DEBUG
 	m_pCamera->Update(*m_pPlayer);
@@ -293,12 +198,6 @@ void SceneGame::Draw()
 	
 	m_pFade->Draw();
 
-	DrawExtendGraph(size.m_width, size.m_height,
-		size.m_widthMax, size.m_heightMax,
-		m_explanationGraph, true);
-
-	m_pFade->Draw();
-
 #ifdef _DEBUG
 	DrawString(0, 120, "SceneGame", 0xffffff);
 	DrawString(0, 140, "Please Press Button RB or LB", 0x00ffff);	
@@ -314,9 +213,4 @@ void SceneGame::End()
 
 	DeleteGraph(m_explanationGraph);
 	SceneBase::End();
-}
-
-void SceneGame::GameClearDirection()
-{
-
 }

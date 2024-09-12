@@ -9,18 +9,9 @@
 #include "../Enemy/EnemyRight.h"
 #include "../Enemy/EnemyLeft.h"
 #include "../../Manager/SoundManager.h"
-<<<<<<< HEAD
 #include <cmath>
 #include <vector>
 #include <cassert>
-=======
-#include "../../Util/Effect.h"
-#include <cassert>
-#include <cmath>
-#include <vector>
-
-bool col;
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 namespace {
 	// UI画像
@@ -45,15 +36,7 @@ namespace {
 	constexpr float	kAngleSpeed = 0.2f;			// 角度変化速度
 	constexpr float	kJumpPower = 1.8f;			// ジャンプ力
 	constexpr float	kGravity = 0.05f;			// 重力
-<<<<<<< HEAD
 	constexpr float kEffectHeight = 10.0f;		// エフェクトを表示する高さ
-=======
-	constexpr int	kMaxHp = 100;				// 体力最大値
-	constexpr int	kSordDamage = 20;			// 剣の攻撃力
-	constexpr int	kBowDamage = 5;			// 弓の攻撃力
-
-	constexpr float kEffectHeight = 10.0f;			// エフェクトを表示する高さ
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 	// アイコン位置
 	constexpr int kFaceUIPosX = 0;
@@ -96,16 +79,12 @@ Player::Player() :
 	m_hp(kMaxHp),
 	m_isAttack(false), 
 	m_isFirstAttack(false),
-<<<<<<< HEAD
 	m_isNextAttackFlag(false),
-=======
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	m_isSordAttackDamage(false),
 	m_isBowAttackDamage(false),
 	m_isWalk(false),
 	m_isJump(false),
 	m_isDeath(false),
-<<<<<<< HEAD
 	m_isCol(false),
 	m_isBodyCol(false),
 	m_isSordAttackToLeftEnemy(false),
@@ -118,21 +97,6 @@ Player::Player() :
 	m_vecToEnemy(kInitVec),
 	m_attackRange(kInitVec),
 	m_attackKind(AttackKind::kNone)
-=======
-	m_isAttackLeft(false),
-	m_isAttackRight(false),
-	m_isAttackCancel(false),
-	m_isLeftEnemyAttack(true),
-	m_jumpPower(0.0f),
-	m_multiAttack(0),
-	m_pos(kInitVec),
-	m_move(kInitVec),
-	m_UpPos(kInitVec),
-	m_vecToEnemy(kInitVec),
-	m_hp(kMaxHp),
-	m_targetDir(VGet(0.0f, 0.0f, 0.0f)),
-	isCol(false)
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 {
 	// UI画像の読み込み
 	for (int i = 0; i < m_uiGraph.size(); i++){
@@ -162,14 +126,6 @@ Player::Player() :
 
 	// サウンド
 	m_pSound = new SoundManager;
-<<<<<<< HEAD
-=======
-	m_pSound->Init();
-	m_pSound->LoadSE(SoundManager::SE_Type::kSordSE);
-	m_pSound->LoadSE(SoundManager::SE_Type::kBowSE);
-
-	col = false;
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 }
 
 /// <summary>
@@ -195,7 +151,6 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 	mp.leftBack = pMap->GetMapLeftBack();
 	mp.rightFront = pMap->GetMapRightFront();
 
-<<<<<<< HEAD
 	// サウンド
 	m_pSound->Init();
 	// 使用サウンドのロード
@@ -203,8 +158,6 @@ void Player::Init(std::shared_ptr<GameMap> pMap)
 	m_pSound->LoadSE(SoundManager::SE_Type::kBowSE);
 
 	// エフェクト
-=======
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	m_pEffect->Init();
 }
 
@@ -222,32 +175,12 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 
 	//現在の敵との距離を求める
 	NearByEnemy(enemyR, enemyL);
-<<<<<<< HEAD
 
 	// 移動処理
 	OldMoveValue(camera, upMoveVec, leftMoveVec);
 
 	// プレイヤーの移動方向にモデルの方向を近づける
 	Angle();
-=======
-
-	// ステイトの更新
-	m_pState->Update();
-
-	// プレイヤーの移動方向にモデルの方向を近づける
-	Angle();
-
-	// プレイヤーの状態更新
-	// 攻撃処理
-	Attack(enemyR, enemyL);
-	// 移動処理
-	OldMoveValue(camera, upMoveVec, leftMoveVec);
-
-	// モデルのアップデート
-	m_pModel->Update();
-
-	
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 	// プレイヤーの状態更新
 	// 攻撃処理
@@ -265,18 +198,11 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 	// ステイトの更新
 	m_pState->Update();
 
-<<<<<<< HEAD
 	// モデルの更新
 	m_pModel->Update();
 
 	// エフェクトの更新
 	m_pEffect->Update();
-=======
-	m_colSphere.UpdateCol(m_pos, m_UpPos, m_attackRange,
-		kColRadius, kAttackColRadius);
-
-	m_pEffect->Update();		// エフェクト更新
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 }
 
 /// <summary>
@@ -296,12 +222,8 @@ void Player::Draw()
 	// モデルの描画
 	m_pModel->Draw();
 
-<<<<<<< HEAD
 	// エフェクトの描画
 	m_pEffect->Draw();
-=======
-	m_pEffect->Draw();			 // エフェクト描画
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 
 #ifdef _DEBUG
 	m_colSphere.DrawMain(0xff0000, false);	// 当たり判定描画
@@ -316,19 +238,11 @@ void Player::Draw()
 	DrawFormatString(0, 300, 0xffffff, "m_isWalk=%d", m_isWalk);
 	DrawFormatString(0, 320, 0xffffff, "m_angle=%.2f", m_angle);
 
-<<<<<<< HEAD
 	DrawFormatString(0, 360, 0xffffff, "m_isLeftEnemyAttack=%d", m_isBowAttackToLeftEnemy);
 
 	DrawFormatString(0, 420, 0xffffff, "m_animSpeed=%.2f", m_pModel->GetAnimSpeed());
 
 	if(m_isBodyCol) {
-=======
-	DrawFormatString(0, 360, 0xffffff, "m_isLeftEnemyAttack=%d", m_isLeftEnemyAttack);
-
-	DrawFormatString(0, 420, 0xffffff, "m_animSpeed=%.2f", m_pModel->GetAnimSpeed());
-
-	if(col) {
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 		DrawString(0, 500, "当たっている", 0xffffff);
 	}
 	else{
@@ -358,7 +272,6 @@ void Player::End()
 	m_pSound->ReleaseSound();
 }
 
-<<<<<<< HEAD
 /// <summary>
 /// 距離の近い敵を探す
 /// </summary>
@@ -367,23 +280,15 @@ void Player::End()
 void Player::NearByEnemy(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
 	// プレイヤーから右の敵までの距離
-=======
-void Player::NearByEnemy(const EnemyRight& enemyR, const EnemyLeft& enemyL)
-{
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	double distance1 = sqrt((enemyR.GetPos().x - m_pos.x) * (enemyR.GetPos().x - m_pos.x) +
 		(enemyR.GetPos().y - m_pos.y) * (enemyR.GetPos().y - m_pos.y)+
 		(enemyR.GetPos().z - m_pos.z) * (enemyR.GetPos().z - m_pos.z));
 
-<<<<<<< HEAD
 	// プレイヤーから左の敵までの距離
-=======
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	double distance2 = sqrt((enemyL.GetPos().x - m_pos.x) * (enemyL.GetPos().x - m_pos.x) +
 		(enemyL.GetPos().y - m_pos.y) * (enemyL.GetPos().y - m_pos.y) +
 		(enemyL.GetPos().z - m_pos.z) * (enemyL.GetPos().z - m_pos.z));
 
-<<<<<<< HEAD
 	// 距離が小さいほうの値を入れる
 	double nearPos = min(distance1, distance2);
 
@@ -418,19 +323,6 @@ void Player::NearByEnemy(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 /// <summary>
 /// ジャンプステイトの初期化
 /// </summary>
-=======
-	double nearPos = min(distance1, distance2);
-
-	if (nearPos == distance1)
-	{
-		m_isLeftEnemyAttack = false;
-	}
-	else {
-		m_isLeftEnemyAttack = true;
-	}
-}
-
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 void Player::JumpStateInit()
 {
 	m_isJump = true;
@@ -511,13 +403,7 @@ void Player::AttackSordStateUpdate()
 		break;
 	}
 
-<<<<<<< HEAD
 	if (Pad::IsTrigger(PAD_INPUT_X) && !m_isNextAttackFlag){
-=======
-	if (Pad::IsTrigger(PAD_INPUT_X) && !m_isNextAttackFlag)
-	{
-
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 		if (!m_isFirstAttack)
 		{
 			m_isNextAttackFlag = true;
@@ -750,13 +636,8 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 	Collision enemyLeftCol = enemyL.GetColSphere();
 
 	m_addDamage = 0;
-<<<<<<< HEAD
 	m_isSordAttackToLeftEnemy = false;
 	m_isSordAttackToRightEnemy = false;
-=======
-	m_isAttackLeft = false;
-	m_isAttackRight = false;
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	
 	if (m_colSphere.IsAttackCollision(enemyLeftCol))
 	{
@@ -769,28 +650,16 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 		m_isSordAttackToRightEnemy = true;
 	}
 
-<<<<<<< HEAD
 	if (m_isAttack && m_isCol) {
-=======
-	if (m_isAttack && isCol) {
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 		if (m_pModel->GetAnimSpeed() >= 5.0f && m_pModel->GetAnimSpeed() < 6.0f)
 		{
 			m_pSound->PlaySE(SoundManager::SE_Type::kSordSE, DX_PLAYTYPE_BACK);
 			m_isSordAttackDamage = true;
-<<<<<<< HEAD
 			m_pEffect->PlayDamageEffect(VGet(m_pos.x , m_pos.y + kEffectHeight, m_pos.z));
 		}
 	}
 
 	if (m_isCol && m_isSordAttackDamage)
-=======
-			m_pEffect->PlayDamageEffect(VGet(m_pos.x, m_pos.y + kEffectHeight, m_pos.z));
-		}
-	}
-
-	if (isCol && m_isSordAttackDamage)
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 	{
 		m_addDamage = kSordDamage;
 		m_isSordAttackDamage = false;
@@ -803,19 +672,11 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 	// RBを押したら敵の方向を向くプログラム書け
 	if (Pad::IsPress(PAD_INPUT_Z))
 	{
-<<<<<<< HEAD
 		if (m_isBowAttackToLeftEnemy) {
 			m_vecToEnemy = VSub(m_pos, enemyL.GetPos());
 			m_angle = atan2(-m_vecToEnemy.x, -m_vecToEnemy.z);
 		}
 		else{
-=======
-		if (m_isLeftEnemyAttack) {
-			m_vecToEnemy = VSub(m_pos, enemyL.GetPos());
-			m_angle = atan2(-m_vecToEnemy.x, -m_vecToEnemy.z);
-		}
-		else {
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 			m_vecToEnemy = VSub(m_pos, enemyR.GetPos());
 			m_angle = atan2(-m_vecToEnemy.x, -m_vecToEnemy.z);
 		}
@@ -824,7 +685,6 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 		// 弓攻撃
 		if (m_isBowAttackDamage)
 		{
-<<<<<<< HEAD
 			if (!m_isBowAttackToLeftEnemy)	// 右の敵にダメージ
 			{
 				m_pEffect->PlayDamageEffect(VGet(enemyR.GetPos().x + enemyR.GetMovePos().x*10, enemyR.GetPos().y + 10, enemyR.GetPos().z + enemyR.GetMovePos().z * 100));
@@ -837,20 +697,6 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 				m_addDamage = kBowDamage;
 				m_isBowAttackDamage = false;
 				m_isSordAttackToLeftEnemy = true;
-=======
-			if (!m_isLeftEnemyAttack)	// 右の敵にダメージ
-			{
-				m_pEffect->PlayDamageEffect(VGet(enemyR.GetPos().x,enemyR.GetPos().y+10, enemyR.GetPos().z));
-				m_addDamage = kBowDamage;
-				m_isBowAttackDamage = false;
-				m_isAttackRight = true;
-			}
-			else {
-				m_pEffect->PlayDamageEffect(VGet(enemyL.GetPos().x, enemyL.GetPos().y + 10, enemyL.GetPos().z));
-				m_addDamage = kBowDamage;
-				m_isBowAttackDamage = false;
-				m_isAttackLeft = true;
->>>>>>> 60071db8ef0a37b71e4c4659020bfdc349240f1e
 			}
 		}
 	}
