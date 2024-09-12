@@ -5,6 +5,7 @@
 #include "SceneRanking.h"
 #include "../Util/Pad.h"
 #include "../Util/Fade.h"
+#include "EffekseerForDXLib.h"
 #include <cassert>
 
 namespace {
@@ -139,6 +140,7 @@ shared_ptr<SceneBase> SceneTitle::Update()
 			}
 			if (m_nextScene == nextScene::kGameEnd)
 			{
+				Effkseer_End();
 				DxLib_End();						// ÉQÅ[ÉÄÇèIóπÇ∑ÇÈ
 			}
 		}
