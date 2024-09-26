@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -11,11 +12,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;			// エラーが起きたら直ちに終了
 	}
 
-	int model;
-	model = MV1LoadModel("Robot/Robot.mv1");
-
-	VECTOR pos;
-	pos = VGet(100.0f, 0.0f, 0.0f);
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
@@ -29,10 +25,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ClearDrawScreen();
 
 		// ゲームの処理
-		MV1SetPosition(model, pos);
-		MV1SetScale(model, VGet(0.5f, 0.5f, 0.5f));
+		
 
-		MV1DrawModel(model);
+		
 
 
 		// 画面が切り替わるのを待つ
@@ -51,7 +46,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 	}
 
-	MV1DeleteModel(model);
+	
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
 
