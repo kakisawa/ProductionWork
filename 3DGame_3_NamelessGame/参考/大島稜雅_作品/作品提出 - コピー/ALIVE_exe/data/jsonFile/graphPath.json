@@ -1,0 +1,3 @@
+{"place":[ {"type":"graph",                 "name" :[{"path":"key"},{"path":"title"},{"path":"controller"},{"path":"controllerBotton"}]},
+           {"type":"model/room/texture",    "name" :[{"path":"Chapter1"},{"path":"Chapter2"},{"path":"Chapter3"}]}]
+ }

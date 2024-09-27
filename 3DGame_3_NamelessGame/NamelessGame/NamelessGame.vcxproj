@@ -133,11 +133,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Pad.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Scene\SceneDebug.cpp" />
+    <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneGame.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Pad.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Scene\SceneDebug.h" />
+    <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneGame.h" />
     <ClInclude Include="Scene\SceneBase.h" />
   </ItemGroup>

@@ -1,0 +1,6 @@
+﻿Chara,MaxHP,PunchReceptionTime,PunchCoolTime,KickCoolTime,PunchTime,KickTime,PunchPower,SecondPunchPower,ThirdPunchPower,KickPower,specialAttackPower,MoveSpeed,FightWalkSpeed,Acceleration,Deceleration,AvoidDist,MaxAvoidCount,AvoidCoolTime,GuardAnimTime,BackMove
+Player,18000,60,20,40,45,60,190,210,250,400,25,4,2,0.3,0.5,10,3,30,10,1
+Tuto,8000,60,40,20,40,50,150,200,250,270,0,3,2,0.7,0.7,20,3,10,10,0.1
+Ninja,10000,60,10,20,45,50,320,340,370,380,0,3,2,0.7,0.7,20,3,10,10,0.05
+Chef,9000,60,30,10,40,50,290,330,370,420,0,3,2,0.7,0.7,20,3,10,10,0.05
+Abe,11000,60,15,20,40,50,340,400,500,600,0,3,2,0.7,0.7,20,3,10,10,0.05

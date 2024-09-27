@@ -1,0 +1,559 @@
+﻿0:ChangeWindowMode実行 
+0:ウインドウモードフラグが立てられました
+0:ＤＸライブラリの初期化処理開始
+1:	システムの情報を出力します
+1:		ＤＸライブラリ Ver3.24b
+1:		論理プロセッサの数 : 20
+1:		ＯＳ  Windows11 ( Build 22631  )
+102:		現時点のＣＰＵ動作速度：大体3.59GHz
+102:		ＭＭＸ命令を使用します
+102:		ＳＳＥ命令が使用可能です
+102:		ＳＳＥ２命令が使用可能です
+102:		ＣＰＵベンダ：GenuineIntel
+102:		ＣＰＵ名：12th Gen Intel(R) Core(TM) i7-12700KF
+103:	ＣＯＭの初期化... 成功
+146:	非同期読み込み処理の初期化...成功
+147:	ファイルアクセス処理の初期化...成功
+147:	メモリ総量:32560.15MB  空きメモリ領域:20086.71MB 
+147:	タイマーの精度を検査します
+147:	精度結果 更新回数 マルチメディアタイマー：0  パフォーマンスカウンター：60
+147:	 パフォーマンスカウンターを使用します タイマー精度 : 10000.000000 KHz 
+148:	 
+148:	ソフトの二重起動検査... 二重起動はされていませんでした
+148:	ウインドウクラスを登録します... 登録に成功しました
+148:	ウインドウモード起動用のウインドウを作成します
+148:	ディスプレイ情報のセットアップ開始
+148:		モニターの数：1  ディスプレイデバイスの数：4
+149:		No.0  モニター名：\\.\DISPLAY2　1920x1080　32bit　60Hz  96x96dpi
+153:	ディスプレイ情報のセットアップ完了
+153:	ウインドウ矩形 ( 304, 129 )-( 1600, 888 )
+155:	ウインドウの作成に成功しました
+155:	ウインドウを表示します
+171:	ＩＭＥを無効にしました
+171:	ウインドウスタイルをウインドウモード用に変更します... 完了
+190:	XInput DLL の読み込み中... 成功
+191:	DirectInput関係初期化処理
+191:		DirectInput8 の取得を試みます...成功
+266:			引き続き初期化処理... 初期化成功
+267:		ジョイパッドの初期化... 
+267:			XInput 対応コントローラーのチェックを開始します
+267:				XInput 対応コントローラー No.0 をチェック
+268:				XInput 対応コントローラー No.0 の接続を確認しました
+268:				XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
+269:				XInput 対応コントローラー No.1 をチェック
+269:				XInput 対応コントローラー No.1 の接続は確認できませんでした
+269:				XInput 対応コントローラー No.2 をチェック
+269:				XInput 対応コントローラー No.2 の接続は確認できませんでした
+270:				XInput 対応コントローラー No.3 をチェック
+270:				XInput 対応コントローラー No.3 の接続は確認できませんでした
+270:			XInput 対応コントローラーのチェック完了
+270:			DirectInput 対応ジョイパッドの列挙を開始します
+356:				DirectInput 対応入力装置を検出しました
+356:						Device Product GUID  : c21d046d,0000,0000,00,00,50,49,44,56,49,44
+356:						Device Instance GUID : 1fddc060,6919,11ef,80,07,44,45,53,54,00,00
+356:					DirectInputDevice8 の作成... 成功
+357:					DirectInputDevice の情報を取得します... 成功
+357:						Device Product Name  : Controller (Gamepad F310)
+357:						Device Instance Name : Controller (Gamepad F310)
+357:					検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
+357:					検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 不一致
+357:					検出した DirectInput 対応入力装置が XInput 対応コントローラーか確認... 一致
+543:				検出した DirectInput 対応入力装置の初期化を中断します
+604:			DirectInput 対応ジョイパッドの列挙終了
+604:		ジョイパッドの初期化は正常に終了しました
+605:		マウスデバイスの初期化... 初期化成功
+606:		キーボードデバイスの初期化... 初期化成功
+609:	DirectInput 関連の初期化は正常に終了しました
+611:	XAudio2 の初期化を行います
+617:		XAudio2_8.dll を使用します
+623:		XAudio2 インターフェースの取得と初期化を行います....  成功 Ver2.8
+772:	XAudio2 の初期化は正常に終了しました
+775:	d3d11.dll の読み込み.... 成功
+820:	dxgi.dll の読み込み.... 成功
+820:	API CreateDXGIFactory2 のアドレスを取得します.... 成功
+820:	IDXGIFactory2 を作成します.... 成功
+825:	API CreateDXGIFactory6 のアドレスを取得します.... 成功
+825:	IDXGIAdapter を列挙
+826:		Adapter No.0 Desc:NVIDIA GeForce RTX 3070  VRAM:8018MB
+826:			Output Device No.0 Name:\\.\DISPLAY2 ( 0, 0 )-( 1920, 1080 )
+826:		Adapter No.1 Desc:Microsoft Basic Render Driver  VRAM:0MB
+826:	API D3D11CreateDevice のアドレスを取得します.... 成功
+826:	IDXGIAdapter を取得します.... 成功
+826:	IDXGIAdapter1 を取得します.... 成功
+826:	IDXGIAdapter2 を取得します.... 成功
+826:	IDXGIAdapter3 を取得します.... 成功
+827:	IDXGIAdapter4 を取得します.... 成功
+827:	Direct3D 11 FeatureLevel 11_0 以上を対象とします
+827:	ID3D11Device オブジェクトを取得します.... 成功
+915:	IDXGIDevice1 を取得します.... 成功
+915:	IDXGIDevice1->SetMaximunFrameLatency( 1 ); を実行しました
+915:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+915:	IDXGISwapChain2 を作成します.... 成功
+916:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+916:	IDXGIOutput を取得します.... 成功
+917:	Graphics Device:NVIDIA GeForce RTX 3070
+917:	画面のフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+917:	16bit Zバッファフォーマットは DXGI_FORMAT_D16_UNORM です
+917:	24bit Zバッファフォーマットは DXGI_FORMAT_D24_UNORM_S8_UINT です
+917:	32bit Zバッファフォーマットは DXGI_FORMAT_D32_FLOAT です
+917:	16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
+917:	32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
+917:	アルファ付き 16bit カラーフォーマットは DXGI_FORMAT_B4G4R4A4_UNORM です
+917:	アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+917:	アルファテスト用 16bit カラーフォーマットは DXGI_FORMAT_B5G5R5A1_UNORM です
+917:	アルファテスト用 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+917:	ＤＸＴ１テクスチャフォーマットは DXGI_FORMAT_BC1_UNORM です
+918:	ＤＸＴ２テクスチャフォーマットは使えません
+918:	ＤＸＴ３テクスチャフォーマットは DXGI_FORMAT_BC2_UNORM です
+918:	ＤＸＴ４テクスチャフォーマットは使えません
+918:	ＤＸＴ５テクスチャフォーマットは DXGI_FORMAT_BC3_UNORM です
+918:	BC7_UNORM テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM です
+918:	BC7_UNORM_SRGB テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM_SRGB です
+918:	ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
+918:	ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
+918:	ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
+918:	１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
+918:	１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
+918:	１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
+918:	１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
+918:	２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
+918:	２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
+919:	２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
+919:	２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
+919:	描画用 16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
+919:	描画用 32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
+919:	描画用アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+919:	描画用 ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
+919:	描画用 ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
+919:	描画用 ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
+919:	描画用１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
+919:	描画用１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
+919:	描画用１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
+919:	描画用１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
+919:	描画用２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
+919:	描画用２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
+919:	描画用２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
+920:	描画用２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
+920:	使用する機能レベル:D3D_FEATURE_LEVEL_11_1
+920:	同時にレンダリングできるバッファの数:8
+920:	最大テクスチャサイズ　幅:16384 高さ:16384
+920:	標準描画用の頂点バッファの作成.... 成功
+920:	シェーダーコード関係の初期化.... 成功
+926:	各種シェーダー用定数バッファの作成.... 成功
+927:	各種 ID3D11InputLayout の作成.... 成功
+940:	画像の単純転送処理の初期化... 成功
+941:	深度バッファを作成します.... 成功
+943:	フォントの初期化を行います
+945:	フォントの初期化は正常に終了しました
+1032:	文字コードバッファの初期化を行います... 完了しました
+1048:ＤＸライブラリの初期化処理終了
+16190:ChangeWindowMode実行 
+16190:ウインドウモードフラグが倒されました
+16190:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+16195:画面モード変更処理を開始します
+16198:	深度バッファを作成します.... 成功
+16198:	[ウインドウモード 1280x720 ( 0, 0 )-( 1920, 1080 )]
+16198:	IDXGISwapChain2 を作成します.... 成功
+16200:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+16200:	IDXGIOutput を取得します.... 成功
+16200:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+16204:画面モード変更処理は正常に終了しました
+16891:ChangeWindowMode実行 
+16891:ウインドウモードフラグが立てられました
+16891:ウインドウスタイルをウインドウモード用に変更します... 完了
+16906:画面モード変更処理を開始します
+16906:	深度バッファを作成します.... 成功
+16907:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+16907:	IDXGISwapChain2 を作成します.... 成功
+16907:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+16908:	IDXGIOutput を取得します.... 成功
+16908:	ウインドウスタイルをウインドウモード用に変更します... 完了
+16908:画面モード変更処理は正常に終了しました
+17369:ChangeWindowMode実行 
+17369:ウインドウモードフラグが倒されました
+17369:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+17372:画面モード変更処理を開始します
+17372:	深度バッファを作成します.... 成功
+17373:	[ウインドウモード 1280x720 ( 0, 0 )-( 1920, 1080 )]
+17373:	IDXGISwapChain2 を作成します.... 成功
+17375:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+17375:	IDXGIOutput を取得します.... 成功
+17375:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+17379:画面モード変更処理は正常に終了しました
+17586:ChangeWindowMode実行 
+18253:ChangeWindowMode実行 
+18786:ChangeWindowMode実行 
+19103:ChangeWindowMode実行 
+19103:ウインドウモードフラグが立てられました
+19103:ウインドウスタイルをウインドウモード用に変更します... 完了
+19112:画面モード変更処理を開始します
+19112:	深度バッファを作成します.... 成功
+19112:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+19113:	IDXGISwapChain2 を作成します.... 成功
+19113:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+19113:	IDXGIOutput を取得します.... 成功
+19114:	ウインドウスタイルをウインドウモード用に変更します... 完了
+19114:画面モード変更処理は正常に終了しました
+19504:ChangeWindowMode実行 
+19505:ウインドウモードフラグが倒されました
+19505:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+19512:画面モード変更処理を開始します
+19512:	深度バッファを作成します.... 成功
+19513:	[ウインドウモード 1280x720 ( 0, 0 )-( 1920, 1080 )]
+19513:	IDXGISwapChain2 を作成します.... 成功
+19515:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+19515:	IDXGIOutput を取得します.... 成功
+19515:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+19519:画面モード変更処理は正常に終了しました
+19952:ChangeWindowMode実行 
+19952:ウインドウモードフラグが立てられました
+19952:ウインドウスタイルをウインドウモード用に変更します... 完了
+19958:画面モード変更処理を開始します
+19958:	深度バッファを作成します.... 成功
+19959:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+19959:	IDXGISwapChain2 を作成します.... 成功
+19959:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+19959:	IDXGIOutput を取得します.... 成功
+19960:	ウインドウスタイルをウインドウモード用に変更します... 完了
+19960:画面モード変更処理は正常に終了しました
+20303:ChangeWindowMode実行 
+20303:ウインドウモードフラグが倒されました
+20303:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+20309:画面モード変更処理を開始します
+20309:	深度バッファを作成します.... 成功
+20310:	[ウインドウモード 1280x720 ( 0, 0 )-( 1920, 1080 )]
+20310:	IDXGISwapChain2 を作成します.... 成功
+20312:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+20312:	IDXGIOutput を取得します.... 成功
+20312:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+20317:画面モード変更処理は正常に終了しました
+20651:ChangeWindowMode実行 
+20651:ウインドウモードフラグが立てられました
+20652:ウインドウスタイルをウインドウモード用に変更します... 完了
+20658:画面モード変更処理を開始します
+20658:	深度バッファを作成します.... 成功
+20659:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+20659:	IDXGISwapChain2 を作成します.... 成功
+20659:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+20659:	IDXGIOutput を取得します.... 成功
+20660:	ウインドウスタイルをウインドウモード用に変更します... 完了
+20660:画面モード変更処理は正常に終了しました
+21052:ChangeWindowMode実行 
+21052:ウインドウモードフラグが倒されました
+21052:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+21057:画面モード変更処理を開始します
+21057:	深度バッファを作成します.... 成功
+21058:	[ウインドウモード 1280x720 ( 0, 0 )-( 1920, 1080 )]
+21058:	IDXGISwapChain2 を作成します.... 成功
+21059:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+21059:	IDXGIOutput を取得します.... 成功
+21059:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+21066:画面モード変更処理は正常に終了しました
+21384:ChangeWindowMode実行 
+21384:ウインドウモードフラグが立てられました
+21385:ウインドウスタイルをウインドウモード用に変更します... 完了
+21390:画面モード変更処理を開始します
+21390:	深度バッファを作成します.... 成功
+21391:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+21391:	IDXGISwapChain2 を作成します.... 成功
+21392:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+21392:	IDXGIOutput を取得します.... 成功
+21392:	ウインドウスタイルをウインドウモード用に変更します... 完了
+21392:画面モード変更処理は正常に終了しました
+21686:ChangeWindowMode実行 
+21686:ウインドウモードフラグが倒されました
+21686:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+21694:画面モード変更処理を開始します
+21694:	深度バッファを作成します.... 成功
+21694:	[ウインドウモード 1280x720 ( 0, 0 )-( 1920, 1080 )]
+21695:	IDXGISwapChain2 を作成します.... 成功
+21696:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+21696:	IDXGIOutput を取得します.... 成功
+21697:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+21701:画面モード変更処理は正常に終了しました
+22034:ChangeWindowMode実行 
+22335:ChangeWindowMode実行 
+22652:ChangeWindowMode実行 
+22885:ChangeWindowMode実行 
+23253:ChangeWindowMode実行 
+23253:ウインドウモードフラグが立てられました
+23254:ウインドウスタイルをウインドウモード用に変更します... 完了
+23261:画面モード変更処理を開始します
+23261:	深度バッファを作成します.... 成功
+23262:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+23262:	IDXGISwapChain2 を作成します.... 成功
+23263:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+23263:	IDXGIOutput を取得します.... 成功
+23264:	ウインドウスタイルをウインドウモード用に変更します... 完了
+23266:画面モード変更処理は正常に終了しました
+23577:ChangeWindowMode実行 
+23577:ウインドウモードフラグが倒されました
+23577:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+23582:画面モード変更処理を開始します
+23582:	深度バッファを作成します.... 成功
+23583:	[ウインドウモード 1280x720 ( 0, 0 )-( 1920, 1080 )]
+23583:	IDXGISwapChain2 を作成します.... 成功
+23584:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+23584:	IDXGIOutput を取得します.... 成功
+23584:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+23587:画面モード変更処理は正常に終了しました
+23967:ChangeWindowMode実行 
+23968:ウインドウモードフラグが立てられました
+23968:ウインドウスタイルをウインドウモード用に変更します... 完了
+23975:画面モード変更処理を開始します
+23975:	深度バッファを作成します.... 成功
+23976:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+23976:	IDXGISwapChain2 を作成します.... 成功
+23977:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+23977:	IDXGIOutput を取得します.... 成功
+23977:	ウインドウスタイルをウインドウモード用に変更します... 完了
+23977:画面モード変更処理は正常に終了しました
+24319:ChangeWindowMode実行 
+24319:ウインドウモードフラグが倒されました
+24319:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+24325:画面モード変更処理を開始します
+24325:	深度バッファを作成します.... 成功
+24325:	[ウインドウモード 1280x720 ( 0, 0 )-( 1920, 1080 )]
+24326:	IDXGISwapChain2 を作成します.... 成功
+24326:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+24326:	IDXGIOutput を取得します.... 成功
+24328:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+24333:画面モード変更処理は正常に終了しました
+24667:ChangeWindowMode実行 
+24668:ウインドウモードフラグが立てられました
+24668:ウインドウスタイルをウインドウモード用に変更します... 完了
+24678:画面モード変更処理を開始します
+24678:	深度バッファを作成します.... 成功
+24679:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+24679:	IDXGISwapChain2 を作成します.... 成功
+24679:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+24679:	IDXGIOutput を取得します.... 成功
+24680:	ウインドウスタイルをウインドウモード用に変更します... 完了
+24680:画面モード変更処理は正常に終了しました
+25019:ChangeWindowMode実行 
+25020:ウインドウモードフラグが倒されました
+25020:ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+25026:画面モード変更処理を開始します
+25026:	深度バッファを作成します.... 成功
+25027:	[ウインドウモード 1280x720 ( 0, 0 )-( 1920, 1080 )]
+25027:	IDXGISwapChain2 を作成します.... 成功
+25028:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+25028:	IDXGIOutput を取得します.... 成功
+25029:	ウインドウスタイルをフルスクリーンモード用に変更します... 完了
+25033:画面モード変更処理は正常に終了しました
+25318:ChangeWindowMode実行 
+25319:ウインドウモードフラグが立てられました
+25319:ウインドウスタイルをウインドウモード用に変更します... 完了
+25326:画面モード変更処理を開始します
+25326:	深度バッファを作成します.... 成功
+25327:	[ウインドウモード 1280x720 ( 320, 167 )-( 1600, 887 )]
+25327:	IDXGISwapChain2 を作成します.... 成功
+25327:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+25327:	IDXGIOutput を取得します.... 成功
+25329:	ウインドウスタイルをウインドウモード用に変更します... 完了
+25329:画面モード変更処理は正常に終了しました
+1425141:ジョイパッドの初期化... 
+1425141:	XInput 対応コントローラーのチェックを開始します
+1425141:		XInput 対応コントローラー No.0 をチェック
+1425141:		XInput 対応コントローラー No.0 の接続を確認しました
+1425141:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
+1425141:		XInput 対応コントローラー No.1 をチェック
+1425143:		XInput 対応コントローラー No.1 の接続は確認できませんでした
+1425143:		XInput 対応コントローラー No.2 をチェック
+1425143:		XInput 対応コントローラー No.2 の接続は確認できませんでした
+1425143:		XInput 対応コントローラー No.3 をチェック
+1425143:		XInput 対応コントローラー No.3 の接続は確認できませんでした
+1425143:	XInput 対応コントローラーのチェック完了
+1425143:	DirectInput 対応ジョイパッドの列挙を開始します
+1425259:		DirectInput 対応入力装置を検出しました
+1425260:				Device Product GUID  : c21d046d,0000,0000,00,00,50,49,44,56,49,44
+1425260:				Device Instance GUID : 1fddc060,6919,11ef,80,07,44,45,53,54,00,00
+1425260:			DirectInputDevice8 の作成... 成功
+1425260:			DirectInputDevice の情報を取得します... 成功
+1425260:				Device Product Name  : Controller (Gamepad F310)
+1425260:				Device Instance Name : Controller (Gamepad F310)
+1425261:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
+1425261:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 不一致
+1425261:			検出した DirectInput 対応入力装置が XInput 対応コントローラーか確認... 不一致
+1425261:			DirectInputDevice のデータ形式に JOYSTICK 形式を設定... 成功
+1425262:			DirectInputDevice の協調レベルに DISCL_FOREGROUND | DISCL_EXCLUSIVE を設定... 成功
+1425262:			DirectInputDevice から取得する X軸 の値の範囲を設定... 成功
+1425262:			DirectInputDevice から取得する Y軸 の値の範囲を設定... 成功
+1425262:			DirectInputDevice から取得する Z軸 の値の範囲を設定... 成功
+1425262:			DirectInputDevice から取得する Rx軸 の値の範囲を設定... 成功
+1425263:			DirectInputDevice から取得する Ry軸 の値の範囲を設定... 成功
+1425263:			DirectInputDevice から取得する Rz軸 の値の範囲を設定... 成功
+1425263:			DirectInputDevice のボタンの数を取得... 成功　ボタンの数は 10 個です
+1425263:			DirectInputDevice の X軸 のデッドゾーンを設定... 成功
+1425263:			DirectInputDevice の Y軸 のデッドゾーンを設定... 成功
+1425263:			DirectInputDevice の Z軸 のデッドゾーンを設定... 成功
+1425263:			DirectInputDevice の Rx軸 のデッドゾーンを設定... 成功
+1425263:			DirectInputDevice の Ry軸 のデッドゾーンを設定... 成功
+1425264:			DirectInputDevice の Rz軸 のデッドゾーンを設定... 成功
+1425264:			DirectInputDevice の DirectInputEffect No.0 を作成... 失敗 Error Code :0x80004001
+1425264:			DirectInputDevice の DirectInputEffect No.1 を作成... 失敗 Error Code :0x80004001
+1425264:			DirectInputDevice の通知処理用の Event を作成... 成功
+1425264:			DirectInputDevice の通知処理用の Event を DirectInputDevice に設定... 成功
+1425264:			DirectInputDevice のアクセス権を取得... 成功
+1425265:			検出した DirectInput 対応入力装置を入力ナンバー 1 で登録します
+1425265:		検出した DirectInput 対応入力装置の初期化は正常に終了しました
+1425325:	DirectInput 対応ジョイパッドの列挙終了
+1425325:ジョイパッドの初期化は正常に終了しました
+1425445:ジョイパッドの初期化... 
+1425445:	XInput 対応コントローラーのチェックを開始します
+1425445:		XInput 対応コントローラー No.0 をチェック
+1425445:		XInput 対応コントローラー No.0 の接続を確認しました
+1425445:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
+1425445:		XInput 対応コントローラー No.1 をチェック
+1425445:		XInput 対応コントローラー No.1 の接続は確認できませんでした
+1425445:		XInput 対応コントローラー No.2 をチェック
+1425446:		XInput 対応コントローラー No.2 の接続は確認できませんでした
+1425446:		XInput 対応コントローラー No.3 をチェック
+1425446:		XInput 対応コントローラー No.3 の接続は確認できませんでした
+1425446:	XInput 対応コントローラーのチェック完了
+1425446:	DirectInput 対応ジョイパッドの列挙を開始します
+1425528:		DirectInput 対応入力装置を検出しました
+1425528:				Device Product GUID  : c21d046d,0000,0000,00,00,50,49,44,56,49,44
+1425528:				Device Instance GUID : 1fddc060,6919,11ef,80,07,44,45,53,54,00,00
+1425528:			DirectInputDevice8 の作成... 成功
+1425528:			DirectInputDevice の情報を取得します... 成功
+1425529:				Device Product Name  : Controller (Gamepad F310)
+1425529:				Device Instance Name : Controller (Gamepad F310)
+1425529:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
+1425529:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 不一致
+1425530:			検出した DirectInput 対応入力装置が XInput 対応コントローラーか確認... 不一致
+1425530:			DirectInputDevice のデータ形式に JOYSTICK 形式を設定... 成功
+1425530:			DirectInputDevice の協調レベルに DISCL_FOREGROUND | DISCL_EXCLUSIVE を設定... 成功
+1425530:			DirectInputDevice から取得する X軸 の値の範囲を設定... 成功
+1425530:			DirectInputDevice から取得する Y軸 の値の範囲を設定... 成功
+1425531:			DirectInputDevice から取得する Z軸 の値の範囲を設定... 成功
+1425531:			DirectInputDevice から取得する Rx軸 の値の範囲を設定... 成功
+1425531:			DirectInputDevice から取得する Ry軸 の値の範囲を設定... 成功
+1425531:			DirectInputDevice から取得する Rz軸 の値の範囲を設定... 成功
+1425531:			DirectInputDevice のボタンの数を取得... 成功　ボタンの数は 10 個です
+1425531:			DirectInputDevice の X軸 のデッドゾーンを設定... 成功
+1425531:			DirectInputDevice の Y軸 のデッドゾーンを設定... 成功
+1425532:			DirectInputDevice の Z軸 のデッドゾーンを設定... 成功
+1425532:			DirectInputDevice の Rx軸 のデッドゾーンを設定... 成功
+1425532:			DirectInputDevice の Ry軸 のデッドゾーンを設定... 成功
+1425532:			DirectInputDevice の Rz軸 のデッドゾーンを設定... 成功
+1425532:			DirectInputDevice の DirectInputEffect No.0 を作成... 失敗 Error Code :0x80004001
+1425532:			DirectInputDevice の DirectInputEffect No.1 を作成... 失敗 Error Code :0x80004001
+1425533:			DirectInputDevice の通知処理用の Event を作成... 成功
+1425533:			DirectInputDevice の通知処理用の Event を DirectInputDevice に設定... 成功
+1425533:			DirectInputDevice のアクセス権を取得... 成功
+1425533:			検出した DirectInput 対応入力装置を入力ナンバー 1 で登録します
+1425533:		検出した DirectInput 対応入力装置の初期化は正常に終了しました
+1425593:	DirectInput 対応ジョイパッドの列挙終了
+1425593:ジョイパッドの初期化は正常に終了しました
+1510996:ジョイパッドの初期化... 
+1510996:	XInput 対応コントローラーのチェックを開始します
+1510996:		XInput 対応コントローラー No.0 をチェック
+1510997:		XInput 対応コントローラー No.0 の接続を確認しました
+1510997:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
+1510997:		XInput 対応コントローラー No.1 をチェック
+1510997:		XInput 対応コントローラー No.1 の接続は確認できませんでした
+1510997:		XInput 対応コントローラー No.2 をチェック
+1510998:		XInput 対応コントローラー No.2 の接続は確認できませんでした
+1510998:		XInput 対応コントローラー No.3 をチェック
+1510998:		XInput 対応コントローラー No.3 の接続は確認できませんでした
+1510998:	XInput 対応コントローラーのチェック完了
+1510998:	DirectInput 対応ジョイパッドの列挙を開始します
+1511083:		DirectInput 対応入力装置を検出しました
+1511084:				Device Product GUID  : c21d046d,0000,0000,00,00,50,49,44,56,49,44
+1511084:				Device Instance GUID : 1fddc060,6919,11ef,80,07,44,45,53,54,00,00
+1511084:			DirectInputDevice8 の作成... 成功
+1511084:			DirectInputDevice の情報を取得します... 成功
+1511084:				Device Product Name  : Controller (Gamepad F310)
+1511084:				Device Instance Name : Controller (Gamepad F310)
+1511084:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
+1511085:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 不一致
+1511085:			検出した DirectInput 対応入力装置が XInput 対応コントローラーか確認... 不一致
+1511085:			DirectInputDevice のデータ形式に JOYSTICK 形式を設定... 成功
+1511085:			DirectInputDevice の協調レベルに DISCL_FOREGROUND | DISCL_EXCLUSIVE を設定... 成功
+1511086:			DirectInputDevice から取得する X軸 の値の範囲を設定... 成功
+1511086:			DirectInputDevice から取得する Y軸 の値の範囲を設定... 成功
+1511086:			DirectInputDevice から取得する Z軸 の値の範囲を設定... 成功
+1511086:			DirectInputDevice から取得する Rx軸 の値の範囲を設定... 成功
+1511086:			DirectInputDevice から取得する Ry軸 の値の範囲を設定... 成功
+1511086:			DirectInputDevice から取得する Rz軸 の値の範囲を設定... 成功
+1511087:			DirectInputDevice のボタンの数を取得... 成功　ボタンの数は 10 個です
+1511087:			DirectInputDevice の X軸 のデッドゾーンを設定... 成功
+1511087:			DirectInputDevice の Y軸 のデッドゾーンを設定... 成功
+1511087:			DirectInputDevice の Z軸 のデッドゾーンを設定... 成功
+1511087:			DirectInputDevice の Rx軸 のデッドゾーンを設定... 成功
+1511087:			DirectInputDevice の Ry軸 のデッドゾーンを設定... 成功
+1511088:			DirectInputDevice の Rz軸 のデッドゾーンを設定... 成功
+1511088:			DirectInputDevice の DirectInputEffect No.0 を作成... 失敗 Error Code :0x80004001
+1511088:			DirectInputDevice の DirectInputEffect No.1 を作成... 失敗 Error Code :0x80004001
+1511088:			DirectInputDevice の通知処理用の Event を作成... 成功
+1511088:			DirectInputDevice の通知処理用の Event を DirectInputDevice に設定... 成功
+1511088:			DirectInputDevice のアクセス権を取得... 成功
+1511088:			検出した DirectInput 対応入力装置を入力ナンバー 1 で登録します
+1511088:		検出した DirectInput 対応入力装置の初期化は正常に終了しました
+1511149:	DirectInput 対応ジョイパッドの列挙終了
+1511150:ジョイパッドの初期化は正常に終了しました
+1511350:ジョイパッドの初期化... 
+1511350:	XInput 対応コントローラーのチェックを開始します
+1511350:		XInput 対応コントローラー No.0 をチェック
+1511350:		XInput 対応コントローラー No.0 の接続を確認しました
+1511350:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
+1511350:		XInput 対応コントローラー No.1 をチェック
+1511351:		XInput 対応コントローラー No.1 の接続は確認できませんでした
+1511351:		XInput 対応コントローラー No.2 をチェック
+1511351:		XInput 対応コントローラー No.2 の接続は確認できませんでした
+1511351:		XInput 対応コントローラー No.3 をチェック
+1511351:		XInput 対応コントローラー No.3 の接続は確認できませんでした
+1511351:	XInput 対応コントローラーのチェック完了
+1511351:	DirectInput 対応ジョイパッドの列挙を開始します
+1511435:		DirectInput 対応入力装置を検出しました
+1511436:				Device Product GUID  : c21d046d,0000,0000,00,00,50,49,44,56,49,44
+1511436:				Device Instance GUID : 1fddc060,6919,11ef,80,07,44,45,53,54,00,00
+1511436:			DirectInputDevice8 の作成... 成功
+1511436:			DirectInputDevice の情報を取得します... 成功
+1511436:				Device Product Name  : Controller (Gamepad F310)
+1511437:				Device Instance Name : Controller (Gamepad F310)
+1511437:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
+1511437:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 不一致
+1511437:			検出した DirectInput 対応入力装置が XInput 対応コントローラーか確認... 不一致
+1511437:			DirectInputDevice のデータ形式に JOYSTICK 形式を設定... 成功
+1511438:			DirectInputDevice の協調レベルに DISCL_FOREGROUND | DISCL_EXCLUSIVE を設定... 成功
+1511438:			DirectInputDevice から取得する X軸 の値の範囲を設定... 成功
+1511438:			DirectInputDevice から取得する Y軸 の値の範囲を設定... 成功
+1511438:			DirectInputDevice から取得する Z軸 の値の範囲を設定... 成功
+1511438:			DirectInputDevice から取得する Rx軸 の値の範囲を設定... 成功
+1511438:			DirectInputDevice から取得する Ry軸 の値の範囲を設定... 成功
+1511438:			DirectInputDevice から取得する Rz軸 の値の範囲を設定... 成功
+1511438:			DirectInputDevice のボタンの数を取得... 成功　ボタンの数は 10 個です
+1511438:			DirectInputDevice の X軸 のデッドゾーンを設定... 成功
+1511439:			DirectInputDevice の Y軸 のデッドゾーンを設定... 成功
+1511439:			DirectInputDevice の Z軸 のデッドゾーンを設定... 成功
+1511439:			DirectInputDevice の Rx軸 のデッドゾーンを設定... 成功
+1511439:			DirectInputDevice の Ry軸 のデッドゾーンを設定... 成功
+1511439:			DirectInputDevice の Rz軸 のデッドゾーンを設定... 成功
+1511440:			DirectInputDevice の DirectInputEffect No.0 を作成... 失敗 Error Code :0x80004001
+1511440:			DirectInputDevice の DirectInputEffect No.1 を作成... 失敗 Error Code :0x80004001
+1511440:			DirectInputDevice の通知処理用の Event を作成... 成功
+1511440:			DirectInputDevice の通知処理用の Event を DirectInputDevice に設定... 成功
+1511441:			DirectInputDevice のアクセス権を取得... 成功
+1511441:			検出した DirectInput 対応入力装置を入力ナンバー 1 で登録します
+1511441:		検出した DirectInput 対応入力装置の初期化は正常に終了しました
+1511502:	DirectInput 対応ジョイパッドの列挙終了
+1511502:ジョイパッドの初期化は正常に終了しました
+1565402:フォントの初期化を行います
+1565402:フォントの初期化は正常に終了しました
+1565454:d3d11.dll の解放 1
+1565456:dxgi.dll の解放 1
+1565456:Direct3D11 のオブジェクト数を出力
+1565456:Direct3D11 のオブジェクト合計数 : 0
+1565467:DirectInput 関連の終了処理... 完了
+1565467:サウンド関連の終了処理... 完了
+1565501:ウィンドウ関連の終了処理... ウインドウを閉じようとしています
+1565507:ウインドウが破棄されようとしています
+1565508:ソフトを終了する準備が整いました
+1565582:完了
+1565585:ＣＯＭを終了... 完了
+1565586:
+1565586:Alloc memory dump
+1565587:	Total size:0(0.000kb)  Alloc num:0
+1565587:

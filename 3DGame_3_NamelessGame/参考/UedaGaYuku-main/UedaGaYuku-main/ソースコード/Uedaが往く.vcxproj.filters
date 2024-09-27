@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\Chara">
+      <UniqueIdentifier>{fdae822b-8f76-4ebe-86b8-fbc335ccff5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Chara">
+      <UniqueIdentifier>{120cfbbe-69c0-42b8-8190-15fb6e67945c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Chara\Enemy">
+      <UniqueIdentifier>{db920622-54f9-4d3f-a204-60d408d8489f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Chara\Enemy">
+      <UniqueIdentifier>{d4bf4b11-79eb-4135-8592-9bd16aeaa405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{0d31efa4-465f-47a1-bdaf-fe841a28b078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene">
+      <UniqueIdentifier>{0a635601-7fcb-4e69-bb58-65c37e25457d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\UI">
+      <UniqueIdentifier>{a98ad60b-bbc3-46b2-9e2c-c2811b57da2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Util">
+      <UniqueIdentifier>{c307b53e-f06b-40ba-8023-dc2bdb969442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Util">
+      <UniqueIdentifier>{6ad1df79-ac0f-4be7-8e4e-12c496b3a878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\UI">
+      <UniqueIdentifier>{66b395e9-3c76-462e-bede-68986c393feb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Stage">
+      <UniqueIdentifier>{19e93519-4967-4ad3-bbd7-2c5a87a7366d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Stage">
+      <UniqueIdentifier>{40dbb347-510a-4ee6-bfd3-d8866db0475e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Debug">
+      <UniqueIdentifier>{800fa02a-f74f-4eb3-aabf-c9cf86c67f3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Debug">
+      <UniqueIdentifier>{a38ad96b-0d51-41ed-8107-cffa6bef6a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Effect">
+      <UniqueIdentifier>{ca79605a-b567-46e9-935a-9979a2cf2188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Effect">
+      <UniqueIdentifier>{5f3726b3-b11f-48cd-8976-572fb1362ac5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Chara\CharacterBase.cpp">
+      <Filter>ソース ファイル\Chara</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Player.cpp">
+      <Filter>ソース ファイル\Chara</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyBase.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyTuto.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneTitle.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneStage2.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneBase.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneClear.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneGameover.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneOption.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneSelectStage.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneStage1.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UIBattle.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Camera.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Input.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\LoadData.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Vec2.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage\Stage.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\ConversionTime.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyNinja.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SceneStageBase.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyChef.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\DebugDraw.cpp">
+      <Filter>ソース ファイル\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\SceneDebug.cpp">
+      <Filter>ソース ファイル\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Chara\Enemy\EnemyAbe.cpp">
+      <Filter>ソース ファイル\Chara\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ScenePause.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect\EffectManager.cpp">
+      <Filter>ソース ファイル\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>ソース ファイル\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Sound.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Font.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Ranking.cpp">
+      <Filter>ソース ファイル\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage\Light.cpp">
+      <Filter>ソース ファイル\Stage</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Chara\CharacterBase.h">
+      <Filter>ヘッダー ファイル\Chara</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Player.h">
+      <Filter>ヘッダー ファイル\Chara</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyBase.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyTuto.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneTitle.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneBase.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneClear.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneGameover.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneManager.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneOption.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneSelectStage.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneStage1.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneStage2.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIBattle.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Game.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Camera.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Input.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\LoadData.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Vec2.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage\Stage.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage\Light.h">
+      <Filter>ヘッダー ファイル\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\ConversionTime.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyNinja.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SceneStageBase.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyChef.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug\DebugDraw.h">
+      <Filter>ヘッダー ファイル\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug\SceneDebug.h">
+      <Filter>ヘッダー ファイル\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Chara\Enemy\EnemyAbe.h">
+      <Filter>ヘッダー ファイル\Chara\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ScenePause.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect\EffectManager.h">
+      <Filter>ヘッダー ファイル\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UI.h">
+      <Filter>ヘッダー ファイル\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Font.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Sound.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\Ranking.h">
+      <Filter>ヘッダー ファイル\Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

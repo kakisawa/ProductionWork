@@ -1,32 +1,33 @@
 #include "SceneGame.h"
+#include "../Player.h"
+#include "../Camera.h"
 #include "DxLib.h"
 
-SceneGame::SceneGame():
-	model(-1)
+SceneGame::SceneGame()
 {
-	model = MV1LoadModel("Data/Model/PlayerModel.mv1");
 }
 
 SceneGame::~SceneGame()
 {
-	MV1DeleteModel(model);
 }
 
 void SceneGame::Init()
 {
-	pos = VGet(300.0f, 250.0f, -100.0f);
-	MV1SetPosition(model, pos);
-	MV1SetScale(model, VGet(0.5f, 0.5f, 0.5f));
+	m_pCamera->Init();
+	m_pPlayer->Init();
 }
 
-void SceneGame::Update()
+std::shared_ptr<SceneBase> SceneGame::Update()
 {
-	
+	m_pCamera->Update(*m_pPlayer);
+	m_pPlayer->Update();
+
+	return shared_from_this();
 }
 
 void SceneGame::Draw()
 {
-	MV1DrawModel(model);
+	m_pPlayer->Draw();
 }
 
 void SceneGame::End()

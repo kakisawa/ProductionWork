@@ -1,0 +1,7 @@
+{"scene":[ {"type":"player",        "name" :[{"path":"Player"},{"path":"SignBoardPlayer"}]},
+           {"type":"city",          "name" :[{"path":"Fence"},{"path":"BigBuildingA"},{"path":"BuildingC"},{"path":"Building2A"},{"path":"StoreC"},{"path":"Street"},{"path":"TStreet"},{"path":"Tile"},{"path":"TileType2"},{"path":"WallBack"},{"path":"WallSide"},{"path":"BlueContainer"},{"path":"RedContainer"},{"path":"YellowContainer"},{"path":"OrangeContainer"},{"path":"StreetLight"}]},
+           {"type":"room",          "name" :[{"path":"Bed"},{"path":"Clock"},{"path":"Desk"},{"path":"Window"},{"path":"RoomWall"},{"path":"WoodFloor"},{"path":"WoodenBox"},{"path":"TV"},{"path":"Book"},{"path":"LightBulb"},{"path":"Door"}]},
+           {"type":"station",       "name" :[{"path":"Train"},{"path":"Station"}]},
+           {"type":"tunnel",        "name" :[{"path":"TunnelWall"},{"path":"TunnelEntrance"}]},
+           {"type":"other",         "name" :[{"path":"Crank"},{"path":"Switch"},{"path":"Lever"},{"path":"TransScaffold"},{"path":"Elevator"},{"path":"CrankScaffold"},{"path":"SignBoardType1"},{"path":"SignBoardType2"},{"path":"HopStepJump"},{"path":"CorpseMountain"},{"path":"WhiteBoard"},{"path":"Number"},{"path":"Rock"},{"path":"SkyDorm"}]}]
+ }
