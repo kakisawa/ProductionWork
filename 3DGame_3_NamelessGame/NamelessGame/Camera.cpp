@@ -35,13 +35,9 @@ void Camera::Init()
 
 void Camera::Update(const Player& player)
 {
-	int Pad = GetJoypadInputState(DX_INPUT_PAD1);
-
-
 	//入力状態初期化
 	input.Rx = 0;
 	input.Ry = 0;
-
 
 	// 入力状態を取得
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
@@ -59,7 +55,6 @@ void Camera::Update(const Player& player)
 		m_angleV -= kAngle;
 		// ある一定角度以上にならないようにする
 		m_angleV = (std::max)(m_angleV, kMaxAngleV);
-
 	}
 	if (input.Ry < 0.0f)			// 右スティックを上に倒したら下方向に回る
 	{
@@ -84,7 +79,7 @@ void Camera::Update(const Player& player)
 	DrawFormatString(0, 180, 0xffffff, "Player:m_pos.x/y/z=%.2f/%.2f/%.2f",
 		player.GetPos().x, player.GetPos().y, player.GetPos().z);
 
-	DrawFormatString(0, 200, 0xffffff, "m_angleH=%.2f", m_angleH);
+	DrawFormatString(0, 220, 0xffffff, "m_angleH=%.2f", m_angleH);
 #endif // DEBUG
 }
 

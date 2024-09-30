@@ -1,6 +1,7 @@
 #pragma once
 #include "DxLib.h"
 
+class Camera;
 class Player
 {
 public:
@@ -8,13 +9,24 @@ public:
 	~Player();
 
 	void Init();
-	void Update();
+	void Update(const Camera& camera);
 	void Draw();
 
-	VECTOR GetPos() const { return pos; }
+	void Move(const Camera& camera);
+
+	/// <summary>
+	/// 回転処理
+	/// </summary>
+	void Angle();
+
+	VECTOR GetPos() const { return m_pos; }
 
 private:
 	int model;
 
-	VECTOR pos;
+	float m_angle;					// プレイヤー向き角度
+
+	VECTOR m_pos;
+	VECTOR m_move;			// 移動量
+	VECTOR m_targetDir;		// プレイヤーが向くべき方向のベクトル
 };

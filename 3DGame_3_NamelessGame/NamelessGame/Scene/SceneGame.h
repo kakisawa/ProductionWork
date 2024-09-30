@@ -16,6 +16,9 @@ public:
     virtual void End() override;
 
 private:
+
+    int model;
+
     // カメラ
     std::shared_ptr<Camera> m_pCamera = std::make_shared<Camera>();
     // プレイヤー

@@ -13,6 +13,7 @@ public:
 	void Update(const Player& player);
 	void FixCameraPos();	// ƒJƒƒ‰ˆÊ’u•â³
 
+
 	const VECTOR& GetPosition() const { return m_pos; }
 	const VECTOR& GetTarget()	const { return m_targetPos; }
 
