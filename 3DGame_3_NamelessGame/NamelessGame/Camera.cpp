@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "Player.h"
+#include "Object/Player.h"
 #include <algorithm>
 #include <cmath>
 
@@ -8,13 +8,13 @@ namespace {
 	constexpr float kCameraHeight = 70.0f;	// カメラの注視点
 	constexpr float kCameraNear = 1.0f;		// カメラ手前クリップ距離
 	constexpr float kCameraFar = 10000.0f;	// カメラ最奥クリップ距離
-	constexpr float kDist = 80.0f;			// カメラからプレイヤーまでの距離
+	constexpr float kDist = -80.0f;			// カメラからプレイヤーまでの距離
 	constexpr float kAngle = 0.05f;			// カメラを動かす角度
 
 	constexpr float kInitAngleH = 1.7;	// カメラの初期平行角度
-	constexpr float kInitAngleV = -0.3f;	// カメラの初期垂直角度
-	constexpr float kMinAngleV = DX_PI_F * 0.5f - 1.5f;		// 最小の垂直角度
-	constexpr float kMaxAngleV = -DX_PI_F * 0.5f + 0.6f;	// 最大の垂直角度
+	constexpr float kInitAngleV = 0.3f;	// カメラの初期垂直角度
+	constexpr float kMinAngleV = DX_PI_F * 0.5f - 0.5f;		// 最小の垂直角度
+	constexpr float kMaxAngleV = -DX_PI_F * 0.5f+1.0f;	// 最大の垂直角度
 
 
 	float cameraAddAngle = 0.0f;
@@ -84,7 +84,8 @@ void Camera::Update(const Player& player)
 }
 
 void Camera::FixCameraPos()
-{// 水平方向の回転
+{
+	// 水平方向の回転
 	auto rotY = MGetRotY(m_angleH);
 	// 垂直方向の回転
 	auto rotZ = MGetRotZ(m_angleV);

@@ -1,9 +1,10 @@
 #include "SceneGame.h"
-#include "../Player.h"
+#include "../Object/Player.h"
 #include "../Camera.h"
 #include "DxLib.h"
 
-SceneGame::SceneGame()
+SceneGame::SceneGame() :
+	model(-1)
 {
 }
 
