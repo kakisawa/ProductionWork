@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SceneBase.h"
 
 class Player;
@@ -19,8 +19,8 @@ private:
 
     int model;
 
-    // ƒJƒƒ‰
+    // ã‚«ãƒ¡ãƒ©
     std::shared_ptr<Camera> m_pCamera = std::make_shared<Camera>();
-    // ƒvƒŒƒCƒ„[
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
     std::shared_ptr<Player> m_pPlayer = std::make_shared<Player>();
 };

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Object/Player.h"
 #include <map>
 #include <string>
@@ -6,20 +6,20 @@
 class Player;
 
 /// <summary>
-/// ƒVƒ“ƒOƒ‹ƒgƒ“‚ğg—p‚µ‚ÄCSVƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚ğs‚¤
+/// ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚’ä½¿ç”¨ã—ã¦CSVãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã‚’è¡Œã†
 /// </summary>
 class LoadCsv
 {
 public:
-	// ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‹Ö~
+	// ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ç¦æ­¢
 	LoadCsv(const LoadCsv&) = delete;
-	// ƒ€[ƒuƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì‹Ö~
+	// ãƒ ãƒ¼ãƒ–ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ç¦æ­¢
 	LoadCsv(LoadCsv&&) = delete;
-	// ‘ã“ü‰‰Zq‚Ì‹Ö~
+	// ä»£å…¥æ¼”ç®—å­ã®ç¦æ­¢
 	LoadCsv& operator= (const LoadCsv&) = delete;
 	LoadCsv& operator= (LoadCsv&&) = delete;
 
-	// ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+	// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
 	static LoadCsv& GetInstance()
 	{
 		if (!m_instance)
@@ -30,7 +30,7 @@ public:
 	}
 
 	/// <summary>
-	/// csvƒtƒ@ƒCƒ‹‚Ìƒ[ƒh
+	/// csvãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ­ãƒ¼ãƒ‰
 	/// </summary>
 	void LoadData(Player::CharaData& charaData);
 	
@@ -39,6 +39,6 @@ private:
 	virtual ~LoadCsv() = default;
 
 private:
-	static LoadCsv* m_instance;				   // ƒƒbƒZ[ƒW‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
-	std::map<std::string, std::string> m_data; // ƒƒbƒZ[ƒW‚Ìƒf[ƒ^
+	static LoadCsv* m_instance;				   // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	std::map<std::string, std::string> m_data; // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ãƒ‡ãƒ¼ã‚¿
 };

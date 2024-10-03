@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "SceneBase.h"
 class SceneDebug :
     public SceneBase

@@ -1,11 +1,11 @@
-#include "Pad.h"
+ï»¿#include "Pad.h"
 #include "Dxlib.h"
 
 namespace
 {
-	// ‘O‚ÌƒtƒŒ[ƒ€‚Ìƒpƒbƒh‰Ÿ‚µ‰º‚°ó‘Ô
+	// å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒ‘ãƒƒãƒ‰æŠ¼ã—ä¸‹ã’çŠ¶æ…‹
 	int lastPad = 0;
-	// ‚±‚ÌƒtƒŒ[ƒ€‚Ìƒpƒbƒh‰Ÿ‚µ‰º‚°ó‘Ô
+	// ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®ãƒ‘ãƒƒãƒ‰æŠ¼ã—ä¸‹ã’çŠ¶æ…‹
 	int nowPad = 0;
 }
 
@@ -13,9 +13,9 @@ namespace Pad
 {
 	void Update()
 	{
-		// ‘O‚ÌƒtƒŒ[ƒ€‚Éæ“¾‚µ‚½ƒpƒbƒhî•ñ‚ğˆê‚ÂŒÃ‚¢î•ñ‚É‚·‚é
+		// å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã«å–å¾—ã—ãŸãƒ‘ãƒƒãƒ‰æƒ…å ±ã‚’ä¸€ã¤å¤ã„æƒ…å ±ã«ã™ã‚‹
 		lastPad = nowPad;
-		// Œ»İ‚Ìƒpƒbƒh‚Ìî•ñ‚ğæ“¾‚·‚é
+		// ç¾åœ¨ã®ãƒ‘ãƒƒãƒ‰ã®æƒ…å ±ã‚’å–å¾—ã™ã‚‹
 		nowPad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	}
 
@@ -25,12 +25,12 @@ namespace Pad
 	}
 	bool IsTrigger(int key)
 	{
-		bool isNow = (nowPad & key);	// ‚±‚ÌƒtƒŒ[ƒ€
-		bool isLast = (lastPad & key);	// ‘O‚ÌƒtƒŒ[ƒ€
-		// return !isLast && isNow;	// ‚±‚ê‚Å‚¢‚¢‚¯‚Ç—‰ğ‚µ‚É‚­‚¢‚Ì‚Å«‚É•ª‚©‚è‚â‚·‚­
+		bool isNow = (nowPad & key);	// ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ 
+		bool isLast = (lastPad & key);	// å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ 
+		// return !isLast && isNow;	// ã“ã‚Œã§ã„ã„ã‘ã©ç†è§£ã—ã«ãã„ã®ã§â†“ã«åˆ†ã‹ã‚Šã‚„ã™ã
 
-		if (isNow &&	// ‚±‚ÌƒtƒŒ[ƒ€‚É‰Ÿ‚³‚ê‚Ä‚¢‚Ä
-			!isLast)	// ‘O‰ñ‚ÌƒtƒŒ[ƒ€‚É‰Ÿ‚³‚ê‚Ä‚¢‚È‚¢
+		if (isNow &&	// ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã«æŠ¼ã•ã‚Œã¦ã„ã¦
+			!isLast)	// å‰å›ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã«æŠ¼ã•ã‚Œã¦ã„ãªã„
 		{
 			return true;
 		}
@@ -38,12 +38,12 @@ namespace Pad
 	}
 	bool IsRelase(int key)
 	{
-		bool isNow = (nowPad & key);	// ‚±‚ÌƒtƒŒ[ƒ€
-		bool isLast = (lastPad & key);	// ‘O‚ÌƒtƒŒ[ƒ€
-		// return !isLast && isNow;	// ‚±‚ê‚Å‚¢‚¢‚¯‚Ç—‰ğ‚µ‚É‚­‚¢‚Ì‚Å«‚É•ª‚©‚è‚â‚·‚­
+		bool isNow = (nowPad & key);	// ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ 
+		bool isLast = (lastPad & key);	// å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ 
+		// return !isLast && isNow;	// ã“ã‚Œã§ã„ã„ã‘ã©ç†è§£ã—ã«ãã„ã®ã§â†“ã«åˆ†ã‹ã‚Šã‚„ã™ã
 
-		if (!isNow &&	// ‚±‚ÌƒtƒŒ[ƒ€‚Í‰Ÿ‚³‚ê‚Ä‚¢‚È‚­‚Ä
-			isLast)		// ‘O‰ñ‚ÌƒtƒŒ[ƒ€‚Í‰Ÿ‚³‚ê‚Ä‚¢‚½
+		if (!isNow &&	// ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã¯æŠ¼ã•ã‚Œã¦ã„ãªãã¦
+			isLast)		// å‰å›ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã¯æŠ¼ã•ã‚Œã¦ã„ãŸ
 		{
 			return true;
 		}
@@ -51,8 +51,8 @@ namespace Pad
 	}
 	bool IsNotPress(int key)
 	{
-		bool isNow = (nowPad & key);	// ‚±‚ÌƒtƒŒ[ƒ€
-		bool isLast = (lastPad & key);	// ‘O‚ÌƒtƒŒ[ƒ€
+		bool isNow = (nowPad & key);	// ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ 
+		bool isLast = (lastPad & key);	// å‰ã®ãƒ•ãƒ¬ãƒ¼ãƒ 
 
 		if (!isNow && !isLast)
 		{

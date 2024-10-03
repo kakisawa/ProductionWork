@@ -1,4 +1,4 @@
-#include "LoadCsv.h"
+ï»¿#include "LoadCsv.h"
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -10,11 +10,11 @@ namespace
 	const char* const kCharaInfoFileName = "Data/csv/CharaInfo.csv";
 
 	/// <summary>
-	/// •¶š—ñ‚ğ•ªŠ„‚·‚é
+	/// æ–‡å­—åˆ—ã‚’åˆ†å‰²ã™ã‚‹
 	/// </summary>
-	/// <param name="input">•¶š—ñ</param>
-	/// <param name="delimiter">‹æØ‚é•¶š(,)</param>
-	/// <returns>•ªŠ„‚µ‚½•¶š—ñ</returns>
+	/// <param name="input">æ–‡å­—åˆ—</param>
+	/// <param name="delimiter">åŒºåˆ‡ã‚‹æ–‡å­—(,)</param>
+	/// <returns>åˆ†å‰²ã—ãŸæ–‡å­—åˆ—</returns>
 	std::vector<std::string> split(std::string& input, char delimiter)
 	{
 		std::istringstream stream(input);
@@ -41,12 +41,12 @@ void LoadCsv::LoadData(Player::CharaData& charaData)
 		const char* str = strvec[0].c_str();
 	}
 
-	// ƒvƒŒƒCƒ„[‚ÌÚ×
-	charaData.maxHp = std::stoi(strvec[1]);		// Å‘åHP
-	charaData.initPosX = std::stof(strvec[2]);	// ‰ŠúÀ•WX
-	charaData.initPosY = std::stof(strvec[3]);	// ‰ŠúÀ•WY
-	charaData.initPosZ = std::stof(strvec[4]);	// ‰ŠúÀ•WZ
-	charaData.modelSize = std::stof(strvec[5]);	// ƒ‚ƒfƒ‹ƒTƒCƒY
-	charaData.walkSpeed = std::stof(strvec[6]);	// •à‚­‘¬“x
-	charaData.rotaSpeed = std::stof(strvec[7]);	// ‰ñ“]‘¬“x
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è©³ç´°
+	charaData.maxHp = std::stoi(strvec[1]);		// æœ€å¤§HP
+	charaData.initPosX = std::stof(strvec[2]);	// åˆæœŸåº§æ¨™X
+	charaData.initPosY = std::stof(strvec[3]);	// åˆæœŸåº§æ¨™Y
+	charaData.initPosZ = std::stof(strvec[4]);	// åˆæœŸåº§æ¨™Z
+	charaData.modelSize = std::stof(strvec[5]);	// ãƒ¢ãƒ‡ãƒ«ã‚µã‚¤ã‚º
+	charaData.walkSpeed = std::stof(strvec[6]);	// æ­©ãé€Ÿåº¦
+	charaData.rotaSpeed = std::stof(strvec[7]);	// å›è»¢é€Ÿåº¦
 }

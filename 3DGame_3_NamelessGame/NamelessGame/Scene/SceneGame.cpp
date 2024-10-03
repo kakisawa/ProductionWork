@@ -1,4 +1,4 @@
-#include "SceneGame.h"
+﻿#include "SceneGame.h"
 #include "../Object/Player.h"
 #include "../Camera.h"
 #include "DxLib.h"

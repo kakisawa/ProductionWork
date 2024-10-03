@@ -1,4 +1,4 @@
-#include "SceneDebug.h"
+ï»¿#include "SceneDebug.h"
 #include "SceneGame.h"
 #include "../Pad.h"
 
@@ -16,7 +16,7 @@ std::shared_ptr<SceneBase> SceneDebug::Update()
 	if (Pad::IsTrigger(PAD_INPUT_R)) {
 		if (m_nextScene == nextScene::kGameScene)
 		{
-			return std::make_shared<SceneGame>();	// ƒQ[ƒ€ƒV[ƒ“‚Ös‚­
+			return std::make_shared<SceneGame>();	// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã¸è¡Œã
 		}
 	}
 

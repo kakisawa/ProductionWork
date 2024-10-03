@@ -1,18 +1,18 @@
-#pragma once
+﻿#pragma once
 
-// �p�b�h�̏�Ԃ��擾����
+// パッドの状態を取得する
 namespace Pad
 {
-	// �p�b�h�̍X�V���� 1�t���[����1��s��
+	// パッドの更新処理 1フレームに1回行う
 	void Update();
 
-	// ������Ă��邩���擾
+	// 押されているかを取得
 	bool IsPress(int key);
-	// �����ꂽ�u�Ԃ��擾
+	// 押された瞬間を取得
 	bool IsTrigger(int key);
-	// �������u�Ԃ��擾
+	// 離した瞬間を取得
 	bool IsRelase(int key);
 
-	// �����Ă��Ȃ����̎擾
+	// 押していないかの取得
 	bool IsNotPress(int key);
 }

@@ -1,20 +1,20 @@
-#include "Camera.h"
+ï»¿#include "Camera.h"
 #include "Object/Player.h"
 #include <algorithm>
 #include <cmath>
 
 namespace {
-	// ƒJƒƒ‰î•ñ
-	constexpr float kCameraHeight = 70.0f;	// ƒJƒƒ‰‚Ì’‹“_
-	constexpr float kCameraNear = 1.0f;		// ƒJƒƒ‰è‘OƒNƒŠƒbƒv‹——£
-	constexpr float kCameraFar = 10000.0f;	// ƒJƒƒ‰Å‰œƒNƒŠƒbƒv‹——£
-	constexpr float kDist = -80.0f;			// ƒJƒƒ‰‚©‚çƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£
-	constexpr float kAngle = 0.05f;			// ƒJƒƒ‰‚ğ“®‚©‚·Šp“x
+	// ã‚«ãƒ¡ãƒ©æƒ…å ±
+	constexpr float kCameraHeight = 70.0f;	// ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹
+	constexpr float kCameraNear = 1.0f;		// ã‚«ãƒ¡ãƒ©æ‰‹å‰ã‚¯ãƒªãƒƒãƒ—è·é›¢
+	constexpr float kCameraFar = 10000.0f;	// ã‚«ãƒ¡ãƒ©æœ€å¥¥ã‚¯ãƒªãƒƒãƒ—è·é›¢
+	constexpr float kDist = -80.0f;			// ã‚«ãƒ¡ãƒ©ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢
+	constexpr float kAngle = 0.05f;			// ã‚«ãƒ¡ãƒ©ã‚’å‹•ã‹ã™è§’åº¦
 
-	constexpr float kInitAngleH = 1.7;	// ƒJƒƒ‰‚Ì‰Šú•½sŠp“x
-	constexpr float kInitAngleV = 0.3f;	// ƒJƒƒ‰‚Ì‰Šú‚’¼Šp“x
-	constexpr float kMinAngleV = DX_PI_F * 0.5f - 0.5f;		// Å¬‚Ì‚’¼Šp“x
-	constexpr float kMaxAngleV = -DX_PI_F * 0.5f+1.0f;	// Å‘å‚Ì‚’¼Šp“x
+	constexpr float kInitAngleH = 1.7;	// ã‚«ãƒ¡ãƒ©ã®åˆæœŸå¹³è¡Œè§’åº¦
+	constexpr float kInitAngleV = 0.3f;	// ã‚«ãƒ¡ãƒ©ã®åˆæœŸå‚ç›´è§’åº¦
+	constexpr float kMinAngleV = DX_PI_F * 0.5f - 0.5f;		// æœ€å°ã®å‚ç›´è§’åº¦
+	constexpr float kMaxAngleV = -DX_PI_F * 0.5f+1.0f;	// æœ€å¤§ã®å‚ç›´è§’åº¦
 
 
 	float cameraAddAngle = 0.0f;
@@ -35,40 +35,40 @@ void Camera::Init()
 
 void Camera::Update(const Player& player)
 {
-	//“ü—Íó‘Ô‰Šú‰»
+	//å…¥åŠ›çŠ¶æ…‹åˆæœŸåŒ–
 	input.Rx = 0;
 	input.Ry = 0;
 
-	// “ü—Íó‘Ô‚ğæ“¾
+	// å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &input);
 
-	if (input.Rx < 0.0f)			// ‰EƒXƒeƒBƒbƒN‚ğ‰E‚É“|‚µ‚½‚ç‰E‰ñ“]‚·‚é
+	if (input.Rx < 0.0f)			// å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’å³ã«å€’ã—ãŸã‚‰å³å›è»¢ã™ã‚‹
 	{
 		m_angleH -= kAngle;
 	}
-	if (input.Rx > 0.0f)			// ‰EƒXƒeƒBƒbƒN‚ğ¶‚É“|‚µ‚½‚ç¶‰ñ“]‚·‚é
+	if (input.Rx > 0.0f)			// å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’å·¦ã«å€’ã—ãŸã‚‰å·¦å›è»¢ã™ã‚‹
 	{
 		m_angleH += kAngle;
 	}
-	if (input.Ry > 0.0f)				// ‰EƒXƒeƒBƒbƒN‚ğ‰º‚É“|‚µ‚½‚çã•ûŒü‚É‰ñ‚é
+	if (input.Ry > 0.0f)				// å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’ä¸‹ã«å€’ã—ãŸã‚‰ä¸Šæ–¹å‘ã«å›ã‚‹
 	{
 		m_angleV -= kAngle;
-		// ‚ ‚éˆê’èŠp“xˆÈã‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+		// ã‚ã‚‹ä¸€å®šè§’åº¦ä»¥ä¸Šã«ãªã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
 		m_angleV = (std::max)(m_angleV, kMaxAngleV);
 	}
-	if (input.Ry < 0.0f)			// ‰EƒXƒeƒBƒbƒN‚ğã‚É“|‚µ‚½‚ç‰º•ûŒü‚É‰ñ‚é
+	if (input.Ry < 0.0f)			// å³ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’ä¸Šã«å€’ã—ãŸã‚‰ä¸‹æ–¹å‘ã«å›ã‚‹
 	{
 		m_angleV += kAngle;
-		// ‚ ‚éˆê’èŠp“xˆÈ‰º‚É‚È‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+		// ã‚ã‚‹ä¸€å®šè§’åº¦ä»¥ä¸‹ã«ãªã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹
 		m_angleV = (std::min)(kMinAngleV, m_angleV);
 	}
 
-	// ƒJƒƒ‰‚Ì’‹“_‚ğİ’è
+	// ã‚«ãƒ¡ãƒ©ã®æ³¨è¦–ç‚¹ã‚’è¨­å®š
 	m_targetPos = VAdd(player.GetPos(), VGet(0.0f, kCameraHeight, 0.0f));
-	// ƒJƒƒ‰ˆÊ’u•â³
+	// ã‚«ãƒ¡ãƒ©ä½ç½®è£œæ­£
 	FixCameraPos();
 
-	// ƒJƒƒ‰‚Ìî•ñ‚ğƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒJƒƒ‰‚É”½‰f‚³‚¹‚é
+	// ã‚«ãƒ¡ãƒ©ã®æƒ…å ±ã‚’ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ã‚«ãƒ¡ãƒ©ã«åæ˜ ã•ã›ã‚‹
 	SetCameraPositionAndTarget_UpVecY(m_pos, m_targetPos);
 
 	ChangeLightTypeDir(VGet(20.0f, -50.0f, 0.0f));
@@ -85,16 +85,16 @@ void Camera::Update(const Player& player)
 
 void Camera::FixCameraPos()
 {
-	// …•½•ûŒü‚Ì‰ñ“]
+	// æ°´å¹³æ–¹å‘ã®å›è»¢
 	auto rotY = MGetRotY(m_angleH);
-	// ‚’¼•ûŒü‚Ì‰ñ“]
+	// å‚ç›´æ–¹å‘ã®å›è»¢
 	auto rotZ = MGetRotZ(m_angleV);
 
-	// X²‚ÉƒJƒƒ‰‚©‚çƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£•ªL‚Ñ‚½ƒxƒNƒgƒ‹‚ğ‚’¼•ûŒü‚É‰ñ“]‚·‚é(Z²‰ñ“])
+	// Xè»¸ã«ã‚«ãƒ¡ãƒ©ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¾ã§ã®è·é›¢åˆ†ä¼¸ã³ãŸãƒ™ã‚¯ãƒˆãƒ«ã‚’å‚ç›´æ–¹å‘ã«å›è»¢ã™ã‚‹(Zè»¸å›è»¢)
 	m_pos = VTransform(VGet(-kDist, 0.0f, 0.0f), rotZ);
-	// …•½•ûŒü(Y²‰ñ“])‚É‰ñ“]‚·‚é
+	// æ°´å¹³æ–¹å‘(Yè»¸å›è»¢)ã«å›è»¢ã™ã‚‹
 	m_pos = VTransform(m_pos, rotY);
 
-	// ’‹“_‚ÌÀ•W‚ğ‘«‚·
+	// æ³¨è¦–ç‚¹ã®åº§æ¨™ã‚’è¶³ã™
 	m_pos = VAdd(m_pos, m_targetPos);
 }

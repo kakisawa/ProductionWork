@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DxLib.h"
 #include <string>
 
@@ -7,70 +7,70 @@ class Player
 {
 public:
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	Player();
 
 	/// <summary>
-	/// ƒfƒXƒgƒ‰ƒNƒ^
+	/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	~Player();
 
 	/// <summary>
-	/// ‰Šú‰»
+	/// åˆæœŸåŒ–
 	/// </summary>
 	void Init();
 
 	/// <summary>
-	/// XV
+	/// æ›´æ–°
 	/// </summary>
-	/// <param name="camera">ƒJƒƒ‰QÆ</param>
+	/// <param name="camera">ã‚«ãƒ¡ãƒ©å‚ç…§</param>
 	void Update(const Camera& camera);
 
 	/// <summary>
-	/// •`‰æ
+	/// æç”»
 	/// </summary>
 	void Draw();
 
 	/// <summary>
-	/// ˆÚ“®ˆ—
+	/// ç§»å‹•å‡¦ç†
 	/// </summary>
-	/// <param name="camera">ƒJƒƒ‰QÆ</param>
+	/// <param name="camera">ã‚«ãƒ¡ãƒ©å‚ç…§</param>
 	void Move(const Camera& camera);
 
 	void leftStick(VECTOR moveUp,VECTOR moveLeft);
 
 	/// <summary>
-	/// ‰ñ“]ˆ—
+	/// å›è»¢å‡¦ç†
 	/// </summary>
 	void Angle();
 
-	VECTOR GetPos() const { return m_pos; }	// À•W“n‚µ
+	VECTOR GetPos() const { return m_pos; }	// åº§æ¨™æ¸¡ã—
 
-	// ƒvƒŒƒCƒ„[ƒf[ƒ^
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ‡ãƒ¼ã‚¿
 	struct CharaData
 	{
-		int maxHp;		// Å‘åHP
-		float initPosX;	// ‰Šú‰»À•WX
-		float initPosY; // ‰Šú‰»À•WY
-		float initPosZ; // ‰Šú‰»À•WZ
-		float modelSize;// ƒ‚ƒfƒ‹ƒTƒCƒY
-		float walkSpeed;// •à‚­‘¬“x
-		float rotaSpeed;// ‰ñ“]‘¬“x
+		int maxHp;		// æœ€å¤§HP
+		float initPosX;	// åˆæœŸåŒ–åº§æ¨™X
+		float initPosY; // åˆæœŸåŒ–åº§æ¨™Y
+		float initPosZ; // åˆæœŸåŒ–åº§æ¨™Z
+		float modelSize;// ãƒ¢ãƒ‡ãƒ«ã‚µã‚¤ã‚º
+		float walkSpeed;// æ­©ãé€Ÿåº¦
+		float rotaSpeed;// å›è»¢é€Ÿåº¦
 	}m_chara;
 
 private:
-	int model;				// ƒ‚ƒfƒ‹
-	float m_angle;			// ƒvƒŒƒCƒ„[Œü‚«Šp“x
+	int model;				// ãƒ¢ãƒ‡ãƒ«
+	float m_angle;			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å‘ãè§’åº¦
 
 
 	int inputX, inputY;
 
 
 
-	VECTOR m_pos;			// À•W
-	VECTOR m_move;			// ˆÚ“®—Ê
-	VECTOR m_targetDir;		// ƒvƒŒƒCƒ„[‚ªŒü‚­‚×‚«•ûŒü‚ÌƒxƒNƒgƒ‹
+	VECTOR m_pos;			// åº§æ¨™
+	VECTOR m_move;			// ç§»å‹•é‡
+	VECTOR m_targetDir;		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå‘ãã¹ãæ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«
 
 	DINPUT_JOYSTATE input;
 };

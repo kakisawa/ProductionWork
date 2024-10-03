@@ -1,4 +1,4 @@
-#include "SceneManager.h"
+ï»¿#include "SceneManager.h"
 #include "SceneDebug.h"
 #include "../Pad.h"
 #include "DxLib.h"
@@ -14,25 +14,25 @@ void SceneManager::Init()
 
 	m_pScene = std::make_shared<SceneDebug>();
 #else
-	// Å‰‚ÌƒV[ƒ“‚Ìƒƒ‚ƒŠ‚ğŠm•Û‚·‚é
+	// æœ€åˆã®ã‚·ãƒ¼ãƒ³ã®ãƒ¡ãƒ¢ãƒªã‚’ç¢ºä¿ã™ã‚‹
 	//m_pScene = make_shared<SceneTitle>();
 
 #endif // DEBUG
 
-	m_pScene->Init();					// ƒV[ƒ“‚ÌInit‚ğŒÄ‚Ño‚·
+	m_pScene->Init();					// ã‚·ãƒ¼ãƒ³ã®Initã‚’å‘¼ã³å‡ºã™
 }
 
 void SceneManager::Update()
 {
 	Pad::Update();
 
-	std::shared_ptr<SceneBase> pNext = m_pScene->Update();	// ƒV[ƒ“‚ÌUpdate‚ğŒÄ‚Ño‚·
+	std::shared_ptr<SceneBase> pNext = m_pScene->Update();	// ã‚·ãƒ¼ãƒ³ã®Updateã‚’å‘¼ã³å‡ºã™
 	if (pNext != m_pScene)
 	{
-		// Œ»İ‚ÌƒV[ƒ“‚ÌI—¹ˆ—
+		// ç¾åœ¨ã®ã‚·ãƒ¼ãƒ³ã®çµ‚äº†å‡¦ç†
 		m_pScene->End();
 
-		// Update‚ª•Ô‚µ‚½V‚µ‚¢ƒV[ƒ“‚ÌŠJnˆ—‚ğs‚¤
+		// UpdateãŒè¿”ã—ãŸæ–°ã—ã„ã‚·ãƒ¼ãƒ³ã®é–‹å§‹å‡¦ç†ã‚’è¡Œã†
 		m_pScene = pNext;
 		m_pScene->Init();
 	}
@@ -45,5 +45,5 @@ void SceneManager::Draw()
 
 void SceneManager::End()
 {
-	m_pScene->End();	// ƒV[ƒ“‚ÌEnd‚ğŒÄ‚Ño‚·
+	m_pScene->End();	// ã‚·ãƒ¼ãƒ³ã®Endã‚’å‘¼ã³å‡ºã™
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DxLib.h"
 
 class Player;
@@ -11,19 +11,19 @@ public:
 	void Init();
 
 	void Update(const Player& player);
-	void FixCameraPos();	// ƒJƒƒ‰ˆÊ’u•â³
+	void FixCameraPos();	// ã‚«ãƒ¡ãƒ©ä½ç½®è£œæ­£
 
 
-	const VECTOR& GetPosition() const { return m_pos; }			// À•W“n‚µ
-	const VECTOR& GetTarget()	const { return m_targetPos; }	// ’‹“_À•W“n‚µ
+	const VECTOR& GetPosition() const { return m_pos; }			// åº§æ¨™æ¸¡ã—
+	const VECTOR& GetTarget()	const { return m_targetPos; }	// æ³¨è¦–ç‚¹åº§æ¨™æ¸¡ã—
 
 private:
-	float m_angleH;	 // …•½Šp“x
-	float m_angleV;	 // ‚’¼Šp“x
+	float m_angleH;	 // æ°´å¹³è§’åº¦
+	float m_angleV;	 // å‚ç›´è§’åº¦
 
 	DINPUT_JOYSTATE input;
 
-	VECTOR m_pos;		// ƒJƒƒ‰À•W
-	VECTOR m_targetPos;	// ’‹“_À•W
+	VECTOR m_pos;		// ã‚«ãƒ¡ãƒ©åº§æ¨™
+	VECTOR m_targetPos;	// æ³¨è¦–ç‚¹åº§æ¨™
 };
 

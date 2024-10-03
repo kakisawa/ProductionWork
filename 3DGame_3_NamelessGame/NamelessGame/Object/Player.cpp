@@ -1,12 +1,12 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "../Camera.h"
 #include "../Pad.h"
 #include "../LoadCsv.h"
 #include <cmath>
 
 namespace {
-	const VECTOR InitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector’l‰Šú‰¿’l
-	constexpr float InitFloat = 0.0f;				// float’l‰Šú‰»
+	const VECTOR InitVec = VGet(0.0f, 0.0f, 0.0f);	// Vectorå€¤åˆæœŸä¾¡å€¤
+	constexpr float InitFloat = 0.0f;				// floatå€¤åˆæœŸåŒ–
 
 	const char* kModelFilePath = "Data/Model/PlayerModel.mv1";
 }
@@ -18,12 +18,12 @@ Player::Player() :
 	m_move(InitVec),
 	m_targetDir(InitVec)
 {
-	// ƒvƒŒƒCƒ„[ŠO•”ƒf[ƒ^“Ç‚İ‚İ
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å¤–éƒ¨ãƒ‡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 	LoadCsv::GetInstance().LoadData(m_chara);
-	// ƒ‚ƒfƒ‹‚Ì“Ç‚İ‚İ
+	// ãƒ¢ãƒ‡ãƒ«ã®èª­ã¿è¾¼ã¿
 	model = MV1LoadModel(kModelFilePath);
 
-	// À•W‰Šú’l
+	// åº§æ¨™åˆæœŸå€¤
 	m_pos = VGet(m_chara.initPosX, m_chara.initPosY, m_chara.initPosZ);
 }
 
@@ -64,31 +64,31 @@ void Player::Move(const Camera& camera)
 	//	VECTOR upMoveVec = VSub(camera.GetTarget(), camera.GetPosition());
 	//	upMoveVec.y = InitFloat;
 	//	VECTOR leftMoveVec = VCross(upMoveVec, VGet(0.0f, m_chara.walkSpeed, 0.0f));
-	//	// ˆÚ“®—Ê‚Ì‰Šú‰»
+	//	// ç§»å‹•é‡ã®åˆæœŸåŒ–
 	//	m_move = InitVec;
 	//	inputX, inputY = 0;
 	//	GetJoypadAnalogInput(&inputX, &inputY, DX_INPUT_KEY_PAD1);
 	//	m_move = VGet(inputX, 0.0f, -inputY);
-	//	if (inputX > 0.0f)					// ‰E•ûŒü
+	//	if (inputX > 0.0f)					// å³æ–¹å‘
 	//	{
 	//		m_move = VAdd(m_move, VScale(leftMoveVec, -1.0f));
 	//	}
-	//	if (inputX < 0.0f)						// ¶•ûŒü
+	//	if (inputX < 0.0f)						// å·¦æ–¹å‘
 	//	{
 	//		m_move = VAdd(m_move, leftMoveVec);
 	//	}
-	//	if (inputY < 0.0f)							// ‘O•ûŒü
+	//	if (inputY < 0.0f)							// å‰æ–¹å‘
 	//	{
 	//		m_move = VAdd(m_move, upMoveVec);
 	//	}
-	//	if (inputY > 0.0f)						// Œã‚ë•ûŒü
+	//	if (inputY > 0.0f)						// å¾Œã‚æ–¹å‘
 	//	{
 	//		m_move = VAdd(m_move, VScale(upMoveVec, -1.0f));
 	//	}
 	//	float len = VSize(m_move);
-	//	// ƒxƒNƒgƒ‹‚Ì’·‚³‚ğ0.0`1.0‚ÌŠ„‡‚É•ÏŠ·‚·‚é
+	//	// ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’0.0ï½1.0ã®å‰²åˆã«å¤‰æ›ã™ã‚‹
 	//	float rate = len / 1000.0f;
-	//	// ³‹K‰»
+	//	// æ­£è¦åŒ–
 	//	if (VSize(m_move) > 0.0f) {
 	//		m_move = VNorm(m_move);
 	//		m_targetDir = m_move;
@@ -96,23 +96,23 @@ void Player::Move(const Camera& camera)
 	//	}
 	//}
 
-	//if (Pad::IsPress(PAD_INPUT_RIGHT))						// ‰E•ûŒü
+	//if (Pad::IsPress(PAD_INPUT_RIGHT))						// å³æ–¹å‘
 	//{
 	//	m_move = VAdd(m_move, VScale(leftMoveVec, -1.0f));
 	//}
-	//if (Pad::IsPress(PAD_INPUT_LEFT))						// ¶•ûŒü
+	//if (Pad::IsPress(PAD_INPUT_LEFT))						// å·¦æ–¹å‘
 	//{
 	//	m_move = VAdd(m_move, leftMoveVec);
 	//}
-	//if (Pad::IsPress(PAD_INPUT_UP))							// ‘O•ûŒü
+	//if (Pad::IsPress(PAD_INPUT_UP))							// å‰æ–¹å‘
 	//{
 	//	m_move = VAdd(m_move, upMoveVec);
 	//}
-	//if (Pad::IsPress(PAD_INPUT_DOWN))						// Œã‚ë•ûŒü
+	//if (Pad::IsPress(PAD_INPUT_DOWN))						// å¾Œã‚æ–¹å‘
 	//{
 	//	m_move = VAdd(m_move, VScale(upMoveVec, -1.0f));
 	//}
-	//// ³‹K‰»
+	//// æ­£è¦åŒ–
 	//if (VSize(m_move) > 0.0f) {
 	//	m_move = VNorm(m_move);
 	//	m_targetDir = m_move;
@@ -120,30 +120,30 @@ void Player::Move(const Camera& camera)
 	//}
 
 
-	// ƒJƒƒ‰‚ÌŒü‚«ƒxƒNƒgƒ‹‚ğæ“¾
+	// ã‚«ãƒ¡ãƒ©ã®å‘ããƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—
 	VECTOR cameraForwardVec = VSub(camera.GetTarget(), camera.GetPosition());
-	cameraForwardVec.y = 0.0f; // …•½¬•ª‚Ì‚İl—¶‚·‚é
-	cameraForwardVec = VNorm(cameraForwardVec); // ³‹K‰»
+	cameraForwardVec.y = 0.0f; // æ°´å¹³æˆåˆ†ã®ã¿è€ƒæ…®ã™ã‚‹
+	cameraForwardVec = VNorm(cameraForwardVec); // æ­£è¦åŒ–
 
-	// ƒJƒƒ‰‚Ì‰E•ûŒüƒxƒNƒgƒ‹‚ğæ“¾iforwardƒxƒNƒgƒ‹‚ÆY²ãƒxƒNƒgƒ‹‚ÌŠOÏ‚ÅZoj
+	// ã‚«ãƒ¡ãƒ©ã®å³æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ï¼ˆforwardãƒ™ã‚¯ãƒˆãƒ«ã¨Yè»¸ä¸Šãƒ™ã‚¯ãƒˆãƒ«ã®å¤–ç©ã§ç®—å‡ºï¼‰
 	VECTOR cameraRightVec = VCross(cameraForwardVec, VGet(0.0f, 1.0f, 0.0f));
 
-	// “ü—Í‚Ì‰Šú‰»
+	// å…¥åŠ›ã®åˆæœŸåŒ–
 	m_move = InitVec;
 	inputX = inputY = 0;
 
-	// “ü—Íæ“¾
+	// å…¥åŠ›å–å¾—
 	GetJoypadAnalogInput(&inputX, &inputY, DX_INPUT_KEY_PAD1);
 
-	// ƒJƒƒ‰Šî€‚ÅƒvƒŒƒCƒ„[‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ğİ’è
-	m_move = VScale(cameraForwardVec, -inputY);  // ‘OŒãˆÚ“®
-	m_move = VAdd(m_move, VScale(cameraRightVec, -inputX));  // ¶‰EˆÚ“®
+	// ã‚«ãƒ¡ãƒ©åŸºæº–ã§ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨­å®š
+	m_move = VScale(cameraForwardVec, -inputY);  // å‰å¾Œç§»å‹•
+	m_move = VAdd(m_move, VScale(cameraRightVec, -inputX));  // å·¦å³ç§»å‹•
 
-	// ³‹K‰»‚ÆˆÚ“®‘¬“x‚Ì“K—p
+	// æ­£è¦åŒ–ã¨ç§»å‹•é€Ÿåº¦ã®é©ç”¨
 	if (VSize(m_move) > 0.0f) {
-		m_move = VNorm(m_move); // ³‹K‰»
-		m_targetDir = m_move;  // –Ú•W•ûŒü‚ğ•Û‘¶
-		m_move = VScale(m_move, m_chara.walkSpeed); // ˆÚ“®‘¬“x‚ğ“K—p
+		m_move = VNorm(m_move); // æ­£è¦åŒ–
+		m_targetDir = m_move;  // ç›®æ¨™æ–¹å‘ã‚’ä¿å­˜
+		m_move = VScale(m_move, m_chara.walkSpeed); // ç§»å‹•é€Ÿåº¦ã‚’é©ç”¨
 	}
 }
 
@@ -155,17 +155,17 @@ void Player::leftStick(VECTOR moveUp, VECTOR moveLeft)
 
 void Player::Angle()
 {
-	// ƒvƒŒƒCƒ„[‚ÌˆÚ“®•ûŒü‚Éƒ‚ƒfƒ‹‚Ì•ûŒü‚ğ‹ß‚Ã‚¯‚é
-	float targetAngle;		// –Ú•WŠp“x
-	float difference;		// –Ú•WŠp“x‚ÆŒ»İ‚ÌŠp“x‚Ì·
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•æ–¹å‘ã«ãƒ¢ãƒ‡ãƒ«ã®æ–¹å‘ã‚’è¿‘ã¥ã‘ã‚‹
+	float targetAngle;		// ç›®æ¨™è§’åº¦
+	float difference;		// ç›®æ¨™è§’åº¦ã¨ç¾åœ¨ã®è§’åº¦ã®å·®
 
-	// –Ú•W‚Ì•ûŒüƒxƒNƒgƒ‹‚©‚çŠp“x’l‚ğZo‚·‚é
+	// ç›®æ¨™ã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰è§’åº¦å€¤ã‚’ç®—å‡ºã™ã‚‹
 	targetAngle = static_cast<float>(atan2(m_targetDir.x, m_targetDir.z));
 
-	// –Ú•W‚ÌŠp“x‚ÆŒ»İ‚ÌŠp“x‚Æ‚Ì·‚ğŠ„‚èo‚·
+	// ç›®æ¨™ã®è§’åº¦ã¨ç¾åœ¨ã®è§’åº¦ã¨ã®å·®ã‚’å‰²ã‚Šå‡ºã™
 	difference = targetAngle - m_angle;
 
-	// ·‚ÌŠp“x‚ª180“xˆÈã‚É‚È‚Á‚Ä‚¢‚½‚çC³‚·‚é
+	// å·®ã®è§’åº¦ãŒ180åº¦ä»¥ä¸Šã«ãªã£ã¦ã„ãŸã‚‰ä¿®æ­£ã™ã‚‹
 	if (difference < -DX_PI_F)
 	{
 		difference += DX_TWO_PI_F;
@@ -175,10 +175,10 @@ void Player::Angle()
 		difference -= DX_TWO_PI_F;
 	}
 
-	// Šp“x‚Ì·‚ª0‚É‹ß‚Ã‚¯‚é
+	// è§’åº¦ã®å·®ãŒ0ã«è¿‘ã¥ã‘ã‚‹
 	if (difference > 0.0f)
 	{
-		// ·‚ªƒvƒ‰ƒX‚Ìê‡‚Íˆø‚­
+		// å·®ãŒãƒ—ãƒ©ã‚¹ã®å ´åˆã¯å¼•ã
 		difference -= m_chara.rotaSpeed;
 		if (difference < 0.0f)
 		{
@@ -187,7 +187,7 @@ void Player::Angle()
 	}
 	else
 	{
-		// ·‚ªƒ}ƒCƒiƒX‚Ìê‡‚Í‘«‚·
+		// å·®ãŒãƒã‚¤ãƒŠã‚¹ã®å ´åˆã¯è¶³ã™
 		difference += m_chara.rotaSpeed;
 		if (difference > 0.0f)
 		{
@@ -195,7 +195,7 @@ void Player::Angle()
 		}
 	}
 
-	// ƒ‚ƒfƒ‹‚ÌŠp“x‚ğXV
+	// ãƒ¢ãƒ‡ãƒ«ã®è§’åº¦ã‚’æ›´æ–°
 	m_angle = targetAngle - difference;
 	MV1SetRotationXYZ(model, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
 }
