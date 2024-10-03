@@ -11,7 +11,7 @@ namespace {
 	constexpr float kDist = -80.0f;			// カメラからプレイヤーまでの距離
 	constexpr float kAngle = 0.05f;			// カメラを動かす角度
 
-	constexpr float kInitAngleH = 1.7;	// カメラの初期平行角度
+	constexpr float kInitAngleH = 1.7f;	// カメラの初期平行角度
 	constexpr float kInitAngleV = 0.3f;	// カメラの初期垂直角度
 	constexpr float kMinAngleV = DX_PI_F * 0.5f - 0.5f;		// 最小の垂直角度
 	constexpr float kMaxAngleV = -DX_PI_F * 0.5f+1.0f;	// 最大の垂直角度

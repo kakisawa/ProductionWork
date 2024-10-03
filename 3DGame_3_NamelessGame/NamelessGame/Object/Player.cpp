@@ -12,11 +12,8 @@ namespace {
 }
 
 Player::Player() :
-	model(-1),
-	m_angle(InitFloat),
-	m_pos(InitVec),
-	m_move(InitVec),
-	m_targetDir(InitVec)
+	inputX(0),
+	inputY(0)
 {
 	// プレイヤー外部データ読み込み
 	LoadCsv::GetInstance().LoadData(m_chara);
@@ -29,12 +26,12 @@ Player::Player() :
 
 Player::~Player()
 {
-	MV1DeleteModel(model);
 }
 
 void Player::Init()
 {
-	MV1SetPosition(model, m_pos);
+	ModelBase::Init();
+
 	MV1SetScale(model, VGet(m_chara.modelSize, m_chara.modelSize, m_chara.modelSize));
 }
 
@@ -44,13 +41,13 @@ void Player::Update(const Camera& camera)
 	Angle();
 
 	m_pos = VAdd(m_pos, m_move);
-	MV1SetPosition(model, m_pos);
+	ModelBase::Update();
 }
 
 void Player::Draw()
 {
-	MV1DrawModel(model);
-
+	ModelBase::Draw();
+	
 	DrawFormatString(0, 300, 0xffffff, "m_move.x/y/z=%.2f/%.2f/%.2f", m_move.x, m_move.y, m_move.z);
 
 	DrawFormatString(0, 340, 0xffffff, "m_targetDir=%.2f", m_targetDir);
@@ -60,66 +57,6 @@ void Player::Draw()
 
 void Player::Move(const Camera& camera)
 {
-	//{
-	//	VECTOR upMoveVec = VSub(camera.GetTarget(), camera.GetPosition());
-	//	upMoveVec.y = InitFloat;
-	//	VECTOR leftMoveVec = VCross(upMoveVec, VGet(0.0f, m_chara.walkSpeed, 0.0f));
-	//	// 移動量の初期化
-	//	m_move = InitVec;
-	//	inputX, inputY = 0;
-	//	GetJoypadAnalogInput(&inputX, &inputY, DX_INPUT_KEY_PAD1);
-	//	m_move = VGet(inputX, 0.0f, -inputY);
-	//	if (inputX > 0.0f)					// 右方向
-	//	{
-	//		m_move = VAdd(m_move, VScale(leftMoveVec, -1.0f));
-	//	}
-	//	if (inputX < 0.0f)						// 左方向
-	//	{
-	//		m_move = VAdd(m_move, leftMoveVec);
-	//	}
-	//	if (inputY < 0.0f)							// 前方向
-	//	{
-	//		m_move = VAdd(m_move, upMoveVec);
-	//	}
-	//	if (inputY > 0.0f)						// 後ろ方向
-	//	{
-	//		m_move = VAdd(m_move, VScale(upMoveVec, -1.0f));
-	//	}
-	//	float len = VSize(m_move);
-	//	// ベクトルの長さを0.0～1.0の割合に変換する
-	//	float rate = len / 1000.0f;
-	//	// 正規化
-	//	if (VSize(m_move) > 0.0f) {
-	//		m_move = VNorm(m_move);
-	//		m_targetDir = m_move;
-	//		m_move = VScale(m_move, m_chara.walkSpeed);
-	//	}
-	//}
-
-	//if (Pad::IsPress(PAD_INPUT_RIGHT))						// 右方向
-	//{
-	//	m_move = VAdd(m_move, VScale(leftMoveVec, -1.0f));
-	//}
-	//if (Pad::IsPress(PAD_INPUT_LEFT))						// 左方向
-	//{
-	//	m_move = VAdd(m_move, leftMoveVec);
-	//}
-	//if (Pad::IsPress(PAD_INPUT_UP))							// 前方向
-	//{
-	//	m_move = VAdd(m_move, upMoveVec);
-	//}
-	//if (Pad::IsPress(PAD_INPUT_DOWN))						// 後ろ方向
-	//{
-	//	m_move = VAdd(m_move, VScale(upMoveVec, -1.0f));
-	//}
-	//// 正規化
-	//if (VSize(m_move) > 0.0f) {
-	//	m_move = VNorm(m_move);
-	//	m_targetDir = m_move;
-	//	m_move = VScale(m_move, m_chara.walkSpeed);
-	//}
-
-
 	// カメラの向きベクトルを取得
 	VECTOR cameraForwardVec = VSub(camera.GetTarget(), camera.GetPosition());
 	cameraForwardVec.y = 0.0f; // 水平成分のみ考慮する
@@ -136,8 +73,8 @@ void Player::Move(const Camera& camera)
 	GetJoypadAnalogInput(&inputX, &inputY, DX_INPUT_KEY_PAD1);
 
 	// カメラ基準でプレイヤーの移動ベクトルを設定
-	m_move = VScale(cameraForwardVec, -inputY);  // 前後移動
-	m_move = VAdd(m_move, VScale(cameraRightVec, -inputX));  // 左右移動
+	m_move = VScale(cameraForwardVec, static_cast<float>(-inputY));  // 前後移動
+	m_move = VAdd(m_move, VScale(cameraRightVec, static_cast<float>(-inputX)));  // 左右移動
 
 	// 正規化と移動速度の適用
 	if (VSize(m_move) > 0.0f) {
@@ -145,12 +82,6 @@ void Player::Move(const Camera& camera)
 		m_targetDir = m_move;  // 目標方向を保存
 		m_move = VScale(m_move, m_chara.walkSpeed); // 移動速度を適用
 	}
-}
-
-void Player::leftStick(VECTOR moveUp, VECTOR moveLeft)
-{
-
-
 }
 
 void Player::Angle()

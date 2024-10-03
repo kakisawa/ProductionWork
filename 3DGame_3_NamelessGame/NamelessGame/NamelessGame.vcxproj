@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Object\Enemy.cpp" />
     <ClCompile Include="LoadCsv.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object\ModelBase.cpp" />
@@ -146,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="LoadCsv.h" />
     <ClInclude Include="Object\ModelBase.h" />
     <ClInclude Include="Pad.h" />
