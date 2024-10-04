@@ -1,0 +1,16 @@
+﻿CharacterName,HP,ATK,DEF,SPD,EXP
+Player,100,10,10,1.5,0
+Bard,30,5,5,1,10
+Dog,40,6,5,1.2,10
+Fish,40,5,5,1,10
+Serpent,30,10,5,1.7,10
+Lizard,50,8,5,1.5,10
+Needles,40,7,5,2.0,10
+Plant,60,7,5,1,10
+Sloth,80,12,5,3.6,10
+Spider,50,6,5,1.5,10
+Wyvern,80,10,5,1.5,10
+BigDog,250,10,5,1.2,10
+Skeleton,350,8,10,1.5,10
+MagmaElemental,500,10,10,0.3,10
+SpaceElemental,600,13,10,1.8,10

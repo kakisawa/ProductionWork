@@ -1,30 +1,170 @@
 ﻿#include "SceneDebug.h"
+#include "SceneTitle.h"
+#include "SceneOption.h"
+#include "SceneRanking.h"
 #include "SceneGame.h"
+#include "SceneGameClear.h"
+#include "SceneGameOver.h"
 #include "../Pad.h"
 
-SceneDebug::SceneDebug():
+namespace {
+	constexpr int kSelectBasePosX = 300;				// シーン表示X座標
+	constexpr int kSelectBasePosY = 300;				// シーン表示Y座標
+	constexpr int kSelectMoveY = 20;					// シーン表示Y座標の移動量
+
+	constexpr int kSelectBoxX = kSelectBasePosX -2;		// 選択中シーン表示BoxX座標
+	constexpr int kSelectBoxY = kSelectBasePosY - 2;	// 選択中シーン表示BoxX座標
+	constexpr int kSelectWidth = 150;					// 選択中シーン表示Boxの幅
+
+}
+
+SceneDebug::SceneDebug() :
 	m_nextScene(nextScene::kGameScene)
 {
 }
 
 void SceneDebug::Init()
 {
+	// 選択中のシーンを表示するBoxの初期位置
+	m_selectBox.selectPos = VGet(kSelectBoxX, kSelectBasePosY + kSelectMoveY * 3, 0.0f);
 }
 
 std::shared_ptr<SceneBase> SceneDebug::Update()
 {
-	if (Pad::IsTrigger(PAD_INPUT_R)) {
+	if (Pad::IsTrigger(PAD_INPUT_R)) {			// STARTボタン
+		if (m_nextScene == nextScene::kTitleScene)
+		{
+			return std::make_shared<SceneTitle>();	// ゲームシーンへ行く
+		}
+		if (m_nextScene == nextScene::kOptionScene)
+		{
+			return std::make_shared<SceneOption>();	// オプションシーンへ行く
+		}
+		if (m_nextScene == nextScene::kRankingScene)
+		{
+			return std::make_shared<SceneRanking>();	// ランキングシーンへ行く
+		}
 		if (m_nextScene == nextScene::kGameScene)
 		{
 			return std::make_shared<SceneGame>();	// ゲームシーンへ行く
 		}
+		if (m_nextScene == nextScene::kGameClearScene)
+		{
+			return std::make_shared<SceneGameClear>();	// ゲームクリアシーンへ行く
+		}
+		if (m_nextScene == nextScene::kGameOverScene)
+		{
+			return std::make_shared<SceneGameOver>();	// ゲームオーバーシーンへ行く
+		}
+		if (m_nextScene == nextScene::kGameEnd)
+		{
+			DxLib_End();						// ゲームを終了する
+		}
 	}
+
+	SwitchingScene();
+
 
 	return shared_from_this();
 }
 
 void SceneDebug::Draw()
 {
+	// 現在のシーン
 	DrawString(0, 0, "SceneDebug", 0xffffff);
-	DrawFormatString(0, 700, 0xffffff, "m_nextScene=%d", m_nextScene);
+
+	// 選択中のシーンを表示するBox
+	DrawBox(m_selectBox.selectPos.x, m_selectBox.selectPos.y,
+		m_selectBox.selectPos.x+kSelectWidth, m_selectBox.selectPos.y+kSelectMoveY,
+		0xff00ff,false);
+
+	// 各シーン
+	DrawString(kSelectBasePosX, kSelectBasePosY, "SceneTitle", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY, "SceneOption", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 2, "SceneRanking", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 3, "SceneGame", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 4, "SceneGameClear", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 5, "SceneGameOver", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 6, "GameEnd", 0xffffff);
+}
+
+void SceneDebug::SwitchingScene()
+{
+	// 下キーを押すと次のシーンの変更をする
+	if (Pad::IsTrigger(PAD_INPUT_DOWN))
+	{
+		// 選択中のシーンを表示するBoxの座標移動
+		m_selectBox.selectPos = VAdd(m_selectBox.selectPos, VGet(0.0f, kSelectMoveY, 0.0f));
+		if (m_selectBox.selectPos.y > kSelectBoxY+kSelectMoveY * 6) {
+			m_selectBox.selectPos.y = kSelectBoxY;
+		}
+
+		if (m_nextScene == nextScene::kTitleScene)
+		{
+			m_nextScene = nextScene::kOptionScene;
+		}
+		else if (m_nextScene == nextScene::kOptionScene)
+		{
+			m_nextScene = nextScene::kRankingScene;
+		}
+		else if (m_nextScene == nextScene::kRankingScene)
+		{
+			m_nextScene = nextScene::kGameScene;
+		}
+		else if (m_nextScene == nextScene::kGameScene)
+		{
+			m_nextScene = nextScene::kGameClearScene;
+		}
+		else if (m_nextScene == nextScene::kGameClearScene)
+		{
+			m_nextScene = nextScene::kGameOverScene;
+		}
+		else if (m_nextScene == nextScene::kGameOverScene)
+		{
+			m_nextScene = nextScene::kGameEnd;
+		}
+		else if (m_nextScene == nextScene::kGameEnd)
+		{
+			m_nextScene = nextScene::kTitleScene;
+		}
+	}
+
+	// 上キーを押すと次のシーンの変更をする
+	if (Pad::IsTrigger(PAD_INPUT_UP))
+	{
+		// 選択中のシーンを表示するBoxの座標移動
+		m_selectBox.selectPos = VAdd(m_selectBox.selectPos, VGet(0.0f, -kSelectMoveY, 0.0f));
+		if (m_selectBox.selectPos.y < kSelectBoxY) {
+			m_selectBox.selectPos.y = kSelectBoxY + kSelectMoveY * 6;
+		}
+
+		if (m_nextScene == nextScene::kTitleScene)
+		{
+			m_nextScene = nextScene::kGameEnd;
+		}
+		else if (m_nextScene == nextScene::kGameEnd)
+		{
+			m_nextScene = nextScene::kGameOverScene;
+		}
+		else if (m_nextScene == nextScene::kGameOverScene)
+		{
+			m_nextScene = nextScene::kGameClearScene;
+		}
+		else if (m_nextScene == nextScene::kGameClearScene)
+		{
+			m_nextScene = nextScene::kGameScene;
+		}
+		else if (m_nextScene == nextScene::kGameScene)
+		{
+			m_nextScene = nextScene::kRankingScene;
+		}
+		else if (m_nextScene == nextScene::kRankingScene)
+		{
+			m_nextScene = nextScene::kOptionScene;
+		}
+		else if (m_nextScene == nextScene::kOptionScene)
+		{
+			m_nextScene = nextScene::kTitleScene;
+		}
+	}
 }

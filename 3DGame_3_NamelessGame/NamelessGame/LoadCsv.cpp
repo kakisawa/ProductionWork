@@ -28,7 +28,7 @@ namespace
 	}
 }
 
-void LoadCsv::LoadData(Player::CharaData& charaData)
+void LoadCsv::LoadData(ModelBase::CharaData& charaData,std::string charaName)
 {
 	std::ifstream ifs(kCharaInfoFileName);
 	std::string line;
@@ -39,14 +39,24 @@ void LoadCsv::LoadData(Player::CharaData& charaData)
 	{
 		strvec = split(line, ',');
 		const char* str = strvec[0].c_str();
+		if (str == charaName) {
+			try
+			{
+				// プレイヤーの詳細
+				charaData.maxHp = std::stoi(strvec[1]);		// 最大HP
+				charaData.initPosX = std::stof(strvec[2]);	// 初期座標X
+				charaData.initPosY = std::stof(strvec[3]);	// 初期座標Y
+				charaData.initPosZ = std::stof(strvec[4]);	// 初期座標Z
+				charaData.modelSize = std::stof(strvec[5]);	// モデルサイズ
+				charaData.walkSpeed = std::stof(strvec[6]);	// 歩く速度
+				charaData.rotaSpeed = std::stof(strvec[7]);	// 回転速度
+			}
+			catch (const std::exception&)
+			{
+
+			}
+		}
 	}
 
-	// プレイヤーの詳細
-	charaData.maxHp = std::stoi(strvec[1]);		// 最大HP
-	charaData.initPosX = std::stof(strvec[2]);	// 初期座標X
-	charaData.initPosY = std::stof(strvec[3]);	// 初期座標Y
-	charaData.initPosZ = std::stof(strvec[4]);	// 初期座標Z
-	charaData.modelSize = std::stof(strvec[5]);	// モデルサイズ
-	charaData.walkSpeed = std::stof(strvec[6]);	// 歩く速度
-	charaData.rotaSpeed = std::stof(strvec[7]);	// 回転速度
+	
 }

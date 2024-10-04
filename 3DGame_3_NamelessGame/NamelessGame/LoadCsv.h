@@ -32,7 +32,7 @@ public:
 	/// <summary>
 	/// csvファイルのロード
 	/// </summary>
-	void LoadData(Player::CharaData& charaData);
+	void LoadData(ModelBase::CharaData& charaData, std::string charaName);
 	
 private:
 	LoadCsv() = default;

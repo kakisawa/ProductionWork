@@ -1,5 +1,6 @@
 ﻿#include "SceneManager.h"
 #include "SceneDebug.h"
+#include "SceneTitle.h"
 #include "../Pad.h"
 #include "DxLib.h"
 

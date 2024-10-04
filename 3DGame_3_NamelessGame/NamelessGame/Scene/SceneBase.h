@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "DxLib.h"
+#include "../Pad.h"
 #include <memory>
 
 class SceneBase:

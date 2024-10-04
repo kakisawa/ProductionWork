@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -119,7 +119,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -134,12 +134,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Object\Item.cpp" />
     <ClCompile Include="Object\Enemy.cpp" />
     <ClCompile Include="LoadCsv.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object\ModelBase.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="Object\Player.cpp" />
+    <ClCompile Include="Scene\SceneGameClear.cpp" />
+    <ClCompile Include="Scene\SceneGameOver.cpp" />
+    <ClCompile Include="Scene\SceneRanking.cpp" />
+    <ClCompile Include="Scene\SceneSelect.cpp" />
+    <ClCompile Include="Scene\SceneOption.cpp" />
+    <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="Scene\SceneDebug.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneGame.cpp" />
@@ -147,11 +154,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Object\Item.h" />
     <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="LoadCsv.h" />
     <ClInclude Include="Object\ModelBase.h" />
     <ClInclude Include="Pad.h" />
     <ClInclude Include="Object\Player.h" />
+    <ClInclude Include="Scene\SceneGameClear.h" />
+    <ClInclude Include="Scene\SceneGameOver.h" />
+    <ClInclude Include="Scene\SceneRanking.h" />
+    <ClInclude Include="Scene\SceneSelect.h" />
+    <ClInclude Include="Scene\SceneOption.h" />
+    <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="Scene\SceneDebug.h" />
     <ClInclude Include="Scene\SceneManager.h" />
     <ClInclude Include="Scene\SceneGame.h" />

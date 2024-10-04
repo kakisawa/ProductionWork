@@ -3,10 +3,11 @@
 #include "../Pad.h"
 #include "../LoadCsv.h"
 #include <cmath>
+#include <cassert>
 
 namespace {
-	const VECTOR InitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
-	constexpr float InitFloat = 0.0f;				// float値初期化
+	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
+	constexpr float kInitFloat = 0.0f;				// float値初期化
 
 	const char* kModelFilePath = "Data/Model/PlayerModel.mv1";
 }
@@ -16,12 +17,16 @@ Player::Player() :
 	inputY(0)
 {
 	// プレイヤー外部データ読み込み
-	LoadCsv::GetInstance().LoadData(m_chara);
+	LoadCsv::GetInstance().LoadData(m_chara, "player");
 	// モデルの読み込み
-	model = MV1LoadModel(kModelFilePath);
+	m_model = MV1LoadModel(kModelFilePath);
+	assert(m_model != -1);
 
 	// 座標初期値
 	m_pos = VGet(m_chara.initPosX, m_chara.initPosY, m_chara.initPosZ);
+	MV1SetScale(m_model, VGet(m_chara.modelSize, m_chara.modelSize, m_chara.modelSize));
+
+	m_status.situation.isMoving = false;
 }
 
 Player::~Player()
@@ -32,16 +37,16 @@ void Player::Init()
 {
 	ModelBase::Init();
 
-	MV1SetScale(model, VGet(m_chara.modelSize, m_chara.modelSize, m_chara.modelSize));
+	// アニメーションの設定
+	SetAnimation(static_cast<int>(PlayerAnim::Idle), true, false);
 }
 
 void Player::Update(const Camera& camera)
 {
 	Move(camera);
 	Angle();
-
-	m_pos = VAdd(m_pos, m_move);
-	ModelBase::Update();
+	
+	ModelBase::Update();		// アニメーションの更新
 }
 
 void Player::Draw()
@@ -66,7 +71,7 @@ void Player::Move(const Camera& camera)
 	VECTOR cameraRightVec = VCross(cameraForwardVec, VGet(0.0f, 1.0f, 0.0f));
 
 	// 入力の初期化
-	m_move = InitVec;
+	m_move = kInitVec;
 	inputX = inputY = 0;
 
 	// 入力取得
@@ -82,6 +87,11 @@ void Player::Move(const Camera& camera)
 		m_targetDir = m_move;  // 目標方向を保存
 		m_move = VScale(m_move, m_chara.walkSpeed); // 移動速度を適用
 	}
+
+	m_pos = VAdd(m_pos, m_move);
+	
+	// 移動処理の更新
+	MoveUpdate();	
 }
 
 void Player::Angle()
@@ -128,5 +138,42 @@ void Player::Angle()
 
 	// モデルの角度を更新
 	m_angle = targetAngle - difference;
-	MV1SetRotationXYZ(model, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+	MV1SetRotationXYZ(m_model, VGet(0.0f, m_angle + DX_PI_F, 0.0f));
+}
+
+void Player::MoveUpdate()
+{
+	float movingSpeed = std::max(m_move.x, m_move.z);
+
+	m_status.situation.isMoving = false;
+
+	if (movingSpeed != 0.0f) {
+		m_status.situation.isMoving = true;
+
+		// アニメーションの変更
+		ChangeAnimNo(PlayerAnim::Run, true, m_animChangeTime.Idle);
+	}
+	else
+	{
+		ChangeAnimIdle();
+	}
+}
+
+void Player::UseItem()
+{
+}
+
+void Player::ChangeAnimNo(const PlayerAnim anim, const bool isAnimLoop, const int changeTime)
+{
+	m_status.animNo = static_cast<int>(anim);
+	m_status.isLoop = isAnimLoop;
+	ChangeAnimation(m_status.animNo, m_status.isLoop, false, changeTime);
+}
+
+void Player::ChangeAnimIdle()
+{
+	// 待機アニメーションに変更する
+	if (!m_status.situation.isMoving) {
+		ChangeAnimNo(PlayerAnim::Idle, true, m_animChangeTime.Run);
+	}
 }

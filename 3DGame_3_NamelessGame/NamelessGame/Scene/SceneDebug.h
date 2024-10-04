@@ -15,6 +15,12 @@ public:
 	void SwitchingScene();
 
 private:
+	
+	struct selectBox
+	{
+		VECTOR selectPos;
+
+	}m_selectBox;
 
 	enum class nextScene
 	{
@@ -26,8 +32,5 @@ private:
 		kGameClearScene,
 		kGameOverScene,
 		kGameEnd,
-	};
-
-	nextScene m_nextScene;
-
+	}m_nextScene;
 };
