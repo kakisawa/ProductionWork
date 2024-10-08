@@ -1,78 +1,80 @@
-#include "DxLib.h"
+ï»¿#include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include "Scene/SceneManager.h"
 #include "Scene/SceneGame.h"
 #include <memory>
 
-// ƒvƒƒOƒ‰ƒ€‚Í WinMain ‚©‚çn‚Ü‚è‚Ü‚·
+// ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã¯ WinMain ã‹ã‚‰å§‹ã¾ã‚Šã¾ã™
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	// ˆê•”‚ÌŠÖ”‚ÍDxLib_Init()‚Ì‘O‚ÉÀs‚·‚é•K—v‚ª‚ ‚é
+	// ä¸€éƒ¨ã®é–¢æ•°ã¯DxLib_Init()ã®å‰ã«å®Ÿè¡Œã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 	ChangeWindowMode(true);
-	// ƒEƒCƒ“ƒhƒE–¼İ’è
+	// ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦åè¨­å®š
 	SetMainWindowText("Switching! S&B fight");
-	// ƒEƒBƒ“ƒhƒE‚ÌƒTƒCƒY‚ğ©•ª‚Å’²®‚Å‚«‚é‚æ‚¤‚É‚·‚é‚©
+	// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚µã‚¤ã‚ºã‚’è‡ªåˆ†ã§èª¿æ•´ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹ã‹
 	//SetWindowSizeChangeEnableFlag(true);
 
 	int x, y;
 	GetWindowSize(&x, &y);
-	// ‰æ–ÊƒTƒCƒY‚Ìİ’è
+	// ç”»é¢ã‚µã‚¤ã‚ºã®è¨­å®š
 	SetGraphMode(1920, 1080, 32);
 	SetWindowSize(x, y);
 
-	if (DxLib_Init() == -1)		// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠ‰Šú‰»ˆ—
+	if (DxLib_Init() == -1)		// ï¼¤ï¼¸ãƒ©ã‚¤ãƒ–ãƒ©ãƒªåˆæœŸåŒ–å‡¦ç†
 	{
-		return -1;			// ƒGƒ‰[‚ª‹N‚«‚½‚ç’¼‚¿‚ÉI—¹
+		return -1;			// ã‚¨ãƒ©ãƒ¼ãŒèµ·ããŸã‚‰ç›´ã¡ã«çµ‚äº†
 	}
 
-	// Effekseer‚Ì‰Šú‰»
+	// Effekseerã®åˆæœŸåŒ–
 	Effekseer_Init(8000);
 
-	// ƒtƒ‹ƒXƒNƒŠ[ƒ“Ø‚è‘Ö‚¦‚É‚¨‚©‚µ‚­‚È‚ç‚È‚¢‚æ‚¤‚É
+	// ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆæ™‚ã«ãŠã‹ã—ããªã‚‰ãªã„ã‚ˆã†ã«
 	SetChangeScreenModeGraphicsSystemResetFlag(false);
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
-	// Zƒoƒbƒtƒ@‚Ìİ’è
+	// Zãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
 	SetUseZBuffer3D(true);
 	SetWriteZBuffer3D(true);
 	SetUseBackCulling(true);
 
 	SetDrawScreen(DX_SCREEN_BACK);
 
-	// ƒV[ƒ“ŠÇ—
+	// ã‚·ãƒ¼ãƒ³ç®¡ç†
 	std::shared_ptr<SceneManager> m_pScene = make_shared<SceneManager>();
 	m_pScene->Init();
 
-	// ƒQ[ƒ€ƒ‹[ƒv
+	// ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—
 	while (ProcessMessage() != -1)
 	{
-		// ‚±‚ÌƒtƒŒ[ƒ€‚ÌŠJn‚ğŠo‚¦‚Ä‚¨‚­
+		// ã“ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®é–‹å§‹æ™‚åˆ»ã‚’è¦šãˆã¦ãŠã
 		LONGLONG start = GetNowHiPerformanceCount();
 
-		// •`‰æ‚ğs‚¤‘O‚É‰æ–Ê‚ğƒNƒŠƒA‚·‚é
+		// æç”»ã‚’è¡Œã†å‰ã«ç”»é¢ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 		ClearDrawScreen();
 
-		// ƒQ[ƒ€‚Ìˆ—
+		// ã‚²ãƒ¼ãƒ ã®å‡¦ç†
 		m_pScene->Update();
 		m_pScene->Draw();
 
-		// ‰æ–Ê‚ªØ‚è‘Ö‚í‚é‚Ì‚ğ‘Ò‚Â
+		// ç”»é¢ãŒåˆ‡ã‚Šæ›¿ã‚ã‚‹ã®ã‚’å¾…ã¤
 		ScreenFlip();
 
-		// escƒL[‚ÅƒQ[ƒ€I—¹
+		// escã‚­ãƒ¼ã§ã‚²ãƒ¼ãƒ çµ‚äº†
 		if (CheckHitKey(KEY_INPUT_ESCAPE))
 		{
 			break;
 		}
 
-		// FPS60‚ÉŒÅ’è‚·‚é
+		// FPS60ã«å›ºå®šã™ã‚‹
 		while (GetNowHiPerformanceCount() - start < 16667)
 		{
-			// 16.66ƒ~ƒŠ•b(16667ƒ}ƒCƒNƒ•b)Œo‰ß‚·‚é‚Ü‚Å‘Ò‚Â
+			// 16.66ãƒŸãƒªç§’(16667ãƒã‚¤ã‚¯ãƒ­ç§’)çµŒéã™ã‚‹ã¾ã§å¾…ã¤
 		}
 	}
 
-	DxLib_End();	// ‚c‚wƒ‰ƒCƒuƒ‰ƒŠg—p‚ÌI—¹ˆ—
+	Effkseer_End();
 
-	return 0;		// ƒ\ƒtƒg‚ÌI—¹ 
+	DxLib_End();	// ï¼¤ï¼¸ãƒ©ã‚¤ãƒ–ãƒ©ãƒªä½¿ç”¨ã®çµ‚äº†å‡¦ç†
+
+	return 0;		// ã‚½ãƒ•ãƒˆã®çµ‚äº† 
 }

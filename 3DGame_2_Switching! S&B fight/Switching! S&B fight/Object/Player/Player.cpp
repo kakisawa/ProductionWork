@@ -1,4 +1,4 @@
-#include "Player.h"
+ï»¿#include "Player.h"
 #include "DxLib.h"
 #include "PlayerState.h"
 #include "../Model.h"
@@ -14,67 +14,69 @@
 #include <cassert>
 
 namespace {
-	// UI‰æ‘œ
-	const char* const kUI[5]{
-		"data/Image/GameScene/UI/Player/HPOurGauge.png",// HPUI(ŠO‘¤)
-		"data/Image/GameScene/UI/Player/HPInGauge.png",	// HPUI(“à‘¤)
-		"data/Image/GameScene/UI/Player/NameBg.png",	// –¼‘O”wŒiUI
-		"data/Image/GameScene/UI/Player/Fukuoka.png",	// –¼‘OUI
-		"data/Image/GameScene/UI/Player/Face.png"		// ŠçƒAƒCƒRƒ“
+	// UIç”»åƒ
+	const char* const kUI[6]{
+		"data/Image/GameScene/UI/Player/HPOurGauge.png",// HPUI(å¤–å´)
+		"data/Image/GameScene/UI/Player/HPInGauge.png",	// HPUI(å†…å´)
+		"data/Image/GameScene/UI/Player/NameBg.png",	// åå‰èƒŒæ™¯UI
+		"data/Image/GameScene/UI/Player/Fukuoka.png",	// åå‰UI
+		"data/Image/GameScene/UI/Player/Face.png",		// é¡”ã‚¢ã‚¤ã‚³ãƒ³
+		"data/Image/GameScene/UI/Player/Target.png",		// ç…§æº–
 	};
 
-	const char* const kModelPlayer = "data/model/RogueHooded.mv1";	// ƒ‚ƒfƒ‹‚Ìƒtƒ@ƒCƒ‹–¼
+	const char* const kModelPlayer = "data/model/RogueHooded.mv1";	// ãƒ¢ãƒ‡ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«å
 
-	constexpr int	kMaxHp = 100;				// ‘Ì—ÍÅ‘å’l
-	constexpr int	kSordDamage = 20;			// Œ•‚ÌUŒ‚—Í
-	constexpr int	kBowDamage = 1;				// ‹|‚ÌUŒ‚—Í
+	constexpr int	kMaxHp = 100;				// ä½“åŠ›æœ€å¤§å€¤
+	constexpr int	kSordDamage = 20;			// å‰£ã®æ”»æ’ƒåŠ›
+	constexpr int	kBowDamage = 1;				// å¼“ã®æ”»æ’ƒåŠ›
 
-	constexpr float kInitAngle = -DX_PI_F / 2.0f * 90.0f;	// ƒvƒŒƒCƒ„[‚Ì‰ŠúŠp“x*90(Œü‚«‚ğ”½‘Î‚É‚·‚é)
-	constexpr float kModelSize = 5.0f;			// ƒ‚ƒfƒ‹‚ÌƒTƒCƒY
-	constexpr float kSpeed = 0.7f;				// ƒvƒŒƒCƒ„[ˆÚ“®‘¬“x
-	constexpr float kAttackSpeed = 0.5f;		// ƒvƒŒƒCƒ„[UŒ‚‚Ì‰Á‘¬“x
-	constexpr float	kAngleSpeed = 0.2f;			// Šp“x•Ï‰»‘¬“x
-	constexpr float	kJumpPower = 1.8f;			// ƒWƒƒƒ“ƒv—Í
-	constexpr float	kGravity = 0.05f;			// d—Í
-	constexpr float kEffectHeight = 10.0f;		// ƒGƒtƒFƒNƒg‚ğ•\¦‚·‚é‚‚³
+	constexpr float kInitAngle = -DX_PI_F / 2.0f * 90.0f;	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆæœŸè§’åº¦*90(å‘ãã‚’åå¯¾ã«ã™ã‚‹)
+	constexpr float kModelSize = 5.0f;			// ãƒ¢ãƒ‡ãƒ«ã®ã‚µã‚¤ã‚º
+	constexpr float kSpeed = 0.7f;				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç§»å‹•é€Ÿåº¦
+	constexpr float kAttackSpeed = 0.5f;		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ”»æ’ƒæ™‚ã®åŠ é€Ÿåº¦
+	constexpr float	kAngleSpeed = 0.2f;			// è§’åº¦å¤‰åŒ–é€Ÿåº¦
+	constexpr float	kJumpPower = 1.8f;			// ã‚¸ãƒ£ãƒ³ãƒ—åŠ›
+	constexpr float	kGravity = 0.05f;			// é‡åŠ›
+	constexpr float kEffectHeight = 10.0f;		// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’è¡¨ç¤ºã™ã‚‹é«˜ã•
 
-	// ƒAƒCƒRƒ“ˆÊ’u
+	// ã‚¢ã‚¤ã‚³ãƒ³ä½ç½®
 	constexpr int kFaceUIPosX = 0;
 	constexpr int kFaceUIPosY = 30;
-	// HPƒQ[ƒW(ŠO‘¤)ˆÊ’u
+	// HPã‚²ãƒ¼ã‚¸(å¤–å´)ä½ç½®
 	constexpr int kHpGaugeUIPosX = 130;
 	constexpr int kHpGaugeUIPosY = 85;
-	// HPƒQ[ƒW(“à‘¤)‰E‘¤ˆÊ’u(Exted—p‰E’[À•W)
+	// HPã‚²ãƒ¼ã‚¸(å†…å´)å³å´ä½ç½®(Extedç”¨å³ç«¯åº§æ¨™)
 	constexpr int kHpGaugePosX = 852;
 	constexpr int kHpGaugePosY = kHpGaugeUIPosY + 42;
-	// –¼‘O”wŒiˆÊ’u
+	// åå‰èƒŒæ™¯ä½ç½®
 	constexpr int kNameBgX = 130;
 	constexpr int kNameBgY = 10;
-	// –¼‘OˆÊ’u
+	// åå‰ä½ç½®
 	constexpr int kNameX = kNameBgX + 80;
 	constexpr int kNameY = kNameBgY + 10;
 
-	const VECTOR kUpPos = VGet(0.0f, 7.0f, 0.0f);		// ƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’èã
-	const VECTOR kAttackRange = VGet(0.0f, 0.0f,13.0f);	// ƒvƒŒƒCƒ„[‚ÌUŒ‚“–‚½‚è”»’è
-	constexpr float kColRadius = 2.5;					// ƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’è”¼Œa
-	constexpr float kAttackColRadius = 3.0;				// ƒvƒŒƒCƒ„[‚ÌUŒ‚“–‚½‚è”»’è”¼Œa
+	const VECTOR kUpPos = VGet(0.0f, 7.0f, 0.0f);		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šä¸Š
+	const VECTOR kAttackRange = VGet(0.0f, 0.0f,13.0f);	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒå½“ãŸã‚Šåˆ¤å®š
+	constexpr float kColRadius = 2.5;					// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šåŠå¾„
+	constexpr float kAttackColRadius = 3.0;				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®æ”»æ’ƒå½“ãŸã‚Šåˆ¤å®šåŠå¾„
 
-	// ‰Šú‰»—p’l
-	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ƒxƒNƒgƒ‹‚Ì‰Šú‰»
-	constexpr float kInitFloat = 0.0f;				// float’l‚Ì‰Šú‰»
-	constexpr int kInitInt = 0;						// int’l‚Ì‰Šú‰»
+	// åˆæœŸåŒ–ç”¨å€¤
+	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ãƒ™ã‚¯ãƒˆãƒ«ã®åˆæœŸåŒ–
+	constexpr float kInitFloat = 0.0f;				// floatå€¤ã®åˆæœŸåŒ–
+	constexpr int kInitInt = 0;						// intå€¤ã®åˆæœŸåŒ–
 
-	int waitTime = 0;								// ‹|‚ğ˜A‘±‚ÅŒ‚‚Â‚ÌƒCƒ“ƒ^[ƒoƒ‹
+	int waitTime = 0;								// å¼“ã‚’é€£ç¶šã§æ’ƒã¤æ™‚ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒãƒ«
 }
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Player::Player() :
 	m_angle(kInitFloat),
 	m_gravity(kGravity),
 	m_addDamage(kInitInt),
 	m_jumpPower(kInitFloat),
+	m_colRadius(kColRadius),
 	m_multiAttack(kInitInt),
 	m_hp(kMaxHp),
 	m_isAttack(false), 
@@ -96,40 +98,41 @@ Player::Player() :
 	m_targetDir(kInitVec),
 	m_vecToEnemy(kInitVec),
 	m_attackRange(kInitVec),
+	m_RightEnemyPos(kInitVec),
+	m_LeftEnemyPos(kInitVec),
 	m_attackKind(AttackKind::kNone)
 {
-	// UI‰æ‘œ‚Ì“Ç‚İ‚İ
+	// UIç”»åƒã®èª­ã¿è¾¼ã¿
 	for (int i = 0; i < m_uiGraph.size(); i++){
 		m_uiGraph[i] = LoadGraph(kUI[i]);
 		assert(m_uiGraph[i] != -1);
 	}
 
-	//ƒ‚ƒfƒ‹ƒCƒ“ƒXƒ^ƒ“ƒXì¬
+	//ãƒ¢ãƒ‡ãƒ«ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ä½œæˆ
 	m_pModel = std::make_shared<Model>(kModelPlayer);
-	// ƒAƒCƒhƒ‹ó‘Ô‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚³‚¹‚é
+	// ã‚¢ã‚¤ãƒ‰ãƒ«çŠ¶æ…‹ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã•ã›ã‚‹
 	m_pModel->SetAnim(m_animData.kIdle, false, true);	
 
-	//ƒXƒeƒCƒgƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+	//ã‚¹ãƒ†ã‚¤ãƒˆã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
 	m_pState = std::make_shared<PlayerState>();
 	m_pEffect = std::make_shared<Effect>();
 
-	// ƒXƒeƒCƒgƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX’Ç‰Á
-	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, PlayerState::State::kIdle);					// ‘Ò‹@ó‘Ô
-	m_pState->AddState([=] { WalkStateUpdate(); }, [=] { WalkStateInit(); }, PlayerState::State::kWalk);					// •à‚«ó‘Ô
-	m_pState->AddState([=] { JumpStateUpdate(); }, [=] { JumpStateInit(); }, PlayerState::State::kJump);					// ƒWƒƒƒ“ƒvó‘Ô
-	m_pState->AddState([=] { AttackSordStateUpdate(); }, [=] { AttackSordStateInit(); }, PlayerState::State::kAttackSord);	// Œ•UŒ‚ó‘Ô
-	m_pState->AddState([=] { AttackBowStateUpdate(); }, [=] { AttackBowStateInit(); }, PlayerState::State::kAttackBow);		// ‹|UŒ‚ó‘Ô
+	// ã‚¹ãƒ†ã‚¤ãƒˆã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹è¿½åŠ 
+	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, PlayerState::State::kIdle);					// å¾…æ©ŸçŠ¶æ…‹
+	m_pState->AddState([=] { WalkStateUpdate(); }, [=] { WalkStateInit(); }, PlayerState::State::kWalk);					// æ­©ãçŠ¶æ…‹
+	m_pState->AddState([=] { JumpStateUpdate(); }, [=] { JumpStateInit(); }, PlayerState::State::kJump);					// ã‚¸ãƒ£ãƒ³ãƒ—çŠ¶æ…‹
+	m_pState->AddState([=] { AttackSordStateUpdate(); }, [=] { AttackSordStateInit(); }, PlayerState::State::kAttackSord);	// å‰£æ”»æ’ƒçŠ¶æ…‹
+	m_pState->AddState([=] { AttackBowStateUpdate(); }, [=] { AttackBowStateInit(); }, PlayerState::State::kAttackBow);		// å¼“æ”»æ’ƒçŠ¶æ…‹
 
-	//‰ŠúƒXƒeƒCƒgƒZƒbƒg
+	//åˆæœŸã‚¹ãƒ†ã‚¤ãƒˆã‚»ãƒƒãƒˆ
 	m_pState->SetState(PlayerState::State::kIdle);
 
-
-	// ƒTƒEƒ“ƒh
+	// ã‚µã‚¦ãƒ³ãƒ‰
 	m_pSound = new SoundManager;
 }
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Player::~Player()
 {
@@ -138,96 +141,118 @@ Player::~Player()
 }
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void Player::Init(std::shared_ptr<GameMap> pMap)
 {
-	// ƒvƒŒƒCƒ„[‰Šúİ’è
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åˆæœŸè¨­å®š
 	m_pModel->SetSize(VGet(kModelSize, kModelSize, kModelSize));
 	m_pModel->SetRota(VGet(0.0f, kInitAngle, 0.0f));
 	m_pModel->SetPos(m_pos);
 
-	// ƒ}ƒbƒv‚Ì’[
+	// ãƒãƒƒãƒ—ã®ç«¯
 	mp.leftBack = pMap->GetMapLeftBack();
 	mp.rightFront = pMap->GetMapRightFront();
 
-	// ƒTƒEƒ“ƒh
+	// ã‚µã‚¦ãƒ³ãƒ‰
 	m_pSound->Init();
-	// g—pƒTƒEƒ“ƒh‚Ìƒ[ƒh
+	// ä½¿ç”¨ã‚µã‚¦ãƒ³ãƒ‰ã®ãƒ­ãƒ¼ãƒ‰
 	m_pSound->LoadSE(SoundManager::SE_Type::kSordSE);
 	m_pSound->LoadSE(SoundManager::SE_Type::kBowSE);
 
-	// ƒGƒtƒFƒNƒg
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	m_pEffect->Init();
 }
 
 
 /// <summary>
-/// XV
+/// æ›´æ–°
 /// </summary>
 void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
 	m_isCol = false;
 	m_isBodyCol = false;
-	// ƒpƒbƒh“ü—Í‚É‚æ‚Á‚ÄˆÚ“®ƒpƒ‰ƒ[ƒ^‚ğİ’è‚·‚é
-	VECTOR	upMoveVec;		// •ûŒüƒ{ƒ^ƒ“uªv‚ğ“ü—Í‚ğ‚µ‚½‚Æ‚«‚ÌƒvƒŒƒCƒ„[‚ÌˆÚ“®•ûŒüƒxƒNƒgƒ‹
-	VECTOR	leftMoveVec;	// •ûŒüƒ{ƒ^ƒ“u©v‚ğ“ü—Í‚ğ‚µ‚½‚Æ‚«‚ÌƒvƒŒƒCƒ„[‚ÌˆÚ“®•ûŒüƒxƒNƒgƒ‹
+	// ãƒ‘ãƒƒãƒ‰å…¥åŠ›ã«ã‚ˆã£ã¦ç§»å‹•ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®šã™ã‚‹
+	VECTOR	upMoveVec;		// æ–¹å‘ãƒœã‚¿ãƒ³ã€Œâ†‘ã€ã‚’å…¥åŠ›ã‚’ã—ãŸã¨ãã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
+	VECTOR	leftMoveVec;	// æ–¹å‘ãƒœã‚¿ãƒ³ã€Œâ†ã€ã‚’å…¥åŠ›ã‚’ã—ãŸã¨ãã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 
-	//Œ»İ‚Ì“G‚Æ‚Ì‹——£‚ğ‹‚ß‚é
+	
+
+	m_RightEnemyPos = ConvWorldPosToScreenPos(enemyR.GetPos());
+	m_LeftEnemyPos = ConvWorldPosToScreenPos(enemyL.GetPos());
+
+	//ç¾åœ¨ã®æ•µã¨ã®è·é›¢ã‚’æ±‚ã‚ã‚‹
 	NearByEnemy(enemyR, enemyL);
 
-	// ˆÚ“®ˆ—
+	// ç§»å‹•å‡¦ç†
 	OldMoveValue(camera, upMoveVec, leftMoveVec);
 
-	// ƒvƒŒƒCƒ„[‚ÌˆÚ“®•ûŒü‚Éƒ‚ƒfƒ‹‚Ì•ûŒü‚ğ‹ß‚Ã‚¯‚é
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•æ–¹å‘ã«ãƒ¢ãƒ‡ãƒ«ã®æ–¹å‘ã‚’è¿‘ã¥ã‘ã‚‹
 	Angle();
 
-	// ƒvƒŒƒCƒ„[‚Ìó‘ÔXV
-	// UŒ‚ˆ—
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ…‹æ›´æ–°
+	// æ”»æ’ƒå‡¦ç†
 	Attack(enemyR, enemyL);
 
-	// À•WXV
+	// åº§æ¨™æ›´æ–°
 	Move(m_move, enemyR, enemyL);
 
-	// €–SŠm”Fˆ—
+	// æ­»äº¡ç¢ºèªå‡¦ç†
 	Death();
 
-	// “–‚½‚è”»’è‚ÌXVˆ—
+	// å½“ãŸã‚Šåˆ¤å®šã®æ›´æ–°å‡¦ç†
 	ColUpdate();
 
-	// ƒXƒeƒCƒg‚ÌXV
+	// ã‚¹ãƒ†ã‚¤ãƒˆã®æ›´æ–°
 	m_pState->Update();
 
-	// ƒ‚ƒfƒ‹‚ÌXV
+	// ãƒ¢ãƒ‡ãƒ«ã®æ›´æ–°
 	m_pModel->Update();
 
-	// ƒGƒtƒFƒNƒg‚ÌXV
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æ›´æ–°
 	m_pEffect->Update();
 }
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void Player::Draw()
 {
-	// HPƒQ[ƒW•`‰æ
+	// HPã‚²ãƒ¼ã‚¸æç”»
 	DrawExtendGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, kHpGaugeUIPosX + (kHpGaugePosX * (m_hp * 0.01f)), kHpGaugePosY,m_uiGraph[1], true);
 	DrawGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, m_uiGraph[0], true);
 
-	// ƒvƒŒƒCƒ„[î•ñ•`‰æ
-	DrawGraph(kNameBgX, kNameBgY, m_uiGraph[2], true);		// –¼‘O”qŒ[
-	DrawGraph(kNameX, kNameY, m_uiGraph[3], true);			// –¼‘O
-	DrawGraph(kFaceUIPosX, kFaceUIPosY, m_uiGraph[4], true);// ƒAƒCƒRƒ“
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æƒ…å ±æç”»
+	DrawGraph(kNameBgX, kNameBgY, m_uiGraph[2], true);		// åå‰æ‹å•“
+	DrawGraph(kNameX, kNameY, m_uiGraph[3], true);			// åå‰
+	DrawGraph(kFaceUIPosX, kFaceUIPosY, m_uiGraph[4], true);// ã‚¢ã‚¤ã‚³ãƒ³
 
-	// ƒ‚ƒfƒ‹‚Ì•`‰æ
+	// ãƒ¢ãƒ‡ãƒ«ã®æç”»
 	m_pModel->Draw();
 
-	// ƒGƒtƒFƒNƒg‚Ì•`‰æ
+	// ç…§æº–UIã®æç”»
+	if (Pad::IsPress(PAD_INPUT_Z))
+	{
+		if(m_isBowAttackToLeftEnemy)
+		{
+			DrawExtendGraph(m_LeftEnemyPos.x - 50, m_LeftEnemyPos.y - 200,
+				m_LeftEnemyPos.x + 50, m_LeftEnemyPos.y,
+				m_uiGraph[5], true);
+		}
+		else {
+			DrawExtendGraph(m_RightEnemyPos.x - 50, m_RightEnemyPos.y - 200,
+				m_RightEnemyPos.x + 50, m_RightEnemyPos.y,
+				m_uiGraph[5], true);
+		}
+	}
+
+
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»
 	m_pEffect->Draw();
 
 #ifdef _DEBUG
-	m_colSphere.DrawMain(0xff0000, false);	// “–‚½‚è”»’è•`‰æ
-	m_colSphere.DrawAttack(0x0000ff, false);	// “–‚½‚è”»’è•`‰æ
+	m_colSphere.DrawMain(0xff0000, false);	// å½“ãŸã‚Šåˆ¤å®šæç”»
+	m_colSphere.DrawAttack(0x0000ff, false);	// å½“ãŸã‚Šåˆ¤å®šæç”»
 
 	DrawFormatString(0, 200, 0xffffff, "Player:m_move.x,y,z=%.2f,=%.2f,=%.2f", m_move.x, m_move.y, m_move.z);
 
@@ -243,85 +268,85 @@ void Player::Draw()
 	DrawFormatString(0, 420, 0xffffff, "m_animSpeed=%.2f", m_pModel->GetAnimSpeed());
 
 	if(m_isBodyCol) {
-		DrawString(0, 500, "“–‚½‚Á‚Ä‚¢‚é", 0xffffff);
+		DrawString(0, 500, "å½“ãŸã£ã¦ã„ã‚‹", 0xffffff);
 	}
 	else{
-		DrawString(0, 500, "“–‚½‚Á‚Ä‚¢‚È‚¢", 0xffffff);
+		DrawString(0, 500, "å½“ãŸã£ã¦ã„ãªã„", 0xffffff);
 	}
 
 	if (m_isCol){
-		DrawString(0, 520, "“–‚½‚Á‚Ä‚¢‚é", 0xffffff);
+		DrawString(0, 520, "å½“ãŸã£ã¦ã„ã‚‹", 0xffffff);
 	}
 	else{
-		DrawString(0, 520, "“–‚½‚Á‚Ä‚¢‚È‚¢", 0xffffff);
+		DrawString(0, 520, "å½“ãŸã£ã¦ã„ãªã„", 0xffffff);
 	}
 #endif // DEBUG
 }
 
 /// <summary>
-/// I—¹
+/// çµ‚äº†
 /// </summary>
 void Player::End()
 {
-	// UI‰æ‘œ‚Ìíœ
+	// UIç”»åƒã®å‰Šé™¤
 	for (int i = 0; i < m_uiGraph.size(); i++){
 		DeleteGraph(m_uiGraph[i]);
 	}
 
-	// ƒTƒEƒ“ƒh‚Ì‰ğ•ú
+	// ã‚µã‚¦ãƒ³ãƒ‰ã®è§£æ”¾
 	m_pSound->ReleaseSound();
 }
 
 /// <summary>
-/// ‹——£‚Ì‹ß‚¢“G‚ğ’T‚·
+/// è·é›¢ã®è¿‘ã„æ•µã‚’æ¢ã™
 /// </summary>
-/// <param name="enemyR">‰E‚Ì“G</param>
-/// <param name="enemyL">¶‚Ì“G</param>
+/// <param name="enemyR">å³ã®æ•µ</param>
+/// <param name="enemyL">å·¦ã®æ•µ</param>
 void Player::NearByEnemy(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
-	// ƒvƒŒƒCƒ„[‚©‚ç‰E‚Ì“G‚Ü‚Å‚Ì‹——£
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰å³ã®æ•µã¾ã§ã®è·é›¢
 	double distance1 = sqrt((enemyR.GetPos().x - m_pos.x) * (enemyR.GetPos().x - m_pos.x) +
 		(enemyR.GetPos().y - m_pos.y) * (enemyR.GetPos().y - m_pos.y)+
 		(enemyR.GetPos().z - m_pos.z) * (enemyR.GetPos().z - m_pos.z));
 
-	// ƒvƒŒƒCƒ„[‚©‚ç¶‚Ì“G‚Ü‚Å‚Ì‹——£
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰å·¦ã®æ•µã¾ã§ã®è·é›¢
 	double distance2 = sqrt((enemyL.GetPos().x - m_pos.x) * (enemyL.GetPos().x - m_pos.x) +
 		(enemyL.GetPos().y - m_pos.y) * (enemyL.GetPos().y - m_pos.y) +
 		(enemyL.GetPos().z - m_pos.z) * (enemyL.GetPos().z - m_pos.z));
 
-	// ‹——£‚ª¬‚³‚¢‚Ù‚¤‚Ì’l‚ğ“ü‚ê‚é
+	// è·é›¢ãŒå°ã•ã„ã»ã†ã®å€¤ã‚’å…¥ã‚Œã‚‹
 	double nearPos = min(distance1, distance2);
 
-	// ‰E‚Ì“G‚Ì•û‚ª‹ß‚©‚Á‚½ê‡
+	// å³ã®æ•µã®æ–¹ãŒè¿‘ã‹ã£ãŸå ´åˆ
 	if (nearPos == distance1)
 	{
-		// ‰E‚Ì“G‚ª¶‘¶‚µ‚Ä‚¢‚½‚ç
+		// å³ã®æ•µãŒç”Ÿå­˜ã—ã¦ã„ãŸã‚‰
 		if(enemyR.GetAlive())
 		{
-			// ‹|‚Ì‘_‚¢‚ğ‰E‚Ì“G‚É‚·‚é
+			// å¼“ã®ç‹™ã„ã‚’å³ã®æ•µã«ã™ã‚‹
 			m_isBowAttackToLeftEnemy = false;
 		}
-		else { // ¶‚«‚Ä‚¢‚È‚©‚Á‚½‚ç
-			// ‹|‚Ì‘_‚¢‚ğ¶‚Ì“G‚É‚·‚é
+		else { // ç”Ÿãã¦ã„ãªã‹ã£ãŸã‚‰
+			// å¼“ã®ç‹™ã„ã‚’å·¦ã®æ•µã«ã™ã‚‹
 			m_isBowAttackToLeftEnemy = true;
 		}
 	}
-	else{ // ‰E‚Ì“G‚Ì•û‚ª‹ß‚©‚Á‚½‚ç
+	else{ // å³ã®æ•µã®æ–¹ãŒè¿‘ã‹ã£ãŸã‚‰
 		
-		// ¶‚Ì“G‚ª¶‘¶‚µ‚Ä‚¢‚½‚ç
+		// å·¦ã®æ•µãŒç”Ÿå­˜ã—ã¦ã„ãŸã‚‰
 		if (enemyL.GetAlive()) {
-			// ‹|‚Ì‘_‚¢‚ğ¶‚Ì“G‚É‚·‚é
+			// å¼“ã®ç‹™ã„ã‚’å·¦ã®æ•µã«ã™ã‚‹
 			m_isBowAttackToLeftEnemy = true;
 		}
-		else { // ¶‚«‚Ä‚¢‚È‚©‚Á‚½‚ç
-			// ‹|‚Ì‘_‚¢‚ğ‰E‚Ì“G‚É‚·‚é
+		else { // ç”Ÿãã¦ã„ãªã‹ã£ãŸã‚‰
+			// å¼“ã®ç‹™ã„ã‚’å³ã®æ•µã«ã™ã‚‹
 			m_isBowAttackToLeftEnemy = false;
 		}
 	}
 }
 
 /// <summary>
-/// ƒWƒƒƒ“ƒvƒXƒeƒCƒg‚Ì‰Šú‰»
+/// ã‚¸ãƒ£ãƒ³ãƒ—ã‚¹ãƒ†ã‚¤ãƒˆã®åˆæœŸåŒ–
 /// </summary>
 void Player::JumpStateInit()
 {
@@ -330,7 +355,7 @@ void Player::JumpStateInit()
 }
 
 /// <summary>
-/// Œ•UŒ‚‚Ì‰Šú‰»
+/// å‰£æ”»æ’ƒã®åˆæœŸåŒ–
 /// </summary>
 void Player::AttackSordStateInit()
 {
@@ -342,7 +367,7 @@ void Player::AttackSordStateInit()
 }
 
 /// <summary>
-/// ‹|UŒ‚‚Ì‰Šú‰»
+/// å¼“æ”»æ’ƒã®åˆæœŸåŒ–
 /// </summary>
 void Player::AttackBowStateInit()
 {
@@ -353,38 +378,38 @@ void Player::AttackBowStateInit()
 }
 
 /// <summary>
-/// ‘Ò‹@ó‘Ô‚ÌXVˆ—
+/// å¾…æ©ŸçŠ¶æ…‹ã®æ›´æ–°å‡¦ç†
 /// </summary>
 void Player::IdleStateUpdate()
 {
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ‘Ò‹@ƒ‚[ƒVƒ‡ƒ“‚É•ÏX
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å¾…æ©Ÿãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã«å¤‰æ›´
 	m_pModel->ChangeAnim(m_animData.kIdle, true, false, 0.5f);
 }
 
 /// <summary>
-/// •à‚«ó‘Ô‚ÌXVˆ—
+/// æ­©ãçŠ¶æ…‹ã®æ›´æ–°å‡¦ç†
 /// </summary>
 void Player::WalkStateUpdate()
 {
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ•à‚«ƒ‚[ƒVƒ‡ƒ“‚É•ÏX
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’æ­©ããƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã«å¤‰æ›´
 	m_pModel->ChangeAnim(m_animData.kWalk, true, false, 0.5f);
 }
 
 /// <summary>
-/// ƒWƒƒƒ“ƒvó‘Ô‚ÌXVˆ—
+/// ã‚¸ãƒ£ãƒ³ãƒ—çŠ¶æ…‹ã®æ›´æ–°å‡¦ç†
 /// </summary>
 void Player::JumpStateUpdate()
 {
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ğƒWƒƒƒ“ƒvƒ‚[ƒVƒ‡ƒ“‚É•ÏX
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ã‚¸ãƒ£ãƒ³ãƒ—ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã«å¤‰æ›´
 	m_pModel->ChangeAnim(m_animData.kJump, false, false, 1.0f);
 }
 
 /// <summary>
-/// Œ•UŒ‚ó‘Ô‚ÌXV
+/// å‰£æ”»æ’ƒçŠ¶æ…‹ã®æ›´æ–°
 /// </summary>
 void Player::AttackSordStateUpdate()
 {
-	// ƒAƒjƒ[ƒVƒ‡ƒ“•ÏX
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å¤‰æ›´
 	switch (m_multiAttack)
 	{
 	case 0:
@@ -413,7 +438,7 @@ void Player::AttackSordStateUpdate()
 
 	if (m_pModel->IsAnimEnd())
 	{
-		// ƒAƒjƒ[ƒVƒ‡ƒ“‚ªI‚í‚Á‚½’iŠK‚ÅŸ‚ÌUŒ‚ƒtƒ‰ƒO‚ª‚½‚Á‚Ä‚¢‚È‚©‚Á‚½‚ç
+		// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒçµ‚ã‚ã£ãŸæ®µéšã§æ¬¡ã®æ”»æ’ƒãƒ•ãƒ©ã‚°ãŒãŸã£ã¦ã„ãªã‹ã£ãŸã‚‰
 		if (!m_isNextAttackFlag)
 		{
 			m_isAttack = false;
@@ -421,7 +446,7 @@ void Player::AttackSordStateUpdate()
 			m_pState->EndState();
 		}
 
-		// ƒAƒjƒ[ƒVƒ‡ƒ“‚ªI‚í‚Á‚½’iŠK‚ÅŸ‚ÌUŒ‚ƒtƒ‰ƒO‚ª‚½‚Á‚Ä‚¢‚½‚ç
+		// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒçµ‚ã‚ã£ãŸæ®µéšã§æ¬¡ã®æ”»æ’ƒãƒ•ãƒ©ã‚°ãŒãŸã£ã¦ã„ãŸã‚‰
 		if (m_isNextAttackFlag)
 		{
 			m_isNextAttackFlag = false;
@@ -436,12 +461,12 @@ void Player::AttackSordStateUpdate()
 }
 
 /// <summary>
-/// ‹|UŒ‚
+/// å¼“æ”»æ’ƒ
 /// </summary>
 void Player::AttackBowStateUpdate()
 {
 	bool loop = false;
-	if (Pad::IsPress(PAD_INPUT_B))	// Bƒ{ƒ^ƒ“
+	if (Pad::IsPress(PAD_INPUT_B))	// Bãƒœã‚¿ãƒ³
 	{
 		loop = true;
 
@@ -456,7 +481,7 @@ void Player::AttackBowStateUpdate()
 
 	m_pModel->ChangeAnim(m_animData.kAttackBow, loop, false, 0.5f);
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“‚ªI‚í‚Á‚½‚ç
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒçµ‚ã‚ã£ãŸã‚‰
 	if (!loop)
 	{
 		m_isAttack = false;
@@ -466,49 +491,49 @@ void Player::AttackBowStateUpdate()
 }
 
 /// <summary>
-/// ˆÚ“®ƒpƒ‰ƒ[ƒ^‚Ìİ’è
+/// ç§»å‹•ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã®è¨­å®š
 /// </summary>
 void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec)
 {
-	// ƒvƒŒƒCƒ„[‚ÌˆÚ“®•ûŒü‚ÌƒxƒNƒgƒ‹‚ğZo
-	// •ûŒüƒ{ƒ^ƒ“uªv‚ğ‰Ÿ‚µ‚½‚Æ‚«‚ÌƒvƒŒƒCƒ„[‚ÌˆÚ“®ƒxƒNƒgƒ‹‚ÍƒJƒƒ‰‚Ì‹ü•ûŒü‚©‚ç‚x¬•ª‚ğ”²‚¢‚½‚à‚Ì
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç®—å‡º
+	// æ–¹å‘ãƒœã‚¿ãƒ³ã€Œâ†‘ã€ã‚’æŠ¼ã—ãŸã¨ãã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã¯ã‚«ãƒ¡ãƒ©ã®è¦–ç·šæ–¹å‘ã‹ã‚‰ï¼¹æˆåˆ†ã‚’æŠœã„ãŸã‚‚ã®
 	upMoveVec = VSub(camera.GetTarget(), camera.GetPosition());
 	upMoveVec.y = 0.0f;
 
-	// •ûŒüƒ{ƒ^ƒ“u©v‚ğ‰Ÿ‚µ‚½‚Æ‚«‚ÌƒvƒŒƒCƒ„[‚ÌˆÚ“®ƒxƒNƒgƒ‹‚Íã‚ğ‰Ÿ‚µ‚½‚Æ‚«‚Ì•ûŒüƒxƒNƒgƒ‹‚Æ‚x²‚Ìƒvƒ‰ƒX•ûŒü‚ÌƒxƒNƒgƒ‹‚É‚’¼‚È•ûŒü
+	// æ–¹å‘ãƒœã‚¿ãƒ³ã€Œâ†ã€ã‚’æŠ¼ã—ãŸã¨ãã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã¯ä¸Šã‚’æŠ¼ã—ãŸã¨ãã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã¨ï¼¹è»¸ã®ãƒ—ãƒ©ã‚¹æ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«ã«å‚ç›´ãªæ–¹å‘
 	leftMoveVec = VCross(upMoveVec, VGet(0.0f, kSpeed, 0.0f));
 
-	// ˆÚ“®’l‚ğ‰Šú’l‚É–ß‚·
+	// ç§»å‹•å€¤ã‚’åˆæœŸå€¤ã«æˆ»ã™
 	m_move = VGet(0.0f, 0.0f, 0.0f);
 
-	// ˆÚ“®‚µ‚½‚©(true:ˆÚ“®‚µ‚½)
+	// ç§»å‹•ã—ãŸã‹(true:ç§»å‹•ã—ãŸ)
 	bool isPressMove = false;
 
-	// ˆÚ“®ˆ—
+	// ç§»å‹•å‡¦ç†
 	if (!m_isAttack)
 	{
-		if (Pad::IsPress(PAD_INPUT_RIGHT))						// ‰E•ûŒü
+		if (Pad::IsPress(PAD_INPUT_RIGHT))						// å³æ–¹å‘
 		{
 			m_move = VAdd(m_move, VScale(leftMoveVec, -1.0f));
 			isPressMove = true;
 		}
-		if (Pad::IsPress(PAD_INPUT_LEFT))						// ¶•ûŒü
+		if (Pad::IsPress(PAD_INPUT_LEFT))						// å·¦æ–¹å‘
 		{
 			m_move = VAdd(m_move, leftMoveVec);
 			isPressMove = true;
 		}
-		if (Pad::IsPress(PAD_INPUT_UP))							// ‘O•ûŒü
+		if (Pad::IsPress(PAD_INPUT_UP))							// å‰æ–¹å‘
 		{
 			m_move = VAdd(m_move, upMoveVec);
 			isPressMove = true;
 		}
-		if (Pad::IsPress(PAD_INPUT_DOWN))						// Œã‚ë•ûŒü
+		if (Pad::IsPress(PAD_INPUT_DOWN))						// å¾Œã‚æ–¹å‘
 		{
 			m_move = VAdd(m_move, VScale(upMoveVec, -1.0f));
 			isPressMove = true;
 		}
 
-		// ³‹K‰»
+		// æ­£è¦åŒ–
 		if (VSize(m_move) > 0.0f)
 		{
 			m_move = VNorm(m_move);
@@ -517,14 +542,14 @@ void Player::OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftM
 		}
 	}
 
-	//ƒWƒƒƒ“ƒvˆ—
+	//ã‚¸ãƒ£ãƒ³ãƒ—å‡¦ç†
 	Jump();
 }
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚ÌˆÚ“®ˆ—
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•å‡¦ç†
 /// </summary>
-/// <param name="MoveVector">ˆÚ“®—Ê</param>
+/// <param name="MoveVector">ç§»å‹•é‡</param>
 void Player::Move(const VECTOR& MoveVector, const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
 	if (fabs(MoveVector.x) > 0.0f || fabs(MoveVector.z) > 0.0f){
@@ -550,50 +575,50 @@ void Player::Move(const VECTOR& MoveVector, const EnemyRight& enemyR, const Enem
 		m_isBodyCol = true;
 	}
 
-	// ƒvƒŒƒCƒ„[‚ÌˆÊ’u‚ÉˆÚ“®—Ê‚ğ‘«‚·
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã«ç§»å‹•é‡ã‚’è¶³ã™
 	m_pos = VAdd(m_pos, m_move);
 
 	
 
 
-	// ƒvƒŒƒCƒ„[‚ª‰æ–ÊŠO‚Éo‚È‚¢‚æ‚¤‚·‚éˆ—
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç”»é¢å¤–ã«å‡ºãªã„ã‚ˆã†ã™ã‚‹å‡¦ç†
 	if (m_pos.x < mp.leftBack.x)
 	{
-		m_pos.x -= m_move.x;		// ¶
+		m_pos.x -= m_move.x;		// å·¦
 	}
 	if (m_pos.x > mp.rightFront.x)
 	{
-		m_pos.x -= m_move.x;		// ‰E
+		m_pos.x -= m_move.x;		// å³
 	}
 	if (m_pos.z < mp.rightFront.z)
 	{
-		m_pos.z -= m_move.z;		// ‘O
+		m_pos.z -= m_move.z;		// å‰
 	}
 	if (m_pos.z > mp.leftBack.z)
 	{
-		m_pos.z -= m_move.z;		// ‰œ
+		m_pos.z -= m_move.z;		// å¥¥
 	}
 
-	// ƒvƒŒƒCƒ„[‚ÌˆÊ’uƒZƒbƒg
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½ç½®ã‚»ãƒƒãƒˆ
 	MV1SetPosition(m_pModel->GetModel(), m_pos);
 }
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚ÌŠp“xˆ—
+/// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®è§’åº¦å‡¦ç†
 /// </summary>
 void Player::Angle()
 {
-	// ƒvƒŒƒCƒ„[‚ÌˆÚ“®•ûŒü‚Éƒ‚ƒfƒ‹‚Ì•ûŒü‚ğ‹ß‚Ã‚¯‚é
-	float targetAngle;		// –Ú•WŠp“x
-	float difference;		// –Ú•WŠp“x‚ÆŒ»İ‚ÌŠp“x‚Ì·
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç§»å‹•æ–¹å‘ã«ãƒ¢ãƒ‡ãƒ«ã®æ–¹å‘ã‚’è¿‘ã¥ã‘ã‚‹
+	float targetAngle;		// ç›®æ¨™è§’åº¦
+	float difference;		// ç›®æ¨™è§’åº¦ã¨ç¾åœ¨ã®è§’åº¦ã®å·®
 
-	// –Ú•W‚Ì•ûŒüƒxƒNƒgƒ‹‚©‚çŠp“x’l‚ğZo‚·‚é
+	// ç›®æ¨™ã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‹ã‚‰è§’åº¦å€¤ã‚’ç®—å‡ºã™ã‚‹
 	targetAngle = static_cast<float>(atan2(m_targetDir.x, m_targetDir.z));
 
-	// –Ú•W‚ÌŠp“x‚ÆŒ»İ‚ÌŠp“x‚Æ‚Ì·‚ğŠ„‚èo‚·
+	// ç›®æ¨™ã®è§’åº¦ã¨ç¾åœ¨ã®è§’åº¦ã¨ã®å·®ã‚’å‰²ã‚Šå‡ºã™
 	difference = targetAngle - m_angle;
 
-	// ·‚ÌŠp“x‚ª180“xˆÈã‚É‚È‚Á‚Ä‚¢‚½‚çC³‚·‚é
+	// å·®ã®è§’åº¦ãŒ180åº¦ä»¥ä¸Šã«ãªã£ã¦ã„ãŸã‚‰ä¿®æ­£ã™ã‚‹
 	if (difference < -DX_PI_F)
 	{
 		difference += DX_TWO_PI_F;
@@ -603,10 +628,10 @@ void Player::Angle()
 		difference -= DX_TWO_PI_F;
 	}
 
-	// Šp“x‚Ì·‚ª0‚É‹ß‚Ã‚¯‚é
+	// è§’åº¦ã®å·®ãŒ0ã«è¿‘ã¥ã‘ã‚‹
 	if (difference > 0.0f)
 	{
-		// ·‚ªƒvƒ‰ƒX‚Ìê‡‚Íˆø‚­
+		// å·®ãŒãƒ—ãƒ©ã‚¹ã®å ´åˆã¯å¼•ã
 		difference -= kAngleSpeed;
 		if (difference < 0.0f)
 		{
@@ -615,7 +640,7 @@ void Player::Angle()
 	}
 	else
 	{
-		// ·‚ªƒ}ƒCƒiƒX‚Ìê‡‚Í‘«‚·
+		// å·®ãŒãƒã‚¤ãƒŠã‚¹ã®å ´åˆã¯è¶³ã™
 		difference += kAngleSpeed;
 		if (difference > 0.0f)
 		{
@@ -623,15 +648,14 @@ void Player::Angle()
 		}
 	}
 
-	// ƒ‚ƒfƒ‹‚ÌŠp“x‚ğXV
+	// ãƒ¢ãƒ‡ãƒ«ã®è§’åº¦ã‚’æ›´æ–°
 	m_angle = targetAngle - difference;
 	MV1SetRotationXYZ(m_pModel->GetModel(), VGet(0.0f, m_angle + DX_PI_F, 0.0f));
 }
 
-
 void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
-	// Œ•UŒ‚
+	// å‰£æ”»æ’ƒ
 	Collision enemyRightCol = enemyR.GetColSphere();
 	Collision enemyLeftCol = enemyL.GetColSphere();
 
@@ -669,7 +693,7 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 		m_isNextAttackFlag = false;
 	}
 
-	// RB‚ğ‰Ÿ‚µ‚½‚ç“G‚Ì•ûŒü‚ğŒü‚­ƒvƒƒOƒ‰ƒ€‘‚¯
+	// RBã‚’æŠ¼ã—ãŸã‚‰æ•µã®æ–¹å‘ã‚’å‘ããƒ—ãƒ­ã‚°ãƒ©ãƒ æ›¸ã‘
 	if (Pad::IsPress(PAD_INPUT_Z))
 	{
 		if (m_isBowAttackToLeftEnemy) {
@@ -682,10 +706,10 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 		}
 		MV1SetRotationXYZ(m_pModel->GetModel(), VGet(0.0f, m_angle + DX_PI_F, 0.0f));
 
-		// ‹|UŒ‚
+		// å¼“æ”»æ’ƒ
 		if (m_isBowAttackDamage)
 		{
-			if (!m_isBowAttackToLeftEnemy)	// ‰E‚Ì“G‚Éƒ_ƒ[ƒW
+			if (!m_isBowAttackToLeftEnemy)	// å³ã®æ•µã«ãƒ€ãƒ¡ãƒ¼ã‚¸
 			{
 				m_pEffect->PlayDamageEffect(VGet(enemyR.GetPos().x + enemyR.GetMovePos().x*10, enemyR.GetPos().y + 10, enemyR.GetPos().z + enemyR.GetMovePos().z * 100));
 				m_addDamage = kBowDamage;
@@ -714,14 +738,14 @@ void Player::Jump()
 	}
 	else if (m_pos.y >= 0.0f)
 	{
-		// ƒWƒƒƒ“ƒvó‘Ô‚È‚çd—Í“K—p
+		// ã‚¸ãƒ£ãƒ³ãƒ—çŠ¶æ…‹ãªã‚‰é‡åŠ›é©ç”¨
 		if (m_isJump)
 		{
-			// ‚x²•ûŒü‚Ì‘¬“x‚ğd—Í•ªŒ¸Z‚·‚é
+			// ï¼¹è»¸æ–¹å‘ã®é€Ÿåº¦ã‚’é‡åŠ›åˆ†æ¸›ç®—ã™ã‚‹
 			m_jumpPower -= m_gravity;
 			m_gravity += 0.0002f;
 		}
-		// ˆÚ“®ƒxƒNƒgƒ‹‚Ì‚x¬•ª‚ğ‚x²•ûŒü‚Ì‘¬“x‚É‚·‚é
+		// ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«ã®ï¼¹æˆåˆ†ã‚’ï¼¹è»¸æ–¹å‘ã®é€Ÿåº¦ã«ã™ã‚‹
 		m_move.y = m_jumpPower;
 	}
 }
@@ -736,7 +760,7 @@ void Player::Death()
 
 void Player::ColUpdate()
 {
-	// ƒvƒŒƒCƒ„[“–‚½‚è”»’è—pƒJƒvƒZƒ‹Œ^‚ÌÀ•WXV
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å½“ãŸã‚Šåˆ¤å®šç”¨ã‚«ãƒ—ã‚»ãƒ«å‹ã®åº§æ¨™æ›´æ–°
 	m_UpPos = VAdd(m_pos, kUpPos);
 
 	MATRIX rotationMatrix = MGetRotY(m_angle);

@@ -1,4 +1,4 @@
-#include "EnemyLeft.h"
+ï»¿#include "EnemyLeft.h"
 #include "EnemyState.h"
 #include "../Player/Player.h"
 #include "../../Util/Pad.h"
@@ -15,36 +15,36 @@ namespace {
 	const char* kParts = "handIK.r";
 
 	const char* const kUI[4]{
-		"data/Image/GameScene/UI/EnemyLeft/HPOurGauge.png",	// HPUI(ŠO‘¤)
-		"data/Image/GameScene/UI/EnemyLeft/HPInGauge.png",	// HPUI(“à‘¤)
-		"data/Image/GameScene/UI/EnemyLeft/NameBg.png",		// –¼‘O”wŒiUI
-		"data/Image/GameScene/UI/EnemyLeft/Shimane.png",	// –¼‘OUI
+		"data/Image/GameScene/UI/EnemyLeft/HPOurGauge.png",	// HPUI(å¤–å´)
+		"data/Image/GameScene/UI/EnemyLeft/HPInGauge.png",	// HPUI(å†…å´)
+		"data/Image/GameScene/UI/EnemyLeft/NameBg.png",		// åå‰èƒŒæ™¯UI
+		"data/Image/GameScene/UI/EnemyLeft/Shimane.png",	// åå‰UI
 	};
 
-	// HPƒQ[ƒW(ŠO‘¤)ˆÊ’u
+	// HPã‚²ãƒ¼ã‚¸(å¤–å´)ä½ç½®
 	constexpr int kHpGaugeUIPosX = 650;
 	constexpr int kHpGaugeUIPosY = 950;
 
-	// HPƒQ[ƒW(“à‘¤)‰E‘¤ˆÊ’u(Exted—p‰E’[À•W)
+	// HPã‚²ãƒ¼ã‚¸(å†…å´)å³å´ä½ç½®(Extedç”¨å³ç«¯åº§æ¨™)
 	constexpr int kHpGaugePosX = 852;
 	constexpr int kHpGaugePosY = kHpGaugeUIPosY + 42;
 
-	// –¼‘O”wŒiˆÊ’u
+	// åå‰èƒŒæ™¯ä½ç½®
 	constexpr int kNameBgX = 300;
 	constexpr int kNameBgY = 930;
 
-	// –¼‘OˆÊ’u
+	// åå‰ä½ç½®
 	constexpr int kNameX = kNameBgX + 80;
 	constexpr int kNameY = kNameBgY + 10;
 
-	constexpr float kInitAngle = -DX_PI_F / 2.0f * 90.0f;	// ƒvƒŒƒCƒ„[‚Ì‰ŠúŠp“x*90(Œü‚«‚ğ”½‘Î‚É‚·‚é)
+	constexpr float kInitAngle = -DX_PI_F / 2.0f * 90.0f;	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆæœŸè§’åº¦*90(å‘ãã‚’åå¯¾ã«ã™ã‚‹)
 
-	constexpr int	kMaxHp = 100;				// ‘Ì—ÍÅ‘å’l
+	constexpr int	kMaxHp = 100;				// ä½“åŠ›æœ€å¤§å€¤
 
 	VECTOR kSordSize = VGet(0.01f, 0.01f, 0.01f);
 	VECTOR kInitPos= VGet(-40.0f, 0.0f, 100.0f);
 
-	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ƒxƒNƒgƒ‹‚Ì‰Šú‰»
+	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// ãƒ™ã‚¯ãƒˆãƒ«ã®åˆæœŸåŒ–
 	
 	const VECTOR kUpPos = VGet(0.0f, 20.0f, 0.0f);
 	const VECTOR kAttackRange = VGet(0.0f, 0.0f, 0.0f);
@@ -69,7 +69,7 @@ EnemyLeft::EnemyLeft():
 	m_sordModel = MV1LoadModel(kSord);
 	m_pos = m_pModel->GetPos();
 
-	// UI‰æ‘œ‚Ì“Ç‚İ‚İ
+	// UIç”»åƒã®èª­ã¿è¾¼ã¿
 	for (int i = 0; i < m_uiGraph.size(); i++)
 	{
 		m_uiGraph[i] = LoadGraph(kUI[i]);
@@ -84,8 +84,8 @@ EnemyLeft::EnemyLeft():
 	m_pState->AddState([=] { IdleStateUpdate(); }, [=] { IdleStateInit(); }, EnemyState::State::kIdle);
 	m_pState->AddState([=] { WalkStateUpdate(); }, [=] { WalkStateInit(); }, EnemyState::State::kWalk);
 
-	//‰ŠúƒXƒeƒCƒgƒZƒbƒg
-	m_pState->SetState(EnemyState::State::kIdle);	//ƒXƒeƒCƒgƒZƒbƒg(Å‰‚ÍIdleó‘Ô)
+	//åˆæœŸã‚¹ãƒ†ã‚¤ãƒˆã‚»ãƒƒãƒˆ
+	m_pState->SetState(EnemyState::State::kIdle);	//ã‚¹ãƒ†ã‚¤ãƒˆã‚»ãƒƒãƒˆ(æœ€åˆã¯IdleçŠ¶æ…‹)
 
 	m_pSound = new SoundManager;
 	m_pSound->Init();
@@ -133,7 +133,7 @@ void EnemyLeft::Update(const Player& player)
 
 		SetModelFramePosition(m_pModel->GetModel(), kParts, m_sordModel);
 
-		// “–‚½‚è”»’è—pƒJƒvƒZƒ‹Œ^‚ÌÀ•WXV
+		// å½“ãŸã‚Šåˆ¤å®šç”¨ã‚«ãƒ—ã‚»ãƒ«å‹ã®åº§æ¨™æ›´æ–°
 		m_upPos = VAdd(m_pos, kUpPos);
 		m_colSphere.UpdateCol(m_pos, m_upPos, kInitPos, kColRadius, kAttackColRadius);
 	}
@@ -156,13 +156,13 @@ void EnemyLeft::Draw()
 {
 	if (m_isAlive)
 	{
-		// ƒ‚ƒfƒ‹‚Ì•`‰æ
+		// ãƒ¢ãƒ‡ãƒ«ã®æç”»
 		m_pModel->Draw();
-		// –_ƒ‚ƒfƒ‹‚Ì•`‰æ
+		// æ£’ãƒ¢ãƒ‡ãƒ«ã®æç”»
 		MV1DrawModel(m_sordModel);
 	}
 
-	m_pEffect->Draw();			 // ƒGƒtƒFƒNƒg•`‰æ
+	m_pEffect->Draw();			 // ã‚¨ãƒ•ã‚§ã‚¯ãƒˆæç”»
 
 	
 #ifdef _DEBUG
@@ -170,14 +170,16 @@ void EnemyLeft::Draw()
 	if (m_isAlive)
 	{
 		DrawFormatString(0, 600, 0xffffff, "m_hp=%d", m_hp);
-		m_colSphere.DrawMain(0x00ff00, false);	// “–‚½‚è”»’è•`‰æ
+		m_colSphere.DrawMain(0x00ff00, false);	// å½“ãŸã‚Šåˆ¤å®šæç”»
 	}
+
+	DrawFormatString(0, 680, 0xffffff, "m_vecToPlayer.x=%.2f.y=%.2f.z=%.2f", m_vecToPlayer.x,m_vecToPlayer.y,m_vecToPlayer.z);
 #endif
 }
 
 void EnemyLeft::End()
 {
-	// UI‰æ‘œ‚Ìíœ
+	// UIç”»åƒã®å‰Šé™¤
 	for (int i = 0; i < m_uiGraph.size(); i++)
 	{
 		DeleteGraph(m_uiGraph[i]);
@@ -191,28 +193,28 @@ void EnemyLeft::End()
 
 void EnemyLeft::Move()
 {
-	//“G‚ª‰æ–ÊŠO‚Éo‚È‚¢‚æ‚¤‚·‚éˆ—
+	//æ•µãŒç”»é¢å¤–ã«å‡ºãªã„ã‚ˆã†ã™ã‚‹å‡¦ç†
 	if (m_pos.x < mp.leftBack.x)
 	{
-		m_pos.x -= m_move.x;		// ¶
+		m_pos.x -= m_move.x;		// å·¦
 	}
 	if (m_pos.x > mp.rightFront.x)
 	{
-		m_pos.x -= m_move.x;		// ‰E
+		m_pos.x -= m_move.x;		// å³
 	}
 	if (m_pos.z < mp.rightFront.z)
 	{
-		m_pos.z -= m_move.z;		// ‘O
+		m_pos.z -= m_move.z;		// å‰
 	}
 	if (m_pos.z > mp.leftBack.z)
 	{
-		m_pos.z -= m_move.z;		// ‰œ
+		m_pos.z -= m_move.z;		// å¥¥
 	}
 
 	m_vecToPlayer = VSub(m_pos, m_targetPos);
 
 
-	// ƒxƒNƒgƒ‹‚Ì³‹K‰»
+	// ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–
 	m_distance = VNorm(m_vecToPlayer);
 
 	m_move.x = m_distance.x * -kSpeed;
@@ -220,23 +222,23 @@ void EnemyLeft::Move()
 
 	m_pos = VAdd(m_pos, m_move);
 
-	// atan2 ‚ğg—p‚µ‚ÄŠp“x‚ğæ“¾						// •ûŒü—p
+	// atan2 ã‚’ä½¿ç”¨ã—ã¦è§’åº¦ã‚’å–å¾—						// æ–¹å‘ç”¨
 	m_angle = atan2(m_vecToPlayer.x, m_vecToPlayer.z);
 
-	// atan2 ‚Åæ“¾‚µ‚½Šp“x‚É‚R‚cƒ‚ƒfƒ‹‚ğ³–Ê‚ÉŒü‚©‚¹‚é‚½‚ß‚Ì•â³’l( DX_PI_F )‚ğ
-		// ‘«‚µ‚½’l‚ğ‚R‚cƒ‚ƒfƒ‹‚Ì Y²‰ñ“]’l‚Æ‚µ‚Äİ’è
+	// atan2 ã§å–å¾—ã—ãŸè§’åº¦ã«ï¼“ï¼¤ãƒ¢ãƒ‡ãƒ«ã‚’æ­£é¢ã«å‘ã‹ã›ã‚‹ãŸã‚ã®è£œæ­£å€¤( DX_PI_F )ã‚’
+		// è¶³ã—ãŸå€¤ã‚’ï¼“ï¼¤ãƒ¢ãƒ‡ãƒ«ã® Yè»¸å›è»¢å€¤ã¨ã—ã¦è¨­å®š
 	MV1SetRotationXYZ(m_pModel->GetModel(), VGet(0.0f, m_angle + DX_PI_F + kInitAngle, 0.0f));
 	MV1SetPosition(m_pModel->GetModel(), m_pos);
 }
 
 void EnemyLeft::UIDraw()
 {
-	// HPƒQ[ƒW•`‰æ
+	// HPã‚²ãƒ¼ã‚¸æç”»
 	DrawExtendGraph(kHpGaugeUIPosX, kHpGaugeUIPosY,
 		kHpGaugeUIPosX + (kHpGaugePosX * (m_hp * 0.00333f)), kHpGaugePosY, m_uiGraph[1], true);
 	DrawGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, m_uiGraph[0], true);
 
-	// “Gî•ñ•`‰æ
+	// æ•µæƒ…å ±æç”»
 	DrawGraph(kNameBgX, kNameBgY, m_uiGraph[2], true);
 	DrawGraph(kNameX, kNameY, m_uiGraph[3], true);
 }
@@ -246,13 +248,13 @@ void EnemyLeft::SetModelFramePosition(int ModelHandle, const char *FrameName, in
 	MATRIX FrameMatrix;
 	int FrameIndex;
 
-	// ƒtƒŒ[ƒ€–¼‚©‚çƒtƒŒ[ƒ€”Ô†‚ğæ“¾‚·‚é
+	// ãƒ•ãƒ¬ãƒ¼ãƒ åã‹ã‚‰ãƒ•ãƒ¬ãƒ¼ãƒ ç•ªå·ã‚’å–å¾—ã™ã‚‹
 	FrameIndex = MV1SearchFrame(ModelHandle, FrameName);
 
-	// ƒtƒŒ[ƒ€‚ÌŒ»İ‚Ìƒ[ƒ‹ƒh‚Å‚Ìó‘Ô‚ğ¦‚·s—ñ‚ğæ“¾‚·‚é
+	// ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç¾åœ¨ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰ã§ã®çŠ¶æ…‹ã‚’ç¤ºã™è¡Œåˆ—ã‚’å–å¾—ã™ã‚‹
 	FrameMatrix = MV1GetFrameLocalWorldMatrix(ModelHandle, FrameIndex);
 
-	// ƒZƒbƒg‚·‚éƒ‚ƒfƒ‹‚Ìó‘Ô‚ğ¦‚·s—ñ‚ğƒtƒŒ[ƒ€‚Ìó‘Ô‚ğ¦‚·s—ñ‚Æ“¯‚¶‚É‚·‚é
+	// ã‚»ãƒƒãƒˆã™ã‚‹ãƒ¢ãƒ‡ãƒ«ã®çŠ¶æ…‹ã‚’ç¤ºã™è¡Œåˆ—ã‚’ãƒ•ãƒ¬ãƒ¼ãƒ ã®çŠ¶æ…‹ã‚’ç¤ºã™è¡Œåˆ—ã¨åŒã˜ã«ã™ã‚‹
 	// MV1SetMatrix(SetModelHandle, FrameMatrix);
 	MV1SetMatrix(SetModelHandle, MMult(MGetScale(kSordSize), FrameMatrix));
 }

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "EnemyBase.h"
 #include "../../Util/Collision.h"
 #include <array>
@@ -34,18 +34,18 @@ public:
 	VECTOR GetMovePos() const { return m_move; }
 
 private:
-	// ƒAƒjƒ[ƒVƒ‡ƒ“î•ñ
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±
 	struct AnimationData
 	{
 		int8_t kIdle = 15;
 		int8_t kWalk = 89;
 	};
 
-	// Šeó‘Ô‚²‚Æ‚Ì‰Šú‰»
+	// å„çŠ¶æ…‹ã”ã¨ã®åˆæœŸåŒ–
 	void IdleStateInit() {};
 	void WalkStateInit() {};
 
-	// Šeó‘Ô‚²‚Æ‚ÌXV
+	// å„çŠ¶æ…‹ã”ã¨ã®æ›´æ–°
 	void IdleStateUpdate();
 	void WalkStateUpdate();
 
@@ -57,17 +57,17 @@ private:
 
 	float m_angle;
 
-	std::array<int, 4> m_uiGraph{};	// UI—p‰æ‘œ
+	std::array<int, 4> m_uiGraph{};	// UIç”¨ç”»åƒ
 
 
 	struct MapPlace
 	{
-		VECTOR leftBack;		// ƒ}ƒbƒv¶‰œÀ•W
-		VECTOR rightFront;	// ƒ}ƒbƒv‰E‘OÀ•W
+		VECTOR leftBack;		// ãƒãƒƒãƒ—å·¦å¥¥åº§æ¨™
+		VECTOR rightFront;	// ãƒãƒƒãƒ—å³å‰åº§æ¨™
 	}mp;
 
-	VECTOR m_upPos;			// ƒJƒvƒZƒ‹ãÀ•W
-	VECTOR m_vecToPlayer;	// ƒvƒŒƒCƒ„[–˜‚Ì‹——£
+	VECTOR m_upPos;			// ã‚«ãƒ—ã‚»ãƒ«ä¸Šåº§æ¨™
+	VECTOR m_vecToPlayer;	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¿„ã®è·é›¢
 	VECTOR m_targetPos;
 	VECTOR m_move;
 	VECTOR m_distance;
@@ -80,5 +80,5 @@ private:
 
 	SoundManager* m_pSound;
 
-	std::shared_ptr<Effect> m_pEffect;		// ƒGƒtƒFƒNƒg
+	std::shared_ptr<Effect> m_pEffect;		// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 };

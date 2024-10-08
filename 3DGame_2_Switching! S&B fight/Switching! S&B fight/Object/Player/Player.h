@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DxLib.h"
 #include "../../Util/Collision.h"
 #include <memory>
@@ -16,178 +16,186 @@ class Player
 {
 public:
 	/// <summary>
-	/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	Player();
 
 	/// <summary>
-	/// ƒfƒXƒgƒ‰ƒNƒ^
+	/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	/// </summary>
 	~Player();
 
 	/// <summary>
-	/// ‰Šú‰»ˆ—
+	/// åˆæœŸåŒ–å‡¦ç†
 	/// </summary>
-	/// <param name="pMap">ƒ}ƒbƒv</param>
+	/// <param name="pMap">ãƒãƒƒãƒ—</param>
 	void Init(std::shared_ptr<GameMap> pMap);
 
 	/// <summary>
-	/// XVˆ—
+	/// æ›´æ–°å‡¦ç†
 	/// </summary>
-	/// <param name="camera">ƒJƒƒ‰</param>
-	/// <param name="enemyR">‰E‚Ì“G</param>
-	/// <param name="enemyL">¶‚Ì“G</param>
+	/// <param name="camera">ã‚«ãƒ¡ãƒ©</param>
+	/// <param name="enemyR">å³ã®æ•µ</param>
+	/// <param name="enemyL">å·¦ã®æ•µ</param>
 	void Update(const Camera& camera,const EnemyRight& enemyR, const EnemyLeft& enemyL);
 	
 	/// <summary>
-	/// •`‰æˆ—
+	/// æç”»å‡¦ç†
 	/// </summary>
 	void Draw();
 
 	/// <summary>
-	/// I—¹ˆ—
+	/// çµ‚äº†å‡¦ç†
 	/// </summary>
 	void End();
 
 	/// <summary>
-	/// ‹——£‚Ì‹ß‚¢“G‚ğ’T‚·
+	/// è·é›¢ã®è¿‘ã„æ•µã‚’æ¢ã™
 	/// </summary>
-	/// <param name="enemyR">‰E‚Ì“G</param>
-	/// <param name="enemyL">¶‚Ì“G</param>
+	/// <param name="enemyR">å³ã®æ•µ</param>
+	/// <param name="enemyL">å·¦ã®æ•µ</param>
 	void NearByEnemy(const EnemyRight& enemyR, const EnemyLeft& enemyL);
 
 	/// <summary>
-	/// ˆÚ“®’lİ’è
+	/// ç§»å‹•å€¤è¨­å®š
 	/// </summary>
-	/// <param name="camera">ƒJƒƒ‰</param>
+	/// <param name="camera">ã‚«ãƒ¡ãƒ©</param>
 	/// <param name="upMoveVec"></param>
 	/// <param name="leftMoveVec"></param>
 	void OldMoveValue(const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec);
 
 	/// <summary>
-	/// ˆÚ“®ˆ—
+	/// ç§»å‹•å‡¦ç†
 	/// </summary>
-	/// <param name="MoveVector">ˆÚ“®ƒxƒNƒgƒ‹</param>
-	/// <param name="enemyR">‰E‚Ì“G</param>
-	/// <param name="enemyL">¶‚Ì“G</param>
+	/// <param name="MoveVector">ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«</param>
+	/// <param name="enemyR">å³ã®æ•µ</param>
+	/// <param name="enemyL">å·¦ã®æ•µ</param>
 	void Move(const VECTOR& MoveVector, const EnemyRight& enemyR, const EnemyLeft& enemyL);
 
 	/// <summary>
-	/// ‰ñ“]ˆ—
+	/// å›è»¢å‡¦ç†
 	/// </summary>
 	void Angle();
 
 	/// <summary>
-	/// UŒ‚ˆ—
+	/// æ”»æ’ƒå‡¦ç†
 	/// </summary>
-	/// <param name="enemyR">‰E‚Ì“G</param>
-	/// <param name="enemyL">¶‚Ì“G</param>
+	/// <param name="enemyR">å³ã®æ•µ</param>
+	/// <param name="enemyL">å·¦ã®æ•µ</param>
 	void Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL);
 
 	/// <summary>
-	/// ƒWƒƒƒ“ƒvˆ—
+	/// ã‚¸ãƒ£ãƒ³ãƒ—å‡¦ç†
 	/// </summary>
 	void Jump();
 
 	/// <summary>
-	/// €–Sˆ—
+	/// æ­»äº¡å‡¦ç†
 	/// </summary>
 	void Death();
 
-	void ColUpdate();				// “–‚½‚è”»’è‚ÌXVˆ—
+	/// <summary>
+	/// å½“ãŸã‚Šåˆ¤å®šã®æ›´æ–°å‡¦ç†
+	/// </summary>
+	void ColUpdate();
 
-	// Šeó‘Ô‚²‚Æ‚Ì‰Šú‰»
-	void IdleStateInit() {};		//‘Ò‹@ó‘Ô‚Ì‰Šú‰»
-	void WalkStateInit() {};		//•à‚«ó‘Ô‚Ì‰Šú‰»
-	void JumpStateInit();			//ƒWƒƒƒ“ƒvó‘Ô‚Ì‰Šú‰»
-	void AttackSordStateInit();		//Œ•UŒ‚ó‘Ô‚Ì‰Šú‰»
-	void AttackBowStateInit();		//‹|UŒ‚ó‘Ô‚Ì‰Šú‰»
+	// å„çŠ¶æ…‹ã”ã¨ã®åˆæœŸåŒ–
+	void IdleStateInit() {};		//å¾…æ©ŸçŠ¶æ…‹ã®åˆæœŸåŒ–
+	void WalkStateInit() {};		//æ­©ãçŠ¶æ…‹ã®åˆæœŸåŒ–
+	void JumpStateInit();			//ã‚¸ãƒ£ãƒ³ãƒ—çŠ¶æ…‹ã®åˆæœŸåŒ–
+	void AttackSordStateInit();		//å‰£æ”»æ’ƒçŠ¶æ…‹ã®åˆæœŸåŒ–
+	void AttackBowStateInit();		//å¼“æ”»æ’ƒçŠ¶æ…‹ã®åˆæœŸåŒ–
 
-	// Šeó‘Ô‚²‚Æ‚ÌXV
-	void IdleStateUpdate();			// ‘Ò‹@ó‘Ô‚ÌXV
-	void WalkStateUpdate();			// •à‚«ó‘Ô‚ÌXV
-	void JumpStateUpdate();			// ƒWƒƒƒ“ƒvó‘Ô‚ÌXV
-	void AttackSordStateUpdate();	// Œ•UŒ‚ó‘Ô‚ÌXV
-	void AttackBowStateUpdate();	// ‹|UŒ‚ó‘Ô‚ÌXV
+	// å„çŠ¶æ…‹ã”ã¨ã®æ›´æ–°
+	void IdleStateUpdate();			// å¾…æ©ŸçŠ¶æ…‹ã®æ›´æ–°
+	void WalkStateUpdate();			// æ­©ãçŠ¶æ…‹ã®æ›´æ–°
+	void JumpStateUpdate();			// ã‚¸ãƒ£ãƒ³ãƒ—çŠ¶æ…‹ã®æ›´æ–°
+	void AttackSordStateUpdate();	// å‰£æ”»æ’ƒçŠ¶æ…‹ã®æ›´æ–°
+	void AttackBowStateUpdate();	// å¼“æ”»æ’ƒçŠ¶æ…‹ã®æ›´æ–°
 
-	int GetAddDamage() const { return m_addDamage; }					// “G‚É—^‚¦‚éƒ_ƒ[ƒW—Ê‚ğ“n‚·
-	bool GetAttackRight()const { return m_isSordAttackToRightEnemy; }	// ‰E‚Ì“G‚ğUŒ‚‚·‚é‚©‚Ìƒtƒ‰ƒO‚ğ“n‚·
-	bool GetAttackLeft()const { return m_isSordAttackToLeftEnemy; }		// ¶‚Ì“G‚ğUŒ‚‚·‚é‚©‚Ìƒtƒ‰ƒO‚ğ“n‚·
-	bool GetDeathFlag() const { return m_isDeath; }						// ƒvƒŒƒCƒ„[‚ª€–S‚µ‚Ä‚¢‚é‚©‚Ìƒtƒ‰ƒO‚ğ“n‚·
+	int GetAddDamage() const { return m_addDamage; }					// æ•µã«ä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡ã‚’æ¸¡ã™
+	float GetColRadius() const { return m_colRadius; }					// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šåŠå¾„
+	bool GetAttackRight()const { return m_isSordAttackToRightEnemy; }	// å³ã®æ•µã‚’æ”»æ’ƒã™ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’æ¸¡ã™
+	bool GetAttackLeft()const { return m_isSordAttackToLeftEnemy; }		// å·¦ã®æ•µã‚’æ”»æ’ƒã™ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’æ¸¡ã™
+	bool GetDeathFlag() const { return m_isDeath; }						// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ­»äº¡ã—ã¦ã„ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°ã‚’æ¸¡ã™
 
-	VECTOR GetPos()const { return m_pos; }					// ƒvƒŒƒCƒ„[‚ÌÀ•W“n‚µ
-	Collision GetCol() const { return m_colSphere; }		// ƒvƒŒƒCƒ„[‚Ì“–‚½‚è”»’è“n‚µ
+	VECTOR GetPos()const { return m_pos; }					// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™æ¸¡ã—
+	Collision GetCol() const { return m_colSphere; }		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šæ¸¡ã—
 
 private:
 
-	// UŒ‚‚Ìí—Ş
+	// æ”»æ’ƒã®ç¨®é¡
 	enum class AttackKind{
-		kNone = -1,		// –³‚µ
-		kAttackSord = 0,// Œ•UŒ‚
-		kAttackBow = 1	// ‹|UŒ‚
+		kNone = -1,		// ç„¡ã—
+		kAttackSord = 0,// å‰£æ”»æ’ƒ
+		kAttackBow = 1	// å¼“æ”»æ’ƒ
 	};
 
-	// ƒAƒjƒ[ƒVƒ‡ƒ“î•ñ
+	// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±
 	struct AnimationData{
-		int8_t kIdle = 1;		//‘Ò‹@ƒ‚[ƒVƒ‡ƒ“
-		int8_t kWalk = 3;		//•à‚«ƒ‚[ƒVƒ‡ƒ“
-		int8_t kJump = 12;		//ƒWƒƒƒ“ƒvƒ‚[ƒVƒ‡ƒ“
-		int8_t kAttack1 = 30;	//UŒ‚ƒ‚[ƒVƒ‡ƒ“1
-		int8_t kAttack2 = 31;	//UŒ‚ƒ‚[ƒVƒ‡ƒ“2
-		int8_t kAttack3 = 32;	//UŒ‚ƒ‚[ƒVƒ‡ƒ“3
-		int8_t kAttack4 = 33;	//UŒ‚ƒ‚[ƒVƒ‡ƒ“4
-		int8_t kAttackBow = 54;	//UŒ‚ƒ‚[ƒVƒ‡ƒ“(e)
+		int8_t kIdle = 1;		//å¾…æ©Ÿãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³
+		int8_t kWalk = 3;		//æ­©ããƒ¢ãƒ¼ã‚·ãƒ§ãƒ³
+		int8_t kJump = 12;		//ã‚¸ãƒ£ãƒ³ãƒ—æ™‚ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³
+		int8_t kAttack1 = 30;	//æ”»æ’ƒãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³1
+		int8_t kAttack2 = 31;	//æ”»æ’ƒãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³2
+		int8_t kAttack3 = 32;	//æ”»æ’ƒãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³3
+		int8_t kAttack4 = 33;	//æ”»æ’ƒãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³4
+		int8_t kAttackBow = 54;	//æ”»æ’ƒãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³(éŠƒ)
 	};
 
 	struct MapPlace{
-		VECTOR leftBack;		// ƒ}ƒbƒv¶‰œÀ•W
-		VECTOR rightFront;		// ƒ}ƒbƒv‰E‘OÀ•W
+		VECTOR leftBack;		// ãƒãƒƒãƒ—å·¦å¥¥åº§æ¨™
+		VECTOR rightFront;		// ãƒãƒƒãƒ—å³å‰åº§æ¨™
 	}mp;
 
 private:
-	int m_hp;						// ƒvƒŒƒCƒ„[HP
-	int m_addDamage;				// ƒvƒŒƒCƒ„[‚ª“G‚É—^‚¦‚éƒ_ƒ[ƒW—Ê
-	int m_multiAttack;				// ˜A‘±UŒ‚—p•Ï”
-	std::array<int, 5> m_uiGraph{};	// UI—p‰æ‘œ
+	int m_hp;						// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼HP
+	int m_addDamage;				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ•µã«ä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸é‡
+	int m_multiAttack;				// é€£ç¶šæ”»æ’ƒç”¨å¤‰æ•°
+	std::array<int, 6> m_uiGraph{};	// UIç”¨ç”»åƒ
 
-	float m_angle;					// ƒvƒŒƒCƒ„[Œü‚«Šp“x
-	float m_jumpPower;				// ‚x²•ûŒü‚Ì‘¬“x
-	float m_gravity;				// ƒvƒŒƒCƒ„[‚É‚©‚©‚éd—Í
+	float m_angle;					// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å‘ãè§’åº¦
+	float m_jumpPower;				// ï¼¹è»¸æ–¹å‘ã®é€Ÿåº¦
+	float m_gravity;				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‹ã‹ã‚‹é‡åŠ›
+	float m_colRadius;				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å½“ãŸã‚Šåˆ¤å®šåŠå¾„
 
-	bool m_isWalk;					// ˆÚ“®’†ƒtƒ‰ƒO
-	bool m_isJump;					// ƒWƒƒƒ“ƒv’†ƒtƒ‰ƒO
-	bool m_isDeath;					// €–S‚µ‚½‚©ƒtƒ‰ƒO
-	bool m_isAttack;				// UŒ‚’†ƒtƒ‰ƒO
-	bool m_isFirstAttack;			// Å‰‚ÌUŒ‚‚©ƒtƒ‰ƒO
-	bool m_isNextAttackFlag;		// Ÿ‚ÌUŒ‚‚ªÀs‚³‚ê‚é‚©‚Ìƒtƒ‰ƒO
-	bool m_isSordAttackDamage;		// Œ•UŒ‚‚ğó‚¯‚ÄHP‚ª•Ï“®‚·‚é‚©‚Ìƒtƒ‰ƒO
-	bool m_isBowAttackDamage;		// Œ•UŒ‚‚ğó‚¯‚ÄHP‚ª•Ï“®‚·‚é‚©‚Ìƒtƒ‰ƒO
-	bool m_isSordAttackToRightEnemy;// Œ•‚Å‰E‚Ì“G‚ğUŒ‚‚µ‚Ä‚¢‚éƒtƒ‰ƒO
-	bool m_isSordAttackToLeftEnemy;	// Œ•‚Å¶‚Ì“G‚ğUŒ‚‚µ‚Ä‚¢‚éƒtƒ‰ƒO
-	bool m_isBowAttackToLeftEnemy;	// ‹|‚Å¶‚Ì“G‚ğUŒ‚‚µ‚Ä‚¢‚éƒtƒ‰ƒO
-	bool m_isCol;					// “G‚Æ‚ÌUŒ‚“–‚½‚è”»’èƒtƒ‰ƒO
-	bool m_isBodyCol;				// “G‚Ì‘Ì‚ÆƒvƒŒƒCƒ„[‚Ì‘Ì‚Æ‚Ì“–‚½‚è”»’è
+	bool m_isWalk;					// ç§»å‹•ä¸­ãƒ•ãƒ©ã‚°
+	bool m_isJump;					// ã‚¸ãƒ£ãƒ³ãƒ—ä¸­ãƒ•ãƒ©ã‚°
+	bool m_isDeath;					// æ­»äº¡ã—ãŸã‹ãƒ•ãƒ©ã‚°
+	bool m_isAttack;				// æ”»æ’ƒä¸­ãƒ•ãƒ©ã‚°
+	bool m_isFirstAttack;			// æœ€åˆã®æ”»æ’ƒã‹ãƒ•ãƒ©ã‚°
+	bool m_isNextAttackFlag;		// æ¬¡ã®æ”»æ’ƒãŒå®Ÿè¡Œã•ã‚Œã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
+	bool m_isSordAttackDamage;		// å‰£æ”»æ’ƒã‚’å—ã‘ã¦HPãŒå¤‰å‹•ã™ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
+	bool m_isBowAttackDamage;		// å‰£æ”»æ’ƒã‚’å—ã‘ã¦HPãŒå¤‰å‹•ã™ã‚‹ã‹ã®ãƒ•ãƒ©ã‚°
+	bool m_isSordAttackToRightEnemy;// å‰£ã§å³ã®æ•µã‚’æ”»æ’ƒã—ã¦ã„ã‚‹ãƒ•ãƒ©ã‚°
+	bool m_isSordAttackToLeftEnemy;	// å‰£ã§å·¦ã®æ•µã‚’æ”»æ’ƒã—ã¦ã„ã‚‹ãƒ•ãƒ©ã‚°
+	bool m_isBowAttackToLeftEnemy;	// å¼“ã§å·¦ã®æ•µã‚’æ”»æ’ƒã—ã¦ã„ã‚‹ãƒ•ãƒ©ã‚°
+	bool m_isCol;					// æ•µã¨ã®æ”»æ’ƒå½“ãŸã‚Šåˆ¤å®šãƒ•ãƒ©ã‚°
+	bool m_isBodyCol;				// æ•µã®ä½“ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä½“ã¨ã®å½“ãŸã‚Šåˆ¤å®š
 
-	VECTOR m_pos;			// À•W
-	VECTOR m_move;			// ˆÚ“®—Ê
-	VECTOR m_targetDir;		// ƒvƒŒƒCƒ„[‚ªŒü‚­‚×‚«•ûŒü‚ÌƒxƒNƒgƒ‹
-	VECTOR m_vecToEnemy;	// ƒvƒŒƒCƒ„[–˜‚Ì‹——£
-	VECTOR m_UpPos;			// ƒJƒvƒZƒ‹ãÀ•W
-	VECTOR m_attackRange;	// UŒ‚”ÍˆÍ
+	VECTOR m_pos;			// åº§æ¨™
+	VECTOR m_move;			// ç§»å‹•é‡
+	VECTOR m_targetDir;		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå‘ãã¹ãæ–¹å‘ã®ãƒ™ã‚¯ãƒˆãƒ«
+	VECTOR m_vecToEnemy;	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¿„ã®è·é›¢
+	VECTOR m_UpPos;			// ã‚«ãƒ—ã‚»ãƒ«ä¸Šåº§æ¨™
+	VECTOR m_attackRange;	// æ”»æ’ƒç¯„å›²
 
-	// ƒvƒŒƒCƒ„[ƒAƒjƒ[ƒVƒ‡ƒ“ƒf[ƒ^
+	VECTOR m_RightEnemyPos;
+	VECTOR m_LeftEnemyPos;
+
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿
 	AnimationData m_animData;
-	// UŒ‚í—Şƒf[ƒ^
+	// æ”»æ’ƒç¨®é¡ãƒ‡ãƒ¼ã‚¿
 	AttackKind m_attackKind;
-	// “–‚½‚è”»’è
+	// å½“ãŸã‚Šåˆ¤å®š
 	Collision m_colSphere;
 
-	// ƒvƒŒƒCƒ„[ƒXƒeƒCƒg
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¹ãƒ†ã‚¤ãƒˆ
 	std::shared_ptr<PlayerState> m_pState;
-	// ƒGƒtƒFƒNƒg
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	std::shared_ptr<Effect> m_pEffect;
-	//ƒ‚ƒfƒ‹ƒNƒ‰ƒX
+	//ãƒ¢ãƒ‡ãƒ«ã‚¯ãƒ©ã‚¹
 	std::shared_ptr<Model> m_pModel;
-	// ƒTƒEƒ“ƒhƒ}ƒl[ƒWƒƒ[ƒNƒ‰ƒX
+	// ã‚µã‚¦ãƒ³ãƒ‰ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã‚¯ãƒ©ã‚¹
 	SoundManager* m_pSound;
 };
