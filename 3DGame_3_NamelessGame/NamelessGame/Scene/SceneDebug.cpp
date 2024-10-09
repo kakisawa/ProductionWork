@@ -5,7 +5,6 @@
 #include "SceneGame.h"
 #include "SceneGameClear.h"
 #include "SceneGameOver.h"
-#include "../Pad.h"
 
 namespace {
 	constexpr int kSelectBasePosX = 300;				// シーン表示X座標
@@ -16,6 +15,7 @@ namespace {
 	constexpr int kSelectBoxY = kSelectBasePosY - 2;	// 選択中シーン表示BoxX座標
 	constexpr int kSelectWidth = 150;					// 選択中シーン表示Boxの幅
 
+	constexpr float ks = kSelectBoxY + kSelectMoveY * 6;
 }
 
 SceneDebug::SceneDebug() :
@@ -31,7 +31,9 @@ void SceneDebug::Init()
 
 std::shared_ptr<SceneBase> SceneDebug::Update()
 {
-	if (Pad::IsTrigger(PAD_INPUT_R)) {			// STARTボタン
+	input.Update();
+
+	if(input.IsTrigger(InputInfo::DebugStart)){				// STARTボタン
 		if (m_nextScene == nextScene::kTitleScene)
 		{
 			return std::make_shared<SceneTitle>();	// ゲームシーンへ行く
@@ -74,9 +76,12 @@ void SceneDebug::Draw()
 	DrawString(0, 0, "SceneDebug", 0xffffff);
 
 	// 選択中のシーンを表示するBox
-	DrawBox(m_selectBox.selectPos.x, m_selectBox.selectPos.y,
-		m_selectBox.selectPos.x+kSelectWidth, m_selectBox.selectPos.y+kSelectMoveY,
+	DrawBoxAA(m_selectBox.selectPos.x, m_selectBox.selectPos.y,
+		m_selectBox.selectPos.x + kSelectWidth, m_selectBox.selectPos.y + kSelectMoveY,
 		0xff00ff,false);
+
+	DrawFormatString(0, 500, 0xffffff, "m_selectBox.selectPos.y=%.2f", m_selectBox.selectPos.y);
+	DrawFormatString(0, 520, 0xffffff, "ks=%.2f", ks);
 
 	// 各シーン
 	DrawString(kSelectBasePosX, kSelectBasePosY, "SceneTitle", 0xffffff);
@@ -91,11 +96,11 @@ void SceneDebug::Draw()
 void SceneDebug::SwitchingScene()
 {
 	// 下キーを押すと次のシーンの変更をする
-	if (Pad::IsTrigger(PAD_INPUT_DOWN))
+	if (input.IsTrigger(InputInfo::Down))
 	{
 		// 選択中のシーンを表示するBoxの座標移動
 		m_selectBox.selectPos = VAdd(m_selectBox.selectPos, VGet(0.0f, kSelectMoveY, 0.0f));
-		if (m_selectBox.selectPos.y > kSelectBoxY+kSelectMoveY * 6) {
+		if (m_selectBox.selectPos.y > kSelectBasePosY + kSelectMoveY * 6) {
 			m_selectBox.selectPos.y = kSelectBoxY;
 		}
 
@@ -130,7 +135,7 @@ void SceneDebug::SwitchingScene()
 	}
 
 	// 上キーを押すと次のシーンの変更をする
-	if (Pad::IsTrigger(PAD_INPUT_UP))
+	if (input.IsTrigger(InputInfo::Up))
 	{
 		// 選択中のシーンを表示するBoxの座標移動
 		m_selectBox.selectPos = VAdd(m_selectBox.selectPos, VGet(0.0f, -kSelectMoveY, 0.0f));

@@ -5,7 +5,7 @@ class ModelBase
 {
 public:
 	ModelBase();
-	~ModelBase();
+	virtual ~ModelBase();
 
 	virtual void Init();
 	virtual void Update();

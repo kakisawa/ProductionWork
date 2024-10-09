@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "SceneBase.h"
+
 class SceneDebug :
     public SceneBase
 {
@@ -24,7 +25,6 @@ private:
 
 	enum class nextScene
 	{
-		kNone,
 		kTitleScene,
 		kOptionScene,
 		kRankingScene,

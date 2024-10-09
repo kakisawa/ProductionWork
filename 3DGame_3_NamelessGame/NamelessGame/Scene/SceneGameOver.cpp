@@ -19,7 +19,7 @@ std::shared_ptr<SceneBase> SceneGameOver::Update()
 
 
 #ifdef _DEBUG
-	if (Pad::IsTrigger(PAD_INPUT_R)) {			// STARTボタン
+	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン
 
 		return std::make_shared<SceneDebug>();	// ゲームシーンへ行く
 	}

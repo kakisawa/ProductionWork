@@ -4,6 +4,7 @@
 #include "../LoadCsv.h"
 #include <cmath>
 #include <cassert>
+#include "../Input.h"
 
 namespace {
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値

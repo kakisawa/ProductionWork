@@ -4,6 +4,7 @@
 #include <string>
 
 class Camera;
+class Input;
 class Player :public ModelBase
 {
 	struct Situation {
@@ -41,14 +42,16 @@ class Player :public ModelBase
 	{
 		int Idle = 7;
 		int Run = 5;
-		int Gun;
-		int Knife;
-		int Installation;
-		int Drink;
-		int Reload;
-		int Hit;
-		int Roll;
-		int Death;
+
+		// ここから下未定
+		int Gun = 5;
+		int Knife = 5;
+		int Installation = 5;
+		int Drink = 5;
+		int Reload = 5;
+		int Hit = 5;
+		int Roll = 5;
+		int Death = 5;
 	}m_animChangeTime;
 
 public:
@@ -60,7 +63,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~Player();
+	virtual ~Player();
 
 	/// <summary>
 	/// 初期化

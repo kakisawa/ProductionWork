@@ -9,7 +9,7 @@ class Item
 {
 public:
 	Item();
-	~Item();
+	virtual ~Item();
 
 	void Init();
 	void Update();

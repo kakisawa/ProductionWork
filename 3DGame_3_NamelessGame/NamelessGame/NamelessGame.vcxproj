@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Object\Item.cpp" />
     <ClCompile Include="Object\Enemy.cpp" />
     <ClCompile Include="LoadCsv.cpp" />
@@ -154,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Object\Item.h" />
     <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="LoadCsv.h" />

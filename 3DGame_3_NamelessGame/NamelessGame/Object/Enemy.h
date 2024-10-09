@@ -43,7 +43,7 @@ class Enemy :
 
 public:
     Enemy();
-    ~Enemy();
+	virtual ~Enemy();
 
     void Init() override;
     void Update() override;

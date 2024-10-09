@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "DxLib.h"
-#include "../Pad.h"
+#include "../Input.h"
 #include <memory>
 
 class SceneBase:
@@ -16,4 +16,6 @@ public:
 	virtual void End(){}
 
 protected:
+
+	Input input;
 };
