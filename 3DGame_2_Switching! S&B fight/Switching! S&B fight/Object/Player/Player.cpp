@@ -176,8 +176,6 @@ void Player::Update(const Camera& camera, const EnemyRight& enemyR, const EnemyL
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
 	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
 
-	
-
 	m_RightEnemyPos = ConvWorldPosToScreenPos(enemyR.GetPos());
 	m_LeftEnemyPos = ConvWorldPosToScreenPos(enemyL.GetPos());
 

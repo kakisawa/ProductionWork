@@ -20,7 +20,7 @@ public:
 	void Draw()override;
 	void End()override;
 
-	void Move();
+	void Move(const Player& player);
 
 	void UIDraw();
 
@@ -51,14 +51,12 @@ private:
 
 private:
 	int m_sordModel;
+	float m_angle;
 	bool m_isWalk;
 	bool m_isEffect;
-	bool m_isSurvival;
-
-	float m_angle;
+	bool m_isMoveFlag;		// プレイヤーへの移動
 
 	std::array<int, 4> m_uiGraph{};	// UI用画像
-
 
 	struct MapPlace
 	{

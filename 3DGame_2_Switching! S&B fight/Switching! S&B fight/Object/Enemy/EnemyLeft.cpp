@@ -49,17 +49,18 @@ namespace {
 	const VECTOR kUpPos = VGet(0.0f, 20.0f, 0.0f);
 	const VECTOR kAttackRange = VGet(0.0f, 0.0f, 0.0f);
 	constexpr float kColRadius = 5.0;
+	constexpr float kColMoveRadius = kColRadius+3.0f;	
 	constexpr float kAttackColRadius = 0.0;
 
 	constexpr float kSpeed = 0.1f;
 }
 
-EnemyLeft::EnemyLeft():
-	EnemyBase(kModelEnemy,kInitPos),
+EnemyLeft::EnemyLeft() :
+	EnemyBase(kModelEnemy, kInitPos),
 	m_sordModel(-1),
 	m_isWalk(false),
 	m_isEffect(false),
-	m_isSurvival(true),
+	m_isMoveFlag(false),
 	m_angle(0.0f),
 	m_upPos(kInitVec),
 	m_vecToPlayer(kInitVec),
@@ -129,7 +130,7 @@ void EnemyLeft::Update(const Player& player)
 			}
 		}
 
-		Move();
+		Move(player);
 
 		SetModelFramePosition(m_pModel->GetModel(), kParts, m_sordModel);
 
@@ -172,7 +173,8 @@ void EnemyLeft::Draw()
 		DrawFormatString(0, 600, 0xffffff, "m_hp=%d", m_hp);
 		m_colSphere.DrawMain(0x00ff00, false);	// 当たり判定描画
 	}
-
+	
+	DrawFormatString(0, 660, 0xffffff, "m_isMoveFlag=%d", m_isMoveFlag);
 	DrawFormatString(0, 680, 0xffffff, "m_vecToPlayer.x=%.2f.y=%.2f.z=%.2f", m_vecToPlayer.x,m_vecToPlayer.y,m_vecToPlayer.z);
 #endif
 }
@@ -191,7 +193,7 @@ void EnemyLeft::End()
 	m_pSound = nullptr;
 }
 
-void EnemyLeft::Move()
+void EnemyLeft::Move(const Player& player)
 {
 	//敵が画面外に出ないようする処理
 	if (m_pos.x < mp.leftBack.x)
@@ -211,8 +213,12 @@ void EnemyLeft::Move()
 		m_pos.z -= m_move.z;		// 奥
 	}
 
-	m_vecToPlayer = VSub(m_pos, m_targetPos);
+	// プレイヤーの当たり判定カプセルと敵の当たり判定カプセル
+	m_isMoveFlag = HitCheck_Capsule_Capsule(player.GetPos(), player.GetPos(),
+		player.GetColRadius(),
+		m_pos, m_pos, kColMoveRadius);
 
+	m_vecToPlayer = VSub(m_pos, m_targetPos);
 
 	// ベクトルの正規化
 	m_distance = VNorm(m_vecToPlayer);
@@ -220,7 +226,10 @@ void EnemyLeft::Move()
 	m_move.x = m_distance.x * -kSpeed;
 	m_move.z = m_distance.z * -kSpeed;
 
-	m_pos = VAdd(m_pos, m_move);
+	if (!m_isMoveFlag)
+	{
+		m_pos = VAdd(m_pos, m_move);
+	}
 
 	// atan2 を使用して角度を取得						// 方向用
 	m_angle = atan2(m_vecToPlayer.x, m_vecToPlayer.z);
