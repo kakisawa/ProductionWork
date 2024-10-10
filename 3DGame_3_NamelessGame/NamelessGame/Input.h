@@ -20,7 +20,12 @@ enum class InputInfo {
 	Right,		// 右
 	Left,		// 左
 	DebugStart,	// デバッグ用シーン遷移ボタン
-	MAX,		// 最大入力数
+
+	// プレイヤー操作用
+	UseItem,		// アイテム使用
+	UseItemChange,	// アイテム切り替え
+
+	MAX,			// 最大入力数
 };
 
 class Input

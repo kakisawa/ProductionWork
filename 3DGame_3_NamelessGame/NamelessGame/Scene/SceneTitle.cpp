@@ -1,4 +1,5 @@
 ﻿#include "SceneTitle.h"
+#include "SceneSelect.h"
 #include "SceneDebug.h"
 
 SceneTitle::SceneTitle()
@@ -13,12 +14,18 @@ void SceneTitle::Init()
 {
 }
 
-std::shared_ptr<SceneBase> SceneTitle::Update()
+std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
+	if (input.IsTrigger(InputInfo::OK)) {			// STARTボタン
+
+		return std::make_shared<SceneSelect>();	// ゲームセレクトシーンへ行く
+	}
+
+
 #ifdef _DEBUG
 	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン
 
-		return std::make_shared<SceneDebug>();	// ゲームシーンへ行く
+		return std::make_shared<SceneDebug>();	// デバッグシーンへ行く
 	}
 #endif // DEBUG
 

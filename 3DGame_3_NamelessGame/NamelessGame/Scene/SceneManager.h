@@ -8,7 +8,7 @@ public:
 	virtual ~SceneManager() {}
 
 	void Init();
-	void Update();
+	void Update(Input& input);
 	void Draw();
 	void End();
 

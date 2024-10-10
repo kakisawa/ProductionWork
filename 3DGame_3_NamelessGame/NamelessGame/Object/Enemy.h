@@ -9,6 +9,7 @@ class Enemy :
 
 	struct PlayerStatus {
 		int animNo;				// アニメーション番号
+		float animSpeed;		// アニメーション再生スピード
 		Situation situation;	// 状態
 		bool isLoop;			// ループ再生
 	}m_status;
@@ -40,6 +41,19 @@ class Enemy :
 		int Death;
 	}m_animChangeTime;
 
+	struct AnimSpeed {
+		float Default = 0.5f;
+		float Idle = 0.5f;
+		float Walk;
+		float Run;
+		float Provocation;
+		float Attack1;
+		float Attack2;
+		float Hit;
+		float BlownAway;
+		float Death;
+	}m_animSpeed;
+
 
 public:
     Enemy();
@@ -53,9 +67,10 @@ public:
 	/// アニメーションの変更
 	/// </summary>
 	/// <param name="anim">選択するアニメーション</param>
+	/// /// <param name="animSpeed">アニメーションの再生速度</param>
 	/// <param name="isAnimLoop">ループさせるか</param>
 	/// <param name="changeTime">切り替えにかかる時間</param>
-	void ChangeAnimNo(const EnemyAnim anim, const bool isAnimLoop, const int changeTime);
+	void ChangeAnimNo(const EnemyAnim anim, const float animSpeed, const bool isAnimLoop, const int changeTime);
 
 	/// <summary>
 	/// アニメーションを待機状態に変更する

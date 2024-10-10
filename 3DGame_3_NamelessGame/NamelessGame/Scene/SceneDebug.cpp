@@ -1,5 +1,6 @@
 ﻿#include "SceneDebug.h"
 #include "SceneTitle.h"
+#include "SceneSelect.h"
 #include "SceneOption.h"
 #include "SceneRanking.h"
 #include "SceneGame.h"
@@ -15,7 +16,7 @@ namespace {
 	constexpr int kSelectBoxY = kSelectBasePosY - 2;	// 選択中シーン表示BoxX座標
 	constexpr int kSelectWidth = 150;					// 選択中シーン表示Boxの幅
 
-	constexpr float ks = kSelectBoxY + kSelectMoveY * 6;
+	constexpr float ks = kSelectBoxY + kSelectMoveY * 7;
 }
 
 SceneDebug::SceneDebug() :
@@ -26,17 +27,19 @@ SceneDebug::SceneDebug() :
 void SceneDebug::Init()
 {
 	// 選択中のシーンを表示するBoxの初期位置
-	m_selectBox.selectPos = VGet(kSelectBoxX, kSelectBasePosY + kSelectMoveY * 3, 0.0f);
+	m_selectBox.selectPos = VGet(kSelectBoxX, kSelectBasePosY + kSelectMoveY * 4, 0.0f);
 }
 
-std::shared_ptr<SceneBase> SceneDebug::Update()
+std::shared_ptr<SceneBase> SceneDebug::Update(Input &input)
 {
-	input.Update();
-
 	if(input.IsTrigger(InputInfo::DebugStart)){				// STARTボタン
 		if (m_nextScene == nextScene::kTitleScene)
 		{
-			return std::make_shared<SceneTitle>();	// ゲームシーンへ行く
+			return std::make_shared<SceneTitle>();	// タイトルシーンへ行く
+		}
+		if (m_nextScene == nextScene::kSelectScene)
+		{
+			return std::make_shared<SceneSelect>();	// セレクトシーンへ行く
 		}
 		if (m_nextScene == nextScene::kOptionScene)
 		{
@@ -64,7 +67,7 @@ std::shared_ptr<SceneBase> SceneDebug::Update()
 		}
 	}
 
-	SwitchingScene();
+	SwitchingScene(input);
 
 
 	return shared_from_this();
@@ -85,26 +88,31 @@ void SceneDebug::Draw()
 
 	// 各シーン
 	DrawString(kSelectBasePosX, kSelectBasePosY, "SceneTitle", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY, "SceneOption", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 2, "SceneRanking", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 3, "SceneGame", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 4, "SceneGameClear", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 5, "SceneGameOver", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 6, "GameEnd", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY, "SceneSelect", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY*2, "SceneOption", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 3, "SceneRanking", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 4, "SceneGame", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 5, "SceneGameClear", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 6, "SceneGameOver", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 7, "GameEnd", 0xffffff);
 }
 
-void SceneDebug::SwitchingScene()
+void SceneDebug::SwitchingScene(Input& input)
 {
 	// 下キーを押すと次のシーンの変更をする
 	if (input.IsTrigger(InputInfo::Down))
 	{
 		// 選択中のシーンを表示するBoxの座標移動
 		m_selectBox.selectPos = VAdd(m_selectBox.selectPos, VGet(0.0f, kSelectMoveY, 0.0f));
-		if (m_selectBox.selectPos.y > kSelectBasePosY + kSelectMoveY * 6) {
+		if (m_selectBox.selectPos.y > kSelectBasePosY + kSelectMoveY * 7) {
 			m_selectBox.selectPos.y = kSelectBoxY;
 		}
 
 		if (m_nextScene == nextScene::kTitleScene)
+		{
+			m_nextScene = nextScene::kSelectScene;
+		}
+		else if (m_nextScene == nextScene::kSelectScene)
 		{
 			m_nextScene = nextScene::kOptionScene;
 		}
@@ -140,7 +148,7 @@ void SceneDebug::SwitchingScene()
 		// 選択中のシーンを表示するBoxの座標移動
 		m_selectBox.selectPos = VAdd(m_selectBox.selectPos, VGet(0.0f, -kSelectMoveY, 0.0f));
 		if (m_selectBox.selectPos.y < kSelectBoxY) {
-			m_selectBox.selectPos.y = kSelectBoxY + kSelectMoveY * 6;
+			m_selectBox.selectPos.y = kSelectBoxY + kSelectMoveY * 7;
 		}
 
 		if (m_nextScene == nextScene::kTitleScene)
@@ -168,6 +176,10 @@ void SceneDebug::SwitchingScene()
 			m_nextScene = nextScene::kOptionScene;
 		}
 		else if (m_nextScene == nextScene::kOptionScene)
+		{
+			m_nextScene = nextScene::kSelectScene;
+		}
+		else if (m_nextScene == nextScene::kSelectScene)
 		{
 			m_nextScene = nextScene::kTitleScene;
 		}

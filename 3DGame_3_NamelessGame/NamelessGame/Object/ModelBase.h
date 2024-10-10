@@ -4,14 +4,34 @@
 class ModelBase
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	ModelBase();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	virtual ~ModelBase();
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	virtual void Init();
+
+	/// <summary>
+	/// 更新
+	/// </summary>
 	virtual void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
 	virtual void Draw();
 
-	// プレイヤーデータ
+	/// <summary>
+	/// プレイヤーデータ
+	/// </summary>
 	struct CharaData
 	{
 		int maxHp;		// 最大HP
@@ -24,24 +44,24 @@ public:
 
 	}m_chara;
 
-	// アニメーション関係
-
 	/// <summary>
 	/// アニメーションを変更させる
 	/// </summary>
 	/// <param name="animNo">アニメーション番号</param>
+	/// <param name="animSpeed">アニメーションの再生速度</param>
 	/// <param name="isLoop">ループ再生させるか</param>
 	/// <param name="isForceChange">既に指定されたアニメーションが再生されている場合も変更するか</param>
 	/// <param name="changeFrame">何フレームかけて変化させるのか</param>
-	void ChangeAnimation(const int animNo, const bool isLoop, const bool isForceChange, const int changeFrame);
+	void ChangeAnimation(const int animNo, const float animSpeed, const bool isLoop, const bool isForceChange, const int changeFrame);
 
 	/// <summary>
 	/// アニメーションを設定する
 	/// </summary>
 	/// <param name="animNo">アニメーション番号</param>
+	/// <param name="animSpeed">アニメーションの再生速度</param>
 	/// <param name="isLoop">ループ再生させるか</param>
 	/// <param name="isForceChange">既に指定されたアニメーションが再生されている場合も変更するか</param>
-	void SetAnimation(const int animNo,const bool isLoop,const bool isForceChange);
+	void SetAnimation(const int animNo, const float animSpeed, const bool isLoop, const bool isForceChange);
 
 	/// <summary>
 	/// アニメーションが終了しているかどうか
@@ -50,31 +70,35 @@ public:
 	bool IsAnimEnd();
 
 protected:
-	int m_model;				// モデル
+	int m_model;			// モデル
 	float m_angle;			// プレイヤー向き角度
 
 	VECTOR m_pos;			// 座標
 	VECTOR m_move;			// 移動量
 	VECTOR m_targetDir;		// プレイヤーが向くべき方向のベクトル
 
-	/*アニメーション関係*/
-	int m_animChangeFrame;			// 現在の切り替えフレーム数
-	int m_animChangeFrameTotal;		// 切り替えにかける総フレーム数
+	// アニメーション関係
 
-	// アニメーション情報
+	int m_animChangeFrame;		// 現在の切り替えフレーム数
+	int m_animChangeFrameTotal;	// 切り替えにかける総フレーム数
+
+	/// <summary>
+	/// アニメーション情報
+	/// </summary>
 	struct AnimData {
 		int animNo;		// アニメーション番号
 		int attachNo;	// アタッチ番号
+		float animSpeed;// アニメーションの再生速度
 		float totalTime;// 総再生時間
 		float isLoop;	// ループさせるか
 	};
 
 	// アニメーションのアタッチ番号
-	AnimData m_animPrev;	// 変更前アニメーション情報
-	AnimData m_animNext;	// 変更後アニメーションデータ
+	AnimData m_animPrev;	// 前のアニメーション情報
+	AnimData m_animNext;	// 新しいアニメーション情報
 
 	/// <summary>
-	/// アニメーションデータの初期化
+	/// アニメーション情報の初期化
 	/// </summary>
 	/// <param name="anim">アニメーション情報</param>
 	void InitAnim(AnimData& anim);
@@ -84,11 +108,10 @@ protected:
 	/// </summary>
 	/// <param name="anim">アニメーション情報</param>
 	/// <param name="dt"></param>
-	void UpdateAnim(const AnimData& anim, const float dt = 0.5f);
-
+	void UpdateAnim(const AnimData& anim);
+	
 	/// <summary>
 	/// アニメーションのブレンド率の設定
 	/// </summary>
-	void UpdateAnimBlendRate();	
-
+	void UpdateAnimBlendRate();
 };

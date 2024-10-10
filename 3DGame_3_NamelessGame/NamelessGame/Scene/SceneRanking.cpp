@@ -1,4 +1,5 @@
 ﻿#include "SceneRanking.h"
+#include "SceneSelect.h"
 #include "SceneDebug.h"
 
 SceneRanking::SceneRanking()
@@ -13,9 +14,12 @@ void SceneRanking::Init()
 {
 }
 
-std::shared_ptr<SceneBase> SceneRanking::Update()
+std::shared_ptr<SceneBase> SceneRanking::Update(Input& input)
 {
+	if (input.IsTrigger(InputInfo::OK)) {			// STARTボタン
 
+		return std::make_shared<SceneSelect>();	// ゲームシーンへ行く
+	}
 
 #ifdef _DEBUG
 	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン

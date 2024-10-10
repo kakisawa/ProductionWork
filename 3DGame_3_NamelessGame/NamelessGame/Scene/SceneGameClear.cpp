@@ -13,7 +13,7 @@ void SceneGameClear::Init()
 {
 }
 
-std::shared_ptr<SceneBase> SceneGameClear::Update()
+std::shared_ptr<SceneBase> SceneGameClear::Update(Input& input)
 {
 	
 

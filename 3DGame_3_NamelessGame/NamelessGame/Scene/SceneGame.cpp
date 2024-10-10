@@ -25,10 +25,9 @@ void SceneGame::Init()
 	MV1SetPosition(model,VGet(0.0f, 0.0f, 0.0f));
 }
 
-std::shared_ptr<SceneBase> SceneGame::Update()
+std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 {
-	
-	m_pPlayer->Update(*m_pCamera);
+	m_pPlayer->Update(*m_pCamera,input);
 	m_pEnemy->Update();
 	m_pCamera->Update(*m_pPlayer);
 

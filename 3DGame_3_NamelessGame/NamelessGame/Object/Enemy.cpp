@@ -33,7 +33,7 @@ void Enemy::Init()
 	ModelBase::Init();
 
 	// アニメーションの設定
-	SetAnimation(static_cast<int>(EnemyAnim::Idle), true, false);
+	SetAnimation(static_cast<int>(EnemyAnim::Idle), m_animSpeed.Idle,true, false);
 }
 
 void Enemy::Update()
@@ -46,17 +46,18 @@ void Enemy::Draw()
 	ModelBase::Draw();
 }
 
-void Enemy::ChangeAnimNo(const EnemyAnim anim, const bool isAnimLoop, const int changeTime)
+void Enemy::ChangeAnimNo(const EnemyAnim anim, const float animSpeed,const bool isAnimLoop, const int changeTime)
 {
 	m_status.animNo = static_cast<int>(anim);
+	m_status.animSpeed = animSpeed;
 	m_status.isLoop = isAnimLoop;
-	ChangeAnimation(m_status.animNo, m_status.isLoop, false, changeTime);
+	ChangeAnimation(m_status.animNo, m_status.isLoop,m_animSpeed.Default, false, changeTime);
 }
 
 void Enemy::ChangeAnimIdle()
 {	
 	// 待機アニメーションに変更する
 	if (!m_status.situation.isMoving) {
-		ChangeAnimNo(EnemyAnim::Idle, true, m_animChangeTime.Run);
+		ChangeAnimNo(EnemyAnim::Idle, m_animSpeed.Idle,true, m_animChangeTime.Idle);
 	}
 }

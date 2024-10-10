@@ -27,6 +27,14 @@ Input::Input()
 
 	m_commandTable[InputInfo::DebugStart] = { {InputType::key,KEY_INPUT_R},
 											  {InputType::pad,PAD_INPUT_R} };
+
+	// プレイヤー操作関係
+	m_commandTable[InputInfo::UseItem] = { {InputType::key,KEY_INPUT_SPACE},
+												{InputType::pad,PAD_INPUT_X} };
+
+	m_commandTable[InputInfo::UseItemChange] = { {InputType::key,KEY_INPUT_Z},
+												{InputType::pad,PAD_INPUT_C} };
+
 }
 
 void Input::Update()

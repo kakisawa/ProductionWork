@@ -1,7 +1,7 @@
 ﻿#include "SceneManager.h"
 #include "SceneDebug.h"
 #include "SceneTitle.h"
-#include "../Pad.h"
+#include "../Input.h"
 #include "DxLib.h"
 
 SceneManager::SceneManager() :
@@ -23,11 +23,9 @@ void SceneManager::Init()
 	m_pScene->Init();					// シーンのInitを呼び出す
 }
 
-void SceneManager::Update()
+void SceneManager::Update(Input& input)
 {
-	Pad::Update();
-
-	std::shared_ptr<SceneBase> pNext = m_pScene->Update();	// シーンのUpdateを呼び出す
+	std::shared_ptr<SceneBase> pNext = m_pScene->Update(input);	// シーンのUpdateを呼び出す
 	if (pNext != m_pScene)
 	{
 		// 現在のシーンの終了処理

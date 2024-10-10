@@ -1,4 +1,5 @@
 ﻿#include "SceneOption.h"
+#include "SceneSelect.h"
 #include "SceneDebug.h"
 
 SceneOption::SceneOption()
@@ -13,9 +14,12 @@ void SceneOption::Init()
 {
 }
 
-std::shared_ptr<SceneBase> SceneOption::Update()
+std::shared_ptr<SceneBase> SceneOption::Update(Input& input)
 {
-	
+	if (input.IsTrigger(InputInfo::OK)) {			// STARTボタン
+
+		return std::make_shared<SceneSelect>();	// ゲームシーンへ行く
+	}
 
 #ifdef _DEBUG
 	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン

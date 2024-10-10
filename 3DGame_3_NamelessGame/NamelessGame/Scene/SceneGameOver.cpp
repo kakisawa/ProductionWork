@@ -13,7 +13,7 @@ void SceneGameOver::Init()
 {
 }
 
-std::shared_ptr<SceneBase> SceneGameOver::Update()
+std::shared_ptr<SceneBase> SceneGameOver::Update(Input& input)
 {
 	
 

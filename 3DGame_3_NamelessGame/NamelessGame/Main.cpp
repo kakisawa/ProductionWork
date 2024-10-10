@@ -1,5 +1,6 @@
 ﻿#include "DxLib.h"
 #include "Scene/SceneManager.h"
+#include "Input.h"
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -31,6 +32,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::shared_ptr<SceneManager> m_pScene = std::make_shared<SceneManager>();
 	m_pScene->Init();
 
+	Input input;
+
 	// ゲームループ
 	while (ProcessMessage() != -1)
 	{
@@ -40,8 +43,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		// 描画を行う前に画面をクリアする
 		ClearDrawScreen();
 
+		input.Update();
+
 		// ゲームの処理
-		m_pScene->Update();
+		m_pScene->Update(input);
 		m_pScene->Draw();
 		
 
