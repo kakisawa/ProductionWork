@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "SceneBase.h"
 #include "DxLib.h"
 #include <memory>
@@ -18,51 +18,52 @@ public:
 	virtual ~SceneGame();
 
 	/// <summary>
-	/// ‰Šú‰»ˆ—
+	/// åˆæœŸåŒ–å‡¦ç†
 	/// </summary>
 	virtual void Init();
 
 	/// <summary>
-	/// XVˆ—
+	/// æ›´æ–°å‡¦ç†
 	/// </summary>
 	virtual shared_ptr<SceneBase> Update();
 
 	/// <summary>
-	/// •`‰æˆ—
+	/// æç”»å‡¦ç†
 	/// </summary>
 	virtual void Draw();
 
 	/// <summary>
-	/// I—¹ˆ—
+	/// çµ‚äº†å‡¦ç†
 	/// </summary>
 	virtual void End();
 
 private:
-	int m_explanationGraph;	// ‘€ìà–¾‰æ‘œ
-	int m_waitCount;		// ƒQ[ƒ€ƒNƒŠƒAğŒ’B¬Œã‚Ì‘Ò‹@ŠÔ
+	int m_explanationGraph;	// æ“ä½œèª¬æ˜ç”»åƒ
+	int m_pauseGraph;	// ãƒãƒ¼ã‚ºè¡¨ç¤ºç”»åƒ
+	int m_waitCount;		// ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢æ¡ä»¶é”æˆå¾Œã®å¾…æ©Ÿæ™‚é–“
 
-	struct Size {			// ‘€ìà–¾‰æ‘œÀ•W
-		int m_width;		// ¶ã
-		int m_height;		// ¶‰º
-		int m_widthMax;		// ‰Eã
-		int m_heightMax;	// ‰E‰º
+	struct Size {			// æ“ä½œèª¬æ˜ç”»åƒåº§æ¨™
+		int m_width;		// å·¦ä¸Š
+		int m_height;		// å·¦ä¸‹
+		int m_widthMax;		// å³ä¸Š
+		int m_heightMax;	// å³ä¸‹
 	}size;
 
-	bool m_isGameClearFlag;			// ƒQ[ƒ€ƒNƒŠƒAƒtƒ‰ƒO
-	bool m_isExplanationSet;		// ‘€ìà–¾‰æ‘œ‚ÌˆÚ“®ŠJnƒtƒ‰ƒO
-	bool m_isExplanationFinishFlag;	// ‘€ìà–¾‰æ‘œ‚ÌˆÚ“®I—¹ƒtƒ‰ƒO
-	bool m_isExplanationView;		// ‘€ìà–¾‰æ‘œ‚Ì•\¦Ø‘Öƒtƒ‰ƒO
-	bool m_isPause;					// ƒ|[ƒYØ‚è‘Ö‚¦ƒtƒ‰ƒO
+	bool m_isGameClearFlag;			// ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ãƒ•ãƒ©ã‚°
+	bool m_isExplanationSet;		// æ“ä½œèª¬æ˜ç”»åƒã®ç§»å‹•é–‹å§‹ãƒ•ãƒ©ã‚°
+	bool m_isExplanationFinishFlag;	// æ“ä½œèª¬æ˜ç”»åƒã®ç§»å‹•çµ‚äº†ãƒ•ãƒ©ã‚°
+	bool m_isExplanationView;		// æ“ä½œèª¬æ˜ç”»åƒã®è¡¨ç¤ºåˆ‡æ›¿ãƒ•ãƒ©ã‚°
+	bool m_isPause;					// ãƒãƒ¼ã‚ºåˆ‡ã‚Šæ›¿ãˆãƒ•ãƒ©ã‚°
 
-	// ƒ}ƒbƒv
+	// ãƒãƒƒãƒ—
 	shared_ptr<GameMap> m_pMap = make_shared<GameMap>();
-	// ƒJƒƒ‰
+	// ã‚«ãƒ¡ãƒ©
 	shared_ptr<Camera> m_pCamera = make_shared<Camera>();
-	// ƒvƒŒƒCƒ„[
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	shared_ptr<Player> m_pPlayer = make_shared<Player>();
-	// ‰E‚Ì“G
+	// å³ã®æ•µ
 	shared_ptr<EnemyRight> m_pEnemyRight = make_shared<EnemyRight>();
-	// ¶‚Ì“G
+	// å·¦ã®æ•µ
 	shared_ptr<EnemyLeft> m_pEnemyLeft = make_shared<EnemyLeft>();
 };
 

@@ -1,8 +1,8 @@
-#include "Fade.h"
+ï»¿#include "Fade.h"
 #include "DxLib.h"
 
 Fade::Fade():
-	m_fadeAlpha(255), 
+	m_fadeAlpha(256), 
 	m_isFadeIn(true),
 	m_isFadeOut(false),
 	m_isNextSceneFlag(false)
@@ -23,16 +23,16 @@ void Fade::Update()
 
 void Fade::Draw()
 {
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// ”¼“§–¾‚Å•\Ž¦ŠJŽn
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// åŠé€æ˜Žã§è¡¨ç¤ºé–‹å§‹
 	DrawBoxAA(0, 0, 1920, 1080, 0x000000, true);
-	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// •s“§–¾‚É–ß‚µ‚Ä‚¨‚­
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// ä¸é€æ˜Žã«æˆ»ã—ã¦ãŠã
 }
 
 void Fade::FadeIn(bool flag)
 {
 	m_isFadeIn = flag;
 
-	// ƒtƒF[ƒhƒCƒ“
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³
 	if (m_isFadeIn)
 	{
 		m_fadeAlpha -= 8;
@@ -48,11 +48,11 @@ void Fade::FadeOut(bool flag)
 {
 	m_isFadeOut = flag;
 
-	// ƒtƒF[ƒhƒAƒEƒg
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆ
 	if (m_isFadeOut)
 	{
 		m_fadeAlpha += 8;
-		if (m_fadeAlpha > 255)
+		if (m_fadeAlpha >= 255)
 		{
 			m_fadeAlpha = 255;
 			m_isNextSceneFlag = true;

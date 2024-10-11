@@ -1,4 +1,4 @@
-#include "SceneTitle.h"
+ï»¿#include "SceneTitle.h"
 #include "DxLib.h"
 #include "SceneGame.h"
 #include "SceneOption.h"
@@ -9,52 +9,52 @@
 
 namespace {
 	const char* const kUI[13]{
-		"data/Image/TitleScene/UI/Title.png",			// ƒ^ƒCƒgƒ‹ƒƒS
-		"data/Image/TitleScene/UI/Back.png",				// ƒZƒŒƒNƒg”wŒi
+		"data/Image/TitleScene/UI/Title.png",			// ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´
+		"data/Image/TitleScene/UI/Back.png",				// ã‚»ãƒ¬ã‚¯ãƒˆèƒŒæ™¯
 		"data/Image/TitleScene/UI/PressEnyButtom.png",	// PressEnyButton
 		"data/Image/TitleScene/UI/GameStart.png",			// GameStart
 		"data/Image/TitleScene/UI/Option.png",			// Option
 		"data/Image/TitleScene/UI/Ranking.png",			// Ranking
 		"data/Image/TitleScene/UI/GameFinish.png",		// GameFinish
-		"data/Image/TitleScene/UI/à–¾”wŒi.png",			// ƒeƒƒbƒv”wŒi
-		"data/Image/TitleScene/UI/ˆÚ“®æ1.png",			// ƒeƒƒbƒv1
-		"data/Image/TitleScene/UI/ˆÚ“®æ2.png",			// ƒeƒƒbƒv2
-		"data/Image/TitleScene/UI/ˆÚ“®æ3.png",			// ƒeƒƒbƒv3
-		"data/Image/TitleScene/UI/ˆÚ“®æ4.png",			// ƒeƒƒbƒv4
-		"data/Image/TitleScene/UI/gf_o.png",				// ƒJ[ƒ\ƒ‹
+		"data/Image/TitleScene/UI/èª¬æ˜èƒŒæ™¯.png",			// ãƒ†ãƒ­ãƒƒãƒ—èƒŒæ™¯
+		"data/Image/TitleScene/UI/ç§»å‹•å…ˆ1.png",			// ãƒ†ãƒ­ãƒƒãƒ—1
+		"data/Image/TitleScene/UI/ç§»å‹•å…ˆ2.png",			// ãƒ†ãƒ­ãƒƒãƒ—2
+		"data/Image/TitleScene/UI/ç§»å‹•å…ˆ3.png",			// ãƒ†ãƒ­ãƒƒãƒ—3
+		"data/Image/TitleScene/UI/ç§»å‹•å…ˆ4.png",			// ãƒ†ãƒ­ãƒƒãƒ—4
+		"data/Image/TitleScene/UI/gf_o.png",				// ã‚«ãƒ¼ã‚½ãƒ«
 	};
 
-	constexpr int kTitlePosX = 300;			// ƒ^ƒCƒgƒ‹ƒƒSÀ•W
+	constexpr int kTitlePosX = 300;			// ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´åº§æ¨™
 	constexpr int kTitlePosY = 50;
 
-	constexpr int kPressBgPosX = 630;		// uPressEnyButtonv”wŒiÀ•W
+	constexpr int kPressBgPosX = 630;		// ã€ŒPressEnyButtonã€èƒŒæ™¯åº§æ¨™
 	constexpr int kPressBgPosY = 780;
-	constexpr int kPressEnyButtonPosX = 725;// uPressEnyButtonvUIÀ•W
+	constexpr int kPressEnyButtonPosX = 725;// ã€ŒPressEnyButtonã€UIåº§æ¨™
 	constexpr int kPressEnyButtonPosY = 810;
 
-	constexpr int kSelectBgPosX = 200;		// ƒZƒŒƒNƒg”wŒiÀ•W
+	constexpr int kSelectBgPosX = 200;		// ã‚»ãƒ¬ã‚¯ãƒˆèƒŒæ™¯åº§æ¨™
 	constexpr int kSelectBgPosY = 790;
-	constexpr int kSelect1X = 300;			// ƒZƒŒƒNƒgÀ•W1
-	constexpr int kSelect2X = 650;			// ƒZƒŒƒNƒgÀ•W2
-	constexpr int kSelect3X = 950;			// ƒZƒŒƒNƒgÀ•W3
-	constexpr int kSelect4X = 1250;			// ƒZƒŒƒNƒgÀ•W4
-	constexpr int kSelectPosY = 805;		// ƒZƒŒƒNƒgÀ•W
+	constexpr int kSelect1X = 300;			// ã‚»ãƒ¬ã‚¯ãƒˆåº§æ¨™1
+	constexpr int kSelect2X = 650;			// ã‚»ãƒ¬ã‚¯ãƒˆåº§æ¨™2
+	constexpr int kSelect3X = 950;			// ã‚»ãƒ¬ã‚¯ãƒˆåº§æ¨™3
+	constexpr int kSelect4X = 1250;			// ã‚»ãƒ¬ã‚¯ãƒˆåº§æ¨™4
+	constexpr int kSelectPosY = 805;		// ã‚»ãƒ¬ã‚¯ãƒˆåº§æ¨™
 
-	constexpr int kCaptionBgPosY = 1003;	// ƒeƒƒbƒv”wŒiÀ•W
-	constexpr int kCaptionPosY = 1015;		// ƒeƒƒbƒvÀ•W
+	constexpr int kCaptionBgPosY = 1003;	// ãƒ†ãƒ­ãƒƒãƒ—èƒŒæ™¯åº§æ¨™
+	constexpr int kCaptionPosY = 1015;		// ãƒ†ãƒ­ãƒƒãƒ—åº§æ¨™
 
-	constexpr float kCaptionScroll = 1.5f;		// ƒeƒƒbƒvƒXƒNƒ[ƒ‹ˆÚ“®—Ê
-	constexpr float kCaptionPosX = -30.0f;		// ƒeƒƒbƒvƒXƒNƒ[ƒ‹ˆÚ“®—Ê
+	constexpr float kCaptionScroll = 1.5f;		// ãƒ†ãƒ­ãƒƒãƒ—ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ç§»å‹•é‡
+	constexpr float kCaptionPosX = -30.0f;		// ãƒ†ãƒ­ãƒƒãƒ—ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ç§»å‹•é‡
 
 	const VECTOR kSelectPos[8]{
-		(VGet(kSelect1X,kSelectPosY,0)),			// ƒZƒŒƒNƒg1À•W¶ã
-		(VGet(kSelect1X + 272 ,kSelectPosY + 71,0)),// ƒZƒŒƒNƒg1À•W‰E‰º
-		(VGet(kSelect2X,kSelectPosY,0)),			// ƒZƒŒƒNƒg2À•W¶ã
-		(VGet(kSelect2X + 168 ,kSelectPosY + 71,0)),// ƒZƒŒƒNƒg2À•W‰E‰º
-		(VGet(kSelect3X,kSelectPosY,0)),			// ƒZƒŒƒNƒg3À•W¶ã
-		(VGet(kSelect3X + 210 ,kSelectPosY + 71,0)),// ƒZƒŒƒNƒg3À•W‰E‰º
-		(VGet(kSelect4X,kSelectPosY,0)),			// ƒZƒŒƒNƒg4À•W¶ã
-		(VGet(kSelect4X + 306 ,kSelectPosY + 71,0))	// ƒZƒŒƒNƒg4À•W‰E‰º
+		(VGet(kSelect1X,kSelectPosY,0)),			// ã‚»ãƒ¬ã‚¯ãƒˆ1åº§æ¨™å·¦ä¸Š
+		(VGet(kSelect1X + 272 ,kSelectPosY + 71,0)),// ã‚»ãƒ¬ã‚¯ãƒˆ1åº§æ¨™å³ä¸‹
+		(VGet(kSelect2X,kSelectPosY,0)),			// ã‚»ãƒ¬ã‚¯ãƒˆ2åº§æ¨™å·¦ä¸Š
+		(VGet(kSelect2X + 168 ,kSelectPosY + 71,0)),// ã‚»ãƒ¬ã‚¯ãƒˆ2åº§æ¨™å³ä¸‹
+		(VGet(kSelect3X,kSelectPosY,0)),			// ã‚»ãƒ¬ã‚¯ãƒˆ3åº§æ¨™å·¦ä¸Š
+		(VGet(kSelect3X + 210 ,kSelectPosY + 71,0)),// ã‚»ãƒ¬ã‚¯ãƒˆ3åº§æ¨™å³ä¸‹
+		(VGet(kSelect4X,kSelectPosY,0)),			// ã‚»ãƒ¬ã‚¯ãƒˆ4åº§æ¨™å·¦ä¸Š
+		(VGet(kSelect4X + 306 ,kSelectPosY + 71,0))	// ã‚»ãƒ¬ã‚¯ãƒˆ4åº§æ¨™å³ä¸‹
 	};
 }
 
@@ -74,26 +74,26 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Init()
 {
-	// ”wŒi‰æ‘œ‚Ì“Ç‚İ‚İ
+	// èƒŒæ™¯ç”»åƒã®èª­ã¿è¾¼ã¿
 	m_bgGraph = LoadGraph("data/Image/TitleScene/Castle_Forrest10.png");
 
-	// UI‰æ‘œ‚Ì“Ç‚İ‚İ
+	// UIç”»åƒã®èª­ã¿è¾¼ã¿
 	for (int i = 0; i < m_uiGraph.size(); i++) {
 		m_uiGraph[i] = LoadGraph(kUI[i]);
 		assert(m_uiGraph[i] != -1);
 	}
 
-	// ƒTƒEƒ“ƒhŠÖŒW
-	//ƒ|ƒCƒ“ƒ^‚ÌŠm•Û‚ÍSceneBase
+	// ã‚µã‚¦ãƒ³ãƒ‰é–¢ä¿‚
+	//ãƒã‚¤ãƒ³ã‚¿ã®ç¢ºä¿ã¯SceneBase
 	m_pSound->Init();
-	m_pSound->LoadBGM(SoundManager::BGM_Type::kTitleBGM);	// ƒTƒEƒ“ƒh‚Ì“Ç‚İ‚İ
+	m_pSound->LoadBGM(SoundManager::BGM_Type::kTitleBGM);	// ã‚µã‚¦ãƒ³ãƒ‰ã®èª­ã¿è¾¼ã¿
 	m_pSound->LoadSE(SoundManager::SE_Type::kSelectSE);
 	m_pSound->LoadSE(SoundManager::SE_Type::kButtonSE);
 
 	// BGM
 	m_pSound->PlayBGM(SoundManager::BGM_Type::kTitleBGM, DX_PLAYTYPE_LOOP);
 
-	// ƒtƒF[ƒh
+	// ãƒ•ã‚§ãƒ¼ãƒ‰
 	m_pFade = std::make_shared<Fade>();
 
 	m_isNextSceneFlag = false;
@@ -101,50 +101,50 @@ void SceneTitle::Init()
 
 shared_ptr<SceneBase> SceneTitle::Update()
 {
-	m_pFade->FadeIn(m_pFade->GatFadeInFlag());	// ƒtƒF[ƒhƒCƒ“
+	m_pFade->FadeIn(m_pFade->GatFadeInFlag());	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³
 
-	if (m_isMenu) {					// ‚¢‚¸‚ê‚©‚Ìƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚çAƒƒjƒ…[‚ğ•\¦‚·‚é
+	if (m_isMenu) {					// ã„ãšã‚Œã‹ã®ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸã‚‰ã€ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’è¡¨ç¤ºã™ã‚‹
 
-		// ƒeƒƒbƒvƒXƒNƒ[ƒ‹
+		// ãƒ†ãƒ­ãƒƒãƒ—ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«
 		m_scrollX += kCaptionScroll;
 
-		// Ÿ‚ÌƒV[ƒ“‘I‘ğ
+		// æ¬¡ã®ã‚·ãƒ¼ãƒ³é¸æŠ
 		SwitchingScene();
 
-		// ƒtƒF[ƒhƒAƒEƒg
+		// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆ
 		m_pFade->FadeOut(m_pFade->GatFadeOutFlag());
 		m_isNextSceneFlag = m_pFade->GatNextSceneFlag();
 		
 
-		// ƒV[ƒ“‘JˆÚ
-		if (Pad::IsTrigger(PAD_INPUT_A)) {			// Aƒ{ƒ^ƒ“
+		// ã‚·ãƒ¼ãƒ³é·ç§»
+		if (m_pFade->GatFadeInFlag()==false&&Pad::IsTrigger(PAD_INPUT_A)) {			// Aãƒœã‚¿ãƒ³
 
 			m_pSound->PlaySE(SoundManager::SE_Type::kButtonSE, DX_PLAYTYPE_BACK);	// SE
-			m_pFade->SetFadeOutFlag(true);			// ƒtƒF[ƒhƒAƒEƒgƒtƒ‰ƒO
+			m_pFade->SetFadeOutFlag(true);			// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆãƒ•ãƒ©ã‚°
 		}
 
-		if (m_isNextSceneFlag)						// Ÿ‚ÌƒV[ƒ“
+		if (m_isNextSceneFlag)						// æ¬¡ã®ã‚·ãƒ¼ãƒ³
 		{
 			if (m_nextScene == nextScene::kGameScene)
 			{
-				return make_shared<SceneGame>();	// ƒQ[ƒ€ƒV[ƒ“‚Ös‚­
+				return make_shared<SceneGame>();	// ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã¸è¡Œã
 			}
 			if (m_nextScene == nextScene::kOptionScene)
 			{
-				return make_shared<SceneOption>();	// ƒIƒvƒVƒ‡ƒ“ƒV[ƒ“‚Ös‚­
+				return make_shared<SceneOption>();	// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚·ãƒ¼ãƒ³ã¸è¡Œã
 			}
 			if (m_nextScene == nextScene::kRankingScene)
 			{
-				return make_shared<SceneRanking>();	// ƒ‰ƒ“ƒLƒ“ƒOƒV[ƒ“‚Ös‚­
+				return make_shared<SceneRanking>();	// ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã‚·ãƒ¼ãƒ³ã¸è¡Œã
 			}
 			if (m_nextScene == nextScene::kGameEnd)
 			{
-				DxLib_End();						// ƒQ[ƒ€‚ğI—¹‚·‚é
+				DxLib_End();						// ã‚²ãƒ¼ãƒ ã‚’çµ‚äº†ã™ã‚‹
 			}
 		}
 	}
 	else {
-		m_isMenu = CheckHitKeyAll(DX_CHECKINPUT_PAD);		// ‚¢‚¸‚ê‚©‚Ìƒ{ƒ^ƒ“‚ğ‰Ÿ‚·
+		m_isMenu = CheckHitKeyAll(DX_CHECKINPUT_PAD);		// ã„ãšã‚Œã‹ã®ãƒœã‚¿ãƒ³ã‚’æŠ¼ã™
 	}
 
 	return shared_from_this();
@@ -152,8 +152,8 @@ shared_ptr<SceneBase> SceneTitle::Update()
 
 void SceneTitle::Draw()
 {
-	DrawExtendGraph(0, 0, 1920, 1080, m_bgGraph, true);		// ”wŒi
-	DrawGraph(kTitlePosX, kTitlePosY, m_uiGraph[0], true);	// ƒ^ƒCƒgƒ‹ƒƒS
+	DrawExtendGraph(0, 0, 1920, 1080, m_bgGraph, true);		// èƒŒæ™¯
+	DrawGraph(kTitlePosX, kTitlePosY, m_uiGraph[0], true);	// ã‚¿ã‚¤ãƒˆãƒ«ãƒ­ã‚´
 
 	if (!m_isMenu) {
 		static int m_fadeAlpha;
@@ -173,11 +173,11 @@ void SceneTitle::Draw()
 			}
 		}
 
-		// ƒtƒF[ƒhƒCƒ“EƒtƒF[ƒhƒAƒEƒg•`‰æ
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// ”¼“§–¾‚Å•\¦ŠJn
+		// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ãƒ»ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆæç”»
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// åŠé€æ˜ã§è¡¨ç¤ºé–‹å§‹
 		DrawGraph(kPressBgPosX, kPressBgPosY, m_uiGraph[1], true);
 		DrawGraph(kPressEnyButtonPosX, kPressEnyButtonPosY, m_uiGraph[2], true);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// •s“§–¾‚É–ß‚µ‚Ä‚¨‚­	
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// ä¸é€æ˜ã«æˆ»ã—ã¦ãŠã	
 	}
 	else {
 		DrawExtendGraph(kSelectBgPosX, kSelectBgPosY, kSelectBgPosX + 1500, kSelectBgPosY + 100, m_uiGraph[1], true);
@@ -203,7 +203,7 @@ void SceneTitle::End()
 {
 	DeleteGraph(m_bgGraph);
 
-	// UI‰æ‘œ‚Ìíœ
+	// UIç”»åƒã®å‰Šé™¤
 	for (int i = 0; i < m_uiGraph.size(); i++) {
 		DeleteGraph(m_uiGraph[i]);
 	}
@@ -213,7 +213,7 @@ void SceneTitle::End()
 
 void SceneTitle::SwitchingScene()
 {
-	// ‰ºƒL[‚ğ‰Ÿ‚·‚ÆŸ‚ÌƒV[ƒ“‚Ì•ÏX‚ğ‚·‚é
+	// ä¸‹ã‚­ãƒ¼ã‚’æŠ¼ã™ã¨æ¬¡ã®ã‚·ãƒ¼ãƒ³ã®å¤‰æ›´ã‚’ã™ã‚‹
 	if (Pad::IsTrigger(PAD_INPUT_RIGHT))
 	{
 		m_pSound->PlaySE(SoundManager::SE_Type::kSelectSE, DX_PLAYTYPE_BACK);
@@ -242,7 +242,7 @@ void SceneTitle::SwitchingScene()
 		}
 	}
 
-	// ãƒL[‚ğ‰Ÿ‚·‚ÆŸ‚ÌƒV[ƒ“‚Ì•ÏX‚ğ‚·‚é
+	// ä¸Šã‚­ãƒ¼ã‚’æŠ¼ã™ã¨æ¬¡ã®ã‚·ãƒ¼ãƒ³ã®å¤‰æ›´ã‚’ã™ã‚‹
 	if (Pad::IsTrigger(PAD_INPUT_LEFT))
 	{
 		m_pSound->PlaySE(SoundManager::SE_Type::kSelectSE, DX_PLAYTYPE_BACK);
@@ -274,17 +274,17 @@ void SceneTitle::SwitchingScene()
 
 void SceneTitle::DrawCaption()
 {
-	// ”wŒi‰æ‘œ‚ÌƒTƒCƒYæ“¾
+	// èƒŒæ™¯ç”»åƒã®ã‚µã‚¤ã‚ºå–å¾—
 	Size expBgSize, expSize;
 	GetGraphSize(m_uiGraph[7], &expBgSize.m_width, &expBgSize.m_height);
 	GetGraphSize(m_uiGraph[8], &expSize.m_width, &expSize.m_height);
 
-	// ƒXƒNƒ[ƒ‹—Ê‚ğŒvZ
+	// ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«é‡ã‚’è¨ˆç®—
 	int scrollBg = static_cast<int>(m_scrollX) % static_cast<int>(expBgSize.m_width);
 
 	//DrawGraph(0.0f,static_cast<int>(kCaptionBgPosY),m_uiGraph[7], true);
 
-	// à–¾•¶”wŒi•`‰æ
+	// èª¬æ˜æ–‡èƒŒæ™¯æç”»
 	for (int index = 0; index < 4; index++)
 	{
 		DrawGraph(-100-scrollBg + index * expBgSize.m_width,
@@ -293,7 +293,7 @@ void SceneTitle::DrawCaption()
 	}
 
 	static int next;
-	// à–¾•¶•`‰æ
+	// èª¬æ˜æ–‡æç”»
 	if (m_nextScene == nextScene::kGameScene) {
 		next = 8;
 	}

@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 
 class Player;
 class EnemyBase;
 
 /// <summary>
-/// ƒGƒtƒFƒNƒgŠÇ—ƒNƒ‰ƒX
+/// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç®¡ç†ã‚¯ãƒ©ã‚¹
 /// </summary>
 class Effect
 {
@@ -15,17 +15,17 @@ public:
 	void Init();
 	void Update();
 	void Draw();
-	void ClearEffect();							// ‰æ–Êã‚ÌƒGƒtƒFƒNƒg‚ğ’â~‚·‚é
-	void PlayDamageEffect(const VECTOR& pos);	// UŒ‚ƒGƒtƒFƒNƒg‚ğÄ¶‚·‚é
-	void PlayDeathEffect(const VECTOR& pos);	// ƒK[ƒhƒGƒtƒFƒNƒg‚ğÄ¶‚·‚é
+	void ClearEffect();								// ç”»é¢ä¸Šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’åœæ­¢ã™ã‚‹
+	void PlayDamageEffect(const VECTOR& pos);		// æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿã™ã‚‹
+	void PlayerDamageBowEffect(const VECTOR& pos);	// å¼“æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿã™ã‚‹
+	void PlayDeathEffect(const VECTOR& pos);		// ã‚¬ãƒ¼ãƒ‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿã™ã‚‹
 
 private:
-	int m_attackEffectTime;	// UŒ‚ƒGƒtƒFƒNƒg‚ğÄ¶‚·‚éŠÔ
-	int m_deathEffectTime;	// €–SƒGƒtƒFƒNƒg‚ğÄ¶‚·‚éŠÔ
+	int m_attackEffectTime;		// æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿã™ã‚‹æ™‚é–“
+	int m_attackBowEffectTime;	// å¼“æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿã™ã‚‹æ™‚é–“
+	int m_deathEffectTime;		// æ­»äº¡æ™‚ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿã™ã‚‹æ™‚é–“
 
 	int m_attackHandle;
-
-
 
 	struct Effect_
 	{
@@ -33,7 +33,7 @@ private:
 		VECTOR m_pos;
 	};
 
-	// ƒp[ƒeƒBƒNƒ‹‚ğ¶‚İo‚·‚à‚Ì
+	// ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’ç”Ÿã¿å‡ºã™ã‚‚ã®
 	struct EffectEmitter
 	{
 		std::vector<int> emitterHandle;
@@ -42,10 +42,11 @@ private:
 
 	EffectEmitter emitter;
 
-	// ƒGƒtƒFƒNƒg‚Ìí—Ş
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ç¨®é¡
 	enum EffectKind
 	{
-		kAttack,	// UŒ‚
-		kDeath,		// €–S
+		kAttack,	// æ”»æ’ƒ
+		kAttackBow,	// å¼“æ”»æ’ƒ
+		kDeath,		// æ­»äº¡æ™‚
 	};
 };

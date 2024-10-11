@@ -1,23 +1,26 @@
-#include "EffekseerForDXLib.h"
+ï»¿#include "EffekseerForDXLib.h"
 #include "Pad.h"
 #include "../Object/Player/Player.h"
 #include "../Object/Enemy/EnemyLeft.h"
 #include "../Object/Enemy/EnemyRight.h"
 #include "Effect.h"
 
-// ’è”
+// å®šæ•°
 namespace
 {
-	constexpr int kEffectNum = 2;				// ƒGƒtƒFƒNƒg‚Ìí—Ş
-	constexpr float kAttackEffectScale = 4.0f;	// UŒ‚ƒGƒtƒFƒNƒgŠg‘å—¦
-	constexpr int kAttackEffectTime = 10;		// UŒ‚ƒGƒtƒFƒNƒg‚ÌÄ¶ŠÔ
-	constexpr float kDeathEffectScale = 5.0f;	// €–SƒGƒtƒFƒNƒg‚ÌŠg‘å—¦
-	constexpr int kDeathEffectTime = 10.0;		// €–SƒGƒtƒFƒNƒg‚ÌÄ¶ŠÔ
+	constexpr int kEffectNum = 3;				// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ç¨®é¡
+	constexpr float kAttackEffectScale = 4.0f;	// æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆæ‹¡å¤§ç‡
+	constexpr int kAttackEffectTime = 10;		// æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å†ç”Ÿæ™‚é–“
+	constexpr float kAttackBowEffectScale = 2.0f;	// å¼“æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆæ‹¡å¤§ç‡
+	constexpr int kAttackBowEffectTime = 2;		// å¼“æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å†ç”Ÿæ™‚é–“
+
+	constexpr float kDeathEffectScale = 5.0f;	// æ­»äº¡æ™‚ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æ‹¡å¤§ç‡
+	constexpr int kDeathEffectTime = 10.0;		// æ­»äº¡æ™‚ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®å†ç”Ÿæ™‚é–“
 }
 
 
 /// <summary>
-/// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+/// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Effect::Effect() :
 	m_attackEffectTime(0),
@@ -26,11 +29,12 @@ Effect::Effect() :
 {
 	emitter.emitterHandle.resize(kEffectNum);
 	emitter.emitterHandle[EffectKind::kAttack] = LoadEffekseerEffect("data/Effect/attack.efk");
+	emitter.emitterHandle[EffectKind::kAttackBow] = LoadEffekseerEffect("data/Effect/BowAttack.efk");
 	emitter.emitterHandle[EffectKind::kDeath] = LoadEffekseerEffect("data/Effect/Use/death2.efk");
 }
 
 /// <summary>
-/// ƒfƒXƒgƒ‰ƒNƒ^
+/// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 /// </summary>
 Effect::~Effect()
 {
@@ -41,31 +45,33 @@ Effect::~Effect()
 }
 
 /// <summary>
-/// ‰Šú‰»
+/// åˆæœŸåŒ–
 /// </summary>
 void Effect::Init()
 {
-	Effekseer_InitDistortion();	// ƒGƒtƒFƒNƒg‚Ì˜c‚İ‚ğ“K—p‚·‚é
+	Effekseer_InitDistortion();	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æ­ªã¿ã‚’é©ç”¨ã™ã‚‹
 	ClearEffect();
 	m_attackEffectTime = 0;
+	m_attackBowEffectTime = 0;
 	m_deathEffectTime = 0;
 }
 
 ///// <summary>
-///// XV
+///// æ›´æ–°
 ///// </summary>
 void Effect::Update()
 {
-	Effekseer_Sync3DSetting();	// 3D‚Ìî•ñ‚ğDxLib‚ÆEffekseer‚Å‡‚í‚¹‚é
+	Effekseer_Sync3DSetting();	// 3Dã®æƒ…å ±ã‚’DxLibã¨Effekseerã§åˆã‚ã›ã‚‹
 	UpdateEffekseer3D();
 
 	m_attackEffectTime--;
+	m_attackBowEffectTime--;
 	m_deathEffectTime--;
 }
 
 
 /// <summary>
-/// •`‰æ
+/// æç”»
 /// </summary>
 void Effect::Draw()
 {
@@ -74,7 +80,7 @@ void Effect::Draw()
 
 
 /// <summary>
-/// ‰æ–Êã‚ÌƒGƒtƒFƒNƒg‚ğíœ‚·‚é
+/// ç”»é¢ä¸Šã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã™ã‚‹
 /// </summary>
 void Effect::ClearEffect()
 {
@@ -87,38 +93,52 @@ void Effect::ClearEffect()
 
 
 /// <summary>
-/// UŒ‚ƒGƒtƒFƒNƒg‚ğÄ¶‚·‚é
+/// æ”»æ’ƒã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿã™ã‚‹
 /// </summary>
-/// <param name="pos">ƒGƒtƒFƒNƒgˆÊ’u</param>
+/// <param name="pos">ã‚¨ãƒ•ã‚§ã‚¯ãƒˆä½ç½®</param>
 void Effect::PlayDamageEffect(const VECTOR& pos)
 {
-	// ƒGƒtƒFƒNƒg‚ª1‰ñ‚Ì‚İ•\¦‚³‚ê‚é‚æ‚¤‚É‚·‚é
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒ1å›ã®ã¿è¡¨ç¤ºã•ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
 	if (m_attackEffectTime > 0) return;
 
 	m_attackEffectTime = kAttackEffectTime;
 	emitter.effects.push_back({ PlayEffekseer3DEffect(emitter.emitterHandle[EffectKind::kAttack]), {} });
 	auto& effect = emitter.effects.back();
 
-	// ƒGƒtƒFƒNƒg‚Ì•\¦ˆÊ’u‚ğİ’è
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºä½ç½®ã‚’è¨­å®š
 	SetPosPlayingEffekseer3DEffect(effect.handle, pos.x, pos.y, pos.z);
 	SetScalePlayingEffekseer3DEffect(effect.handle, kAttackEffectScale, kAttackEffectScale, kAttackEffectScale);
 }
 
+void Effect::PlayerDamageBowEffect(const VECTOR& pos)
+{	
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒ1å›ã®ã¿è¡¨ç¤ºã•ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
+	if (m_attackBowEffectTime > 0) return;
+
+	m_attackBowEffectTime = kAttackBowEffectTime;
+	emitter.effects.push_back({ PlayEffekseer3DEffect(emitter.emitterHandle[EffectKind::kAttackBow]), {} });
+	auto& effect = emitter.effects.back();
+
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºä½ç½®ã‚’è¨­å®š
+	SetPosPlayingEffekseer3DEffect(effect.handle, pos.x, pos.y, pos.z);
+	SetScalePlayingEffekseer3DEffect(effect.handle, kAttackBowEffectScale, kAttackBowEffectScale, kAttackBowEffectScale);
+}
+
 
 /// <summary>
-/// ƒK[ƒhƒGƒtƒFƒNƒg‚ğÄ¶‚·‚é
+/// ã‚¬ãƒ¼ãƒ‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿã™ã‚‹
 /// </summary>
-/// <param name="pos">ƒGƒtƒFƒNƒgˆÊ’u</param>
+/// <param name="pos">ã‚¨ãƒ•ã‚§ã‚¯ãƒˆä½ç½®</param>
 void Effect::PlayDeathEffect(const VECTOR& pos)
 {
-	// ƒK[ƒh€–S‚ÍƒGƒtƒFƒNƒg‚ª1‰ñ‚Ì‚İ•\¦‚³‚ê‚é‚æ‚¤‚É‚·‚é
+	// ã‚¬ãƒ¼ãƒ‰æ­»äº¡æ™‚ã¯ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒ1å›ã®ã¿è¡¨ç¤ºã•ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
 	if (m_deathEffectTime > 0) return;
 
 	m_deathEffectTime = kDeathEffectTime;
 	emitter.effects.push_back({ PlayEffekseer3DEffect(emitter.emitterHandle[EffectKind::kDeath]), {} });
 	auto& effect = emitter.effects.back();
 
-	// ƒGƒtƒFƒNƒg‚Ì•\¦ˆÊ’u‚ğİ’è
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®è¡¨ç¤ºä½ç½®ã‚’è¨­å®š
 	SetPosPlayingEffekseer3DEffect(effect.handle, pos.x, pos.y, pos.z);
 	SetScalePlayingEffekseer3DEffect(effect.handle, kDeathEffectScale, kDeathEffectScale, kDeathEffectScale);
 }

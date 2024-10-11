@@ -221,7 +221,7 @@ void Player::Draw()
 	DrawGraph(kHpGaugeUIPosX, kHpGaugeUIPosY, m_uiGraph[0], true);
 
 	// プレイヤー情報描画
-	DrawGraph(kNameBgX, kNameBgY, m_uiGraph[2], true);		// 名前拝啓
+	DrawGraph(kNameBgX, kNameBgY, m_uiGraph[2], true);		// 名前背景
 	DrawGraph(kNameX, kNameY, m_uiGraph[3], true);			// 名前
 	DrawGraph(kFaceUIPosX, kFaceUIPosY, m_uiGraph[4], true);// アイコン
 
@@ -709,13 +709,13 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 		{
 			if (!m_isBowAttackToLeftEnemy)	// 右の敵にダメージ
 			{
-				m_pEffect->PlayDamageEffect(VGet(enemyR.GetPos().x + enemyR.GetMovePos().x*10, enemyR.GetPos().y + 10, enemyR.GetPos().z + enemyR.GetMovePos().z * 100));
-				m_addDamage = kBowDamage;
+				m_pEffect->PlayerDamageBowEffect(VGet(enemyR.GetPos().x, enemyR.GetPos().y + 10, enemyR.GetPos().z ));
+				m_addDamage = kBowDamage;		//  + enemyR.GetMovePos().x*10//+ enemyR.GetMovePos().z * 100
 				m_isBowAttackDamage = false;
 				m_isSordAttackToRightEnemy = true;
 			}
 			else{
-				m_pEffect->PlayDamageEffect(VGet(enemyL.GetPos().x + enemyL.GetMovePos().x * 100, enemyL.GetPos().y + 10, enemyL.GetPos().z + enemyL.GetMovePos().z * 100));
+				m_pEffect->PlayerDamageBowEffect(VGet(enemyL.GetPos().x + enemyL.GetMovePos().x * 100, enemyL.GetPos().y + 10, enemyL.GetPos().z + enemyL.GetMovePos().z * 100));
 				m_addDamage = kBowDamage;
 				m_isBowAttackDamage = false;
 				m_isSordAttackToLeftEnemy = true;

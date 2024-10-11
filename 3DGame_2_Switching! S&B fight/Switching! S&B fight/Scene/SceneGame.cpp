@@ -1,4 +1,4 @@
-#include "SceneGame.h"
+ï»¿#include "SceneGame.h"
 #include "SceneGameClear.h"
 #include "SceneGameOver.h"
 #include "SceneTitle.h"
@@ -12,17 +12,17 @@
 #include <cassert>
 
 namespace {
-	constexpr int kExplanationInitPosX = 620;	// ‘€ìà–¾‰æ‘œ‚Ì‰ŠúˆÊ’uX
-	constexpr int kExplanationInitPosY = 130;	// ‘€ìà–¾‰æ‘œ‚Ì‰ŠúˆÊ’uY
-	constexpr int kExplanationPosX = 1472;		// ‘€ìà–¾‰æ‘œ‚ÌÅIˆÊ’uX
-	constexpr int kExplanationPosY = 0;			// ‘€ìà–¾‰æ‘œ‚ÌÅIˆÊ’uY
+	constexpr int kExplanationInitPosX = 620;	// æ“ä½œèª¬æ˜ç”»åƒã®åˆæœŸä½ç½®X
+	constexpr int kExplanationInitPosY = 130;	// æ“ä½œèª¬æ˜ç”»åƒã®åˆæœŸä½ç½®Y
+	constexpr int kExplanationPosX = 1472;		// æ“ä½œèª¬æ˜ç”»åƒã®æœ€çµ‚ä½ç½®X
+	constexpr int kExplanationPosY = 0;			// æ“ä½œèª¬æ˜ç”»åƒã®æœ€çµ‚ä½ç½®Y
 
-	constexpr int kExplanationSizeX = 448;		// ‘€ìà–¾‰æ‘œ‚ÌƒTƒCƒYX
-	constexpr int kExplanationSizeY = 530;		// ‘€ìà–¾‰æ‘œ‚ÌƒTƒCƒYY
-	constexpr int kExplanationAddWidth = 16;	// ‘€ìà–¾‰æ‘œ‚ÌX²ˆÚ“®—Ê
-	constexpr int kExplanationSubHeight = 9;	// ‘€ìà–¾‰æ‘œ‚ÌY²ˆÚ“®—Ê
+	constexpr int kExplanationSizeX = 448;		// æ“ä½œèª¬æ˜ç”»åƒã®ã‚µã‚¤ã‚ºX
+	constexpr int kExplanationSizeY = 530;		// æ“ä½œèª¬æ˜ç”»åƒã®ã‚µã‚¤ã‚ºY
+	constexpr int kExplanationAddWidth = 16;	// æ“ä½œèª¬æ˜ç”»åƒã®Xè»¸ç§»å‹•é‡
+	constexpr int kExplanationSubHeight = 9;	// æ“ä½œèª¬æ˜ç”»åƒã®Yè»¸ç§»å‹•é‡
 
-	constexpr int kGameFinishCount = 60;		// ƒNƒŠƒAğŒŒãAƒV[ƒ“‘JˆÚ‚Ö‚Ì‘Ò‹@ŠÔ
+	constexpr int kGameFinishCount = 60;		// ã‚¯ãƒªã‚¢æ¡ä»¶å¾Œã€ã‚·ãƒ¼ãƒ³é·ç§»ã¸ã®å¾…æ©Ÿæ™‚é–“
 }
 
 SceneGame::SceneGame() :
@@ -34,7 +34,7 @@ SceneGame::SceneGame() :
 	m_isExplanationView(true),
 	m_isPause(false)
 {
-	// ƒtƒF[ƒh
+	// ãƒ•ã‚§ãƒ¼ãƒ‰
 	m_pFade = std::make_shared<Fade>();
 }
 
@@ -44,22 +44,22 @@ SceneGame::~SceneGame()
 
 void SceneGame::Init()
 {
-	// ‰Šú‰»ˆ—
+	// åˆæœŸåŒ–å‡¦ç†
 	m_pMap->Init();
 	m_pPlayer->Init(m_pMap);
 	m_pEnemyRight->Init(m_pMap);
 	m_pEnemyLeft->Init(m_pMap);
 	m_pCamera->Init();
-	m_pSound->Init();	// ƒTƒEƒ“ƒh‚Ì‰Šú‰»
+	m_pSound->Init();	// ã‚µã‚¦ãƒ³ãƒ‰ã®åˆæœŸåŒ–
 
-	// g—pƒTƒEƒ“ƒh‚Ìƒ[ƒh
-	m_pSound->LoadBGM(SoundManager::BGM_Type::kGameBGM);	// ƒTƒEƒ“ƒh‚Ì“Ç‚İ‚İ
+	// ä½¿ç”¨ã‚µã‚¦ãƒ³ãƒ‰ã®ãƒ­ãƒ¼ãƒ‰
+	m_pSound->LoadBGM(SoundManager::BGM_Type::kGameBGM);	// ã‚µã‚¦ãƒ³ãƒ‰ã®èª­ã¿è¾¼ã¿
 	m_pSound->PlayBGM(SoundManager::BGM_Type::kGameBGM, DX_PLAYTYPE_LOOP);
 
-	// ‰æ‘œ‚Ìƒ[ƒh
-	m_explanationGraph = LoadGraph("data/Image/GameScene/UI/‘€ìà–¾.png");
+	// ç”»åƒã®ãƒ­ãƒ¼ãƒ‰
+	m_explanationGraph = LoadGraph("data/Image/GameScene/UI/æ“ä½œèª¬æ˜.png");
 
-	// ‘€ìà–¾‰æ‘œ‚ÌˆÊ’uİ’è
+	// æ“ä½œèª¬æ˜ç”»åƒã®ä½ç½®è¨­å®š
 	size.m_width = kExplanationInitPosX;
 	size.m_height = kExplanationInitPosY;
 	size.m_widthMax = kExplanationInitPosX + 800;
@@ -68,7 +68,7 @@ void SceneGame::Init()
 
 shared_ptr<SceneBase> SceneGame::Update()
 {
-	// ƒXƒ^[ƒgƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚çƒ|[ƒYó‘Ô‚É‚·‚é
+	// ã‚¹ã‚¿ãƒ¼ãƒˆãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã‚‰ãƒãƒ¼ã‚ºçŠ¶æ…‹ã«ã™ã‚‹
 	if (Pad::IsTrigger(PAD_INPUT_R)) {	
 		if (m_isPause) {
 			m_isPause = false;
@@ -78,22 +78,21 @@ shared_ptr<SceneBase> SceneGame::Update()
 		}
 	}
 
-	// ƒ|[ƒY’†‚ÉƒoƒbƒNƒ{ƒ^ƒ“‚ğ‰Ÿ‚·‚Æƒ^ƒCƒgƒ‹‰æ–Ê‚É–ß‚é
+	// ãƒãƒ¼ã‚ºä¸­ã«ãƒãƒƒã‚¯ãƒœã‚¿ãƒ³ã‚’æŠ¼ã™ã¨ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢ã«æˆ»ã‚‹
 	if (Pad::IsTrigger(PAD_INPUT_L) && m_isPause) {
-		return make_shared<SceneTitle>();	// ƒQ[ƒ€ƒNƒŠƒA‚Ös‚­
-		
+		return make_shared<SceneTitle>();	// ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã¸è¡Œã
 	}
 
-	// ƒV[ƒ“‚É“ü‚Á‚½’¼Œã‚ÉƒtƒF[ƒhƒCƒ“‚ğs‚¤
+	// ã‚·ãƒ¼ãƒ³ã«å…¥ã£ãŸç›´å¾Œã«ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã‚’è¡Œã†
 	m_pFade->FadeIn(m_pFade->GatFadeInFlag());
 
-	// ƒ|[ƒYó‘Ô‚É‚È‚Á‚Ä‚¢‚È‚¢ê‡‚Ì‚İƒQ[ƒ€‰æ–Ê‚ğXV‚·‚é
+	// ãƒãƒ¼ã‚ºçŠ¶æ…‹ã«ãªã£ã¦ã„ãªã„å ´åˆã®ã¿ã‚²ãƒ¼ãƒ ç”»é¢ã‚’æ›´æ–°ã™ã‚‹
 	if (!m_isPause) {
 		m_pCamera->Update(*m_pPlayer);
 
-		// ‘€ìà–¾‰æ‘œ‚ÌĞ‰î‚ªI‚í‚Á‚½‚çXV‚ğs‚¤
+		// æ“ä½œèª¬æ˜ç”»åƒã®ç´¹ä»‹ãŒçµ‚ã‚ã£ãŸã‚‰æ›´æ–°ã‚’è¡Œã†
 		if (m_isExplanationFinishFlag) {
-			// ƒV[ƒ“Ø‚è‘Ö‚¦ğŒ‚É“–‚Ä‚Í‚Ü‚Á‚½‚çƒtƒF[ƒhƒAƒEƒg‚ğs‚¤
+			// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆæ¡ä»¶ã«å½“ã¦ã¯ã¾ã£ãŸã‚‰ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã‚’è¡Œã†
 			m_pFade->FadeOut(m_pFade->GatFadeOutFlag());	
 			m_isNextSceneFlag = m_pFade->GatNextSceneFlag();
 
@@ -101,29 +100,29 @@ shared_ptr<SceneBase> SceneGame::Update()
 			m_pEnemyRight->Update(*m_pPlayer);
 			m_pEnemyLeft->Update(*m_pPlayer);
 
-			// ƒQ[ƒ€ƒNƒŠƒAŠÖŒW
-			m_isGameClearFlag = m_pEnemyLeft->GetHp() <= 0 && m_pEnemyRight->GetHp() <= 0;	// ƒQ[ƒ€ƒNƒŠƒAğŒƒtƒ‰ƒO
+			// ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢é–¢ä¿‚
+			m_isGameClearFlag = m_pEnemyLeft->GetHp() <= 0 && m_pEnemyRight->GetHp() <= 0;	// ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢æ¡ä»¶ãƒ•ãƒ©ã‚°
 
-			if (m_isGameClearFlag){						// ƒQ[ƒ€ƒNƒŠƒAğŒ‚ğ’B¬‚µ‚½‚ç
-				m_waitCount--;							// ‚·‚®‚ÉƒV[ƒ“‘JˆÚ‚ğ‚¹‚¸Am_waitCount•ª‘Ò‚Â
-				if (m_waitCount <= 0) {					// ƒJƒEƒ“ƒg‚ªƒ[ƒ‚É‚È‚Á‚½‚çƒtƒF[ƒhƒAƒEƒg‚ğs‚¤ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+			if (m_isGameClearFlag){						// ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢æ¡ä»¶ã‚’é”æˆã—ãŸã‚‰
+				m_waitCount--;							// ã™ãã«ã‚·ãƒ¼ãƒ³é·ç§»ã‚’ã›ãšã€m_waitCountåˆ†å¾…ã¤
+				if (m_waitCount <= 0) {					// ã‚«ã‚¦ãƒ³ãƒˆãŒã‚¼ãƒ­ã«ãªã£ãŸã‚‰ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã‚’è¡Œã†ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 					m_pFade->SetFadeOutFlag(true);
-					if (m_isNextSceneFlag){				// ƒtƒF[ƒhƒAƒEƒg‚ªI‚í‚Á‚½‚çAƒQ[ƒ€ƒNƒŠƒA‰æ–Ê‚É‘JˆÚ‚·‚é
+					if (m_isNextSceneFlag){				// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆãŒçµ‚ã‚ã£ãŸã‚‰ã€ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ç”»é¢ã«é·ç§»ã™ã‚‹
 						return make_shared<SceneGameClear>();
 					}
 				}
 			}
 
-			// ƒQ[ƒ€ƒI[ƒo[ŠÖŒW
+			// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼é–¢ä¿‚
 			if (m_pPlayer->GetDeathFlag())
 			{
-				m_pFade->SetFadeOutFlag(true);			// ƒtƒF[ƒhƒAƒEƒg‚ğs‚¤ƒtƒ‰ƒO‚ğ—§‚Ä‚é
-				if (m_isNextSceneFlag){					// ƒtƒF[ƒhƒAƒEƒg‚ªI‚í‚Á‚½‚çAƒQ[ƒ€ƒI[ƒo[‰æ–Ê‚É‘JˆÚ‚·‚é
+				m_pFade->SetFadeOutFlag(true);			// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã‚’è¡Œã†ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
+				if (m_isNextSceneFlag){					// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆãŒçµ‚ã‚ã£ãŸã‚‰ã€ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ç”»é¢ã«é·ç§»ã™ã‚‹
 					return make_shared<SceneGameOver>();
 				}
 			}
 
-			// Xƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚çA‘€ìà–¾‰æ‘œ‚Ì•\¦‚ªON/OFFØ‚è‘Ö‚í‚é
+			// Xãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã‚‰ã€æ“ä½œèª¬æ˜ç”»åƒã®è¡¨ç¤ºãŒON/OFFåˆ‡ã‚Šæ›¿ã‚ã‚‹
 			if (Pad::IsTrigger(PAD_INPUT_C))
 			{
 				if (m_isExplanationView) {
@@ -134,18 +133,18 @@ shared_ptr<SceneBase> SceneGame::Update()
 				}
 			}
 		}
-		else {	// ƒQ[ƒ€ŠJn‘Oˆ—
-			// Aƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚çA‘€ìà–¾‰æ‘œ‚ªŠù’è‚ÌˆÊ’u‚ÖˆÚ“®‚·‚éƒtƒ‰ƒO‚ğ—§‚Ä‚é
+		else {	// ã‚²ãƒ¼ãƒ é–‹å§‹å‰å‡¦ç†
+			// Aãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã‚‰ã€æ“ä½œèª¬æ˜ç”»åƒãŒæ—¢å®šã®ä½ç½®ã¸ç§»å‹•ã™ã‚‹ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 			if (Pad::IsTrigger(PAD_INPUT_A)) {	
 				m_isExplanationSet = true;
 			}
 			
-			// ‘€ìà–¾‰æ‘œ‚ªŠù’è‚ÌˆÊ’u‚ÉˆÚ“®‚µ‚½‚çAƒQ[ƒ€ŠJn‘Oˆ—‚ğI—¹‚·‚é
+			// æ“ä½œèª¬æ˜ç”»åƒãŒæ—¢å®šã®ä½ç½®ã«ç§»å‹•ã—ãŸã‚‰ã€ã‚²ãƒ¼ãƒ é–‹å§‹å‰å‡¦ç†ã‚’çµ‚äº†ã™ã‚‹
 			if (size.m_height <= 0 && size.m_width >= kExplanationPosX){
 				m_isExplanationFinishFlag = true;
 			}
 
-			// ‘€ìà–¾‰æ‘œ‚ğŠù’è‚ÌˆÊ’u‚ÖˆÚ“®‚³‚¹‚é
+			// æ“ä½œèª¬æ˜ç”»åƒã‚’æ—¢å®šã®ä½ç½®ã¸ç§»å‹•ã•ã›ã‚‹
 			if (m_isExplanationSet){
 				size.m_width = min(size.m_width, kExplanationPosX);
 				size.m_widthMax = min(size.m_widthMax, 1920);
@@ -161,15 +160,15 @@ shared_ptr<SceneBase> SceneGame::Update()
 	}
 
 #ifdef _DEBUG
-	m_pCamera->Update(*m_pPlayer);
+	
 
-	if (Pad::IsTrigger(PAD_INPUT_L))		// LBƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚ç
+	if (Pad::IsTrigger(PAD_INPUT_L))		// LBãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã‚‰
 	{
-		return make_shared<SceneGameClear>();	// ƒQ[ƒ€ƒNƒŠƒA‚Ös‚­
+		return make_shared<SceneGameClear>();	// ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã¸è¡Œã
 	}
-	//if (Pad::IsTrigger(PAD_INPUT_R))		// RBƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚ç
+	//if (Pad::IsTrigger(PAD_INPUT_R))		// RBãƒœã‚¿ãƒ³ã‚’æŠ¼ã—ãŸã‚‰
 	//{
-	//	return make_shared<SceneGameOver>();	// ƒQ[ƒ€ƒI[ƒo[‚Ös‚­
+	//	return make_shared<SceneGameOver>();	// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã¸è¡Œã
 	//}
 
 #endif // _DEBUG
@@ -184,16 +183,27 @@ void SceneGame::Draw()
 	m_pEnemyLeft->Draw();
 	m_pPlayer->Draw();
 
-#ifdef DEBUG
 	m_pEnemyLeft->UIDraw();
 	m_pEnemyRight->UIDraw();
-#endif
 
-	// ‘€ìà–¾‰æ‘œ‚Ì•`‰æ
+	if (!m_isExplanationFinishFlag)
+	{
+		DrawBox(0, 0, 1920, 1080, 0x000000, true);
+	}
+
+	// æ“ä½œèª¬æ˜ç”»åƒã®æç”»
 	if (m_isExplanationView) {
 		DrawExtendGraph(size.m_width, size.m_height,
 			size.m_widthMax, size.m_heightMax,
 			m_explanationGraph, true);
+	}
+
+	if (m_isPause) {
+		// ãƒãƒ¼ã‚ºç”¨ã®ç”»åƒã‚’æç”»ã™ã‚‹
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);	// åŠé€æ˜ã§è¡¨ç¤ºé–‹å§‹
+		DrawBoxAA(0, 0, 1920, 1080, 0x000000, true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// ä¸é€æ˜ã«æˆ»ã—ã¦ãŠã
+
 	}
 	
 	m_pFade->Draw();

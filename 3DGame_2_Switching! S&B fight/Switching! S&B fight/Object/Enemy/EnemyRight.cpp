@@ -150,6 +150,7 @@ void EnemyRight::Draw()
 		m_pModel->Draw();
 		// 棒モデルの描画
 		MV1DrawModel(m_sordModel);
+
 	}
 	else
 	{
