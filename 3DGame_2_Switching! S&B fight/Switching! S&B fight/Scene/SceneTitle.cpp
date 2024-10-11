@@ -144,7 +144,7 @@ shared_ptr<SceneBase> SceneTitle::Update()
 		}
 	}
 	else {
-		m_isMenu = CheckHitKeyAll(DX_CHECKINPUT_PAD);		// いずれかのボタンを押す
+		m_isMenu = CheckHitKeyAll(DX_CHECKINPUT_PAD||DX_CHECKINPUT_KEY);		// いずれかのボタンを押す
 	}
 
 	return shared_from_this();
