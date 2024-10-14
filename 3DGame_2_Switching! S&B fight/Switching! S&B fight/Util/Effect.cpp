@@ -126,12 +126,12 @@ void Effect::PlayerDamageBowEffect(const VECTOR& pos)
 
 
 /// <summary>
-/// ガードエフェクトを再生する
+/// 死亡エフェクトを再生する
 /// </summary>
 /// <param name="pos">エフェクト位置</param>
 void Effect::PlayDeathEffect(const VECTOR& pos)
 {
-	// ガード死亡時はエフェクトが1回のみ表示されるようにする
+	// 死亡時はエフェクトが1回のみ表示されるようにする
 	if (m_deathEffectTime > 0) return;
 
 	m_deathEffectTime = kDeathEffectTime;

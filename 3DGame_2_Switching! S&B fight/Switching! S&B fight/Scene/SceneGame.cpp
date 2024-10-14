@@ -58,6 +58,8 @@ void SceneGame::Init()
 
 	// 画像のロード
 	m_explanationGraph = LoadGraph("data/Image/GameScene/UI/操作説明.png");
+	m_pauseGraph= LoadGraph("data/Image/GameScene/UI/ポーズ表示画像.png");
+
 
 	// 操作説明画像の位置設定
 	size.m_width = kExplanationInitPosX;
@@ -203,6 +205,7 @@ void SceneGame::Draw()
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);	// 半透明で表示開始
 		DrawBoxAA(0, 0, 1920, 1080, 0x000000, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく
+		DrawGraph(500, 250, m_pauseGraph, true);
 
 	}
 	
@@ -222,5 +225,6 @@ void SceneGame::End()
 	m_pEnemyLeft->End();
 
 	DeleteGraph(m_explanationGraph);
+	DeleteGraph(m_pauseGraph);
 	SceneBase::End();
 }

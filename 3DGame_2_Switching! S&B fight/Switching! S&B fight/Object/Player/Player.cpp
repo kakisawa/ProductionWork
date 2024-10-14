@@ -715,7 +715,7 @@ void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 				m_isSordAttackToRightEnemy = true;
 			}
 			else{
-				m_pEffect->PlayerDamageBowEffect(VGet(enemyL.GetPos().x + enemyL.GetMovePos().x * 100, enemyL.GetPos().y + 10, enemyL.GetPos().z + enemyL.GetMovePos().z * 100));
+				m_pEffect->PlayerDamageBowEffect(VGet(enemyL.GetPos().x, enemyL.GetPos().y + 10, enemyL.GetPos().z));
 				m_addDamage = kBowDamage;
 				m_isBowAttackDamage = false;
 				m_isSordAttackToLeftEnemy = true;
