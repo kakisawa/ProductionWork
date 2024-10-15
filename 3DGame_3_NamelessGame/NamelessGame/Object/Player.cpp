@@ -10,11 +10,10 @@ namespace {
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 
 	const char* kModelFilePath = "Data/Model/PlayerModel.mv1";	// プレイヤーモデルパス
-
-	int item=0;
 }
 
 Player::Player() :
+	m_item(0),
 	m_inputX(0),
 	m_inputY(0)
 {
@@ -46,9 +45,9 @@ void Player::Init()
 
 
 	// 仮設定
-	m_useItem[0] = Item::IceFloor;
-	m_useItem[1] = Item::RecoveryMedic;
-	m_useItem[2] = Item::SummonBox;
+	m_useItem[0] = Item::ItemKind::IceFloor;
+	m_useItem[1] = Item::ItemKind::RecoveryMedic;
+	m_useItem[2] = Item::ItemKind::SummonBox;
 }
 
 void Player::Update(const Camera& camera, Input& input)
@@ -72,6 +71,7 @@ void Player::Draw()
 	DrawFormatString(0, 340, 0xffffff, "m_targetDir=%.2f", m_targetDir);
 	DrawFormatString(0, 360, 0xffffff, "inputX=%d", m_inputX);
 	DrawFormatString(0, 380, 0xffffff, "inputY=%d", m_inputY);
+	DrawFormatString(0, 400, 0xffffff, "item=%d", m_item);
 #endif // DEBUG
 }
 
@@ -185,15 +185,15 @@ void Player::MoveUpdate()
 
 void Player::UseItem(Input& input)
 {
-	//// Xボタンでアイテムを切り替える
-	//if (input.IsTrigger(InputInfo::UseItemChange))
-	//{
-	//	item++;
-	//	if (item <= 3)
-	//	{
-	//		item == 0;
-	//	}
-	//}
+	// Xボタンでアイテムを切り替える
+	if (input.IsTrigger(InputInfo::UseItemChange))
+	{
+		m_item++;
+		if (m_item >= 3)
+		{
+			m_item = 0;
+		}
+	}
 
 
 	// Yボタンでアイテムを使う
@@ -203,30 +203,30 @@ void Player::UseItem(Input& input)
 		m_status.situation.isUseItem = true;
 
 		//// 使用するアイテムが罠類だった場合
-		//if (m_useItem[0]==Item::IceFloor) {
+		if (m_useItem[m_item] == Item::ItemKind::IceFloor) {
 		//プレイヤーの罠設置状態をtrueにする
 		m_status.situation.isInstallation = true;
 		// 罠設置アニメーションを入れる
 		ChangeAnimNo(PlayerAnim::Installation, m_animSpeed.Installation, false, m_animChangeTime.Installation);
-		//}
+		}
 
 
-		//// 使用するアイテムが回復系だった場合
-		//if (m_useItem[1] == Item::RecoveryMedic) {
-		//// プレイヤーの飲む状態をtrueにする
-		//m_status.situation.isDrink = true;
-		//// 飲むアニメーションを入れる
-		//ChangeAnimNo(PlayerAnim::Drink, m_animSpeed.Drink, false, m_animChangeTime.Drink);
-		//}
+		// 使用するアイテムが回復系だった場合
+		if (m_useItem[m_item] == Item::ItemKind::RecoveryMedic) {
+		// プレイヤーの飲む状態をtrueにする
+		m_status.situation.isDrink = true;
+		// 飲むアニメーションを入れる
+		ChangeAnimNo(PlayerAnim::Drink, m_animSpeed.Drink, false, m_animChangeTime.Drink);
+		}
 
 
-		//// 使用するアイテムが召喚系だった場合
-		//if (m_useItem[3] == Item::SummonBox) {
-		// //プレイヤーの召喚状態をtrueにする
-		//m_status.situation.isSummon = true;
-		// //召喚するアニメーションを入れる
-		//ChangeAnimNo(PlayerAnim::Summon, m_animSpeed.Summon, false, m_animChangeTime.Summon);
-		//}
+		// 使用するアイテムが召喚系だった場合
+		if (m_useItem[m_item] == Item::ItemKind::SummonBox) {
+		 //プレイヤーの召喚状態をtrueにする
+		m_status.situation.isSummon = true;
+		 //召喚するアニメーションを入れる
+		ChangeAnimNo(PlayerAnim::Summon, m_animSpeed.Summon, false, m_animChangeTime.Summon);
+		}
 	}
 
 	// プレイヤーがアイテム使用状態かつ、アイテム使用アニメーションが終了したら

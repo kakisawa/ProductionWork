@@ -1,727 +1,174 @@
 ﻿0:ChangeWindowMode実行 
 0:ウインドウモードフラグが立てられました
 1:ＤＸライブラリの初期化処理開始
-1:	システムの情報を出力します
-1:		ＤＸライブラリ Ver3.24b
-2:		論理プロセッサの数 : 8
+2:	システムの情報を出力します
+2:		ＤＸライブラリ Ver3.24b
+2:		論理プロセッサの数 : 20
 2:		ＯＳ  Windows11 ( Build 22631  )
-102:		現時点のＣＰＵ動作速度：大体2.78GHz
+102:		現時点のＣＰＵ動作速度：大体3.59GHz
 102:		ＭＭＸ命令を使用します
 102:		ＳＳＥ命令が使用可能です
 102:		ＳＳＥ２命令が使用可能です
 102:		ＣＰＵベンダ：GenuineIntel
-103:		ＣＰＵ名：11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz
-103:	ＣＯＭの初期化... 成功
-104:	非同期読み込み処理の初期化...成功
-105:	ファイルアクセス処理の初期化...成功
-106:	メモリ総量:7875.24MB  空きメモリ領域:3079.05MB 
-106:	タイマーの精度を検査します
-106:	精度結果 更新回数 マルチメディアタイマー：0  パフォーマンスカウンター：60
-106:	 パフォーマンスカウンターを使用します タイマー精度 : 10000.000000 KHz 
-107:	 
-107:	ソフトの二重起動検査... 二重起動はされていませんでした
-107:	ウインドウクラスを登録します... 登録に成功しました
-107:	ウインドウモード起動用のウインドウを作成します
-107:	ディスプレイ情報のセットアップ開始
-109:		モニターの数：1  ディスプレイデバイスの数：8
-109:		No.0  モニター名：\\.\DISPLAY1　1920x1080　32bit　60Hz  120x120dpi
-114:	ディスプレイ情報のセットアップ完了
-114:	ウインドウ矩形 ( -18, -61 )-( 1920, 1066 )
-117:	ウインドウの作成に成功しました
-118:	ウインドウを表示します
-158:	ＩＭＥを無効にしました
-161:	ウインドウスタイルをウインドウモード用に変更します... 完了
-180:	XInput DLL の読み込み中... 成功
-181:	DirectInput関係初期化処理
-181:		DirectInput8 の取得を試みます...成功
-255:			引き続き初期化処理... 初期化成功
-260:		ジョイパッドの初期化... 
-260:			XInput 対応コントローラーのチェックを開始します
-260:				XInput 対応コントローラー No.0 をチェック
-262:				XInput 対応コントローラー No.0 の接続を確認しました
-262:				XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-262:				XInput 対応コントローラー No.1 をチェック
-262:				XInput 対応コントローラー No.1 の接続は確認できませんでした
-263:				XInput 対応コントローラー No.2 をチェック
-263:				XInput 対応コントローラー No.2 の接続は確認できませんでした
-263:				XInput 対応コントローラー No.3 をチェック
-263:				XInput 対応コントローラー No.3 の接続は確認できませんでした
-263:			XInput 対応コントローラーのチェック完了
-263:			DirectInput 対応ジョイパッドの列挙を開始します
-283:				DirectInput 対応入力装置を検出しました
-283:						Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-284:						Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-284:					DirectInputDevice8 の作成... 成功
-284:					DirectInputDevice の情報を取得します... 成功
-285:						Device Product Name  : Controller (Xbox One For Windows)
-285:						Device Instance Name : Controller (Xbox One For Windows)
-285:					検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-285:					検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-285:				検出した DirectInput 対応入力装置の初期化を中断します
-285:			DirectInput 対応ジョイパッドの列挙終了
-285:		ジョイパッドの初期化は正常に終了しました
-286:		マウスデバイスの初期化... 初期化成功
-286:		キーボードデバイスの初期化... 初期化成功
-289:	DirectInput 関連の初期化は正常に終了しました
-291:	WASAPI の初期化を行います
-297:		デバイス名 : スピーカー (Realtek(R) Audio)
-425:		デフォルト遅延時間 : 10.000 ms
-425:		最小遅延時間       : 3.000 ms
-425:		遅延時間           : 10.000 ms
-426:		チャンネル数  　   : 2 ch
-426:		量子化ビット深度   : 32 bit
-426:		有効ビット深度　   : 32 bit
-427:		サンプリングレート : 96000 Hz
-427:		データ形式         : 浮動小数点型
-1036:		動作モード         : 共有モード
-1036:	WASAPI の初期化は正常に終了しました
-1038:	d3d11.dll の読み込み.... 成功
-1039:	dxgi.dll の読み込み.... 成功
-1039:	API CreateDXGIFactory2 のアドレスを取得します.... 成功
-1039:	IDXGIFactory2 を作成します.... 成功
-1042:	API CreateDXGIFactory6 のアドレスを取得します.... 成功
-1042:	IDXGIAdapter を列挙
-1042:		Adapter No.0 Desc:Intel(R) Iris(R) Xe Graphics  VRAM:128MB
-1042:			Output Device No.0 Name:\\.\DISPLAY1 ( 0, 0 )-( 1920, 1080 )
-1042:		Adapter No.1 Desc:Microsoft Basic Render Driver  VRAM:0MB
-1043:		Adapter No.2 Desc:Intel(R) Iris(R) Xe Graphics  VRAM:128MB
-1043:	API D3D11CreateDevice のアドレスを取得します.... 成功
-1043:	IDXGIAdapter を取得します.... 成功
-1043:	IDXGIAdapter1 を取得します.... 成功
-1043:	IDXGIAdapter2 を取得します.... 成功
-1043:	IDXGIAdapter3 を取得します.... 成功
-1044:	IDXGIAdapter4 を取得します.... 成功
-1044:	Direct3D 11 FeatureLevel 11_0 以上を対象とします
-1044:	ID3D11Device オブジェクトを取得します.... 成功
-1078:	IDXGIDevice1 を取得します.... 成功
-1078:	IDXGIDevice1->SetMaximunFrameLatency( 1 ); を実行しました
-1078:	[ウインドウモード 1920x1080 ( 0, 0 )-( 1920, 1080 )]
-1078:	IDXGISwapChain2 を作成します.... 成功
-1080:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
-1080:	IDXGIOutput を取得します.... 成功
-1080:	Graphics Device:Intel(R) Iris(R) Xe Graphics
-1080:	画面のフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-1081:	16bit Zバッファフォーマットは DXGI_FORMAT_D16_UNORM です
-1081:	24bit Zバッファフォーマットは DXGI_FORMAT_D24_UNORM_S8_UINT です
-1081:	32bit Zバッファフォーマットは DXGI_FORMAT_D32_FLOAT です
-1081:	16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
-1081:	32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
-1081:	アルファ付き 16bit カラーフォーマットは DXGI_FORMAT_B4G4R4A4_UNORM です
-1081:	アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-1081:	アルファテスト用 16bit カラーフォーマットは DXGI_FORMAT_B5G5R5A1_UNORM です
-1081:	アルファテスト用 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-1082:	ＤＸＴ１テクスチャフォーマットは DXGI_FORMAT_BC1_UNORM です
-1082:	ＤＸＴ２テクスチャフォーマットは使えません
-1082:	ＤＸＴ３テクスチャフォーマットは DXGI_FORMAT_BC2_UNORM です
-1082:	ＤＸＴ４テクスチャフォーマットは使えません
-1082:	ＤＸＴ５テクスチャフォーマットは DXGI_FORMAT_BC3_UNORM です
-1082:	BC7_UNORM テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM です
-1082:	BC7_UNORM_SRGB テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM_SRGB です
-1082:	ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
-1082:	ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
-1082:	ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
-1082:	１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
-1082:	１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
-1082:	１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
-1082:	１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
-1082:	２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
-1083:	２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
-1083:	２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
-1083:	２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
-1083:	描画用 16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
-1083:	描画用 32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
-1083:	描画用アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
-1083:	描画用 ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
-1083:	描画用 ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
-1083:	描画用 ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
-1083:	描画用１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
-1084:	描画用１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
-1084:	描画用１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
-1084:	描画用１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
-1084:	描画用２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
-1084:	描画用２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
-1084:	描画用２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
-1084:	描画用２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
-1084:	使用する機能レベル:D3D_FEATURE_LEVEL_11_1
-1084:	同時にレンダリングできるバッファの数:8
-1084:	最大テクスチャサイズ　幅:16384 高さ:16384
-1085:	標準描画用の頂点バッファの作成.... 成功
-1085:	シェーダーコード関係の初期化.... 成功
-1102:	各種シェーダー用定数バッファの作成.... 成功
-1103:	各種 ID3D11InputLayout の作成.... 成功
-1118:	画像の単純転送処理の初期化... 成功
-1118:	深度バッファを作成します.... 成功
-1120:	フォントの初期化を行います
-1121:	フォントの初期化は正常に終了しました
-1197:	文字コードバッファの初期化を行います... 完了しました
-1213:ＤＸライブラリの初期化処理終了
-692544:ジョイパッドの初期化... 
-692545:	XInput 対応コントローラーのチェックを開始します
-692545:		XInput 対応コントローラー No.0 をチェック
-692545:		XInput 対応コントローラー No.0 の接続を確認しました
-692546:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-692546:		XInput 対応コントローラー No.1 をチェック
-692546:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-692547:		XInput 対応コントローラー No.2 をチェック
-692547:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-692547:		XInput 対応コントローラー No.3 をチェック
-692547:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-692548:	XInput 対応コントローラーのチェック完了
-692548:	DirectInput 対応ジョイパッドの列挙を開始します
-692583:		DirectInput 対応入力装置を検出しました
-692583:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-692584:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-692584:			DirectInputDevice8 の作成... 成功
-692585:			DirectInputDevice の情報を取得します... 成功
-692585:				Device Product Name  : Controller (Xbox One For Windows)
-692585:				Device Instance Name : Controller (Xbox One For Windows)
-692586:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-692586:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-692586:		検出した DirectInput 対応入力装置の初期化を中断します
-692586:	DirectInput 対応ジョイパッドの列挙終了
-692586:ジョイパッドの初期化は正常に終了しました
-694840:ジョイパッドの初期化... 
-694840:	XInput 対応コントローラーのチェックを開始します
-694841:		XInput 対応コントローラー No.0 をチェック
-694841:		XInput 対応コントローラー No.0 の接続を確認しました
-694841:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-694841:		XInput 対応コントローラー No.1 をチェック
-694841:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-694841:		XInput 対応コントローラー No.2 をチェック
-694843:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-694843:		XInput 対応コントローラー No.3 をチェック
-694843:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-694843:	XInput 対応コントローラーのチェック完了
-694844:	DirectInput 対応ジョイパッドの列挙を開始します
-694880:		DirectInput 対応入力装置を検出しました
-694881:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-694881:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-694881:			DirectInputDevice8 の作成... 成功
-694882:			DirectInputDevice の情報を取得します... 成功
-694883:				Device Product Name  : Controller (Xbox One For Windows)
-694883:				Device Instance Name : Controller (Xbox One For Windows)
-694883:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-694883:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-694884:		検出した DirectInput 対応入力装置の初期化を中断します
-694884:	DirectInput 対応ジョイパッドの列挙終了
-694884:ジョイパッドの初期化は正常に終了しました
-695085:ジョイパッドの初期化... 
-695085:	XInput 対応コントローラーのチェックを開始します
-695085:		XInput 対応コントローラー No.0 をチェック
-695085:		XInput 対応コントローラー No.0 の接続を確認しました
-695085:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-695086:		XInput 対応コントローラー No.1 をチェック
-695086:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-695086:		XInput 対応コントローラー No.2 をチェック
-695086:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-695086:		XInput 対応コントローラー No.3 をチェック
-695087:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-695087:	XInput 対応コントローラーのチェック完了
-695087:	DirectInput 対応ジョイパッドの列挙を開始します
-695107:		DirectInput 対応入力装置を検出しました
-695107:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-695108:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-695108:			DirectInputDevice8 の作成... 成功
-695108:			DirectInputDevice の情報を取得します... 成功
-695108:				Device Product Name  : Controller (Xbox One For Windows)
-695109:				Device Instance Name : Controller (Xbox One For Windows)
-695109:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-695109:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-695109:		検出した DirectInput 対応入力装置の初期化を中断します
-695109:	DirectInput 対応ジョイパッドの列挙終了
-695109:ジョイパッドの初期化は正常に終了しました
-699949:ジョイパッドの初期化... 
-699950:	XInput 対応コントローラーのチェックを開始します
-699950:		XInput 対応コントローラー No.0 をチェック
-699950:		XInput 対応コントローラー No.0 の接続を確認しました
-699950:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-699950:		XInput 対応コントローラー No.1 をチェック
-699951:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-699951:		XInput 対応コントローラー No.2 をチェック
-699951:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-699952:		XInput 対応コントローラー No.3 をチェック
-699952:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-699952:	XInput 対応コントローラーのチェック完了
-699952:	DirectInput 対応ジョイパッドの列挙を開始します
-699977:		DirectInput 対応入力装置を検出しました
-699978:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-699978:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-699978:			DirectInputDevice8 の作成... 成功
-699979:			DirectInputDevice の情報を取得します... 成功
-699979:				Device Product Name  : Controller (Xbox One For Windows)
-699979:				Device Instance Name : Controller (Xbox One For Windows)
-699979:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-699979:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-699980:		検出した DirectInput 対応入力装置の初期化を中断します
-699980:	DirectInput 対応ジョイパッドの列挙終了
-699980:ジョイパッドの初期化は正常に終了しました
-700182:ジョイパッドの初期化... 
-700182:	XInput 対応コントローラーのチェックを開始します
-700182:		XInput 対応コントローラー No.0 をチェック
-700182:		XInput 対応コントローラー No.0 の接続を確認しました
-700182:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-700182:		XInput 対応コントローラー No.1 をチェック
-700183:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-700183:		XInput 対応コントローラー No.2 をチェック
-700184:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-700184:		XInput 対応コントローラー No.3 をチェック
-700184:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-700184:	XInput 対応コントローラーのチェック完了
-700184:	DirectInput 対応ジョイパッドの列挙を開始します
-700205:		DirectInput 対応入力装置を検出しました
-700206:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-700206:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-700206:			DirectInputDevice8 の作成... 成功
-700207:			DirectInputDevice の情報を取得します... 成功
-700207:				Device Product Name  : Controller (Xbox One For Windows)
-700207:				Device Instance Name : Controller (Xbox One For Windows)
-700207:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-700207:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-700207:		検出した DirectInput 対応入力装置の初期化を中断します
-700207:	DirectInput 対応ジョイパッドの列挙終了
-700207:ジョイパッドの初期化は正常に終了しました
-781778:ジョイパッドの初期化... 
-781778:	XInput 対応コントローラーのチェックを開始します
-781779:		XInput 対応コントローラー No.0 をチェック
-781779:		XInput 対応コントローラー No.0 の接続を確認しました
-781779:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-781780:		XInput 対応コントローラー No.1 をチェック
-781780:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-781780:		XInput 対応コントローラー No.2 をチェック
-781780:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-781780:		XInput 対応コントローラー No.3 をチェック
-781781:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-781781:	XInput 対応コントローラーのチェック完了
-781781:	DirectInput 対応ジョイパッドの列挙を開始します
-781850:		DirectInput 対応入力装置を検出しました
-781850:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-781850:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-781850:			DirectInputDevice8 の作成... 成功
-781851:			DirectInputDevice の情報を取得します... 成功
-781851:				Device Product Name  : Controller (Xbox One For Windows)
-781851:				Device Instance Name : Controller (Xbox One For Windows)
-781851:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-781851:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-781851:		検出した DirectInput 対応入力装置の初期化を中断します
-781852:	DirectInput 対応ジョイパッドの列挙終了
-781852:ジョイパッドの初期化は正常に終了しました
-790263:ジョイパッドの初期化... 
-790264:	XInput 対応コントローラーのチェックを開始します
-790264:		XInput 対応コントローラー No.0 をチェック
-790264:		XInput 対応コントローラー No.0 の接続を確認しました
-790264:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-790264:		XInput 対応コントローラー No.1 をチェック
-790265:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-790265:		XInput 対応コントローラー No.2 をチェック
-790265:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-790265:		XInput 対応コントローラー No.3 をチェック
-790265:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-790266:	XInput 対応コントローラーのチェック完了
-790266:	DirectInput 対応ジョイパッドの列挙を開始します
-790292:		DirectInput 対応入力装置を検出しました
-790292:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-790292:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-790292:			DirectInputDevice8 の作成... 成功
-790293:			DirectInputDevice の情報を取得します... 成功
-790294:				Device Product Name  : Controller (Xbox One For Windows)
-790294:				Device Instance Name : Controller (Xbox One For Windows)
-790294:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-790294:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-790295:		検出した DirectInput 対応入力装置の初期化を中断します
-790295:	DirectInput 対応ジョイパッドの列挙終了
-790295:ジョイパッドの初期化は正常に終了しました
-790479:ジョイパッドの初期化... 
-790479:	XInput 対応コントローラーのチェックを開始します
-790479:		XInput 対応コントローラー No.0 をチェック
-790479:		XInput 対応コントローラー No.0 の接続を確認しました
-790479:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-790479:		XInput 対応コントローラー No.1 をチェック
-790480:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-790480:		XInput 対応コントローラー No.2 をチェック
-790480:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-790480:		XInput 対応コントローラー No.3 をチェック
-790480:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-790481:	XInput 対応コントローラーのチェック完了
-790481:	DirectInput 対応ジョイパッドの列挙を開始します
-790500:		DirectInput 対応入力装置を検出しました
-790500:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-790500:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-790500:			DirectInputDevice8 の作成... 成功
-790501:			DirectInputDevice の情報を取得します... 成功
-790501:				Device Product Name  : Controller (Xbox One For Windows)
-790501:				Device Instance Name : Controller (Xbox One For Windows)
-790501:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-790501:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-790502:		検出した DirectInput 対応入力装置の初期化を中断します
-790502:	DirectInput 対応ジョイパッドの列挙終了
-790502:ジョイパッドの初期化は正常に終了しました
-795342:ジョイパッドの初期化... 
-795342:	XInput 対応コントローラーのチェックを開始します
-795342:		XInput 対応コントローラー No.0 をチェック
-795342:		XInput 対応コントローラー No.0 の接続を確認しました
-795342:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-795343:		XInput 対応コントローラー No.1 をチェック
-795343:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-795343:		XInput 対応コントローラー No.2 をチェック
-795344:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-795344:		XInput 対応コントローラー No.3 をチェック
-795344:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-795344:	XInput 対応コントローラーのチェック完了
-795345:	DirectInput 対応ジョイパッドの列挙を開始します
-795372:		DirectInput 対応入力装置を検出しました
-795373:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-795373:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-795373:			DirectInputDevice8 の作成... 成功
-795373:			DirectInputDevice の情報を取得します... 成功
-795374:				Device Product Name  : Controller (Xbox One For Windows)
-795374:				Device Instance Name : Controller (Xbox One For Windows)
-795374:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-795374:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-795374:		検出した DirectInput 対応入力装置の初期化を中断します
-795374:	DirectInput 対応ジョイパッドの列挙終了
-795374:ジョイパッドの初期化は正常に終了しました
-795576:ジョイパッドの初期化... 
-795576:	XInput 対応コントローラーのチェックを開始します
-795576:		XInput 対応コントローラー No.0 をチェック
-795576:		XInput 対応コントローラー No.0 の接続を確認しました
-795576:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-795577:		XInput 対応コントローラー No.1 をチェック
-795577:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-795577:		XInput 対応コントローラー No.2 をチェック
-795577:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-795577:		XInput 対応コントローラー No.3 をチェック
-795577:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-795577:	XInput 対応コントローラーのチェック完了
-795577:	DirectInput 対応ジョイパッドの列挙を開始します
-795597:		DirectInput 対応入力装置を検出しました
-795597:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-795597:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-795597:			DirectInputDevice8 の作成... 成功
-795597:			DirectInputDevice の情報を取得します... 成功
-795598:				Device Product Name  : Controller (Xbox One For Windows)
-795598:				Device Instance Name : Controller (Xbox One For Windows)
-795598:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-795598:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-795598:		検出した DirectInput 対応入力装置の初期化を中断します
-795598:	DirectInput 対応ジョイパッドの列挙終了
-795598:ジョイパッドの初期化は正常に終了しました
-835042:音声データのオープンに失敗しました
-835042:Sound File Setup Error : C:\Users\Owner\Documents\GitHub\01,PersonalProduction\ProductionWork\3DGame_2_Switching! S&B fight\01.実行ファイル\data\Movie\Movie_004.mp4
-880201:音声データのオープンに失敗しました
-880201:Sound File Setup Error : C:\Users\Owner\Documents\GitHub\01,PersonalProduction\ProductionWork\3DGame_2_Switching! S&B fight\01.実行ファイル\data\Movie\Movie_004.mp4
-984470:音声データのオープンに失敗しました
-984470:Sound File Setup Error : C:\Users\Owner\Documents\GitHub\01,PersonalProduction\ProductionWork\3DGame_2_Switching! S&B fight\01.実行ファイル\data\Movie\Movie_004.mp4
-1008563:音声データのオープンに失敗しました
-1008563:Sound File Setup Error : C:\Users\Owner\Documents\GitHub\01,PersonalProduction\ProductionWork\3DGame_2_Switching! S&B fight\01.実行ファイル\data\Movie\Movie_004.mp4
-1030077:音声データのオープンに失敗しました
-1030077:Sound File Setup Error : C:\Users\Owner\Documents\GitHub\01,PersonalProduction\ProductionWork\3DGame_2_Switching! S&B fight\01.実行ファイル\data\Movie\Movie_004.mp4
-1409755:音声データのオープンに失敗しました
-1409755:Sound File Setup Error : C:\Users\Owner\Documents\GitHub\01,PersonalProduction\ProductionWork\3DGame_2_Switching! S&B fight\01.実行ファイル\data\Movie\Movie_004.mp4
-1813209:ジョイパッドの初期化... 
-1813209:	XInput 対応コントローラーのチェックを開始します
-1813210:		XInput 対応コントローラー No.0 をチェック
-1813210:		XInput 対応コントローラー No.0 の接続を確認しました
-1813210:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1813211:		XInput 対応コントローラー No.1 をチェック
-1813211:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1813212:		XInput 対応コントローラー No.2 をチェック
-1813212:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1813212:		XInput 対応コントローラー No.3 をチェック
-1813212:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1813212:	XInput 対応コントローラーのチェック完了
-1813212:	DirectInput 対応ジョイパッドの列挙を開始します
-1813286:		DirectInput 対応入力装置を検出しました
-1813286:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1813286:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1813286:			DirectInputDevice8 の作成... 成功
-1813286:			DirectInputDevice の情報を取得します... 成功
-1813287:				Device Product Name  : Controller (Xbox One For Windows)
-1813287:				Device Instance Name : Controller (Xbox One For Windows)
-1813287:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1813287:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1813287:		検出した DirectInput 対応入力装置の初期化を中断します
-1813288:	DirectInput 対応ジョイパッドの列挙終了
-1813288:ジョイパッドの初期化は正常に終了しました
-1813989:ジョイパッドの初期化... 
-1813989:	XInput 対応コントローラーのチェックを開始します
-1813990:		XInput 対応コントローラー No.0 をチェック
-1813990:		XInput 対応コントローラー No.0 の接続を確認しました
-1813990:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1813990:		XInput 対応コントローラー No.1 をチェック
-1813990:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1813990:		XInput 対応コントローラー No.2 をチェック
-1813991:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1813991:		XInput 対応コントローラー No.3 をチェック
-1813991:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1813991:	XInput 対応コントローラーのチェック完了
-1813991:	DirectInput 対応ジョイパッドの列挙を開始します
-1814017:		DirectInput 対応入力装置を検出しました
-1814017:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1814017:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1814017:			DirectInputDevice8 の作成... 成功
-1814018:			DirectInputDevice の情報を取得します... 成功
-1814019:				Device Product Name  : Controller (Xbox One For Windows)
-1814019:				Device Instance Name : Controller (Xbox One For Windows)
-1814019:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1814020:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1814020:		検出した DirectInput 対応入力装置の初期化を中断します
-1814020:	DirectInput 対応ジョイパッドの列挙終了
-1814020:ジョイパッドの初期化は正常に終了しました
-1814221:ジョイパッドの初期化... 
-1814221:	XInput 対応コントローラーのチェックを開始します
-1814221:		XInput 対応コントローラー No.0 をチェック
-1814221:		XInput 対応コントローラー No.0 の接続を確認しました
-1814222:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1814222:		XInput 対応コントローラー No.1 をチェック
-1814222:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1814222:		XInput 対応コントローラー No.2 をチェック
-1814222:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1814222:		XInput 対応コントローラー No.3 をチェック
-1814223:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1814223:	XInput 対応コントローラーのチェック完了
-1814223:	DirectInput 対応ジョイパッドの列挙を開始します
-1814243:		DirectInput 対応入力装置を検出しました
-1814243:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1814244:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1814244:			DirectInputDevice8 の作成... 成功
-1814244:			DirectInputDevice の情報を取得します... 成功
-1814244:				Device Product Name  : Controller (Xbox One For Windows)
-1814244:				Device Instance Name : Controller (Xbox One For Windows)
-1814244:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1814244:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1814245:		検出した DirectInput 対応入力装置の初期化を中断します
-1814245:	DirectInput 対応ジョイパッドの列挙終了
-1814245:ジョイパッドの初期化は正常に終了しました
-1815296:ジョイパッドの初期化... 
-1815297:	XInput 対応コントローラーのチェックを開始します
-1815297:		XInput 対応コントローラー No.0 をチェック
-1815297:		XInput 対応コントローラー No.0 の接続を確認しました
-1815297:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1815297:		XInput 対応コントローラー No.1 をチェック
-1815298:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1815298:		XInput 対応コントローラー No.2 をチェック
-1815298:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1815298:		XInput 対応コントローラー No.3 をチェック
-1815298:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1815299:	XInput 対応コントローラーのチェック完了
-1815299:	DirectInput 対応ジョイパッドの列挙を開始します
-1815321:		DirectInput 対応入力装置を検出しました
-1815321:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1815321:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1815321:			DirectInputDevice8 の作成... 成功
-1815322:			DirectInputDevice の情報を取得します... 成功
-1815322:				Device Product Name  : Controller (Xbox One For Windows)
-1815322:				Device Instance Name : Controller (Xbox One For Windows)
-1815322:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1815322:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1815322:		検出した DirectInput 対応入力装置の初期化を中断します
-1815324:	DirectInput 対応ジョイパッドの列挙終了
-1815324:ジョイパッドの初期化は正常に終了しました
-1819130:ジョイパッドの初期化... 
-1819130:	XInput 対応コントローラーのチェックを開始します
-1819130:		XInput 対応コントローラー No.0 をチェック
-1819130:		XInput 対応コントローラー No.0 の接続を確認しました
-1819131:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1819131:		XInput 対応コントローラー No.1 をチェック
-1819131:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1819132:		XInput 対応コントローラー No.2 をチェック
-1819132:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1819132:		XInput 対応コントローラー No.3 をチェック
-1819132:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1819132:	XInput 対応コントローラーのチェック完了
-1819133:	DirectInput 対応ジョイパッドの列挙を開始します
-1819161:		DirectInput 対応入力装置を検出しました
-1819161:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1819161:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1819161:			DirectInputDevice8 の作成... 成功
-1819162:			DirectInputDevice の情報を取得します... 成功
-1819162:				Device Product Name  : Controller (Xbox One For Windows)
-1819164:				Device Instance Name : Controller (Xbox One For Windows)
-1819164:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1819164:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1819164:		検出した DirectInput 対応入力装置の初期化を中断します
-1819164:	DirectInput 対応ジョイパッドの列挙終了
-1819165:ジョイパッドの初期化は正常に終了しました
-1819348:ジョイパッドの初期化... 
-1819348:	XInput 対応コントローラーのチェックを開始します
-1819349:		XInput 対応コントローラー No.0 をチェック
-1819349:		XInput 対応コントローラー No.0 の接続を確認しました
-1819349:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1819349:		XInput 対応コントローラー No.1 をチェック
-1819349:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1819350:		XInput 対応コントローラー No.2 をチェック
-1819350:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1819350:		XInput 対応コントローラー No.3 をチェック
-1819350:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1819351:	XInput 対応コントローラーのチェック完了
-1819351:	DirectInput 対応ジョイパッドの列挙を開始します
-1819387:		DirectInput 対応入力装置を検出しました
-1819388:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1819388:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1819388:			DirectInputDevice8 の作成... 成功
-1819390:			DirectInputDevice の情報を取得します... 成功
-1819390:				Device Product Name  : Controller (Xbox One For Windows)
-1819390:				Device Instance Name : Controller (Xbox One For Windows)
-1819390:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1819391:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1819391:		検出した DirectInput 対応入力装置の初期化を中断します
-1819391:	DirectInput 対応ジョイパッドの列挙終了
-1819391:ジョイパッドの初期化は正常に終了しました
-1824268:ジョイパッドの初期化... 
-1824268:	XInput 対応コントローラーのチェックを開始します
-1824268:		XInput 対応コントローラー No.0 をチェック
-1824268:		XInput 対応コントローラー No.0 の接続を確認しました
-1824268:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1824269:		XInput 対応コントローラー No.1 をチェック
-1824270:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1824270:		XInput 対応コントローラー No.2 をチェック
-1824270:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1824270:		XInput 対応コントローラー No.3 をチェック
-1824270:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1824271:	XInput 対応コントローラーのチェック完了
-1824271:	DirectInput 対応ジョイパッドの列挙を開始します
-1824295:		DirectInput 対応入力装置を検出しました
-1824295:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1824296:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1824296:			DirectInputDevice8 の作成... 成功
-1824296:			DirectInputDevice の情報を取得します... 成功
-1824297:				Device Product Name  : Controller (Xbox One For Windows)
-1824297:				Device Instance Name : Controller (Xbox One For Windows)
-1824297:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1824297:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1824297:		検出した DirectInput 対応入力装置の初期化を中断します
-1824297:	DirectInput 対応ジョイパッドの列挙終了
-1824297:ジョイパッドの初期化は正常に終了しました
-1824482:ジョイパッドの初期化... 
-1824482:	XInput 対応コントローラーのチェックを開始します
-1824483:		XInput 対応コントローラー No.0 をチェック
-1824483:		XInput 対応コントローラー No.0 の接続を確認しました
-1824483:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1824483:		XInput 対応コントローラー No.1 をチェック
-1824483:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1824484:		XInput 対応コントローラー No.2 をチェック
-1824484:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1824484:		XInput 対応コントローラー No.3 をチェック
-1824484:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1824484:	XInput 対応コントローラーのチェック完了
-1824484:	DirectInput 対応ジョイパッドの列挙を開始します
-1824511:		DirectInput 対応入力装置を検出しました
-1824511:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1824511:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1824511:			DirectInputDevice8 の作成... 成功
-1824512:			DirectInputDevice の情報を取得します... 成功
-1824513:				Device Product Name  : Controller (Xbox One For Windows)
-1824513:				Device Instance Name : Controller (Xbox One For Windows)
-1824514:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1824514:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1824514:		検出した DirectInput 対応入力装置の初期化を中断します
-1824514:	DirectInput 対応ジョイパッドの列挙終了
-1824514:ジョイパッドの初期化は正常に終了しました
-1971351:ジョイパッドの初期化... 
-1971351:	XInput 対応コントローラーのチェックを開始します
-1971351:		XInput 対応コントローラー No.0 をチェック
-1971351:		XInput 対応コントローラー No.0 の接続を確認しました
-1971351:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1971352:		XInput 対応コントローラー No.1 をチェック
-1971352:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1971352:		XInput 対応コントローラー No.2 をチェック
-1971353:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1971353:		XInput 対応コントローラー No.3 をチェック
-1971353:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1971353:	XInput 対応コントローラーのチェック完了
-1971353:	DirectInput 対応ジョイパッドの列挙を開始します
-1971431:		DirectInput 対応入力装置を検出しました
-1971431:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1971431:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1971432:			DirectInputDevice8 の作成... 成功
-1971432:			DirectInputDevice の情報を取得します... 成功
-1971433:				Device Product Name  : Controller (Xbox One For Windows)
-1971433:				Device Instance Name : Controller (Xbox One For Windows)
-1971433:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1971433:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1971433:		検出した DirectInput 対応入力装置の初期化を中断します
-1971433:	DirectInput 対応ジョイパッドの列挙終了
-1971433:ジョイパッドの初期化は正常に終了しました
-1971633:ジョイパッドの初期化... 
-1971634:	XInput 対応コントローラーのチェックを開始します
-1971634:		XInput 対応コントローラー No.0 をチェック
-1971634:		XInput 対応コントローラー No.0 の接続を確認しました
-1971634:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-1971634:		XInput 対応コントローラー No.1 をチェック
-1971635:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-1971635:		XInput 対応コントローラー No.2 をチェック
-1971635:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-1971635:		XInput 対応コントローラー No.3 をチェック
-1971635:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-1971636:	XInput 対応コントローラーのチェック完了
-1971636:	DirectInput 対応ジョイパッドの列挙を開始します
-1971653:		DirectInput 対応入力装置を検出しました
-1971653:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-1971653:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-1971653:			DirectInputDevice8 の作成... 成功
-1971654:			DirectInputDevice の情報を取得します... 成功
-1971654:				Device Product Name  : Controller (Xbox One For Windows)
-1971655:				Device Instance Name : Controller (Xbox One For Windows)
-1971655:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-1971655:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-1971655:		検出した DirectInput 対応入力装置の初期化を中断します
-1971655:	DirectInput 対応ジョイパッドの列挙終了
-1971655:ジョイパッドの初期化は正常に終了しました
-2212392:音声データのオープンに失敗しました
-2212394:Sound File Setup Error : C:\Users\Owner\Documents\GitHub\01,PersonalProduction\ProductionWork\3DGame_2_Switching! S&B fight\01.実行ファイル\data\Movie\Movie_004.mp4
-2219480:ジョイパッドの初期化... 
-2219480:	XInput 対応コントローラーのチェックを開始します
-2219481:		XInput 対応コントローラー No.0 をチェック
-2219481:		XInput 対応コントローラー No.0 の接続を確認しました
-2219481:		XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
-2219482:		XInput 対応コントローラー No.1 をチェック
-2219482:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-2219483:		XInput 対応コントローラー No.2 をチェック
-2219483:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-2219483:		XInput 対応コントローラー No.3 をチェック
-2219484:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-2219484:	XInput 対応コントローラーのチェック完了
-2219484:	DirectInput 対応ジョイパッドの列挙を開始します
-2219512:		DirectInput 対応入力装置を検出しました
-2219513:				Device Product GUID  : 02ff045e,0000,0000,00,00,50,49,44,56,49,44
-2219513:				Device Instance GUID : 2c0a2390,8883,11ef,80,01,44,45,53,54,00,00
-2219513:			DirectInputDevice8 の作成... 成功
-2219514:			DirectInputDevice の情報を取得します... 成功
-2219515:				Device Product Name  : Controller (Xbox One For Windows)
-2219515:				Device Instance Name : Controller (Xbox One For Windows)
-2219515:			検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
-2219515:			検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 一致
-2219516:		検出した DirectInput 対応入力装置の初期化を中断します
-2219516:	DirectInput 対応ジョイパッドの列挙終了
-2219516:ジョイパッドの初期化は正常に終了しました
-2238563:ジョイパッドの初期化... 
-2238563:	XInput 対応コントローラーのチェックを開始します
-2238563:		XInput 対応コントローラー No.0 をチェック
-2238563:		XInput 対応コントローラー No.0 の接続は確認できませんでした
-2238563:		XInput 対応コントローラー No.1 をチェック
-2238565:		XInput 対応コントローラー No.1 の接続は確認できませんでした
-2238565:		XInput 対応コントローラー No.2 をチェック
-2238565:		XInput 対応コントローラー No.2 の接続は確認できませんでした
-2238565:		XInput 対応コントローラー No.3 をチェック
-2238565:		XInput 対応コントローラー No.3 の接続は確認できませんでした
-2238566:	XInput 対応コントローラーのチェック完了
-2238566:	DirectInput 対応ジョイパッドの列挙を開始します
-2238647:	DirectInput 対応ジョイパッドの列挙終了
-2238648:ジョイパッドの初期化は正常に終了しました
-2285321:フォントの初期化を行います
-2285322:フォントの初期化は正常に終了しました
-2285472:d3d11.dll の解放 1
-2285472:dxgi.dll の解放 1
-2285473:Direct3D11 のオブジェクト数を出力
-2285473:Direct3D11 のオブジェクト合計数 : 0
-2285542:DirectInput 関連の終了処理... 完了
-2285543:サウンド関連の終了処理... 完了
-2285556:ウィンドウ関連の終了処理... ウインドウを閉じようとしています
-2285564:ウインドウが破棄されようとしています
-2285564:ソフトを終了する準備が整いました
-2285628:完了
-2285637:ＣＯＭを終了... 完了
-2285639:
-2285639:Alloc memory dump
-2285639:	Total size:0(0.000kb)  Alloc num:0
-2285640:
+102:		ＣＰＵ名：12th Gen Intel(R) Core(TM) i7-12700KF
+102:	ＣＯＭの初期化... 成功
+168:	非同期読み込み処理の初期化...成功
+168:	ファイルアクセス処理の初期化...成功
+169:	メモリ総量:32560.15MB  空きメモリ領域:15719.17MB 
+169:	タイマーの精度を検査します
+169:	精度結果 更新回数 マルチメディアタイマー：0  パフォーマンスカウンター：60
+169:	 パフォーマンスカウンターを使用します タイマー精度 : 10000.000000 KHz 
+170:	 
+170:	ソフトの二重起動検査... 二重起動はされていませんでした
+170:	ウインドウクラスを登録します... 登録に成功しました
+170:	ウインドウモード起動用のウインドウを作成します
+170:	ディスプレイ情報のセットアップ開始
+170:		モニターの数：1  ディスプレイデバイスの数：4
+171:		No.0  モニター名：\\.\DISPLAY2　1920x1080　32bit　60Hz  96x96dpi
+174:	ディスプレイ情報のセットアップ完了
+175:	ウインドウ矩形 ( -16, -50 )-( 1920, 1069 )
+177:	ウインドウの作成に成功しました
+177:	ウインドウを表示します
+190:	ＩＭＥを無効にしました
+192:	ウインドウスタイルをウインドウモード用に変更します... 完了
+214:	XInput DLL の読み込み中... 成功
+214:	DirectInput関係初期化処理
+214:		DirectInput8 の取得を試みます...成功
+282:			引き続き初期化処理... 初期化成功
+284:		ジョイパッドの初期化... 
+284:			XInput 対応コントローラーのチェックを開始します
+284:				XInput 対応コントローラー No.0 をチェック
+285:				XInput 対応コントローラー No.0 の接続を確認しました
+285:				XInput 対応コントローラー No.0 を入力ナンバー 0 で登録します
+286:				XInput 対応コントローラー No.1 をチェック
+286:				XInput 対応コントローラー No.1 の接続は確認できませんでした
+286:				XInput 対応コントローラー No.2 をチェック
+287:				XInput 対応コントローラー No.2 の接続は確認できませんでした
+287:				XInput 対応コントローラー No.3 をチェック
+287:				XInput 対応コントローラー No.3 の接続は確認できませんでした
+287:			XInput 対応コントローラーのチェック完了
+287:			DirectInput 対応ジョイパッドの列挙を開始します
+373:				DirectInput 対応入力装置を検出しました
+374:						Device Product GUID  : c21d046d,0000,0000,00,00,50,49,44,56,49,44
+374:						Device Instance GUID : 1fddc060,6919,11ef,80,07,44,45,53,54,00,00
+374:					DirectInputDevice8 の作成... 成功
+374:					DirectInputDevice の情報を取得します... 成功
+376:						Device Product Name  : Controller (Gamepad F310)
+376:						Device Instance Name : Controller (Gamepad F310)
+376:					検出した DirectInput 対応入力装置が Xbox360コントローラーか確認... 不一致
+376:					検出した DirectInput 対応入力装置が XboxOneコントローラーか確認... 不一致
+376:					検出した DirectInput 対応入力装置が XInput 対応コントローラーか確認... 一致
+691:				検出した DirectInput 対応入力装置の初期化を中断します
+751:			DirectInput 対応ジョイパッドの列挙終了
+751:		ジョイパッドの初期化は正常に終了しました
+751:		マウスデバイスの初期化... 初期化成功
+752:		キーボードデバイスの初期化... 初期化成功
+754:	DirectInput 関連の初期化は正常に終了しました
+755:	WASAPI の初期化を行います
+819:		デバイス名 : ヘッドホン (Haikyu!!)
+821:		デフォルト遅延時間 : 10.000 ms
+821:		最小遅延時間       : 3.000 ms
+821:		遅延時間           : 10.000 ms
+821:		チャンネル数  　   : 2 ch
+821:		量子化ビット深度   : 32 bit
+821:		有効ビット深度　   : 32 bit
+822:		サンプリングレート : 48000 Hz
+822:		データ形式         : 浮動小数点型
+826:		動作モード         : 共有モード
+826:	WASAPI の初期化は正常に終了しました
+828:	d3d11.dll の読み込み.... 成功
+887:	dxgi.dll の読み込み.... 成功
+887:	API CreateDXGIFactory2 のアドレスを取得します.... 成功
+887:	IDXGIFactory2 を作成します.... 成功
+890:	API CreateDXGIFactory6 のアドレスを取得します.... 成功
+890:	IDXGIAdapter を列挙
+890:		Adapter No.0 Desc:NVIDIA GeForce RTX 3070  VRAM:8018MB
+891:			Output Device No.0 Name:\\.\DISPLAY2 ( 0, 0 )-( 1920, 1080 )
+891:		Adapter No.1 Desc:Microsoft Basic Render Driver  VRAM:0MB
+891:	API D3D11CreateDevice のアドレスを取得します.... 成功
+891:	IDXGIAdapter を取得します.... 成功
+891:	IDXGIAdapter1 を取得します.... 成功
+891:	IDXGIAdapter2 を取得します.... 成功
+891:	IDXGIAdapter3 を取得します.... 成功
+892:	IDXGIAdapter4 を取得します.... 成功
+892:	Direct3D 11 FeatureLevel 11_0 以上を対象とします
+892:	ID3D11Device オブジェクトを取得します.... 成功
+965:	IDXGIDevice1 を取得します.... 成功
+965:	IDXGIDevice1->SetMaximunFrameLatency( 1 ); を実行しました
+965:	[ウインドウモード 1920x1080 ( 0, 0 )-( 1920, 1080 )]
+966:	IDXGISwapChain2 を作成します.... 成功
+967:	IDXGIFactory2->CreateSwapChainForHwnd の戻り値：0x00000000
+967:	IDXGIOutput を取得します.... 成功
+967:	Graphics Device:NVIDIA GeForce RTX 3070
+967:	画面のフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+967:	16bit Zバッファフォーマットは DXGI_FORMAT_D16_UNORM です
+967:	24bit Zバッファフォーマットは DXGI_FORMAT_D24_UNORM_S8_UINT です
+967:	32bit Zバッファフォーマットは DXGI_FORMAT_D32_FLOAT です
+967:	16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
+967:	32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
+967:	アルファ付き 16bit カラーフォーマットは DXGI_FORMAT_B4G4R4A4_UNORM です
+967:	アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+968:	アルファテスト用 16bit カラーフォーマットは DXGI_FORMAT_B5G5R5A1_UNORM です
+968:	アルファテスト用 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+968:	ＤＸＴ１テクスチャフォーマットは DXGI_FORMAT_BC1_UNORM です
+968:	ＤＸＴ２テクスチャフォーマットは使えません
+968:	ＤＸＴ３テクスチャフォーマットは DXGI_FORMAT_BC2_UNORM です
+968:	ＤＸＴ４テクスチャフォーマットは使えません
+968:	ＤＸＴ５テクスチャフォーマットは DXGI_FORMAT_BC3_UNORM です
+968:	BC7_UNORM テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM です
+968:	BC7_UNORM_SRGB テクスチャフォーマットは DXGI_FORMAT_BC7_UNORM_SRGB です
+968:	ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
+968:	ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
+968:	ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
+968:	１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
+968:	１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
+969:	１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
+969:	１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
+969:	２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
+969:	２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
+969:	２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
+969:	２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
+969:	描画用 16bit カラーフォーマットは DXGI_FORMAT_B5G6R5_UNORM です
+969:	描画用 32bit カラーフォーマットは DXGI_FORMAT_B8G8R8X8_UNORM です
+969:	描画用アルファ付き 32bit カラーフォーマットは DXGI_FORMAT_R8G8B8A8_UNORM です
+969:	描画用 ABGR 整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_UNORM です
+969:	描画用 ABGR 浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16B16A16_FLOAT です
+969:	描画用 ABGR 浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32B32A32_FLOAT です
+969:	描画用１チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8_UNORM です
+969:	描画用１チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_UNORM です
+969:	描画用１チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16_FLOAT です
+970:	描画用１チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32_FLOAT です
+970:	描画用２チャンネル整数 8 ビット型カラーフォーマットは DXGI_FORMAT_R8G8_UNORM です
+970:	描画用２チャンネル整数 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_UNORM です
+970:	描画用２チャンネル浮動小数点 16 ビット型カラーフォーマットは DXGI_FORMAT_R16G16_FLOAT です
+970:	描画用２チャンネル浮動小数点 32 ビット型カラーフォーマットは DXGI_FORMAT_R32G32_FLOAT です
+970:	使用する機能レベル:D3D_FEATURE_LEVEL_11_1
+970:	同時にレンダリングできるバッファの数:8
+970:	最大テクスチャサイズ　幅:16384 高さ:16384
+970:	標準描画用の頂点バッファの作成.... 成功
+970:	シェーダーコード関係の初期化.... 成功
+978:	各種シェーダー用定数バッファの作成.... 成功
+979:	各種 ID3D11InputLayout の作成.... 成功
+988:	画像の単純転送処理の初期化... 成功
+988:	深度バッファを作成します.... 成功
+989:	フォントの初期化を行います
+991:	フォントの初期化は正常に終了しました
+1075:	文字コードバッファの初期化を行います... 完了しました
+1092:ＤＸライブラリの初期化処理終了
+5627:フォントの初期化を行います
+5627:フォントの初期化は正常に終了しました
+5641:d3d11.dll の解放 1
+5642:dxgi.dll の解放 1
+5642:Direct3D11 のオブジェクト数を出力
+5642:Direct3D11 のオブジェクト合計数 : 0
+5642:DirectInput 関連の終了処理... 完了
+5642:サウンド関連の終了処理... 完了
+5659:ウィンドウ関連の終了処理... ウインドウを閉じようとしています
+5664:ウインドウが破棄されようとしています
+5665:ソフトを終了する準備が整いました
+5734:完了
+5736:ＣＯＭを終了... 完了
+5736:
+5736:Alloc memory dump
+5736:	Total size:0(0.000kb)  Alloc num:0
+5736:

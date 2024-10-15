@@ -2,6 +2,7 @@
 #include "SceneDebug.h"
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
+#include "../Object/Item.h"
 #include "../Camera.h"
 #include "DxLib.h"
 
@@ -16,9 +17,11 @@ SceneGame::~SceneGame()
 
 void SceneGame::Init()
 {
+	m_pItem->Init();
 	m_pCamera->Init();
 	m_pPlayer->Init();
 	m_pEnemy->Init();
+	
 
 	model = MV1LoadModel("Data/Model/book.mv1");
 	MV1SetScale(model, VGet(50.0f, 50.0f, 50.0f));
@@ -30,6 +33,7 @@ std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 	m_pPlayer->Update(*m_pCamera,input);
 	m_pEnemy->Update();
 	m_pCamera->Update(*m_pPlayer);
+	m_pItem->Update();
 
 #ifdef _DEBUG
 	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン
@@ -43,6 +47,7 @@ std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 
 void SceneGame::Draw()
 {
+	m_pItem->Draw();
 	MV1DrawModel(model);
 	m_pPlayer->Draw();
 	m_pEnemy->Draw();

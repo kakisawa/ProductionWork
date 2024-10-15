@@ -3,6 +3,7 @@
 
 class Player;
 class Enemy;
+class Item;
 class Camera;
 class SceneGame :
     public SceneBase
@@ -26,4 +27,6 @@ private:
     std::shared_ptr<Player> m_pPlayer = std::make_shared<Player>();
     // 敵
     std::shared_ptr<Enemy> m_pEnemy = std::make_shared<Enemy>();
+    // アイテム
+    std::shared_ptr<Item> m_pItem = std::make_shared<Item>();
 };

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "DxLib.h"
 #include "ModelBase.h"
+#include "Item.h"
 #include <string>
 #include <array>
 
@@ -87,19 +88,7 @@ public:
 		float Dying;				// 死亡
 	}m_animSpeed;
 
-	// アイテムのジャンル
-	enum class Item {
-		NoItem,			// アイテム無し
-		IceFloor,		// 氷床
-		SwivelChair,	// 回転椅子
-		landmine,		// 地雷
-		SurpriseBox,	// びっくり箱
-		RecoveryMedic,	// 体力回復薬
-		Ammunition,		// 弾薬
-		SummonBox,		// 召喚BOX
-	};
-
-	std::array<Item, 3>  m_useItem;
+	std::array<Item::ItemKind, 3>  m_useItem;
 
 public:
 
@@ -168,6 +157,7 @@ public:
 	VECTOR GetPos() const { return m_pos; }	// 座標渡し
 
 private:
+	int m_item;
 
 	// 左パッド入力用
 	int m_inputX, m_inputY;	
