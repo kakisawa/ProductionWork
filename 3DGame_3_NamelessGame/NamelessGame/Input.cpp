@@ -6,10 +6,10 @@
 Input::Input()
 {
 	m_commandTable[InputInfo::OK] = { {InputType::key,KEY_INPUT_A},
-									  {InputType::pad,PAD_INPUT_A} };
+									  {InputType::pad,PAD_INPUT_A} };	// XBoxのAボタン
 
 	m_commandTable[InputInfo::Back] = { {InputType::key,KEY_INPUT_B},
-										{InputType::pad,PAD_INPUT_B} };
+										{InputType::pad,PAD_INPUT_B} };	// XBoxのBボタン
 
 	m_commandTable[InputInfo::Up] = { {InputType::key,KEY_INPUT_UP},
 									  {InputType::pad,PAD_INPUT_UP} };
@@ -26,15 +26,20 @@ Input::Input()
 
 
 	m_commandTable[InputInfo::DebugStart] = { {InputType::key,KEY_INPUT_R},
-											  {InputType::pad,PAD_INPUT_R} };
+											  {InputType::pad,PAD_INPUT_R} };	// XBoxのstartボタン
 
 	// プレイヤー操作関係
 	m_commandTable[InputInfo::UseItem] = { {InputType::key,KEY_INPUT_SPACE},
-												{InputType::pad,PAD_INPUT_X} };
+												{InputType::pad,PAD_INPUT_X} }; // XBoxのYボタン
 
 	m_commandTable[InputInfo::UseItemChange] = { {InputType::key,KEY_INPUT_Z},
-												{InputType::pad,PAD_INPUT_C} };
+												{InputType::pad,PAD_INPUT_C} };	// XBoxのXボタン
 
+	m_commandTable[InputInfo::Attack] = { {InputType::key,KEY_INPUT_A},
+											{InputType::pad,PAD_INPUT_B} };		// XBoxのBボタン
+
+	m_commandTable[InputInfo::ChangeWeapon] = { {InputType::key,KEY_INPUT_Z},
+												{InputType::pad,PAD_INPUT_Y} };	// XBoxのLBボタン
 }
 
 void Input::Update()

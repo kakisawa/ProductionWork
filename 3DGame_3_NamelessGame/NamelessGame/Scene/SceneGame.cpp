@@ -30,7 +30,7 @@ void SceneGame::Init()
 
 std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 {
-	m_pPlayer->Update(*m_pCamera,input);
+	m_pPlayer->Update(*m_pEnemy, *m_pItem, *m_pCamera, input);
 	m_pEnemy->Update();
 	m_pCamera->Update(*m_pPlayer);
 	m_pItem->Update();

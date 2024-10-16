@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "../Collision.h"
 #include "DxLib.h"
 
 class ModelBase
@@ -76,6 +77,8 @@ protected:
 	VECTOR m_pos;			// 座標
 	VECTOR m_move;			// 移動量
 	VECTOR m_targetDir;		// プレイヤーが向くべき方向のベクトル
+
+	Collision m_col;		// 当たり判定
 
 	// アニメーション関係
 

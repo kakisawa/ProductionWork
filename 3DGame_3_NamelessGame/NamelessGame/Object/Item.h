@@ -1,9 +1,11 @@
 ﻿#pragma once
+#include "../Collision.h"
 #include <array>
 #include <DxLib.h>
 
 namespace {
 	constexpr int kItemKind = 7;	// アイテムの種類数
+	constexpr float kItemRespawnTime = 200.0f;	// アイテムリスポーン時間
 }
 
 class Item
@@ -39,7 +41,11 @@ public:
 	/// </summary>
 	void Floating();
 
-
+	/// <summary>
+	/// 当たり判定の値渡し
+	/// </summary>
+	/// <returns>Itemの当たり判定の値</returns>
+	Collision GetColItem() const { return m_col; }
 
 	// アイテムの種類
 	enum class ItemKind {
@@ -54,8 +60,13 @@ public:
 	};
 
 private:
+	int m_model;		// モデル
 
-	int m_model;	// アイテムのモデル
+	float m_angle;		// 移動角度
+	
+	VECTOR m_pos;		// 座標
+	VECTOR m_colPos;	// 当たり判定座標
+	VECTOR m_move;		// 移動量
 
-	VECTOR m_pos;	// アイテムの座標
+	Collision m_col;	// 当たり判定
 };

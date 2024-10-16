@@ -24,6 +24,8 @@ enum class InputInfo {
 	// プレイヤー操作用
 	UseItem,		// アイテム使用
 	UseItemChange,	// アイテム切り替え
+	Attack,			// 攻撃
+	ChangeWeapon,	// 武器切り替え
 
 	MAX,			// 最大入力数
 };

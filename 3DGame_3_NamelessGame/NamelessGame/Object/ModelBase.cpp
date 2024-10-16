@@ -29,6 +29,9 @@ void ModelBase::Init()
 {
 	// モデルの位置設定
 	MV1SetPosition(m_model, m_pos);
+
+	// 当たり判定の初期化
+	m_col.Init();
 }
 
 void ModelBase::Update()
