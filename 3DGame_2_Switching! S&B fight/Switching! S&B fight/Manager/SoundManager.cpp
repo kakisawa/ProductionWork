@@ -1,16 +1,16 @@
-#include "SoundManager.h"
+ï»¿#include "SoundManager.h"
 #include "../Util/Pad.h"
 #include "DxLib.h"
 
 namespace {
-	// ‰¹—Ê‚ÌÅ‘å
+	// éŸ³é‡ã®æœ€å¤§
 	constexpr int kMaxVolume = 255;
 
-	// ‰Šú‰¹—Ê
-	constexpr float kInitBgmVolume = kMaxVolume;// *0.6f;
-	constexpr float kInitSeVolume = kMaxVolume; //* 0.6f;
+	// åˆæœŸéŸ³é‡
+	constexpr float kInitBgmVolume = kMaxVolume*0.6f;	// BGMåˆæœŸéŸ³é‡
+	constexpr float kInitSeVolume = kMaxVolume* 0.6f;	// SEåˆæœŸéŸ³é‡
 
-	// •ÏXŒã‰¹—Ê•Û‘¶
+	// å¤‰æ›´å¾ŒéŸ³é‡ä¿å­˜
 	float kChangeBgm = kInitBgmVolume;
 	float kChangeSe = kInitSeVolume;
 }
@@ -107,7 +107,7 @@ void SoundManager::InitBGM(void)
 {
 	m_bgmPass[BGM_Type::kTitleBGM] = "Title.mp3";
 	m_bgmPass[BGM_Type::kGameBGM] = "MECHANICAL_DEATH.mp3";
-	m_bgmPass[BGM_Type::kGameClearBGM] = "ƒQ[ƒ€ƒNƒŠƒA[I.mp3";
+	m_bgmPass[BGM_Type::kGameClearBGM] = "ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ãƒ¼ï¼.mp3";
 	m_bgmPass[BGM_Type::kGameOverBGM] = "";
 	m_bgmPass[BGM_Type::kOptionBGM] = "Option.mp3";
 }
@@ -119,12 +119,12 @@ void SoundManager::LoadBGM(BGM_Type bgm)
 
 void SoundManager::InitSE(void)
 {
-	m_sePass[SE_Type::kSelectSE] = "ƒJ[ƒ\ƒ‹ˆÚ“®2.mp3";
-	m_sePass[SE_Type::kButtonSE] = "Œˆ’èƒ{ƒ^ƒ“‚ğ‰Ÿ‚·6.mp3";
-	m_sePass[SE_Type::kBackSE] = "ƒLƒƒƒ“ƒZƒ‹7.mp3";
-	m_sePass[SE_Type::kSordSE] = "‚µ‚È‚é•—Ø‚è‰¹.mp3";
+	m_sePass[SE_Type::kSelectSE] = "ã‚«ãƒ¼ã‚½ãƒ«ç§»å‹•2.mp3";
+	m_sePass[SE_Type::kButtonSE] = "æ±ºå®šãƒœã‚¿ãƒ³ã‚’æŠ¼ã™6.mp3";
+	m_sePass[SE_Type::kBackSE] = "ã‚­ãƒ£ãƒ³ã‚»ãƒ«7.mp3";
+	m_sePass[SE_Type::kSordSE] = "ã—ãªã‚‹é¢¨åˆ‡ã‚ŠéŸ³.mp3";
 	m_sePass[SE_Type::kBowSE] = "se_gun_fire05.mp3";
-	m_sePass[SE_Type::kExtinction] = "ƒf[ƒ^•\¦4.mp3";
+	m_sePass[SE_Type::kExtinction] = "ãƒ‡ãƒ¼ã‚¿è¡¨ç¤º4.mp3";
 }
 
 void SoundManager::LoadSE(SE_Type se)
@@ -135,7 +135,7 @@ void SoundManager::LoadSE(SE_Type se)
 
 void SoundManager::PlayBGM(BGM_Type bgm, int playType, int volumePar, bool topPositionFlag)
 {
-	// ¡‰ñ—p
+	// ä»Šå›ç”¨
 	ChangeVolumeSoundMem(m_bgmVolume, m_bgm[bgm]);
 	PlaySoundMem(m_bgm[bgm], playType, topPositionFlag);
 
@@ -145,7 +145,7 @@ void SoundManager::PlayBGM(BGM_Type bgm, int playType, int volumePar, bool topPo
 
 void SoundManager::PlaySE(SE_Type se, int playType, int volumePar, bool topPositionFlag)
 {
-	// ¡‰ñ—p
+	// ä»Šå›ç”¨
 	ChangeVolumeSoundMem(m_seVolume, m_se[se]);
 	PlaySoundMem(m_se[se], playType, topPositionFlag);
 

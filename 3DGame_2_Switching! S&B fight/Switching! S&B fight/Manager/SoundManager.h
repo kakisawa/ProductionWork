@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<map>
 #include<string>
 
@@ -6,27 +6,27 @@ class SoundManager
 {
 public:
 
-	//BGM‚Ìí—Ş
+	//BGMã®ç¨®é¡
 	enum class BGM_Type
 	{
-		kTitleBGM,		// ƒ^ƒCƒgƒ‹BGM
-		kGameBGM,		// ƒQ[ƒ€BGM
-		kGameClearBGM,	// ƒQ[ƒ€ƒNƒŠƒABGM
-		kGameOverBGM,	// ƒQ[ƒ€ƒI[ƒo[BGM
-		kOptionBGM,		// ƒIƒvƒVƒ‡ƒ“BGM
+		kTitleBGM,		// ã‚¿ã‚¤ãƒˆãƒ«BGM
+		kGameBGM,		// ã‚²ãƒ¼ãƒ BGM
+		kGameClearBGM,	// ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢BGM
+		kGameOverBGM,	// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼BGM
+		kOptionBGM,		// ã‚ªãƒ—ã‚·ãƒ§ãƒ³BGM
 		MAX
 	};
 
-	//SE‚Ìí—Ş
+	//SEã®ç¨®é¡
 	enum class SE_Type
 	{
-		kSelectSE,		// ƒZƒŒƒNƒgSE
-		kButtonSE,		// Œˆ’èSE
-		kBackSE,		// ƒLƒƒƒ“ƒZƒ‹SE
+		kSelectSE,		// ã‚»ãƒ¬ã‚¯ãƒˆSE
+		kButtonSE,		// æ±ºå®šSE
+		kBackSE,		// ã‚­ãƒ£ãƒ³ã‚»ãƒ«SE
 
-		kSordSE,		// Œ•UŒ‚SE
-		kBowSE,			// ‹|UŒ‚SE
-		kExtinction,	// “GÁ–ÅSE
+		kSordSE,		// å‰£æ”»æ’ƒSE
+		kBowSE,			// å¼“æ”»æ’ƒSE
+		kExtinction,	// æ•µæ¶ˆæ»…SE
 
 		MAX,
 	};
@@ -38,101 +38,134 @@ public:
 		kBack,
 	};
 
+	/// <summary>
+	/// åˆæœŸåŒ–
+	/// </summary>
 	void Init();
+
+	/// <summary>
+	/// æç”»
+	/// </summary>
 	void Draw();
 
-	// ’²®‚µ‚½‰¹—Ê‚É•ÏŠ·‚·‚é
+	/// <summary>
+	/// BGMã‚’èª¿æ•´ã—ãŸéŸ³é‡ã«å¤‰æ›ã™ã‚‹
+	/// </summary>
 	void SetBgmVolume();
+
+	/// <summary>
+	/// SEã‚’èª¿æ•´ã—ãŸéŸ³é‡ã«å¤‰æ›ã™ã‚‹
+	/// </summary>
 	void SetSeVolume();
 
-	void ChangeSound();		// ‰¹—Ê•ÏX
-	void SelectOption();	// ƒIƒvƒVƒ‡ƒ“—pİ’è
+	/// <summary>
+	/// éŸ³é‡å¤‰æ›´
+	/// </summary>
+	void ChangeSound();
 
+	/// <summary>
+	/// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ç”¨è¨­å®š
+	/// </summary>
+	void SelectOption();
+
+	/// <summary>
+	/// é¸æŠä¸­ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼æ¸¡ã—
+	/// </summary>
+	/// <returns>é¸æŠä¸­ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼</returns>
 	int GetSoundSelect() const { return m_select; }
+
+	/// <summary>
+	/// BGMéŸ³é‡æ¸¡ã—
+	/// </summary>
+	/// <returns>BGMéŸ³é‡</returns>
 	float GetBgmVolume() const { return m_bgmVolume; }
+
+	/// <summary>
+	/// SEéŸ³é‡æ¸¡ã—
+	/// </summary>
+	/// <returns>SEéŸ³é‡</returns>
 	float GetSeVolume() const { return m_seVolume; }
 
-	//ƒTƒEƒ“ƒh‚Ì‰Šú‰»
+	//ã‚µã‚¦ãƒ³ãƒ‰ã®åˆæœŸåŒ–
 	void InitSound(void);
 
-	//BGM‚ÌƒpƒX‚Ì‰Šú‰»
+	//BGMã®ãƒ‘ã‚¹ã®åˆæœŸåŒ–
 	void InitBGM(void);
 
 	/// <summary>
-	/// BGM‚Ìƒ[ƒh
+	/// BGMã®ãƒ­ãƒ¼ãƒ‰
 	/// </summary>
-	/// <param name="_bgm">BGM‚Ìí—Ş</param>
+	/// <param name="_bgm">BGMã®ç¨®é¡</param>
 	void LoadBGM(BGM_Type bgm);
 
-	//SE‚ÌƒpƒX‚Ì‰Šú‰»
+	//SEã®ãƒ‘ã‚¹ã®åˆæœŸåŒ–
 	void InitSE(void);
 
 	/// <summary>
-	/// SE‚Ìƒ[ƒh	
+	/// SEã®ãƒ­ãƒ¼ãƒ‰	
 	/// </summary>
-	/// <param name="_bgm">SE‚Ìí—Ş</param>
+	/// <param name="_bgm">SEã®ç¨®é¡</param>
 	void LoadSE(SE_Type se);
 
 	/// <summary>
-	/// BGM‚ÌÄ¶
+	/// BGMã®å†ç”Ÿ
 	/// </summary>
-	/// <param name="_bgm">BGM‚Ìí—Ş</param>
-	/// <param name="_playType">Ä¶Œ`®</param>
-	/// <param name="_volumePar">‰¹—Ê(%•\‹L)</param>
-	/// <param name="_topPositionFlag">Å‰‚©‚çÄ¶‚ğn‚ß‚é‚© (true:Å‰‚©‚ç)</param>
+	/// <param name="_bgm">BGMã®ç¨®é¡</param>
+	/// <param name="_playType">å†ç”Ÿå½¢å¼</param>
+	/// <param name="_volumePar">éŸ³é‡(%è¡¨è¨˜)</param>
+	/// <param name="_topPositionFlag">æœ€åˆã‹ã‚‰å†ç”Ÿã‚’å§‹ã‚ã‚‹ã‹ (true:æœ€åˆã‹ã‚‰)</param>
 	void PlayBGM(BGM_Type bgm, int playType, int volumePar = 100, bool topPositionFlag = true);
 
 	/// <summary>
-	/// SE‚ÌÄ¶
+	/// SEã®å†ç”Ÿ
 	/// </summary>
-	/// <param name="_se">SE‚Ìí—Ş</param>
-	/// <param name="_playType">Ä¶Œ`®</param>
-	/// <param name="_volumePar">‰¹—Ê(%•\‹L)</param>
-	/// <param name="_topPositionFlag">Å‰‚©‚çÄ¶‚ğn‚ß‚é‚© (true:Å‰‚©‚ç)</param>
+	/// <param name="_se">SEã®ç¨®é¡</param>
+	/// <param name="_playType">å†ç”Ÿå½¢å¼</param>
+	/// <param name="_volumePar">éŸ³é‡(%è¡¨è¨˜)</param>
+	/// <param name="_topPositionFlag">æœ€åˆã‹ã‚‰å†ç”Ÿã‚’å§‹ã‚ã‚‹ã‹ (true:æœ€åˆã‹ã‚‰)</param>
 	void PlaySE(SE_Type se, int playType, int volumePar = 100, bool topPositionFlag = true);
 
 	/// <summary>
-	/// BGM‚ªÄ¶’†‚©‚Ç‚¤‚©‚ğ•Ô‚·
+	/// BGMãŒå†ç”Ÿä¸­ã‹ã©ã†ã‹ã‚’è¿”ã™
 	/// </summary>
-	/// <param name="_bgm">BGM‚Ìí—Ş</param>
-	/// <returns>true:Ä¶’†</returns>
+	/// <param name="_bgm">BGMã®ç¨®é¡</param>
+	/// <returns>true:å†ç”Ÿä¸­</returns>
 	bool CheckPlayBGM(BGM_Type bgm);
 
 	/// <summary>
-	/// SE‚ªÄ¶’†‚©‚Ç‚¤‚©‚ğ•Ô‚·
+	/// SEãŒå†ç”Ÿä¸­ã‹ã©ã†ã‹ã‚’è¿”ã™
 	/// </summary>
-	/// <param name="_se">SE‚Ìí—Ş</param>
-	/// <returns>true:Ä¶’†</returns>
+	/// <param name="_se">SEã®ç¨®é¡</param>
+	/// <returns>true:å†ç”Ÿä¸­</returns>
 	bool CheckPlaySE(SE_Type se);
 
 	/// <summary>
-	/// BGM‚ğ~‚ß‚é
+	/// BGMã‚’æ­¢ã‚ã‚‹
 	/// </summary>
-	/// <param name="_bgm">~‚ß‚éBGM</param>
+	/// <param name="_bgm">æ­¢ã‚ã‚‹BGM</param>
 	void StopBGM(BGM_Type bgm);
 
 	/// <summary>
-	/// SE‚ğ~‚ß‚é
+	/// SEã‚’æ­¢ã‚ã‚‹
 	/// </summary>
-	/// <param name="_se">~‚ß‚éSE</param>
+	/// <param name="_se">æ­¢ã‚ã‚‹SE</param>
 	void StopSE(SE_Type se);
 
-	//ƒTƒEƒ“ƒh‚Ì‰ğ•ú
+	/// <summary>
+	/// ã‚µã‚¦ãƒ³ãƒ‰ã®è§£æ”¾
+	/// </summary>
+	/// <param name=""></param>
 	void ReleaseSound(void);
 private:
+	int m_select;		// é¸æŠä¸­ã®ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+	float m_seVolume;	// SEéŸ³é‡
+	float m_bgmVolume;	// BGMéŸ³é‡
 
-	float m_seVolume;	// SE‰¹—Ê
-	float m_bgmVolume;	// BGM‰¹—Ê
+	//ã‚µã‚¦ãƒ³ãƒ‰ã®ãƒ‘ã‚¹
+	std::map<BGM_Type, std::string> m_bgmPass;	//BGMã®ãƒ‘ã‚¹
+	std::map<SE_Type, std::string> m_sePass;	//SEã®ãƒ‘ã‚¹
 
-	int m_select;		// ‘I‘ğ’†‚Ìƒƒjƒ…[
-
-	//ƒTƒEƒ“ƒh‚ÌƒpƒX
-	std::map<BGM_Type, std::string> m_bgmPass;	//BGM‚ÌƒpƒX
-
-	std::map<SE_Type, std::string> m_sePass;		//SE‚ÌƒpƒX
-
-	//ƒTƒEƒ“ƒh‚Ìƒnƒ“ƒhƒ‹
-	std::map<BGM_Type, int> m_bgm;	//BGMƒnƒ“ƒhƒ‹
-
-	std::map<SE_Type, int> m_se;		//SEƒnƒ“ƒhƒ‹
+	//ã‚µã‚¦ãƒ³ãƒ‰ã®ãƒãƒ³ãƒ‰ãƒ«
+	std::map<BGM_Type, int> m_bgm;		//BGMãƒãƒ³ãƒ‰ãƒ«
+	std::map<SE_Type, int> m_se;		//SEãƒãƒ³ãƒ‰ãƒ«
 };

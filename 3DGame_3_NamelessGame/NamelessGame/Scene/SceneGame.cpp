@@ -3,7 +3,7 @@
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
 #include "../Object/Item.h"
-#include "../Camera.h"
+#include "../Object/Camera.h"
 #include "DxLib.h"
 
 SceneGame::SceneGame() :

@@ -73,6 +73,7 @@ public:
 protected:
 	int m_model;			// モデル
 	float m_angle;			// プレイヤー向き角度
+	float m_nextAnimTime;	// 新しいアニメーションの再生時間
 
 	VECTOR m_pos;			// 座標
 	VECTOR m_move;			// 移動量
@@ -92,6 +93,7 @@ protected:
 		int animNo;		// アニメーション番号
 		int attachNo;	// アタッチ番号
 		float animSpeed;// アニメーションの再生速度
+		float time;		// 再生時間
 		float totalTime;// 総再生時間
 		float isLoop;	// ループさせるか
 	};

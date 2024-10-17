@@ -8,7 +8,8 @@
 class Enemy;
 class Camera;
 class Input;
-class Player :public ModelBase
+class Player :
+	public ModelBase
 {
 public:
 	struct Situation {
@@ -24,8 +25,8 @@ public:
 	// プレイヤーの状態
 	struct PlayerStatus {
 		int animNo = -1;				// アニメーション番号
-		float animSpeed = 0.0f;		// アニメーション再生スピード
-		Situation situation;	// 状態
+		float animSpeed = 0.0f;			// アニメーション再生スピード
+		Situation situation;			// 状態
 		bool isLoop = false;			// ループ再生
 	}m_status;
 
@@ -59,14 +60,14 @@ public:
 		int Gun1 = 5;			// 撃つ(ハンドガン)
 		int Gun2 = 5;			// 撃つ(マシンガン)
 		int Knife1 = 5;			// ナイフ攻撃1
+		int Knife2 = 5;			// ナイフ攻撃2
+		int Knife3 = 5;			// ナイフ攻撃3
 		int Installation = 5;	// 罠設置
 		int Drink = 1;			// 飲む
+		int Summon = 5;			// 召喚
 		int Reload = 5;			// 弾再装填
 
 		// ここから下未定
-		int Knife2 = 5;			// ナイフ攻撃2
-		int Knife3 = 5;			// ナイフ攻撃3
-		int Summon = 5;			// 召喚
 		int Hit = 5;			// 被ダメージ
 		int Roll = 5;			// 回避
 		int Dying = 5;			// 死亡
@@ -79,15 +80,15 @@ public:
 		float Run = 0.5f;			// 走る
 		float Gun1 = 1.7f;			// 撃つ(ハンドガン)
 		float Gun2 = 0.5f;			// 撃つ(マシンガン)
-		float Knife1=1.0f;				// ナイフ攻撃1
-		float Knife2;				// ナイフ攻撃2
-		float Knife3;				// ナイフ攻撃3
+		float Knife1 = 1.0f;		// ナイフ攻撃1
+		float Knife2 = 1.0f;		// ナイフ攻撃2
+		float Knife3 = 1.0f;		// ナイフ攻撃3
 		float Installation = 1.3f;	// 罠設置
 		float Drink = 1.3f;			// 飲む
 		float Summon = 1.0f;		// 召喚
 		float Reload = 0.6f;		// 弾再装填
 		float Hit;					// 被ダメージ
-		float Roll;					// 回避
+		float Roll = 1.0f;			// 回避
 		float Dying;				// 死亡
 	}m_animSpeed;
 
@@ -95,6 +96,12 @@ public:
 		Gun1,		// 銃1
 		Gun2,		// 銃2
 		Knife,		// ナイフ
+	};
+
+	enum class Knife {
+		Attack1,	// 1コンボ目
+		Attack2,	// 2コンボ目
+		Attack3,	// 3コンボ目
 	};
 
 	// 所持しているアイテム
@@ -170,6 +177,13 @@ public:
 	void UseItem(Input& input);
 
 	/// <summary>
+	/// 対象を追跡する
+	/// </summary>
+	/// <param name="input">入力</param>
+	/// <param name="enemy">敵情報参照</param>
+	void LockOn(Input& input,const Enemy& enemy);
+
+	/// <summary>
 	/// 武器切り替え
 	/// </summary>
 	/// <param name="input">入力</param>
@@ -201,11 +215,26 @@ public:
 	/// </summary>
 	void ChangeAnimIdle();
 
+
+	float GetAngle() const { return m_angle; }
+
+	/// <summary>
+	/// ロックオンフラグ渡し
+	/// </summary>
+	/// <returns>ロックオンフラグ</returns>
+	bool GetLockOn() const { return m_isLookOn; }
+
 	/// <summary>
 	/// 座標渡し
 	/// </summary>
 	/// <returns>プレイヤーの座標</returns>
 	VECTOR GetPos() const { return m_pos; }
+
+	/// <summary>
+	/// 照準座標渡し
+	/// </summary>
+	/// <returns>ロックオン時の照準座標渡し</returns>
+	VECTOR GetTargetPos() const { return m_targetPos; }
 
 	/// <summary>
 	/// 当たり判定の値渡し
@@ -216,12 +245,17 @@ public:
 private:
 	int m_item;					// 所持している3つのうち、使用するアイテム
 	int m_getItem;				// アイテムをランダムで獲得する際に使用する
+	int m_itemGetCount;			// アイテムを獲得するインターバル用
 	bool m_isItem;				// アイテムとの当たり判定
+	bool m_isLookOn;			// ロックオンフラグ
 
 	VECTOR m_colPos;			// 当たり判定用座標
+	VECTOR m_targetPos;			// ロックオン時の照準座標
 
-	WeaponKind m_useWeapon;		// 使用中の武器
+
 	Item::ItemKind m_setItem;	// 獲得したアイテムをセットするための値
+	WeaponKind m_useWeapon;		// 使用中の武器
+	Knife m_knifeSetCombo;		// ナイフ攻撃のコンボ数
 
 	// 左パッド入力用
 	int m_inputX, m_inputY;

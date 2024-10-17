@@ -133,7 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Object\Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Object\Item.cpp" />
@@ -154,11 +154,11 @@
     <ClCompile Include="Scene\SceneBase.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Object\Camera.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Object\Item.h" />
-    <ClInclude Include="Object\Enemy.h" />
     <ClInclude Include="LoadCsv.h" />
     <ClInclude Include="Object\ModelBase.h" />
     <ClInclude Include="Object\Player.h" />

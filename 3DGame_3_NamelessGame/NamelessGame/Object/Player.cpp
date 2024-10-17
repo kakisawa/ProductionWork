@@ -1,6 +1,6 @@
 ﻿#include "Player.h"
 #include "Enemy.h"
-#include "../Camera.h"
+#include "Camera.h"
 #include "../LoadCsv.h"
 #include "../Input.h"
 #include <cmath>
@@ -11,23 +11,28 @@ namespace {
 	constexpr float kColRad = 10.0f;				// 当たり判定の半径
 	const VECTOR kUpPos = VGet(0.0f, 55.0f, 0.0f);	// 当たり判定の頂点
 
+	constexpr int kSecondAttackTime = 30;			// 2コンボ目の攻撃の入力受付時間
+	constexpr int kThirdAttackTime = 35;			// 3コンボ目の攻撃の入力受付時間
+
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
 
 	const char* kModelFilePath = "Data/Model/PlayerModel.mv1";	// プレイヤーモデルパス
-
-	int itemCount = 0;
 }
 
 Player::Player() :
 	m_item(0),
 	m_getItem(0),
+	m_itemGetCount(0),
 	m_inputX(0),
 	m_inputY(0),
 	m_isItem(false),
+	m_isLookOn(false),
 	m_colPos(kInitVec),
+	m_targetPos(kInitVec),
 	m_setItem(Item::ItemKind::NoItem),
-	m_useWeapon(WeaponKind::Gun1)
+	m_useWeapon(WeaponKind::Gun1),
+	m_knifeSetCombo(Knife::Attack1)
 {
 	// プレイヤー外部データ読み込み
 	LoadCsv::GetInstance().LoadData(m_chara, "player");
@@ -67,12 +72,12 @@ void Player::Update(const Enemy& enemy,const Item& item, const Camera& camera, I
 	Move(camera);
 	UseItem(input);
 	Angle();
+	LockOn(input, enemy);
 
 	// 攻撃
 	AttackKnife(input);
 	AttackHandGun(input);
 	ChangeWeapon(input);
-	
 
 	// 当たり判定の更新
 	ColUpdate(enemy, item);
@@ -89,6 +94,7 @@ void Player::Draw()
 	m_col.CapsuleDraw(0xffff00, false);
 
 #ifdef _DEBUG
+	DrawFormatString(0, 280, 0xffffff, "m_angle=%.2f", m_angle);
 	DrawFormatString(0, 300, 0xffffff, "m_move.x/y/z=%.2f/%.2f/%.2f", m_move.x, m_move.y, m_move.z);
 	DrawFormatString(0, 340, 0xffffff, "m_targetDir=%.2f", m_targetDir);
 	DrawFormatString(0, 360, 0xffffff, "inputX=%d", m_inputX);
@@ -96,11 +102,13 @@ void Player::Draw()
 	DrawFormatString(0, 400, 0xffffff, "item=%d", m_item);
 	DrawFormatString(0, 420, 0xffffff, "m_isItem=%d", m_isItem);
 	DrawFormatString(0, 440, 0xffffff, "m_getItem=%d", m_getItem);
-	DrawFormatString(0, 460, 0xffffff, "itemCount=%d", itemCount);
+	DrawFormatString(0, 460, 0xffffff, "itemCount=%d", m_itemGetCount);
 	DrawFormatString(0, 480, 0xffffff, "m_useItem[0]=%d", m_useItem[0]);
 	DrawFormatString(0, 500, 0xffffff, "m_useItem[1]=%d", m_useItem[1]);
 	DrawFormatString(0, 520, 0xffffff, "m_useItem[2]=%d", m_useItem[2]);
 	DrawFormatString(0, 540, 0xffffff, "m_useWeapon=%d", m_useWeapon);
+	DrawFormatString(0, 560, 0xffffff, "m_animNext.totalTime=%.2f", m_animNext.totalTime);
+	DrawFormatString(0, 580, 0xffffff, "m_nextAnimTime=%.2f", m_nextAnimTime);
 #endif // DEBUG
 }
 
@@ -223,9 +231,9 @@ void Player::ColUpdate(const Enemy& enemy, const Item& item)
 
 void Player::GetItem()
 {
-	itemCount++;	// アイテム獲得用のインターバル
+	m_itemGetCount++;	// アイテム獲得用のインターバル
 
-	if (m_isItem && itemCount >= kItemRespawnTime)
+	if (m_isItem && m_itemGetCount >= kItemRespawnTime)
 	{
 		// ランダムで値を獲得する
 		std::random_device rd;
@@ -233,7 +241,7 @@ void Player::GetItem()
 		std::uniform_real_distribution<> rand(1, kItemKind+1);
 		m_getItem = static_cast<int>(rand(mt));
 
-		itemCount = 0;
+		m_itemGetCount = 0;
 
 		ItemChange();
 
@@ -382,6 +390,15 @@ void Player::UseItem(Input& input)
 	}
 }
 
+void Player::LockOn(Input& input, const Enemy& enemy)
+{
+	m_isLookOn = false;
+	if (input.IsPress(InputInfo::TargetLockOn)) {
+		m_targetPos = enemy.GetPos();
+		m_isLookOn = true;
+	}
+}
+
 void Player::ChangeWeapon(Input& input)
 {
 	if (input.IsTrigger(InputInfo::ChangeWeapon))
@@ -423,15 +440,39 @@ void Player::AttackHandGun(Input& input)
 
 void Player::AttackKnife(Input& input)
 {
-	if (input.IsTrigger(InputInfo::Attack) && m_useWeapon == WeaponKind::Knife)
-	{
+	// 武器の種類が銃だった場合処理しない
+	if (m_useWeapon == WeaponKind::Gun1)	return;
+	if (m_useWeapon == WeaponKind::Gun2)	return;
+
+	// 攻撃処理
+	if (input.IsTrigger(InputInfo::Attack)) {
+		// 1コンボ目攻撃
+		if (m_knifeSetCombo == Knife::Attack1){
 		m_status.situation.isAttack = true;
+		m_knifeSetCombo = Knife::Attack2;
 		ChangeAnimNo(PlayerAnim::Knife1, m_animSpeed.Knife1, false, m_animChangeTime.Knife1);
+		}
+
+		// 2コンボ目
+		if (m_knifeSetCombo == Knife::Attack2 && (m_nextAnimTime >= kSecondAttackTime)){
+			m_status.situation.isAttack = true;
+			m_knifeSetCombo = Knife::Attack3;
+			ChangeAnimNo(PlayerAnim::Knife2, m_animSpeed.Knife2, false, m_animChangeTime.Knife2);
+		}
+
+		// 3コンボ目
+		if (m_knifeSetCombo == Knife::Attack3 && (m_nextAnimTime >= kThirdAttackTime)){
+			m_status.situation.isAttack = true;
+			m_knifeSetCombo = Knife::Attack1;
+			ChangeAnimNo(PlayerAnim::Knife3, m_animSpeed.Knife3, false, m_animChangeTime.Knife3);
+		}
 	}
 
+	// アニメーションが終わったらコンボ攻撃を初期化する
 	if (m_status.situation.isAttack && IsAnimEnd())
 	{
 		m_status.situation.isAttack = false;
+		m_knifeSetCombo = Knife::Attack1;
 	}
 }
 

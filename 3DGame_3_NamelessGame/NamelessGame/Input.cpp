@@ -40,6 +40,13 @@ Input::Input()
 
 	m_commandTable[InputInfo::ChangeWeapon] = { {InputType::key,KEY_INPUT_Z},
 												{InputType::pad,PAD_INPUT_Y} };	// XBoxのLBボタン
+
+	m_commandTable[InputInfo::TargetLockOn] = { {InputType::key,KEY_INPUT_B},
+												{InputType::pad,PAD_INPUT_Z} };	// XBoxのRBボタン
+
+	m_commandTable[InputInfo::Roll] = { {InputType::key,KEY_INPUT_B},
+											{InputType::pad,PAD_INPUT_A} };		// XBoxのLBボタン
+
 }
 
 void Input::Update()
