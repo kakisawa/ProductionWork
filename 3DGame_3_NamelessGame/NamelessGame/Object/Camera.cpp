@@ -91,8 +91,6 @@ void Camera::FixCameraPos(const Player& player)
 	{
 		m_pos = VAdd(m_pos, m_targetPos);
 	}
-
-	
 }
 
 void Camera::RightstickCameraUpdate()
@@ -139,11 +137,11 @@ void Camera::LeftstickCameraUpdate(const Player& player)
 
 		if (input2.X < 0.0f)			// 右スティックを右に倒したら右回転する
 		{
-			m_angleH -= kAngle;
+			m_angleH -= 0.05f;
 		}
 		if (input2.X > 0.0f)			// 右スティックを左に倒したら左回転する
 		{
-			m_angleH += kAngle;
+			m_angleH += 0.05f;
 		}
 	}
 	else {

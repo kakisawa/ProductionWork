@@ -1,28 +1,66 @@
-#pragma once
+ï»¿#pragma once
 class Fade
 {
 public:
 	Fade();
 	virtual ~Fade();
 
+	/// <summary>
+	/// åˆæœŸåŒ–
+	/// </summary>
 	void Init();
+
+	/// <summary>
+	/// æ›´æ–°
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// æç”»
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="flag"></param>
 	void FadeIn(bool flag);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="flag"></param>
 	void FadeOut(bool flag);
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="flag"></param>
 	void SetFadeOutFlag(bool flag) { m_isFadeOut = flag; }
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	bool GatFadeInFlag() const { return m_isFadeIn; }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	bool GatFadeOutFlag() const { return m_isFadeOut; }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
 	bool GatNextSceneFlag() const { return m_isNextSceneFlag; }
 
 private:
-	int m_fadeAlpha;        // ƒtƒF[ƒhƒCƒ“AƒAƒEƒg
-	bool m_isFadeIn;		// ƒtƒF[ƒhƒCƒ“—p‚Ìƒtƒ‰ƒO
-	bool m_isFadeOut;		// ƒtƒF[ƒhƒAƒEƒg—p‚Ìƒtƒ‰ƒO
+	int m_fadeAlpha;        // ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã€ã‚¢ã‚¦ãƒˆ
+	bool m_isFadeIn;		// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ç”¨ã®ãƒ•ãƒ©ã‚°
+	bool m_isFadeOut;		// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆç”¨ã®ãƒ•ãƒ©ã‚°
 
-	bool m_isNextSceneFlag;	// Ÿ‚ÌƒV[ƒ“‚Ös‚­ƒtƒ‰ƒO
+	bool m_isNextSceneFlag;	// æ¬¡ã®ã‚·ãƒ¼ãƒ³ã¸è¡Œããƒ•ãƒ©ã‚°
 };
 

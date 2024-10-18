@@ -1,7 +1,6 @@
 ﻿#include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include "Scene/SceneManager.h"
-#include "Scene/SceneGame.h"
 #include <memory>
 
 // プログラムは WinMain から始まります
@@ -11,8 +10,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	ChangeWindowMode(true);
 	// ウインドウ名設定
 	SetMainWindowText("Switching! S&B fight");
-	// ウィンドウのサイズを自分で調整できるようにするか
-	//SetWindowSizeChangeEnableFlag(true);
 
 	int x, y;
 	GetWindowSize(&x, &y);

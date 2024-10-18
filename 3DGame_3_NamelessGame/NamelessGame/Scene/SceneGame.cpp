@@ -4,6 +4,7 @@
 #include "../Object/Enemy.h"
 #include "../Object/Item.h"
 #include "../Object/Camera.h"
+#include "../Object/Map.h"
 #include "DxLib.h"
 
 SceneGame::SceneGame() :
@@ -21,6 +22,7 @@ void SceneGame::Init()
 	m_pCamera->Init();
 	m_pPlayer->Init();
 	m_pEnemy->Init();
+	m_pMap->Init();
 	
 
 	model = MV1LoadModel("Data/Model/book.mv1");
@@ -30,6 +32,7 @@ void SceneGame::Init()
 
 std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 {
+	m_pMap->Update();
 	m_pPlayer->Update(*m_pEnemy, *m_pItem, *m_pCamera, input);
 	m_pEnemy->Update();
 	m_pCamera->Update(*m_pPlayer);
@@ -47,6 +50,7 @@ std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 
 void SceneGame::Draw()
 {
+	m_pMap->Draw();
 	m_pItem->Draw();
 	MV1DrawModel(model);
 	m_pPlayer->Draw();

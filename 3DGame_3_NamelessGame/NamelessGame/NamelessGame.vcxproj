@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Object\Map.cpp" />
     <ClCompile Include="Object\Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="Scene\SceneBase.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Object\Map.h" />
     <ClInclude Include="Object\Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Object\Enemy.h" />
