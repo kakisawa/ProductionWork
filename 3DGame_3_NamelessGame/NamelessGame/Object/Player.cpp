@@ -29,7 +29,7 @@ Player::Player() :
 	m_isItem(false),
 	m_isLookOn(false),
 	m_colPos(kInitVec),
-	m_targetPos(kInitVec),
+	m_targetLockPos(kInitVec),
 	m_setItem(Item::ItemKind::NoItem),
 	m_useWeapon(WeaponKind::Gun1),
 	m_knifeSetCombo(Knife::Attack1)
@@ -394,7 +394,7 @@ void Player::LockOn(Input& input, const Enemy& enemy)
 {
 	m_isLookOn = false;
 	if (input.IsPress(InputInfo::TargetLockOn)) {
-		m_targetPos = enemy.GetPos();
+		m_targetLockPos = enemy.GetPos();
 		m_isLookOn = true;
 	}
 }

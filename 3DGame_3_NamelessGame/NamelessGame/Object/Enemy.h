@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "ModelBase.h"
 
+class Map;
 class Enemy :
 	public ModelBase
 {
@@ -77,12 +78,27 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update() override;
+	void Update(const Map& map);
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="map"></param>
+	void Move(const Map& map);
+
+	/// <summary>
+	/// 一番近い座標を出す
+	/// </summary>
+	/// <param name="map"></param>
+	void SearchNearPosition(const Map& map);
+
+
 
 	/// <summary>
 	/// 座標渡し
@@ -91,4 +107,5 @@ public:
 	VECTOR GetPos() const { return m_pos; }
 
 private:
+	VECTOR m_targetPos;	// 目標座標
 };

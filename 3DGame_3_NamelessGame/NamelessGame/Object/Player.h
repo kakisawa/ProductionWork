@@ -234,7 +234,7 @@ public:
 	/// 照準座標渡し
 	/// </summary>
 	/// <returns>ロックオン時の照準座標渡し</returns>
-	VECTOR GetTargetPos() const { return m_targetPos; }
+	VECTOR GetTargetPos() const { return m_targetLockPos; }
 
 	/// <summary>
 	/// 当たり判定の値渡し
@@ -244,13 +244,13 @@ public:
 
 private:
 	int m_item;					// 所持している3つのうち、使用するアイテム
-	int m_getItem;				// アイテムをランダムで獲得する際に使用する
+	int m_getItem;				// アイテムをランダムで獲得する際に使用するLoc con
 	int m_itemGetCount;			// アイテムを獲得するインターバル用
 	bool m_isItem;				// アイテムとの当たり判定
 	bool m_isLookOn;			// ロックオンフラグ
 
 	VECTOR m_colPos;			// 当たり判定用座標
-	VECTOR m_targetPos;			// ロックオン時の照準座標
+	VECTOR m_targetLockPos;		// ロックオン時の照準座標
 
 
 	Item::ItemKind m_setItem;	// 獲得したアイテムをセットするための値

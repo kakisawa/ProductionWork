@@ -18,10 +18,10 @@ Map::~Map()
 
 void Map::Init()
 {
-	m_pointPos1 = kPointPos1;
-	m_pointPos2 = kPointPos2;
-	m_pointPos3 = kPointPos3;
-	m_pointPos4 = kPointPos4;
+	m_pointPos.point1 = kPointPos1;
+	m_pointPos.point2 = kPointPos2;
+	m_pointPos.point3 = kPointPos3;
+	m_pointPos.point4 = kPointPos4;
 }
 
 void Map::Update()
@@ -30,8 +30,8 @@ void Map::Update()
 
 void Map::Draw()
 {
-	DrawSphere3D(m_pointPos1, 10.0f, 32, 0x0000ff, 0x0000ff, true);
-	DrawSphere3D(m_pointPos2, 10.0f, 32, 0x0000ff, 0x0000ff, true);
-	DrawSphere3D(m_pointPos3, 10.0f, 32, 0x0000ff, 0x0000ff, true);
-	DrawSphere3D(m_pointPos4, 10.0f, 32, 0x0000ff, 0x0000ff, true);
+	DrawSphere3D(m_pointPos.point1, 10.0f, 32, 0x0000ff, 0x0000ff, true);
+	DrawSphere3D(m_pointPos.point2, 10.0f, 32, 0x0000ff, 0x0000ff, true);
+	DrawSphere3D(m_pointPos.point3, 10.0f, 32, 0x0000ff, 0x0000ff, true);
+	DrawSphere3D(m_pointPos.point4, 10.0f, 32, 0x0000ff, 0x0000ff, true);
 }

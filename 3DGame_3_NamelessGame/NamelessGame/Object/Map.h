@@ -11,18 +11,15 @@ public:
 	void Update();
 	void Draw();
 
+	struct PointPos {
+		VECTOR point1;
+		VECTOR point2;
+		VECTOR point3;
+		VECTOR point4;
+	}m_pointPos;
 
-
-	VECTOR GetPointPos1() const { return m_pointPos1; }
-	VECTOR GetPointPos2() const { return m_pointPos2; }
-	VECTOR GetPointPos3() const { return m_pointPos3; }
-	VECTOR GetPointPos4() const { return m_pointPos4; }
+	PointPos GetPointPos() const { return m_pointPos; }
 
 private:
-
-	VECTOR m_pointPos1;
-	VECTOR m_pointPos2;
-	VECTOR m_pointPos3;
-	VECTOR m_pointPos4;
 };
 

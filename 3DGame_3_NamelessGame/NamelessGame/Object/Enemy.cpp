@@ -1,15 +1,22 @@
 ﻿#include "Enemy.h"
+#include "../Object/Map.h"
 #include "../LoadCsv.h"
 #include <cassert>
+#include <cmath>
 
 namespace {
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 
+	float kMove = 1.0f;
+
 	const char* kModelFilePath = "Data/Model/EnemyModel.mv1";
+
+	bool isMove = true;
 }
 
-Enemy::Enemy()
+Enemy::Enemy():
+	m_targetPos(kInitVec)
 {
 	// プレイヤー外部データ読み込み
 	LoadCsv::GetInstance().LoadData(m_chara, "enemy");
@@ -36,9 +43,13 @@ void Enemy::Init()
 	SetAnimation(static_cast<int>(EnemyAnim::Idle), m_animSpeed.Idle,true, false);
 }
 
-void Enemy::Update()
+void Enemy::Update(const Map& map)
 {
 	ModelBase::Update();
+
+	SearchNearPosition(map);
+
+	Move(map);
 }
 
 void Enemy::Draw()
@@ -46,5 +57,53 @@ void Enemy::Draw()
 	ModelBase::Draw();
 }
 
+void Enemy::Move(const Map& map)
+{
+	m_move = kInitVec;
+	
+	if (isMove)
+	{
+		// Pos1からPos2
+		if (m_pos.x != map.GetPointPos().point2.x) {
+			m_move.x = kMove;
+		}
+		else if (m_pos.z != map.GetPointPos().point2.z)
+		{
+			m_move.z = kMove;
+		}
 
 
+
+
+
+		// Pos2からPos3
+
+
+		// Pos3からPos4
+
+
+		// Pos4からPos1
+
+	}
+
+	
+	m_pos = VAdd(m_pos, m_move);
+}
+
+void Enemy::SearchNearPosition(const Map& map)
+{
+
+	VECTOR target1;
+	VECTOR target2;
+	VECTOR target3;
+	VECTOR target4;
+
+	target1 = VSub(m_pos, map.GetPointPos().point1);
+	target2 = VSub(m_pos, map.GetPointPos().point2);
+	target3 = VSub(m_pos, map.GetPointPos().point3);
+	target4 = VSub(m_pos, map.GetPointPos().point4);
+
+	m_targetPos = std::min(target1, target2);
+	m_targetPos = std::min(m_targetPos, target3);
+	m_targetPos = std::min(m_targetPos, target4);
+}
