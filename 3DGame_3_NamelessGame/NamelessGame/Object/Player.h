@@ -20,6 +20,8 @@ public:
 		bool isReload = false;			// 弾再装填アイテム使用中
 		bool isSummon = false;			// 召喚アイテム使用中
 		bool isAttack = false;			// 攻撃中
+		bool isRoll = false;			// 回避中
+		bool isDamageReceived = false;	// 被ダメージ
 	};
 
 	// プレイヤーの状態
@@ -43,8 +45,8 @@ public:
 		Drink,			// 飲む
 		Summon,			// 召喚
 		Reload,			// 弾再装填
-		Hit,			// 被ダメージ
-		BlownAway,		// 吹っ飛び		// 検討中_未設定
+		DamageReceived,	// 被ダメージ
+		//BlownAway,	// 吹っ飛び		// 検討中_未設定
 		Roll,			// 回避
 		Dying,			// 死亡
 		Jump,			// ジャンプ		// 下2つ使用検討中
@@ -68,7 +70,7 @@ public:
 		int Reload = 5;			// 弾再装填
 
 		// ここから下未定
-		int Hit = 5;			// 被ダメージ
+		int DamageReceived = 5;	// 被ダメージ
 		int Roll = 5;			// 回避
 		int Dying = 5;			// 死亡
 	}m_animChangeTime;
@@ -87,8 +89,8 @@ public:
 		float Drink = 1.3f;			// 飲む
 		float Summon = 1.0f;		// 召喚
 		float Reload = 0.6f;		// 弾再装填
-		float Hit;					// 被ダメージ
-		float Roll = 1.0f;			// 回避
+		float DamageReceived = 1.0f;// 被ダメージ
+		float Roll = 0.5f;			// 回避
 		float Dying;				// 死亡
 	}m_animSpeed;
 
@@ -137,6 +139,9 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+
+	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle);
 
 	/// <summary>
 	/// 移動処理
@@ -202,6 +207,20 @@ public:
 	void AttackKnife(Input& input);
 
 	/// <summary>
+	/// 回避処理
+	/// </summary>
+	/// <param name="input">入力</param>
+	void Roll(Input& input);
+
+
+	/// <summary>
+	/// 被ダメージ処理
+	/// </summary>
+	/// <param name="input">入力</param>
+	void Hit(Input& input);
+
+
+	/// <summary>
 	/// アニメーションの変更
 	/// </summary>
 	/// <param name="anim">選択するアニメーション</param>
@@ -215,7 +234,10 @@ public:
 	/// </summary>
 	void ChangeAnimIdle();
 
-
+	/// <summary>
+	/// アングル渡し
+	/// </summary>
+	/// <returns>プレイヤーの向き角度</returns>
 	float GetAngle() const { return m_angle; }
 
 	/// <summary>
@@ -243,19 +265,21 @@ public:
 	Collision GetCol() const { return m_col; }
 
 private:
+	int m_remainingBullets_handgun;		// ハンドガンの残弾数
+	int m_remainingBullets_machinegun;	// マシンガンの残弾数
+
 	int m_item;					// 所持している3つのうち、使用するアイテム
 	int m_getItem;				// アイテムをランダムで獲得する際に使用するLoc con
-	int m_itemGetCount;			// アイテムを獲得するインターバル用
+	int m_getitemCount;			// アイテムを獲得するインターバル用
 	bool m_isItem;				// アイテムとの当たり判定
 	bool m_isLookOn;			// ロックオンフラグ
 
 	VECTOR m_colPos;			// 当たり判定用座標
 	VECTOR m_targetLockPos;		// ロックオン時の照準座標
 
-
 	Item::ItemKind m_setItem;	// 獲得したアイテムをセットするための値
 	WeaponKind m_useWeapon;		// 使用中の武器
-	Knife m_knifeSetCombo;		// ナイフ攻撃のコンボ数
+	Knife m_SetComboknife;		// ナイフ攻撃のコンボ数
 
 	// 左パッド入力用
 	int m_inputX, m_inputY;

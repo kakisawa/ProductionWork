@@ -133,6 +133,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="Manager\ColorManager.cpp" />
     <ClCompile Include="Object\Map.cpp" />
     <ClCompile Include="Object\Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -150,11 +153,15 @@
     <ClCompile Include="Scene\SceneOption.cpp" />
     <ClCompile Include="Scene\SceneTitle.cpp" />
     <ClCompile Include="Scene\SceneDebug.cpp" />
-    <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="Manager\SceneManager.cpp" />
     <ClCompile Include="Scene\SceneGame.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
+    <ClCompile Include="Manager\SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="Fade.h" />
+    <ClInclude Include="Manager\ColorManager.h" />
     <ClInclude Include="Object\Map.h" />
     <ClInclude Include="Object\Camera.h" />
     <ClInclude Include="Collision.h" />
@@ -171,9 +178,10 @@
     <ClInclude Include="Scene\SceneOption.h" />
     <ClInclude Include="Scene\SceneTitle.h" />
     <ClInclude Include="Scene\SceneDebug.h" />
-    <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="Manager\SceneManager.h" />
     <ClInclude Include="Scene\SceneGame.h" />
     <ClInclude Include="Scene\SceneBase.h" />
+    <ClInclude Include="Manager\SoundManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

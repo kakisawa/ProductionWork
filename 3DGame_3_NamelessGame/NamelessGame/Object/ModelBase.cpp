@@ -4,19 +4,23 @@
 namespace {
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
 	constexpr float kInitFloat = 0.0f;				// float値初期化
+	constexpr int kInitInt = 0;						// int値初期化
 
 	constexpr float kAnimBlendMax = 1.0f;			// アニメーションの切り替えにかかる最大フレーム数
 }
 
 ModelBase::ModelBase() :
 	m_model(-1),
+	m_hp(kInitInt),
+	m_attack(kInitInt),
 	m_angle(kInitFloat),
 	m_nextAnimTime(kInitFloat),
 	m_pos(kInitVec),
 	m_move(kInitVec),
 	m_targetDir(kInitVec),
-	m_animChangeFrame(0),
-	m_animChangeFrameTotal(0)
+	m_animChangeFrame(kInitInt),
+	m_animChangeFrameTotal(kInitInt),
+	m_isLoopFinish(false)
 {
 }
 
@@ -127,12 +131,20 @@ bool ModelBase::IsAnimEnd()
 	if (m_animNext.isLoop)	return false;
 
 	// 現在のアニメーション再生時間を取得する
-	//float time = MV1GetAttachAnimTime(m_model, m_animNext.attachNo);
-	
 	m_nextAnimTime= MV1GetAttachAnimTime(m_model, m_animNext.attachNo);
 
-	// 再生時間がそう再生時間を超えていた場合trueを返す
+	// 再生時間が総再生時間を超えていた場合trueを返す
 	if (m_nextAnimTime >= m_animNext.totalTime)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool ModelBase::IsLoopAnimEnd()
+{
+	if (m_isLoopFinish)
 	{
 		return true;
 	}
@@ -158,24 +170,7 @@ void ModelBase::UpdateAnim(const AnimData& anim)
 	// アニメーションが設定されていない場合は何もしない
 	if (anim.animNo == -1)	return;
 
-	//// アニメーションの更新
-	//float time = MV1GetAttachAnimTime(m_model, anim.attachNo);
-	//time += anim.animSpeed;
-	//if (time > anim.totalTime)
-	//{
-	//	// ループ再生する場合
-	//	if (anim.isLoop)
-	//	{
-	//		time -= anim.totalTime;
-	//	}
-	//	else 
-	//	{
-	//		time = std::min(time, anim.totalTime);
-	//	}
-	//}
-	//// アニメーションの再生時間を設定
-	//MV1SetAttachAnimTime(m_model, anim.attachNo, time);
-	
+	m_isLoopFinish = false;
 
 	m_nextAnimTime = MV1GetAttachAnimTime(m_model, anim.attachNo);
 	m_nextAnimTime += anim.animSpeed;
@@ -185,6 +180,7 @@ void ModelBase::UpdateAnim(const AnimData& anim)
 		if (anim.isLoop)
 		{
 			m_nextAnimTime -= anim.totalTime;
+			m_isLoopFinish = true;
 		}
 		else
 		{

@@ -26,8 +26,10 @@ public:
 		Provocation,	// 挑発
 		Attack1,		// 攻撃1
 		Attack2,		// 攻撃2
-		Hit,			// 被ダメージ
+		Attack3,		// 攻撃3
+		Attack4,		// 攻撃4
 		BlownAway,		// 吹っ飛び
+		Hit,			// 被ダメージ
 		Death,			// 死亡
 		MAX,
 	};
@@ -40,8 +42,10 @@ public:
 		int Provocation;	// 挑発
 		int Attack1;		// 攻撃1
 		int Attack2;		// 攻撃2
-		int Hit;			// 被ダメージ
+		int Attack3;		// 攻撃3
+		int Attack4;		// 攻撃4
 		int BlownAway;		// 吹っ飛び
+		int Hit;			// 被ダメージ
 		int Death;			// 死亡
 	}m_animChangeTime;
 
@@ -54,8 +58,10 @@ public:
 		float Provocation;		// 挑発
 		float Attack1;			// 攻撃1
 		float Attack2;			// 攻撃2
-		float Hit;				// 被ダメージ
+		float Attack3;			// 攻撃3
+		float Attack4;			// 攻撃4
 		float BlownAway;		// 吹っ飛び
+		float Hit;				// 被ダメージ
 		float Death;			// 死亡
 	}m_animSpeed;
 
@@ -84,10 +90,9 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
-
 	
 	/// <summary>
-	/// 
+	/// 移動
 	/// </summary>
 	/// <param name="map"></param>
 	void Move(const Map& map);
@@ -97,8 +102,6 @@ public:
 	/// </summary>
 	/// <param name="map"></param>
 	void SearchNearPosition(const Map& map);
-
-
 
 	/// <summary>
 	/// 座標渡し

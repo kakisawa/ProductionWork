@@ -28,6 +28,7 @@ enum class InputInfo {
 	ChangeWeapon,	// 武器切り替え
 	TargetLockOn,	// ターゲットの照準固定
 	Roll,			// 回避
+	DebugDamageReceived,		// デバッグ用被ダメージ
 
 	MAX,			// 最大入力数
 };

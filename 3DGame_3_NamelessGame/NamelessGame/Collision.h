@@ -56,6 +56,13 @@ public:
 	bool IsSphereCollision(const Collision& col);
 
 	/// <summary>
+	/// カプセルの当たり判定
+	/// </summary>
+	/// <param name="col">もう1つの値</param>
+	/// <returns>当たっていたらtrueを返す</returns>
+	bool IsCupsuleCollision(const Collision& col);
+
+	/// <summary>
 	/// 球体とカプセルの当たり判定
 	/// </summary>
 	/// <param name="col">もう1つの値</param>

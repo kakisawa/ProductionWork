@@ -9,8 +9,12 @@ namespace {
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 
 	float kMove = 1.0f;
+	constexpr int kMaxHp = 1000;				// 最大HP
+	constexpr int kAttackRightArm = 30;			// 右腕攻撃力
+	constexpr int kAttackLeftArm = 30;			// 左腕攻撃力
 
 	const char* kModelFilePath = "Data/Model/EnemyModel.mv1";
+
 
 	bool isMove = true;
 }
@@ -38,6 +42,10 @@ Enemy::~Enemy()
 void Enemy::Init()
 {
 	ModelBase::Init();
+	m_hp = kMaxHp;		// HPに最大値を入れる
+	m_attack = kAttackRightArm;
+
+
 
 	// アニメーションの設定
 	SetAnimation(static_cast<int>(EnemyAnim::Idle), m_animSpeed.Idle,true, false);
@@ -93,17 +101,17 @@ void Enemy::Move(const Map& map)
 void Enemy::SearchNearPosition(const Map& map)
 {
 
-	VECTOR target1;
-	VECTOR target2;
-	VECTOR target3;
-	VECTOR target4;
+	//VECTOR target1;
+	//VECTOR target2;
+	//VECTOR target3;
+	//VECTOR target4;
 
-	target1 = VSub(m_pos, map.GetPointPos().point1);
-	target2 = VSub(m_pos, map.GetPointPos().point2);
-	target3 = VSub(m_pos, map.GetPointPos().point3);
-	target4 = VSub(m_pos, map.GetPointPos().point4);
+	//target1 = VSub(m_pos, map.GetPointPos().point1);
+	//target2 = VSub(m_pos, map.GetPointPos().point2);
+	//target3 = VSub(m_pos, map.GetPointPos().point3);
+	//target4 = VSub(m_pos, map.GetPointPos().point4);
 
-	m_targetPos = std::min(target1, target2);
-	m_targetPos = std::min(m_targetPos, target3);
-	m_targetPos = std::min(m_targetPos, target4);
+	//m_targetPos = std::min(target1, target2);
+	//m_targetPos = std::min(m_targetPos, target3);
+	//m_targetPos = std::min(m_targetPos, target4);
 }

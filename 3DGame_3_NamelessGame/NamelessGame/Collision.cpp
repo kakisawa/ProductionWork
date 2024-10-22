@@ -49,6 +49,12 @@ bool Collision::IsSphereCollision(const Collision& col)
 		col.m_pos, col.m_radius);
 }
 
+bool Collision::IsCupsuleCollision(const Collision& col)
+{
+	return HitCheck_Capsule_Capsule(m_pos, m_vertexPos, m_radius,
+		col.m_pos, col.m_vertexPos, col.m_radius);
+}
+
 bool Collision::IsSphereToCapsuleCollision(const Collision& col)
 {
 	return HitCheck_Sphere_Capsule(col.m_pos, col.m_radius,

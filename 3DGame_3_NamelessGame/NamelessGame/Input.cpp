@@ -47,6 +47,11 @@ Input::Input()
 	m_commandTable[InputInfo::Roll] = { {InputType::key,KEY_INPUT_B},
 											{InputType::pad,PAD_INPUT_A} };		// XBoxのLBボタン
 
+
+	// デバッグ用
+	m_commandTable[InputInfo::DebugDamageReceived] = { {InputType::key,KEY_INPUT_B},
+											{InputType::pad,PAD_INPUT_L} };		// XBoxのBackボタン
+
 }
 
 void Input::Update()

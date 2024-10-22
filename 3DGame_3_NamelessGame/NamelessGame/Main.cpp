@@ -1,5 +1,5 @@
 ﻿#include "DxLib.h"
-#include "Scene/SceneManager.h"
+#include "Manager/SceneManager.h"
 #include "Input.h"
 
 // プログラムは WinMain から始まります

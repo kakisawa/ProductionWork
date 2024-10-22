@@ -21,7 +21,7 @@ namespace {
 		"data/Image/GameScene/UI/Player/NameBg.png",	// 名前背景UI
 		"data/Image/GameScene/UI/Player/Fukuoka.png",	// 名前UI
 		"data/Image/GameScene/UI/Player/Face.png",		// 顔アイコン
-		"data/Image/GameScene/UI/Player/Target.png",		// 照準
+		"data/Image/GameScene/UI/Player/Target.png",	// 照準
 	};
 
 	const char* const kModelPlayer = "data/model/RogueHooded.mv1";	// モデルのファイル名

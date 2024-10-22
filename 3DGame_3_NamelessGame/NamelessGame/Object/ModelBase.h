@@ -70,8 +70,16 @@ public:
 	/// <returns>アニメーションが終了したか</returns>
 	bool IsAnimEnd();
 
+	/// <summary>
+	/// ループアニメーションが終了したかどうか
+	/// </summary>
+	/// <returns></returns>
+	bool IsLoopAnimEnd();
+
 protected:
 	int m_model;			// モデル
+	int m_hp;				// HP
+	int m_attack;			// 攻撃力
 	float m_angle;			// プレイヤー向き角度
 	float m_nextAnimTime;	// 新しいアニメーションの再生時間
 
@@ -85,6 +93,8 @@ protected:
 
 	int m_animChangeFrame;		// 現在の切り替えフレーム数
 	int m_animChangeFrameTotal;	// 切り替えにかける総フレーム数
+
+	bool m_isLoopFinish;		// ループ再生中に1回のアニメーションが終了したかのフラグ
 
 	/// <summary>
 	/// アニメーション情報
