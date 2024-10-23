@@ -1,0 +1,4 @@
+mixamorig:RightHandRing3
+
+回転...x=2.693,y=2.738,z=1.661
+拡大...0.07倍

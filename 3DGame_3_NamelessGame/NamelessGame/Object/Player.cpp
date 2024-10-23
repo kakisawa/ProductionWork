@@ -20,13 +20,15 @@ namespace {
 	constexpr int kAttackKnife = 100;				// ナイフ攻撃力
 	constexpr int kMedicRecoveryAmount = 20;		// 回復量
 
+	VECTOR kGunSize = VGet(0.07f, 0.07f, 0.07f);
+
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
 
 	const char* kModelFilePath = "Data/Model/PlayerModel.mv1";	// プレイヤーモデルパス
 
 
-	const char* kModelRightHand = "RightHandPinky3";
+	const char* kModelRightHand = "mixamorig:RightHandRing3";
 
 	int m_GunModel;
 }
@@ -53,7 +55,8 @@ Player::Player() :
 	m_model = MV1LoadModel(kModelFilePath);
 	assert(m_model != -1);
 
-	m_GunModel = MV1LoadModel("Data/Model/Gun.mv1");
+	m_GunModel = MV1LoadModel("Data/Model/MachineGun.mv1");
+	assert(m_GunModel != -1);
 
 	// 座標初期値
 	m_pos = VGet(m_chara.initPosX, m_chara.initPosY, m_chara.initPosZ);
@@ -66,6 +69,7 @@ Player::Player() :
 
 Player::~Player()
 {
+	MV1DeleteModel(m_GunModel);
 }
 
 void Player::Init()
@@ -118,7 +122,9 @@ void Player::Update(const Enemy& enemy,const Item& item, const Camera& camera, I
 void Player::Draw()
 {
 	ModelBase::Draw();
+	MV1DrawModel(m_GunModel);
 	m_col.CapsuleDraw(0xffff00, false);
+
 
 #ifdef _DEBUG
 	DrawFormatString(0, 200, 0xffffff, "m_hp=%d", m_hp);
@@ -157,7 +163,7 @@ void Player::SetModelFramePosition(int ModelHandle, const char* FrameName, int S
 
 	// セットするモデルの状態を示す行列をフレームの状態を示す行列と同じにする
 	// MV1SetMatrix(SetModelHandle, FrameMatrix);
-	MV1SetMatrix(SetModelHandle, MMult(MGetScale(VGet(1.0f,1.0f,1.0f)), FrameMatrix));
+	MV1SetMatrix(SetModelHandle, MMult(MGetScale(kGunSize), FrameMatrix));
 
 }
 
