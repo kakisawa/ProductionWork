@@ -36,8 +36,11 @@ public:
 	enum class PlayerAnim {
 		Idle,			// 待機
 		Run,			// 走る
-		Gun1,			// 撃つ(ハンドガン)
-		Gun2,			// 撃つ(マシンガン)
+		Run2,			// 走る2
+		HandGun,		// 撃つ(ハンドガン)
+		HandGun2,		// 撃つ(ハンドガン)
+		MachineGun,		// 撃つ(マシンガン)
+		MachineGun2,	// 撃つ(マシンガン)
 		Knife1,			// ナイフ攻撃1
 		Knife2,			// ナイフ攻撃2
 		Knife3,			// ナイフ攻撃3
@@ -46,11 +49,10 @@ public:
 		Summon,			// 召喚
 		Reload,			// 弾再装填
 		DamageReceived,	// 被ダメージ
-		//BlownAway,	// 吹っ飛び		// 検討中_未設定
 		Roll,			// 回避
 		Dying,			// 死亡
-		Jump,			// ジャンプ		// 下2つ使用検討中
-		Landing,		// 落下
+		Win,			// 勝利
+		Lose,			// 敗北
 		MAX,
 	};
 
@@ -59,8 +61,8 @@ public:
 	{
 		int Idle = 7;			// 待機
 		int Run = 5;			// 走る
-		int Gun1 = 5;			// 撃つ(ハンドガン)
-		int Gun2 = 5;			// 撃つ(マシンガン)
+		int HandGun = 5;		// 撃つ(ハンドガン)
+		int MachineGun = 5;		// 撃つ(マシンガン)
 		int Knife1 = 5;			// ナイフ攻撃1
 		int Knife2 = 5;			// ナイフ攻撃2
 		int Knife3 = 5;			// ナイフ攻撃3
@@ -73,15 +75,17 @@ public:
 		int DamageReceived = 5;	// 被ダメージ
 		int Roll = 5;			// 回避
 		int Dying = 5;			// 死亡
+		int Win = 5;			// 勝利
+		int Lose = 5;			// 敗北
 	}m_animChangeTime;
 
 	// アニメーションの再生速度
 	struct AnimSpeed {
 		float Default = 0.5f;		// 基本
 		float Idle = 0.5f;			// 待機
-		float Run = 0.5f;			// 走る
-		float Gun1 = 1.7f;			// 撃つ(ハンドガン)
-		float Gun2 = 0.5f;			// 撃つ(マシンガン)
+		float Run = 0.4f;			// 走る
+		float HandGun = 0.7f;		// 撃つ(ハンドガン)
+		float MachineGun = 0.5f;	// 撃つ(マシンガン)
 		float Knife1 = 1.0f;		// ナイフ攻撃1
 		float Knife2 = 1.0f;		// ナイフ攻撃2
 		float Knife3 = 1.0f;		// ナイフ攻撃3
@@ -91,12 +95,14 @@ public:
 		float Reload = 0.6f;		// 弾再装填
 		float DamageReceived = 1.0f;// 被ダメージ
 		float Roll = 0.5f;			// 回避
-		float Dying;				// 死亡
+		float Dying = 1.0f;			// 死亡
+		float Win = 1.0f;			// 勝利
+		float Lose = 1.0f;			// 敗北
 	}m_animSpeed;
 
 	enum class WeaponKind {
-		Gun1,		// 銃1
-		Gun2,		// 銃2
+		HandGun,	// 銃1
+		MachineGun,	// 銃2
 		Knife,		// ナイフ
 	};
 
@@ -141,7 +147,14 @@ public:
 	void Draw() override;
 
 
-	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle);
+	/// <summary>
+	/// モデルに物を持たせる処理
+	/// </summary>
+	/// <param name="ModelHandle">物を持たせるモデル</param>
+	/// <param name="FrameName">モデルを持たせる場所</param>
+	/// <param name="SetModelHandle">持たせるモデル</param>
+	/// <param name="ModelSize">持たせるモデルのサイズ</param>
+	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle,VECTOR ModelSize);
 
 	/// <summary>
 	/// 移動処理
@@ -198,7 +211,7 @@ public:
 	/// ハンドガン攻撃
 	/// </summary>
 	/// <param name="input">入力</param>
-	void AttackHandGun(Input& input);
+	void AttackGun(Input& input);
 
 	/// <summary>
 	/// ナイフ攻撃
@@ -268,8 +281,10 @@ private:
 	int m_remainingBullets_handgun;		// ハンドガンの残弾数
 	int m_remainingBullets_machinegun;	// マシンガンの残弾数
 
+	std::array<int, 3> m_weapon{};	// 武器
+
 	int m_item;					// 所持している3つのうち、使用するアイテム
-	int m_getItem;				// アイテムをランダムで獲得する際に使用するLoc con
+	int m_getItem;				// アイテムをランダムで獲得する際に使用するLockOn
 	int m_getitemCount;			// アイテムを獲得するインターバル用
 	bool m_isItem;				// アイテムとの当たり判定
 	bool m_isLookOn;			// ロックオンフラグ

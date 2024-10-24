@@ -1,4 +1,9 @@
+マシンガン
 mixamorig:RightHandRing3
-
 回転...x=2.693,y=2.738,z=1.661
 拡大...0.07倍
+
+ハンドガン
+mixamorig:RightHandMiddle4
+回転...x=5.7,y=1.436,z=4.219
+拡大...3倍
