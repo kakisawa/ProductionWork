@@ -170,6 +170,7 @@ void Player::SetModelFramePosition(int ModelHandle, const char* FrameName, int S
 {
 	MATRIX FrameMatrix;
 	int FrameIndex;
+	MATRIX RotateMatrix;
 
 	// フレーム名からフレーム番号を取得する
 	FrameIndex = MV1SearchFrame(ModelHandle, FrameName);
@@ -177,8 +178,9 @@ void Player::SetModelFramePosition(int ModelHandle, const char* FrameName, int S
 	// フレームの現在のワールドでの状態を示す行列を取得する
 	FrameMatrix = MV1GetFrameLocalWorldMatrix(ModelHandle, FrameIndex);
 
-	// セットするモデルの状態を示す行列をフレームの状態を示す行列と同じにする
-	MV1SetMatrix(SetModelHandle, MMult(MGetScale(ModelSize), FrameMatrix));
+	// 角度を回転させる為
+	CreateRotationXYZMatrix(&RotateMatrix, 6.193f, 0.808f, 4.488f);
+	MV1SetMatrix(SetModelHandle, MMult(MMult(RotateMatrix, MGetScale(ModelSize)), FrameMatrix));
 }
 
 void Player::Move(const Camera& camera)
