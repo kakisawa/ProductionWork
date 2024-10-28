@@ -16,7 +16,7 @@ void SceneManager::Init()
 	m_pScene = std::make_shared<SceneDebug>();
 #else
 	// 最初のシーンのメモリを確保する
-	//m_pScene = make_shared<SceneTitle>();
+	m_pScene = std::make_shared<SceneTitle>();
 
 #endif // DEBUG
 

@@ -13,6 +13,8 @@ public:
     virtual void End() override;
 
 private:
+    int m_titleGraph;
+    int m_buttonGraph;
 
 };
 

@@ -65,17 +65,17 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 
 void SceneSelect::Draw()
 {
-
-#ifdef _DEBUG
 	DrawString(0, 0, "SceneSelect", 0xffffff);
 	DrawFormatString(0, 50, 0xffffff, "m_nextScene=%d", m_nextScene);
 
 
-	DrawString(0, 70, "1=TitleScene", 0xffffff);
-	DrawString(0, 90, "2=GameScene", 0xffffff);
-	DrawString(0, 110, "3=OptionScene", 0xffffff);
-	DrawString(0, 130, "4=RankingScene", 0xffffff);
-	DrawString(0, 150, "5=GameEnd", 0xffffff);
+	DrawString(0, 70, "1 = TitleScene", 0xffffff);
+	DrawString(0, 90, "2 = GameScene", 0xffffff);
+	DrawString(0, 110, "3 = OptionScene", 0xffffff);
+	DrawString(0, 130, "4 = RankingScene", 0xffffff);
+	DrawString(0, 150, "5 = GameEnd", 0xffffff);
+#ifdef _DEBUG
+	
 
 #endif // DEBUG
 }
