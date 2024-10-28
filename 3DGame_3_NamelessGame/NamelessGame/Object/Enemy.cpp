@@ -82,6 +82,8 @@ void Enemy::Move(const Map& map)
 
 
 
+		//if(m_targetPos)
+
 
 
 		// Pos2からPos3
@@ -101,17 +103,19 @@ void Enemy::Move(const Map& map)
 void Enemy::SearchNearPosition(const Map& map)
 {
 
-	//VECTOR target1;
-	//VECTOR target2;
-	//VECTOR target3;
-	//VECTOR target4;
+	VECTOR target1;
+	VECTOR target2;
+	VECTOR target3;
+	VECTOR target4;
 
-	//target1 = VSub(m_pos, map.GetPointPos().point1);
-	//target2 = VSub(m_pos, map.GetPointPos().point2);
-	//target3 = VSub(m_pos, map.GetPointPos().point3);
-	//target4 = VSub(m_pos, map.GetPointPos().point4);
+	target1 = VSub(m_pos, map.GetPointPos().point1);
+	target2 = VSub(m_pos, map.GetPointPos().point2);
+	target3 = VSub(m_pos, map.GetPointPos().point3);
+	target4 = VSub(m_pos, map.GetPointPos().point4);
 
-	//m_targetPos = std::min(target1, target2);
-	//m_targetPos = std::min(m_targetPos, target3);
-	//m_targetPos = std::min(m_targetPos, target4);
+	m_targetPos = std::min(target1, target2);
+	m_targetPos = std::min(m_targetPos, target3);
+	m_targetPos = std::min(m_targetPos, target4);
+
+
 }

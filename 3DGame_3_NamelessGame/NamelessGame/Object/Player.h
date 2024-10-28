@@ -19,7 +19,8 @@ public:
 		bool isDrink = false;			// 回復アイテム使用中
 		bool isReload = false;			// 弾再装填アイテム使用中
 		bool isSummon = false;			// 召喚アイテム使用中
-		bool isAttack = false;			// 攻撃中
+		bool isGunAttack = false;		// 銃攻撃中
+		bool isKnifeAttack = false;		// ナイフ攻撃中
 		bool isRoll = false;			// 回避中
 		bool isDamageReceived = false;	// 被ダメージ
 	};
@@ -86,9 +87,9 @@ public:
 		float Run = 0.4f;			// 走る
 		float HandGun = 0.7f;		// 撃つ(ハンドガン)
 		float MachineGun = 0.5f;	// 撃つ(マシンガン)
-		float Knife1 = 1.0f;		// ナイフ攻撃1
-		float Knife2 = 1.0f;		// ナイフ攻撃2
-		float Knife3 = 1.0f;		// ナイフ攻撃3
+		float Knife1 = 0.8f;		// ナイフ攻撃1
+		float Knife2 = 0.8f;		// ナイフ攻撃2
+		float Knife3 = 0.8f;		// ナイフ攻撃3
 		float Installation = 1.3f;	// 罠設置
 		float Drink = 1.3f;			// 飲む
 		float Summon = 1.0f;		// 召喚
@@ -291,6 +292,8 @@ private:
 
 	VECTOR m_colPos;			// 当たり判定用座標
 	VECTOR m_targetLockPos;		// ロックオン時の照準座標
+
+	VECTOR m_weaponRota;		// 武器回転角度
 
 	Item::ItemKind m_setItem;	// 獲得したアイテムをセットするための値
 	WeaponKind m_useWeapon;		// 使用中の武器
