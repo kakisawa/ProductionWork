@@ -14,7 +14,7 @@ namespace {
 	constexpr int kSecondAttackTime = 30;			// 2コンボ目の攻撃の入力受付時間
 	constexpr int kThirdAttackTime = 35;			// 3コンボ目の攻撃の入力受付時間
 
-	constexpr int kMaxHp= 100;						// 最大HP
+	constexpr int kMaxHp = 100;						// 最大HP
 	constexpr int kAttackRightArm = 60;				// ハンドガン攻撃力
 	constexpr int kAttackLeftArm = 20;			// マシンガン攻撃力
 	constexpr int kAttackKnife = 100;				// ナイフ攻撃力
@@ -23,19 +23,21 @@ namespace {
 	VECTOR kMachineGunSize = VGet(0.07f, 0.07f, 0.07f);
 	VECTOR kHandGunSize = VGet(3.0f, 3.0f, 3.0f);
 
-	VECTOR kGunRota = VGet(2.693f, 2.738f, 1.661f);
+	VECTOR kMachineGunRota = VGet(6.193f, 0.808f, 4.488f);
+	VECTOR kHandGunRota = VGet(5.7f, 2.636f, 4.219f);
 
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
 
-	const char* kModelFilePath = "Data/Model/PlayerModel.mv1";	// プレイヤーモデルパス
-	const char* kModelRightHand = "mixamorig:RightHandRing3";	// マシンガン用右手パス
+	const char* kModelFilePath = "Data/Model/PlayerModel.mv1";			// プレイヤーモデルパス
+	const char* kModelRightHandRing3 = "mixamorig:RightHandRing3";		// マシンガン用右手パス
 	const char* kModelRightHandMiddle = "mixamorig:RightHandMiddle4";	// ハンドガン用右手パス
+	const char* kModelRightHandRing4 = "mixamorig:RightHandRing4";		// ナイフ用右手パス
 
 	const char* const kWeaponPath[3] = {
-		"Data/Model/Weapon/MachineGun.mv1",
-		"Data/Model/Weapon/HandGun.mv1",
-		"Data/Model/Weapon/MachineGun.mv1",
+		"Data/Model/Weapon/MachineGun.mv1",	// マシンガン用パス
+		"Data/Model/Weapon/HandGun.mv1",	// ハンドガン用パス
+		"Data/Model/Weapon/Knife.mv1",		// ナイフ用パス
 	};
 
 	int gunmodel;
@@ -101,8 +103,8 @@ void Player::Init()
 	m_useItem[2] = Item::ItemKind::NoItem;
 
 
-	SetModelFramePosition(m_model, kModelRightHand,m_weapon[0], kMachineGunSize);
-
+	SetModelFramePosition(m_model, kModelRightHandRing3,m_weapon[0], kMachineGunSize, kMachineGunRota);
+	SetModelFramePosition(m_model, kModelRightHandMiddle, m_weapon[1], kHandGunSize, kHandGunRota);
 #ifdef _DEBUG
 	m_hp = 10;
 
@@ -119,8 +121,8 @@ void Player::Update(const Enemy& enemy,const Item& item, const Camera& camera, I
 	Roll(input);
 	Hit(input);
 
-	SetModelFramePosition(m_model, kModelRightHand, m_weapon[1], kHandGunSize);
-	//MV1SetVisible(m_weapon[1], true);
+	SetModelFramePosition(m_model, kModelRightHandRing3, m_weapon[0], kHandGunSize,kMachineGunRota);
+	SetModelFramePosition(m_model, kModelRightHandMiddle, m_weapon[1], kHandGunSize, kHandGunRota);
 
 	// 攻撃
 	AttackKnife(input);
@@ -140,6 +142,7 @@ void Player::Draw()
 {
 	ModelBase::Draw();
 	MV1DrawModel(m_weapon[0]);
+	MV1DrawModel(m_weapon[1]);
 	m_col.CapsuleDraw(0xffff00, false);
 
 
@@ -166,7 +169,7 @@ void Player::Draw()
 #endif // DEBUG
 }
 
-void Player::SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle, VECTOR ModelSize)
+void Player::SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle, VECTOR ModelSize, VECTOR ModelRota)
 {
 	MATRIX FrameMatrix;
 	int FrameIndex;
@@ -179,7 +182,7 @@ void Player::SetModelFramePosition(int ModelHandle, const char* FrameName, int S
 	FrameMatrix = MV1GetFrameLocalWorldMatrix(ModelHandle, FrameIndex);
 
 	// 角度を回転させる為
-	CreateRotationXYZMatrix(&RotateMatrix, 6.193f, 0.808f, 4.488f);
+	CreateRotationXYZMatrix(&RotateMatrix, ModelRota.x, ModelRota.y, ModelRota.z);
 	MV1SetMatrix(SetModelHandle, MMult(MMult(RotateMatrix, MGetScale(ModelSize)), FrameMatrix));
 }
 
@@ -508,7 +511,8 @@ void Player::AttackGun(Input& input)
 
 		if (m_useWeapon == WeaponKind::HandGun) 
 		{
-			
+			SetModelFramePosition(m_model, kModelRightHandRing3, m_weapon[1], kHandGunSize, kHandGunRota);
+			MV1SetVisible(m_weapon[1], true);
 
 			ChangeAnimNo(PlayerAnim::HandGun2, m_animSpeed.HandGun, true, m_animChangeTime.HandGun);
 			if(m_isLoopFinish)
@@ -518,7 +522,7 @@ void Player::AttackGun(Input& input)
 		}
 		else if (m_useWeapon == WeaponKind::MachineGun)
 		{
-			SetModelFramePosition(m_model, kModelRightHand, m_weapon[0], kMachineGunSize);
+			SetModelFramePosition(m_model, kModelRightHandRing3, m_weapon[0], kMachineGunSize, kMachineGunRota);
 			MV1SetVisible(m_weapon[0], true);
 
 			ChangeAnimNo(PlayerAnim::MachineGun2, m_animSpeed.MachineGun, true, m_animChangeTime.MachineGun);
@@ -614,6 +618,6 @@ void Player::ChangeAnimIdle()
 		ChangeAnimNo(PlayerAnim::Idle,m_animSpeed.Idle, true, m_animChangeTime.Idle);
 		
 		MV1SetVisible(m_weapon[0], false);
-		//MV1SetVisible(m_weapon[1], false);
+		MV1SetVisible(m_weapon[1], false);
 	}	
 }

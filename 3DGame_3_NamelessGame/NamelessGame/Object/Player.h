@@ -154,7 +154,7 @@ public:
 	/// <param name="FrameName">モデルを持たせる場所</param>
 	/// <param name="SetModelHandle">持たせるモデル</param>
 	/// <param name="ModelSize">持たせるモデルのサイズ</param>
-	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle,VECTOR ModelSize);
+	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle,VECTOR ModelSize,VECTOR ModelRota);
 
 	/// <summary>
 	/// 移動処理
