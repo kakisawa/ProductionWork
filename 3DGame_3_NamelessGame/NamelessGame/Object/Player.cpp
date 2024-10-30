@@ -58,6 +58,7 @@ Player::Player() :
 	m_colPos(kInitVec),
 	m_targetLockPos(kInitVec),
 	m_weaponRota(kInitVec),
+	m_rightHandPos(kInitVec),
 	m_setItem(Item::ItemKind::NoItem),
 	m_useWeapon(WeaponKind::HandGun),
 	m_SetComboknife(Knife::Attack1)
@@ -124,6 +125,13 @@ void Player::Update(const Enemy& enemy,const Item& item, const Camera& camera, I
 	Roll(input);
 	Hit(input);
 
+
+	// 武器を持たせる場所の獲得、描画
+	int in = MV1SearchFrame(m_model, kModelRightHandRing4);
+	m_rightHandPos = MV1GetFramePosition(m_model, in);  // ボーンの位置を取得
+	DrawSphere3D(m_rightHandPos, 5.0f, 32, 0xff00ff, 0xff00ff, true);
+	//
+
 	SetModelFramePosition(m_model, kModelRightHandRing3, m_weapon[0], kHandGunSize,kMachineGunRota);
 	SetModelFramePosition(m_model, kModelRightHandMiddle, m_weapon[1], kHandGunSize, kHandGunRota);
 	SetModelFramePosition(m_model, kModelRightHandRing4, m_weapon[2], kKnifeSize, m_weaponRota);
@@ -172,7 +180,9 @@ void Player::Draw()
 	DrawFormatString(0, 560, 0xffffff, "m_animNext.totalTime=%.2f", m_animNext.totalTime);
 	DrawFormatString(0, 580, 0xffffff, "m_nextAnimTime=%.2f", m_nextAnimTime);
 	DrawFormatString(0, 640, 0xffffff, "m_status.situation.isKnifeAttack=%d", m_status.situation.isKnifeAttack);
-	
+
+	DrawFormatString(0, 660, 0xffffff, "m_rightHandPos.x/y/z=%.2f/%.2f/%.2f", m_rightHandPos.x, m_rightHandPos.y, m_rightHandPos.z);
+
 #endif // DEBUG
 }
 
@@ -198,8 +208,6 @@ void Player::Move(const Camera& camera)
 	if (m_status.situation.isUseItem || m_status.situation.isReload ||
 		 m_status.situation.isDamageReceived||
 		m_status.situation.isKnifeAttack)	return;
-
-	// m_status.situation.isRoll ||
 
 
 	// カメラの向きベクトルを取得

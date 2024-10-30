@@ -293,6 +293,8 @@ private:
 	VECTOR m_colPos;			// 当たり判定用座標
 	VECTOR m_targetLockPos;		// ロックオン時の照準座標
 
+	VECTOR m_rightHandPos;		// 武器当たり判定用座標
+
 	VECTOR m_weaponRota;		// 武器回転角度
 
 	Item::ItemKind m_setItem;	// 獲得したアイテムをセットするための値

@@ -45,6 +45,15 @@ public:
 
 	}m_chara;
 
+	//// 当たり判定情報
+	//struct ColData
+	//{
+	//	VECTOR bodyPos;
+	//	VECTOR bodyVertexPos;
+
+	//};
+
+
 	/// <summary>
 	/// アニメーションを変更させる
 	/// </summary>

@@ -21,5 +21,8 @@ public:
 	PointPos GetPointPos() const { return m_pointPos; }
 
 private:
+	int m_model1;
+	int m_model2;
+	int m_model3;
 };
 
