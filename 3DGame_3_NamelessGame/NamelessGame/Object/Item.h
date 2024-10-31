@@ -45,7 +45,7 @@ public:
 	/// 当たり判定の値渡し
 	/// </summary>
 	/// <returns>Itemの当たり判定の値</returns>
-	Collision GetColItem() const { return m_col; }
+	Collision GetCol() const { return m_col; }
 
 	// アイテムの種類
 	enum class ItemKind {

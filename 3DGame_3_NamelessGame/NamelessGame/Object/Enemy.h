@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "ModelBase.h"
 
+class Player;
 class Map;
 class Enemy :
 	public ModelBase
@@ -84,7 +85,7 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update(const Map& map);
+	void Update(const Map& map,const Player& player);
 
 	/// <summary>
 	/// 描画
@@ -109,6 +110,16 @@ public:
 	/// <returns>座標</returns>
 	VECTOR GetPos() const { return m_pos; }
 
+
+	/// <summary>
+	/// 当たり判定渡し
+	/// </summary>
+	/// <returns>当たり判定</returns>
+	Collision GetCol() const { return m_col; }
+
 private:
+
+	VECTOR m_colPos;			// 当たり判定用座標
+
 	VECTOR m_targetPos;	// 目標座標
 };

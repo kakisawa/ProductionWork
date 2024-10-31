@@ -62,7 +62,7 @@ public:
 	{
 		int Idle = 7;			// 待機
 		int Run = 5;			// 走る
-		int HandGun = 5;		// 撃つ(ハンドガン)
+		int HandGun = 2;		// 撃つ(ハンドガン)
 		int MachineGun = 5;		// 撃つ(マシンガン)
 		int Knife1 = 5;			// ナイフ攻撃1
 		int Knife2 = 5;			// ナイフ攻撃2
@@ -226,13 +226,11 @@ public:
 	/// <param name="input">入力</param>
 	void Roll(Input& input);
 
-
 	/// <summary>
 	/// 被ダメージ処理
 	/// </summary>
 	/// <param name="input">入力</param>
 	void Hit(Input& input);
-
 
 	/// <summary>
 	/// アニメーションの変更
@@ -247,6 +245,12 @@ public:
 	/// アニメーションを待機状態に変更する
 	/// </summary>
 	void ChangeAnimIdle();
+
+	/// <summary>
+	/// 敵へ攻撃値を渡す
+	/// </summary>
+	/// <returns></returns>
+	int GetAttack() const { return m_attackTheEnemy; }
 
 	/// <summary>
 	/// アングル渡し
@@ -284,16 +288,23 @@ private:
 
 	std::array<int, 3> m_weapon{};	// 武器
 
+	int m_attackTheEnemy;		// 敵への攻撃力
+
 	int m_item;					// 所持している3つのうち、使用するアイテム
-	int m_getItem;				// アイテムをランダムで獲得する際に使用するLockOn
+	int m_getItem;				// アイテムをランダムで獲得する際に使用する
 	int m_getitemCount;			// アイテムを獲得するインターバル用
 	bool m_isItem;				// アイテムとの当たり判定
 	bool m_isLookOn;			// ロックオンフラグ
 
+	bool m_isEnemy;				// 敵との当たり判定
+	bool m_isAttackToEnemy;		// 敵に攻撃が当たったかの判定
+	bool m_isAttack;
+
 	VECTOR m_colPos;			// 当たり判定用座標
 	VECTOR m_targetLockPos;		// ロックオン時の照準座標
 
-	VECTOR m_rightHandPos;		// 武器当たり判定用座標
+	VECTOR m_rightHandPos;		// 右手当たり判定用座標
+	VECTOR m_KnifeTipPos;		// 武器先端当たり判定用座標
 
 	VECTOR m_weaponRota;		// 武器回転角度
 

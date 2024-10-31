@@ -4,6 +4,18 @@
 class Collision
 {
 public:
+
+	struct ColType
+	{
+		VECTOR m_pos;
+		VECTOR m_vertexPos;
+		float m_radius;
+	};
+
+	ColType m_body;		// 体の当たり判定
+	ColType m_weapon;	// 武器の当たり判定
+
+
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -20,58 +32,61 @@ public:
 	void Init();
 
 	/// <summary>
-	/// 球体の当たり判定更新
+	/// 変更後:球体の当たり判定更新
 	/// </summary>
+	/// <param name="colType">当たり判定の属性</param>
 	/// <param name="pos">座標</param>
 	/// <param name="radius">半径</param>
-	void SphereUpdate(const VECTOR pos, const float radius);
+	void TypeChangeSphereUpdate(ColType& colType, const VECTOR pos, const float radius);
 
 	/// <summary>
-	/// カプセルの当たり判定更新
+	/// 変更後:カプセルの当たり判定更新
 	/// </summary>
+	/// <param name="colType">当たり判定の属性</param>
 	/// <param name="pos">座標</param>
 	/// <param name="upPos">頂点座標</param>
 	/// <param name="radius">半径</param>
-	void CapsuleUpdate(const VECTOR pos, const VECTOR upPos, const float radius);
+	void TypeChangeCapsuleUpdate(ColType& colType,const VECTOR pos, const VECTOR upPos, const float radius);
 
 	/// <summary>
-	/// 球体の当たり判定描画
+	/// 変更後:球体の当たり判定描画
 	/// </summary>
+	/// <param name="colType">当たり判定の属性</param>
 	/// <param name="color">色</param>
-	/// <param name="isFill">球体の色を塗りつぶすか</param>
-	void SphereDraw(unsigned int color, bool isFill);
+	/// <param name="isFill">色を塗りつぶすか</param>
+	void TypeChangeSphereDraw(ColType& colType, unsigned int color, bool isFill);
 
 	/// <summary>
 	/// カプセルの当たり判定描画
 	/// </summary>
+	/// <param name="colType">当たり判定の属性</param>
 	/// <param name="color">色</param>
-	/// <param name="isFill">球体の色を塗りつぶすか</param>
-	void CapsuleDraw(unsigned int color, bool isFill);
+	/// <param name="isFill">色を塗りつぶすか</param>
+	void TypeChangeCapsuleDraw(ColType& colType, unsigned int color, bool isFill);
 
 	/// <summary>
 	/// 球体の当たり判定
 	/// </summary>
-	/// <param name="col">もう1つの値</param>
+	/// <param name="colType">当たり判定の属性</param>
+	/// <param name="col">もう一つの値</param>
 	/// <returns>当たっていたらtrueを返す</returns>
-	bool IsSphereCollision(const Collision& col);
+	bool IsTypeChageSphereCollision(const ColType& colType,const Collision& col,const Collision::ColType& m_col);
 
 	/// <summary>
 	/// カプセルの当たり判定
 	/// </summary>
-	/// <param name="col">もう1つの値</param>
+	/// <param name="colType">当たり判定の属性</param>
+	/// <param name="col">もう一つの当たり判定</param>
 	/// <returns>当たっていたらtrueを返す</returns>
-	bool IsCupsuleCollision(const Collision& col);
+	bool IsTypeChageCupsuleCollision(const ColType& colType, const Collision::ColType& m_col);
 
 	/// <summary>
 	/// 球体とカプセルの当たり判定
 	/// </summary>
-	/// <param name="col">もう1つの値</param>
+	/// <param name="colType">当たり判定の属性</param>
+	/// <param name="col">もう一つの当たり判定</param>
 	/// <returns>当たっていたらtrueを返す</returns>
-	bool IsSphereToCapsuleCollision(const Collision& col);
+	bool IsTypeChageSphereToCapsuleCollision(const ColType& colType, const Collision::ColType& m_col);
 
 private:
-	float m_radius;			// 当たり判定の半径
-
-	VECTOR m_pos;			// 座標
-	VECTOR m_vertexPos;		// カプセルの頂点座標
 };

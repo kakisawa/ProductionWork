@@ -34,7 +34,7 @@ std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 {
 	m_pMap->Update();
 	m_pPlayer->Update(*m_pEnemy, *m_pItem, *m_pCamera, input);
-	m_pEnemy->Update(*m_pMap);
+	m_pEnemy->Update(*m_pMap,*m_pPlayer);
 	m_pCamera->Update(*m_pPlayer);
 	m_pItem->Update();
 

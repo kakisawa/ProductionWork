@@ -97,7 +97,7 @@ protected:
 	VECTOR m_targetDir;		// プレイヤーが向くべき方向のベクトル
 
 	Collision m_col;		// 当たり判定
-
+	
 	// アニメーション関係
 
 	int m_animChangeFrame;		// 現在の切り替えフレーム数
