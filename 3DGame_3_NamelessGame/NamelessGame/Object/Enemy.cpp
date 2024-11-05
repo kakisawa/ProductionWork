@@ -10,10 +10,7 @@ namespace {
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 
 	const VECTOR kBodyColUpPos = VGet(0.0f, 70.0f, 0.0f);	// 体当たり判定頂点
-	constexpr float kBodyColRad = 27.0f;				// 体当たり判定半径
 
-	float kMove = 1.0f;
-	constexpr int kMaxHp = 1000;				// 最大HP
 	constexpr int kAttackHandGun = 30;			// 右腕攻撃力
 	constexpr int kAttackMachineGun = 30;			// 左腕攻撃力
 
@@ -27,12 +24,12 @@ Enemy::Enemy():
 	m_targetPos(kInitVec)
 {
 	// プレイヤー外部データ読み込み
-	LoadCsv::GetInstance().LoadData(m_chara, "enemy");
+	LoadCsv::GetInstance().LoadCommonFileData(m_chara, "enemy");
 	// モデルの読み込み
 	m_model = MV1LoadModel(kModelFilePath);
 	assert(m_model != -1);
 
-	m_hp = kMaxHp;
+	m_hp = m_chara.maxHp;
 
 	// 座標初期値
 	m_pos = VGet(m_chara.initPosX, m_chara.initPosY, m_chara.initPosZ);
@@ -48,7 +45,7 @@ Enemy::~Enemy()
 void Enemy::Init()
 {
 	ModelBase::Init();
-	m_hp = kMaxHp;		// HPに最大値を入れる
+	m_hp = m_chara.maxHp;		// HPに最大値を入れる
 	m_attack = kAttackHandGun;
 
 
@@ -68,7 +65,7 @@ void Enemy::Update(const Map& map, const Player& player)
 	SearchNearPosition(map);
 
 	// 体当たり判定更新
-	m_col.TypeChangeCapsuleUpdate(m_col.m_body, m_pos, m_colPos, kBodyColRad);
+	m_col.TypeChangeCapsuleUpdate(m_col.m_body, m_pos, m_colPos, m_chara.bodyColRad);
 
 	Move(map);
 
@@ -94,11 +91,11 @@ void Enemy::Move(const Map& map)
 	{
 		// Pos1からPos2
 		if (m_pos.x != map.GetPointPos().point2.x) {
-			m_move.x = kMove;
+			m_move.x = m_chara.walkSpeed;
 		}
 		else if (m_pos.z != map.GetPointPos().point2.z)
 		{
-			m_move.z = kMove;
+			m_move.z = m_chara.walkSpeed;
 		}
 
 

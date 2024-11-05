@@ -4,6 +4,7 @@
 #include "DxLib.h"
 #include <string>
 #include <array>
+#include <map>
 
 class Enemy;
 class Camera;
@@ -115,6 +116,23 @@ public:
 
 	// 所持しているアイテム
 	std::array<Item::ItemKind, 3>  m_useItem;
+
+
+	/// <summary>
+	/// プレイヤーデータ
+	/// </summary>
+	struct PlayerOnlyData
+	{
+		int attack;			// 基礎攻撃力
+		float sizeX;		// 初期拡大座標X
+		float sizeY;		// 初期拡大座標Y
+		float sizeZ;		// 初期拡大座標Z
+		float RotaX;		// 初期回転角度X
+		float RotaY;		// 初期回転角度Y
+		float RotaZ;		// 初期回転角度Z
+	};
+
+	std::map<std::string, PlayerOnlyData> m_playerData;
 
 public:
 
@@ -282,6 +300,8 @@ public:
 	/// <returns>プレイヤーの当たり判定の値</returns>
 	Collision GetCol() const { return m_col; }
 
+	void WeaponInfoSet();
+
 private:
 	int m_remainingBullets_handgun;		// ハンドガンの残弾数
 	int m_remainingBullets_machinegun;	// マシンガンの残弾数
@@ -301,12 +321,15 @@ private:
 	bool m_isAttack;
 
 	VECTOR m_colPos;			// 当たり判定用座標
+	VECTOR m_colUpPos;			// 当たり判定用上座標
 	VECTOR m_targetLockPos;		// ロックオン時の照準座標
 
 	VECTOR m_rightHandPos;		// 右手当たり判定用座標
 	VECTOR m_KnifeTipPos;		// 武器先端当たり判定用座標
 
-	VECTOR m_weaponRota;		// 武器回転角度
+	std::array<VECTOR, 3> m_weaponSize{};
+	std::array<VECTOR, 3> m_weaponRota{};
+
 
 	Item::ItemKind m_setItem;	// 獲得したアイテムをセットするための値
 	WeaponKind m_useWeapon;		// 使用中の武器

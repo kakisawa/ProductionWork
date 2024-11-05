@@ -33,25 +33,18 @@ public:
 	/// <summary>
 	/// プレイヤーデータ
 	/// </summary>
-	struct CharaData
+	struct CharaCommonData
 	{
-		int maxHp;		// 最大HP
-		float initPosX;	// 初期化座標X
-		float initPosY; // 初期化座標Y
-		float initPosZ; // 初期化座標Z
-		float modelSize;// モデルサイズ
-		float walkSpeed;// 歩く速度
-		float rotaSpeed;// 回転速度
-
+		int maxHp;			// 最大HP
+		float initPosX;		// 初期化座標X
+		float initPosY;		// 初期化座標Y
+		float initPosZ;		// 初期化座標Z
+		float modelSize;	// モデルサイズ
+		float walkSpeed;	// 歩く速度
+		float rotaSpeed;	// 回転速度
+		float bodyColRad;	// 体当たり判定半径
+		float bodyColUpY;	// 当たり判定上座標
 	}m_chara;
-
-	//// 当たり判定情報
-	//struct ColData
-	//{
-	//	VECTOR bodyPos;
-	//	VECTOR bodyVertexPos;
-
-	//};
 
 
 	/// <summary>

@@ -30,9 +30,17 @@ public:
 	}
 
 	/// <summary>
-	/// csvファイルのロード
+	/// 共通csvファイルのロード
 	/// </summary>
-	void LoadData(ModelBase::CharaData& charaData, std::string charaName);
+	void LoadCommonFileData(ModelBase::CharaCommonData& charaData, std::string charaName);
+
+	/// <summary>
+	/// プレイヤーのみcsvファイルのロード
+	/// </summary>
+	/// <param name="charaData"></param>
+	/// <param name="charaName"></param>
+	void LoadPlayerOnlyFileData(std::map<std::string, Player::PlayerOnlyData>& playerData);
+
 	
 private:
 	LoadCsv() = default;

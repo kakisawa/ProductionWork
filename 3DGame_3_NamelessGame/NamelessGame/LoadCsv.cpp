@@ -2,12 +2,15 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <map>
 
 LoadCsv* LoadCsv::m_instance = nullptr;
 
 namespace
 {
-	const char* const kCharaInfoFileName = "Data/csv/CharaInfo.csv";
+	const char* const kCommonCharaInfoFileName = "Data/csv/CharaInfo.csv";
+	const char* const kPlayerOnlyDataFileName = "Data/csv/PlayerOnlyData.csv";
+
 
 	/// <summary>
 	/// 文字列を分割する
@@ -28,9 +31,9 @@ namespace
 	}
 }
 
-void LoadCsv::LoadData(ModelBase::CharaData& charaData,std::string charaName)
+void LoadCsv::LoadCommonFileData(ModelBase::CharaCommonData& charaData, std::string charaName)
 {
-	std::ifstream ifs(kCharaInfoFileName);
+	std::ifstream ifs(kCommonCharaInfoFileName);
 	std::string line;
 	std::vector<std::string> strvec;
 	m_data.clear();
@@ -50,6 +53,8 @@ void LoadCsv::LoadData(ModelBase::CharaData& charaData,std::string charaName)
 				charaData.modelSize = std::stof(strvec[5]);	// モデルサイズ
 				charaData.walkSpeed = std::stof(strvec[6]);	// 歩く速度
 				charaData.rotaSpeed = std::stof(strvec[7]);	// 回転速度
+				charaData.bodyColRad = std::stof(strvec[8]);	// 体当たり判定半径
+				charaData.bodyColUpY = std::stof(strvec[9]);// 体当たり判定Y座標
 			}
 			catch (const std::exception&)
 			{
@@ -58,5 +63,36 @@ void LoadCsv::LoadData(ModelBase::CharaData& charaData,std::string charaName)
 		}
 	}
 
-	
+
+}
+
+void LoadCsv::LoadPlayerOnlyFileData(std::map<std::string, Player::PlayerOnlyData>& playerData)
+{
+	std::ifstream ifs(kPlayerOnlyDataFileName);
+	std::string line;
+	std::vector<std::string> strvec;
+	m_data.clear();
+
+	while (std::getline(ifs, line))
+	{
+		strvec = split(line, ',');
+		const char* str = strvec[0].c_str();
+
+		try
+		{
+			// プレイヤーの詳細
+			playerData[str].attack = std::stoi(strvec[1]);
+			playerData[str].sizeX = std::stof(strvec[2]);
+			playerData[str].sizeY = std::stof(strvec[3]);
+			playerData[str].sizeZ = std::stof(strvec[4]);
+			playerData[str].RotaX = std::stof(strvec[5]);
+			playerData[str].RotaY = std::stof(strvec[6]);
+			playerData[str].RotaZ = std::stof(strvec[7]);
+		}
+		catch (const std::exception&)
+		{
+
+		}
+
+	}
 }
