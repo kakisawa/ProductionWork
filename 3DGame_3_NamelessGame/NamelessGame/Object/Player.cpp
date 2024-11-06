@@ -20,8 +20,6 @@ namespace {
 		"Data/Model/Weapon/new_Knife.mv1",		// ナイフ用パス
 	};
 
-	constexpr float kKnifeColRad = 3.0f;					// ナイフ当たり判定の半径
-
 	constexpr int kSecondAttackTime = 25;					// 2コンボ目の攻撃の入力受付時間
 	constexpr int kThirdAttackTime = 40;					// 3コンボ目の攻撃の入力受付時間
 
@@ -596,7 +594,7 @@ void Player::AttackKnife(Input& input)
 
 	// ナイフで攻撃をしている時のみ、当たり判定も移動させる
 	if (m_status.situation.isKnifeAttack) {
-		m_col.TypeChangeCapsuleUpdate(m_col.m_weapon, m_rightHandPos, m_KnifeTipPos, kKnifeColRad);
+		m_col.TypeChangeCapsuleUpdate(m_col.m_weapon, m_rightHandPos, m_KnifeTipPos, m_playerData["knife"].HitRad);
 	}
 
 	// 攻撃アニメーション系処理

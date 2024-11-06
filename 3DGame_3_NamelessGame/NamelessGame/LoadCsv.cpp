@@ -88,6 +88,7 @@ void LoadCsv::LoadPlayerOnlyFileData(std::map<std::string, Player::PlayerOnlyDat
 			playerData[str].RotaX = std::stof(strvec[5]);
 			playerData[str].RotaY = std::stof(strvec[6]);
 			playerData[str].RotaZ = std::stof(strvec[7]);
+			playerData[str].HitRad = std::stof(strvec[8]);
 		}
 		catch (const std::exception&)
 		{

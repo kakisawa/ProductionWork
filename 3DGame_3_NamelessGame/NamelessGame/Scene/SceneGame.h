@@ -21,6 +21,7 @@ public:
 private:
 
     int model;
+    int m_UI1;
 
     // カメラ
     std::shared_ptr<Camera> m_pCamera = std::make_shared<Camera>();

@@ -130,6 +130,7 @@ public:
 		float RotaX;		// 初期回転角度X
 		float RotaY;		// 初期回転角度Y
 		float RotaZ;		// 初期回転角度Z
+		float HitRad;		// 当たり判定半径
 	};
 
 	std::map<std::string, PlayerOnlyData> m_playerData;
