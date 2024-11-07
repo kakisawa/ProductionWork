@@ -164,18 +164,17 @@ void EnemyLeft::Draw()
 	}
 
 	m_pEffect->Draw();			 // エフェクト描画
-
 	
 #ifdef _DEBUG
-	//DrawFormatString(0, 800, 0xffffff, "m_pos=%.2f:=%.2f:=%.2f", m_pos.x, m_pos.y, m_pos.z);
-	if (m_isAlive)
-	{
-		DrawFormatString(0, 600, 0xffffff, "m_hp=%d", m_hp);
-		m_colSphere.DrawMain(0x00ff00, false);	// 当たり判定描画
-	}
-	
-	DrawFormatString(0, 660, 0xffffff, "m_isMoveFlag=%d", m_isMoveFlag);
-	DrawFormatString(0, 680, 0xffffff, "m_vecToPlayer.x=%.2f.y=%.2f.z=%.2f", m_vecToPlayer.x,m_vecToPlayer.y,m_vecToPlayer.z);
+	////DrawFormatString(0, 800, 0xffffff, "m_pos=%.2f:=%.2f:=%.2f", m_pos.x, m_pos.y, m_pos.z);
+	//if (m_isAlive)
+	//{
+	//	DrawFormatString(0, 600, 0xffffff, "m_hp=%d", m_hp);
+	//	m_colSphere.DrawMain(0x00ff00, false);	// 当たり判定描画
+	//}
+	//
+	//DrawFormatString(0, 660, 0xffffff, "m_isMoveFlag=%d", m_isMoveFlag);
+	//DrawFormatString(0, 680, 0xffffff, "m_vecToPlayer.x=%.2f.y=%.2f.z=%.2f", m_vecToPlayer.x,m_vecToPlayer.y,m_vecToPlayer.z);
 #endif
 }
 

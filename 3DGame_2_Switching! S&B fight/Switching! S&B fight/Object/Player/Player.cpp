@@ -651,6 +651,11 @@ void Player::Angle()
 	MV1SetRotationXYZ(m_pModel->GetModel(), VGet(0.0f, m_angle + DX_PI_F, 0.0f));
 }
 
+/// <summary>
+/// 攻撃処理
+/// </summary>
+/// <param name="enemyR">右の敵情報</param>
+/// <param name="enemyL">左の敵情報</param>
 void Player::Attack(const EnemyRight& enemyR, const EnemyLeft& enemyL)
 {
 	// 剣攻撃
