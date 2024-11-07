@@ -265,6 +265,10 @@ public:
 	/// </summary>
 	void ChangeAnimIdle();
 
+
+	void WeaponInfoSet();
+
+
 	/// <summary>
 	/// 敵へ攻撃値を渡す
 	/// </summary>
@@ -301,7 +305,9 @@ public:
 	/// <returns>プレイヤーの当たり判定の値</returns>
 	Collision GetCol() const { return m_col; }
 
-	void WeaponInfoSet();
+	WeaponKind GetWeaponKind() const { return m_useWeapon; }
+
+	int GetItemFrame() const { return m_item; }
 
 private:
 	int m_remainingBullets_handgun;		// ハンドガンの残弾数

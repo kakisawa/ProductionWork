@@ -6,6 +6,7 @@ class Enemy;
 class Item;
 class Camera;
 class Map;
+class UISceneGame;
 class SceneGame :
     public SceneBase
 {
@@ -21,7 +22,7 @@ public:
 private:
 
     int model;
-    int m_UI1;
+
 
     // カメラ
     std::shared_ptr<Camera> m_pCamera = std::make_shared<Camera>();
@@ -33,4 +34,7 @@ private:
     std::shared_ptr<Item> m_pItem = std::make_shared<Item>();
     // マップ
     std::shared_ptr<Map> m_pMap = std::make_shared<Map>();
+    // UI
+    std::shared_ptr<UISceneGame> m_pUI = std::make_shared<UISceneGame>();
+
 };

@@ -5,11 +5,13 @@
 #include "../Object/Item.h"
 #include "../Object/Camera.h"
 #include "../Object/Map.h"
+#include "../UI/UISceneGame.h"
 #include "DxLib.h"
 
+
+
 SceneGame::SceneGame() :
-	model(-1),
-	m_UI1(-1)
+	model(-1)
 {
 }
 
@@ -24,13 +26,13 @@ void SceneGame::Init()
 	m_pPlayer->Init();
 	m_pEnemy->Init();
 	m_pMap->Init();
-	
+	m_pUI->Init();
 
 	model = MV1LoadModel("Data/Model/book.mv1");
 	MV1SetScale(model, VGet(50.0f, 50.0f, 50.0f));
 	MV1SetPosition(model,VGet(0.0f, 0.0f, 0.0f));
 
-	m_UI1 = LoadGraph("Data/Image/UI/アイテム・武器大本.png");
+
 }
 
 std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
@@ -40,6 +42,7 @@ std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 	m_pEnemy->Update(*m_pMap,*m_pPlayer);
 	m_pCamera->Update(*m_pPlayer);
 	m_pItem->Update();
+	m_pUI->Update(*m_pPlayer);
 
 #ifdef _DEBUG
 	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン
@@ -58,9 +61,7 @@ void SceneGame::Draw()
 	MV1DrawModel(model);
 	m_pPlayer->Draw();
 	m_pEnemy->Draw();
-
-	DrawGraph(1767, 88, m_UI1, true);
-
+	m_pUI->Draw();
 
 #ifdef _DEBUG
 	DrawString(0, 0, "SceneGame", 0xffffff);
@@ -70,5 +71,6 @@ void SceneGame::Draw()
 void SceneGame::End()
 {
 	MV1DeleteModel(model);
-	DeleteGraph(m_UI1);
+	
+	m_pUI->End();
 }

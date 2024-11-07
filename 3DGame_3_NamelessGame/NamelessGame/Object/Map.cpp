@@ -1,5 +1,4 @@
 ﻿#include "Map.h"
-#include "DxLib.h"
 #include <cassert>
 
 namespace {
