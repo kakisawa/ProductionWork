@@ -7,8 +7,8 @@ namespace {
 	constexpr int kMaxVolume = 255;
 
 	// 初期音量
-	constexpr float kInitBgmVolume = kMaxVolume*0.6f;	// BGM初期音量
-	constexpr float kInitSeVolume = kMaxVolume* 0.6f;	// SE初期音量
+	constexpr float kInitBgmVolume = kMaxVolume*0.5f;	// BGM初期音量
+	constexpr float kInitSeVolume = kMaxVolume* 0.5f;	// SE初期音量
 
 	// 変更後音量保存
 	float kChangeBgm = kInitBgmVolume;
@@ -149,8 +149,8 @@ void SoundManager::PlaySE(SE_Type se, int playType, int volumePar, bool topPosit
 	ChangeVolumeSoundMem(m_seVolume, m_se[se]);
 	PlaySoundMem(m_se[se], playType, topPositionFlag);
 
-	//ChangeVolumeSoundMem((255 * volumePar / 100), m_se[se]);
-	//PlaySoundMem(m_se[se], playType, topPositionFlag);
+	/*ChangeVolumeSoundMem((255 * volumePar / 100), m_se[se]);
+	PlaySoundMem(m_se[se], playType, topPositionFlag);*/
 }
 
 bool SoundManager::CheckPlayBGM(BGM_Type bgm)
