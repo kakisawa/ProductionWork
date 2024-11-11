@@ -3,26 +3,31 @@
 #include "DxLib.h"
 
 namespace {
-	const VECTOR kWeaponSelectPos[3]{
+	const VECTOR kWeaponSelectPos[3]{	// 武器セレクトUI座標
 		VGet(1741.0f, 108.0f,0.0f),
 		VGet(1741.0f,244.0f,0.0f),
 		VGet(1741.0f,380.0f,0.0f)
 	};
-
-	const VECTOR kItemSelectPos[3]{
+	
+	const VECTOR kItemSelectPos[3]{		// アイテムセレクトUI座標
 		VGet(1741.0f, 660.0f,0.0f),
 		VGet(1741.0f, 796.0f,0.0f),
 		VGet(1741.0f, 932.0f,0.0f)
 	};
 
-	VECTOR itemPos1 = VGet(1768.0f, 690, 0.0f);
-	VECTOR itemPos2 = VGet(1768.0f, 826, 0.0f);
-	VECTOR itemPos3 = VGet(1768.0f, 962, 0.0f);
+
+	const VECTOR kItemPos[3]{			// アイテムUI座標
+		 VGet(1768.0f, 690, 0.0f),
+		 VGet(1768.0f, 826, 0.0f),
+		 VGet(1768.0f, 962, 0.0f)
+	};
 
 	VECTOR kDisplayBottom[2]{
-		VGet(1711.0f, 59.0f,0.0f),
-		VGet(1742.0f, 606.0f,0.0f)
+		VGet(1547.0f, 0.0f,0.0f),
+		VGet(1564.0f, 540.0f,0.0f)
 	};
+
+	//VECTOR kDisp
 }
 
 UISceneGame::UISceneGame():
@@ -199,17 +204,15 @@ void UISceneGame::Draw()
 {
 	DrawGraph(1740, 91, m_UI1, true);
 	
+	DrawGraph(kDisplayBottom[0].x, kDisplayBottom[0].y, m_displayBottomUI, true);
+	DrawGraph(kDisplayBottom[1].x, kDisplayBottom[1].y, m_displayBottomUI, true);
 
 	DrawGraph(itemPos1.x, itemPos1.y, m_itemUI[0], true);
 	DrawGraph(itemPos2.x, itemPos2.y, m_itemUI[1], true);
 	DrawGraph(itemPos3.x, itemPos3.y, m_itemUI[2], true);
 
-
 	DrawGraph(m_cursorUI1Pos.x, m_cursorUI1Pos.y, m_cursorUI1, true);
 	DrawGraph(m_cursorUI2Pos.x, m_cursorUI2Pos.y, m_cursorUI2, true);
-
-	DrawGraph(kDisplayBottom[0].x, kDisplayBottom[0].y, m_displayBottomUI, true);
-	DrawGraph(kDisplayBottom[1].x, kDisplayBottom[1].y, m_displayBottomUI, true);
 }
 
 void UISceneGame::End()
