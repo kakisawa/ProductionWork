@@ -1,5 +1,6 @@
 ﻿#include "SceneGame.h"
 #include "SceneDebug.h"
+#include "SceneGameClear.h"
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
 #include "../Object/Item.h"
@@ -43,6 +44,11 @@ std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 	m_pCamera->Update(*m_pPlayer);
 	m_pItem->Update();
 	m_pUI->Update(*m_pPlayer);
+
+
+	if (m_pEnemy->GetDeathFlag()) {
+		return std::make_shared<SceneGameClear>();	// ゲームクリアへ行く
+	}
 
 #ifdef _DEBUG
 	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン

@@ -115,8 +115,7 @@ public:
 	};
 
 	// 所持しているアイテム
-	std::array<Item::ItemKind, 3>  m_useItem;
-
+	std::array<Item::ItemKind, 3>  m_item;
 
 	/// <summary>
 	/// プレイヤーデータ
@@ -305,9 +304,14 @@ public:
 	/// <returns>プレイヤーの当たり判定の値</returns>
 	Collision GetCol() const { return m_col; }
 
+	// 選択中の武器を渡す関数
 	WeaponKind GetWeaponKind() const { return m_useWeapon; }
 
-	int GetItemFrame() const { return m_item; }
+	// 選択中のアイテムを渡す関数
+	int GetItemFrame() const { return m_useItem; }
+
+	// 選択中のアイテムの種類を渡す関数
+	Item::ItemKind item() const { return m_item[m_useItem]; }
 
 private:
 	int m_remainingBullets_handgun;		// ハンドガンの残弾数
@@ -317,7 +321,7 @@ private:
 
 	int m_attackTheEnemy;		// 敵への攻撃力
 
-	int m_item;					// 所持している3つのうち、使用するアイテム
+	int m_useItem;				// 所持している3つのうち、使用するアイテム
 	int m_getItem;				// アイテムをランダムで獲得する際に使用する
 	int m_getitemCount;			// アイテムを獲得するインターバル用
 	bool m_isItem;				// アイテムとの当たり判定

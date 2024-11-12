@@ -78,6 +78,9 @@ public:
 	/// <returns></returns>
 	bool IsLoopAnimEnd();
 
+	// 死亡しているかどうかのフラグを渡す
+	bool GetDeathFlag()const { return m_deathFlag; }
+
 protected:
 	int m_model;			// モデル
 	int m_hp;				// HP
@@ -85,12 +88,14 @@ protected:
 	float m_angle;			// プレイヤー向き角度
 	float m_nextAnimTime;	// 新しいアニメーションの再生時間
 
+	bool m_deathFlag;		// 死亡しているかのフラグ
+
 	VECTOR m_pos;			// 座標
 	VECTOR m_move;			// 移動量
 	VECTOR m_targetDir;		// プレイヤーが向くべき方向のベクトル
 
 	Collision m_col;		// 当たり判定
-	
+
 	// アニメーション関係
 
 	int m_animChangeFrame;		// 現在の切り替えフレーム数
@@ -126,7 +131,7 @@ protected:
 	/// <param name="anim">アニメーション情報</param>
 	/// <param name="dt"></param>
 	void UpdateAnim(const AnimData& anim);
-	
+
 	/// <summary>
 	/// アニメーションのブレンド率の設定
 	/// </summary>

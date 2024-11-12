@@ -30,7 +30,7 @@ namespace {
 }
 
 Player::Player() :
-	m_item(0),
+	m_useItem(0),
 	m_attackTheEnemy(0),
 	m_remainingBullets_handgun(100),
 	m_remainingBullets_machinegun(100),
@@ -95,9 +95,9 @@ void Player::Init()
 	SetAnimation(static_cast<int>(PlayerAnim::Idle), m_animSpeed.Idle, true, false);
 
 	// 仮設定
-	m_useItem[0] = Item::ItemKind::NoItem;
-	m_useItem[1] = Item::ItemKind::NoItem;
-	m_useItem[2] = Item::ItemKind::NoItem;
+	m_item[0] = Item::ItemKind::NoItem;
+	m_item[1] = Item::ItemKind::NoItem;
+	m_item[2] = Item::ItemKind::NoItem;
 
 #ifdef _DEBUG
 	m_hp = 10;	// デバッグ用設定
@@ -173,13 +173,13 @@ void Player::Draw()
 	DrawFormatString(0, 340, 0xffffff, "m_targetDir=%.2f", m_targetDir);
 	DrawFormatString(0, 360, 0xffffff, "inputX=%d", m_inputX);
 	DrawFormatString(0, 380, 0xffffff, "inputY=%d", m_inputY);
-	DrawFormatString(0, 400, 0xffffff, "item=%d", m_item);
+	DrawFormatString(0, 400, 0xffffff, "item=%d", m_useItem);
 	DrawFormatString(0, 420, 0xffffff, "m_isItem=%d", m_isItem);
 	DrawFormatString(0, 440, 0xffffff, "m_getItem=%d", m_getItem);
 	DrawFormatString(0, 460, 0xffffff, "itemCount=%d", m_getitemCount);
-	DrawFormatString(0, 480, 0xffffff, "m_useItem[0]=%d", m_useItem[0]);
-	DrawFormatString(0, 500, 0xffffff, "m_useItem[1]=%d", m_useItem[1]);
-	DrawFormatString(0, 520, 0xffffff, "m_useItem[2]=%d", m_useItem[2]);
+	DrawFormatString(0, 480, 0xffffff, "m_useItem[0]=%d", m_item[0]);
+	DrawFormatString(0, 500, 0xffffff, "m_useItem[1]=%d", m_item[1]);
+	DrawFormatString(0, 520, 0xffffff, "m_useItem[2]=%d", m_item[2]);
 	DrawFormatString(0, 540, 0xffffff, "m_useWeapon=%d", m_useWeapon);
 	DrawFormatString(0, 560, 0xffffff, "m_animNext.totalTime=%.2f", m_animNext.totalTime);
 	DrawFormatString(0, 580, 0xffffff, "m_nextAnimTime=%.2f", m_nextAnimTime);
@@ -362,17 +362,17 @@ void Player::GetItem()
 		ItemChange();
 
 		// 空いているアイテム欄に獲得したアイテムを入れる
-		if (m_useItem[0] == Item::ItemKind::NoItem)
+		if (m_item[0] == Item::ItemKind::NoItem)
 		{
-			m_useItem[0] = m_setItem;
+			m_item[0] = m_setItem;
 		}
-		else if (m_useItem[1] == Item::ItemKind::NoItem)
+		else if (m_item[1] == Item::ItemKind::NoItem)
 		{
-			m_useItem[1] = m_setItem;
+			m_item[1] = m_setItem;
 		}
-		else if (m_useItem[2] == Item::ItemKind::NoItem)
+		else if (m_item[2] == Item::ItemKind::NoItem)
 		{
-			m_useItem[2] = m_setItem;
+			m_item[2] = m_setItem;
 		}
 	}
 }
@@ -414,10 +414,10 @@ void Player::UseItem(Input& input)
 	// Xボタンでアイテムを切り替える
 	if (input.IsTrigger(InputInfo::UseItemChange))
 	{
-		m_item++;
-		if (m_item >= 3)
+		m_useItem++;
+		if (m_useItem >= 3)
 		{
-			m_item = 0;
+			m_useItem = 0;
 		}
 	}
 
@@ -425,7 +425,7 @@ void Player::UseItem(Input& input)
 	if (input.IsTrigger(InputInfo::UseItem))
 	{
 		// アイテムを持っていなかったら処理をしない
-		if (m_useItem[m_item] == Item::ItemKind::NoItem)	return;
+		if (m_item[m_useItem] == Item::ItemKind::NoItem)	return;
 
 		// 状態をアイテム使用中にする
 		m_status.situation.isUseItem = true;
@@ -433,7 +433,7 @@ void Player::UseItem(Input& input)
 		// 使用アイテムが罠系だった場合
 		{
 			// 使用するアイテムが氷床だった場合
-			if (m_useItem[m_item] == Item::ItemKind::IceFloor) {
+			if (m_item[m_useItem] == Item::ItemKind::IceFloor) {
 				//プレイヤーの罠設置状態をtrueにする
 				m_status.situation.isInstallation = true;
 				// 罠設置アニメーションを入れる
@@ -441,7 +441,7 @@ void Player::UseItem(Input& input)
 			}
 
 			// 使用するアイテムが回転椅子だった場合
-			if (m_useItem[m_item] == Item::ItemKind::SwivelChair) {
+			if (m_item[m_useItem] == Item::ItemKind::SwivelChair) {
 				//プレイヤーの罠設置状態をtrueにする
 				m_status.situation.isInstallation = true;
 				// 罠設置アニメーションを入れる
@@ -449,7 +449,7 @@ void Player::UseItem(Input& input)
 			}
 
 			// 使用するアイテムが地雷だった場合
-			if (m_useItem[m_item] == Item::ItemKind::landmine) {
+			if (m_item[m_useItem] == Item::ItemKind::landmine) {
 				//プレイヤーの罠設置状態をtrueにする
 				m_status.situation.isInstallation = true;
 				// 罠設置アニメーションを入れる
@@ -457,7 +457,7 @@ void Player::UseItem(Input& input)
 			}
 
 			// 使用するアイテムがびっくり箱だった場合
-			if (m_useItem[m_item] == Item::ItemKind::SurpriseBox) {
+			if (m_item[m_useItem] == Item::ItemKind::SurpriseBox) {
 				//プレイヤーの罠設置状態をtrueにする
 				m_status.situation.isInstallation = true;
 				// 罠設置アニメーションを入れる
@@ -467,7 +467,7 @@ void Player::UseItem(Input& input)
 
 
 		// 使用するアイテムが体力回復だった場合
-		if (m_useItem[m_item] == Item::ItemKind::RecoveryMedic) {
+		if (m_item[m_useItem] == Item::ItemKind::RecoveryMedic) {
 			// プレイヤーの飲む状態をtrueにする
 			m_status.situation.isDrink = true;
 			// 飲むアニメーションを入れる
@@ -476,7 +476,7 @@ void Player::UseItem(Input& input)
 		}
 
 		// 使用するアイテムが弾再装填アイテムだった場合
-		if (m_useItem[m_item] == Item::ItemKind::Ammunition) {
+		if (m_item[m_useItem] == Item::ItemKind::Ammunition) {
 			// プレイヤーの弾再装填状態をtrueにする
 			m_status.situation.isReload = true;
 			// 弾再装填のアニメーションを入れる
@@ -484,7 +484,7 @@ void Player::UseItem(Input& input)
 		}
 
 		// 使用するアイテムが召喚アイテムだった場合
-		if (m_useItem[m_item] == Item::ItemKind::SummonBox)
+		if (m_item[m_useItem] == Item::ItemKind::SummonBox)
 		{
 			//プレイヤーの召喚状態をtrueにする
 			m_status.situation.isSummon = true;
@@ -503,7 +503,7 @@ void Player::UseItem(Input& input)
 		m_status.situation.isSummon = false;
 		m_status.situation.isUseItem = false;
 
-		m_useItem[m_item] = Item::ItemKind::NoItem;
+		m_item[m_useItem] = Item::ItemKind::NoItem;
 	}
 }
 

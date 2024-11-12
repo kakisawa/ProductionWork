@@ -54,7 +54,7 @@ public:
 		SwivelChair,	// 回転椅子
 		landmine,		// 地雷
 		SurpriseBox,	// びっくり箱
-		RecoveryMedic,	// 体力回復薬
+		RecoveryMedic,	// 回復薬
 		Ammunition,		// 弾薬
 		SummonBox,		// 召喚BOX
 	};

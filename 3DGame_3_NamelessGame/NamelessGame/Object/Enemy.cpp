@@ -61,7 +61,6 @@ void Enemy::Update(const Map& map, const Player& player)
 	// 当たり判定用座標調整
 	m_colPos = VAdd(m_pos, kBodyColUpPos);
 
-
 	SearchNearPosition(map);
 
 	// 体当たり判定更新
@@ -70,6 +69,10 @@ void Enemy::Update(const Map& map, const Player& player)
 	Move(map);
 
 	m_hp -= player.GetAttack();
+
+	if (m_hp <= 0) {
+		m_deathFlag = true;
+	}
 }
 
 void Enemy::Draw()

@@ -19,6 +19,17 @@ public:
     void SwitchingScene(Input& input);
 
 private:
+    int m_sceneSelectUI1;           // シーンセレクトUI1
+    int m_sceneSelectUI2;           // シーンセレクトUI2
+    int m_sceneSelectUI3;           // シーンセレクトUI3
+    int m_sceneSelectUI4;           // シーンセレクトUI4
+    int m_sceneSelectUI5;           // シーンセレクトUI5
+
+    int m_nextSceneGrapgh;          // セレクト中のシーンの画像
+    int m_nextSceneintroduction;    // セレクト中のシーンの説明
+
+
+
     enum class nextScene {
         None,           // 無し
         TitleScene,     // タイトルシーン

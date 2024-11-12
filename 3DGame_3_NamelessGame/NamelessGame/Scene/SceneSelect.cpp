@@ -5,7 +5,24 @@
 #include "SceneGame.h"
 #include "SceneDebug.h"
 
+namespace {
+	VECTOR ScenenSelectUI[5]{
+		VGet(95.0f,110,0.0f),
+		VGet(120.0f,590,0.0f),
+		VGet(630.0f,590,0.0f),
+		VGet(120.0f,770.0f,0.0f),
+		VGet(630.0f,770.0f,0.0f)
+	};
+}
+
 SceneSelect::SceneSelect():
+	m_sceneSelectUI1(-1),
+	m_sceneSelectUI2(-1),
+	m_sceneSelectUI3(-1),
+	m_sceneSelectUI4(-1),
+	m_sceneSelectUI5(-1),
+	m_nextSceneGrapgh(-1),
+	m_nextSceneintroduction(-1),
 	m_nextScene(nextScene::GameScene)
 {
 }
@@ -16,6 +33,14 @@ SceneSelect::~SceneSelect()
 
 void SceneSelect::Init()
 {
+	m_sceneSelectUI1 = LoadGraph();
+	m_sceneSelectUI2 = LoadGraph();
+	m_sceneSelectUI3 = LoadGraph();
+	m_sceneSelectUI4 = LoadGraph();
+	m_sceneSelectUI5 = LoadGraph();
+	m_nextSceneGrapgh = LoadGraph();
+	m_nextSceneintroduction = LoadGraph();
+
 }
 
 std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)

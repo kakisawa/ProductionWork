@@ -20,7 +20,8 @@ ModelBase::ModelBase() :
 	m_targetDir(kInitVec),
 	m_animChangeFrame(kInitInt),
 	m_animChangeFrameTotal(kInitInt),
-	m_isLoopFinish(false)
+	m_isLoopFinish(false),
+	m_deathFlag(false)
 {
 }
 
