@@ -6,13 +6,16 @@
 #include "SceneDebug.h"
 
 namespace {
-	VECTOR ScenenSelectUI[5]{
+	VECTOR kScenenSelectUI[5]{
 		VGet(95.0f,110,0.0f),
 		VGet(120.0f,590,0.0f),
 		VGet(630.0f,590,0.0f),
 		VGet(120.0f,770.0f,0.0f),
 		VGet(630.0f,770.0f,0.0f)
 	};
+
+	VECTOR kExampleGraph = VGet(1000.0f, 80.0f, 0.0f);		// 例画像座標
+	VECTOR kExplanatoryText = VGet(1000.0f, 720.0f, 0.0f);	// 説明文座標
 }
 
 SceneSelect::SceneSelect():
@@ -33,13 +36,13 @@ SceneSelect::~SceneSelect()
 
 void SceneSelect::Init()
 {
-	m_sceneSelectUI1 = LoadGraph();
-	m_sceneSelectUI2 = LoadGraph();
-	m_sceneSelectUI3 = LoadGraph();
-	m_sceneSelectUI4 = LoadGraph();
-	m_sceneSelectUI5 = LoadGraph();
-	m_nextSceneGrapgh = LoadGraph();
-	m_nextSceneintroduction = LoadGraph();
+	m_sceneSelectUI1 = LoadGraph("Data/Image/UI/01,ゲームを始める.png");
+	m_sceneSelectUI2 = LoadGraph("Data/Image/UI/02,ランキング.png");
+	m_sceneSelectUI3 = LoadGraph("Data/Image/UI/03,設定.png");
+	m_sceneSelectUI4 = LoadGraph("Data/Image/UI/04,操作説明.png");
+	m_sceneSelectUI5 = LoadGraph("Data/Image/UI/05,ゲームを 終了する.png");
+	m_nextSceneGrapgh = LoadGraph("Data/Image/UI/例画像.png");
+	m_nextSceneintroduction = LoadGraph("Data/Image/UI/説明文.png");
 
 }
 
@@ -99,6 +102,17 @@ void SceneSelect::Draw()
 	DrawString(0, 110, "3 = OptionScene", 0xffffff);
 	DrawString(0, 130, "4 = RankingScene", 0xffffff);
 	DrawString(0, 150, "5 = GameEnd", 0xffffff);
+
+	DrawGraph(kScenenSelectUI[0].x, kScenenSelectUI[0].y, m_sceneSelectUI1,true);
+	DrawGraph(kScenenSelectUI[1].x, kScenenSelectUI[1].y, m_sceneSelectUI2, true);
+	DrawGraph(kScenenSelectUI[2].x, kScenenSelectUI[2].y, m_sceneSelectUI3, true);
+	DrawGraph(kScenenSelectUI[3].x, kScenenSelectUI[3].y, m_sceneSelectUI4, true);
+	DrawGraph(kScenenSelectUI[4].x, kScenenSelectUI[4].y, m_sceneSelectUI5, true);
+
+	DrawGraph(kExampleGraph.x, kExampleGraph.y, m_nextSceneGrapgh, true);
+	DrawGraph(kExplanatoryText.x, kExplanatoryText.y, m_nextSceneintroduction, true);
+
+
 #ifdef _DEBUG
 	
 
@@ -107,6 +121,14 @@ void SceneSelect::Draw()
 
 void SceneSelect::End()
 {
+	DeleteGraph(m_sceneSelectUI1);
+	DeleteGraph(m_sceneSelectUI2);
+	DeleteGraph(m_sceneSelectUI3);
+	DeleteGraph(m_sceneSelectUI4);
+	DeleteGraph(m_sceneSelectUI5);
+
+	DeleteGraph(m_nextSceneGrapgh);
+	DeleteGraph(m_nextSceneintroduction);
 }
 
 void SceneSelect::SwitchingScene(Input& input)
