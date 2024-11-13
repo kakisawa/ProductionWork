@@ -48,14 +48,14 @@ SceneSelect::~SceneSelect()
 
 void SceneSelect::Init()
 {
-	m_sceneSelectUI1 = LoadGraph("Data/Image/UI/01,ゲームを始める.png");
-	m_sceneSelectUI2 = LoadGraph("Data/Image/UI/02,ランキング.png");
-	m_sceneSelectUI3 = LoadGraph("Data/Image/UI/03,設定.png");
-	m_sceneSelectUI4 = LoadGraph("Data/Image/UI/04,操作説明.png");
-	m_sceneSelectUI5 = LoadGraph("Data/Image/UI/05,ゲームを 終了する.png");
-	m_nextSceneGrapgh = LoadGraph("Data/Image/UI/例画像.png");
-	m_nextSceneintroduction = LoadGraph("Data/Image/UI/説明文.png");
-	m_cursorUI = LoadGraph("Data/Image/UI/カーソル.png");
+	m_sceneSelectUI1 = LoadGraph("Data/Image/SceneSelect/01,ゲームを始める.png");
+	m_sceneSelectUI2 = LoadGraph("Data/Image/SceneSelect/02,ランキング.png");
+	m_sceneSelectUI3 = LoadGraph("Data/Image/SceneSelect/03,設定.png");
+	m_sceneSelectUI4 = LoadGraph("Data/Image/SceneSelect/04,操作説明.png");
+	m_sceneSelectUI5 = LoadGraph("Data/Image/SceneSelect/05,ゲームを 終了する.png");
+	m_nextSceneGrapgh = LoadGraph("Data/Image/SceneSelect/例画像.png");
+	m_nextSceneintroduction = LoadGraph("Data/Image/SceneSelect/説明文.png");
+	m_cursorUI = LoadGraph("Data/Image/SceneSelect/カーソル.png");
 
 
 	m_sceneSelectGraph = m_sceneSelectUI1;

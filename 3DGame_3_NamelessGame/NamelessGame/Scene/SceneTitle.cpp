@@ -23,8 +23,8 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::Init()
 {
-	m_titleGraph = LoadGraph("Data/Image/タイトルロゴ.png");
-	m_buttonGraph= LoadGraph("Data/Image/PressAnyButton.png");
+	m_titleGraph = LoadGraph("Data/Image/SceneTitle/タイトルロゴ.png");
+	m_buttonGraph= LoadGraph("Data/Image/SceneTitle/PressAnyButton.png");
 }
 
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)

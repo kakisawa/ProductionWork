@@ -24,6 +24,7 @@ public:
 		bool isKnifeAttack = false;		// ナイフ攻撃中
 		bool isRoll = false;			// 回避中
 		bool isDamageReceived = false;	// 被ダメージ
+		bool isDeath = false;			// 死亡時
 	};
 
 	// プレイヤーの状態
@@ -97,7 +98,7 @@ public:
 		float Reload = 0.6f;		// 弾再装填
 		float DamageReceived = 1.0f;// 被ダメージ
 		float Roll = 0.5f;			// 回避
-		float Dying = 1.0f;			// 死亡
+		float Dying = 0.5f;			// 死亡
 		float Win = 1.0f;			// 勝利
 		float Lose = 1.0f;			// 敗北
 	}m_animSpeed;
@@ -248,7 +249,7 @@ public:
 	/// 被ダメージ処理
 	/// </summary>
 	/// <param name="input">入力</param>
-	void Hit(Input& input);
+	void Hit(Input& input, const Enemy& enemy);
 
 	/// <summary>
 	/// アニメーションの変更
@@ -264,8 +265,15 @@ public:
 	/// </summary>
 	void ChangeAnimIdle();
 
-
+	/// <summary>
+	/// 武器の角度セット
+	/// </summary>
 	void WeaponInfoSet();
+
+	/// <summary>
+	/// 死亡処理
+	/// </summary>
+	void Death();
 
 
 	/// <summary>
@@ -326,6 +334,7 @@ private:
 	int m_getitemCount;			// アイテムを獲得するインターバル用
 	bool m_isItem;				// アイテムとの当たり判定
 	bool m_isLookOn;			// ロックオンフラグ
+	bool m_isInvincibleTime;	// 被ダメ中の無敵時間
 
 	bool m_isEnemy;				// 敵との当たり判定
 	bool m_isAttackToEnemy;		// 敵に攻撃が当たったかの判定

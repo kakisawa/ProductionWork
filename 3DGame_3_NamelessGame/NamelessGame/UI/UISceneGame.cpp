@@ -48,27 +48,27 @@ UISceneGame::~UISceneGame()
 
 void UISceneGame::Init()
 {
-	m_UI1 = LoadGraph("Data/Image/UI/アイテム・武器大本.png");
-	m_cursorUI1 = LoadGraph("Data/Image/UI/武器カーソル.png");
-	m_cursorUI2 = LoadGraph("Data/Image/UI/アイテムカーソル.png");
+	m_UI1 = LoadGraph("Data/Image/SceneGame/アイテム・武器大本.png");
+	m_cursorUI1 = LoadGraph("Data/Image/SceneGame/武器カーソル.png");
+	m_cursorUI2 = LoadGraph("Data/Image/SceneGame/アイテムカーソル.png");
 
-	m_itemBaseUI0 = LoadGraph("Data/Image/UI/アイテム_仮.png");
-	m_itemBaseUI1 = LoadGraph("Data/Image/UI/アイテム_地雷.png");
-	m_itemBaseUI2 = LoadGraph("Data/Image/UI/アイテム_びっくり箱.png");
-	m_itemBaseUI3 = LoadGraph("Data/Image/UI/アイテム_回復薬.png");
+	m_itemBaseUI0 = LoadGraph("Data/Image/SceneGame/アイテム_仮.png");
+	m_itemBaseUI1 = LoadGraph("Data/Image/SceneGame/アイテム_地雷.png");
+	m_itemBaseUI2 = LoadGraph("Data/Image/SceneGame/アイテム_びっくり箱.png");
+	m_itemBaseUI3 = LoadGraph("Data/Image/SceneGame/アイテム_回復薬.png");
 
-	m_displayBgUI = LoadGraph("Data/Image/UI/表示下.png");
+	m_displayBgUI = LoadGraph("Data/Image/SceneGame/表示下.png");
 
-	m_itemCharaUI0 = LoadGraph("Data/Image/UI/文字UI_仮.png");
-	m_itemCharaUI1 = LoadGraph("Data/Image/UI/文字UI_地雷.png");
-	m_itemCharaUI2 = LoadGraph("Data/Image/UI/文字UI_びっくり箱.png");
-	m_itemCharaUI3 = LoadGraph("Data/Image/UI/文字UI_回復薬.png");
-	m_itemCharaUI4 = LoadGraph("Data/Image/UI/文字UI_氷床.png");
-	m_itemCharaUI5 = LoadGraph("Data/Image/UI/文字UI_回転椅子.png");
+	m_itemCharaUI0 = LoadGraph("Data/Image/SceneGame/文字UI_仮.png");
+	m_itemCharaUI1 = LoadGraph("Data/Image/SceneGame/文字UI_地雷.png");
+	m_itemCharaUI2 = LoadGraph("Data/Image/SceneGame/文字UI_びっくり箱.png");
+	m_itemCharaUI3 = LoadGraph("Data/Image/SceneGame/文字UI_回復薬.png");
+	m_itemCharaUI4 = LoadGraph("Data/Image/SceneGame/文字UI_氷床.png");
+	m_itemCharaUI5 = LoadGraph("Data/Image/SceneGame/文字UI_回転椅子.png");
 
-	m_weaponCharaUI1 = LoadGraph("Data/Image/UI/文字UI_ハンドガン.png");
-	m_weaponCharaUI2 = LoadGraph("Data/Image/UI/文字UI_マシンガン.png");
-	m_weaponCharaUI3 = LoadGraph("Data/Image/UI/文字UI_ナイフ.png");
+	m_weaponCharaUI1 = LoadGraph("Data/Image/SceneGame/文字UI_ハンドガン.png");
+	m_weaponCharaUI2 = LoadGraph("Data/Image/SceneGame/文字UI_マシンガン.png");
+	m_weaponCharaUI3 = LoadGraph("Data/Image/SceneGame/文字UI_ナイフ.png");
 
 }
 

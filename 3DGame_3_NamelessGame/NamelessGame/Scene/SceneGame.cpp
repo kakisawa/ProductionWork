@@ -1,6 +1,7 @@
 ﻿#include "SceneGame.h"
 #include "SceneDebug.h"
 #include "SceneGameClear.h"
+#include "SceneGameOver.h"
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
 #include "../Object/Item.h"
@@ -45,9 +46,14 @@ std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 	m_pItem->Update();
 	m_pUI->Update(*m_pPlayer);
 
-
+	// 敵が死亡したら
 	if (m_pEnemy->GetDeathFlag()) {
 		return std::make_shared<SceneGameClear>();	// ゲームクリアへ行く
+	}
+
+	// プレイヤーが死亡したら
+	if (m_pPlayer->GetDeathFlag()) {
+		return std::make_shared<SceneGameOver>();
 	}
 
 #ifdef _DEBUG

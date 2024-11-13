@@ -11,8 +11,8 @@ namespace {
 
 	const VECTOR kBodyColUpPos = VGet(0.0f, 70.0f, 0.0f);	// 体当たり判定頂点
 
-	constexpr int kAttackHandGun = 30;			// 右腕攻撃力
-	constexpr int kAttackMachineGun = 30;			// 左腕攻撃力
+	constexpr int kAttackHandArm = 30;			// 右腕攻撃力
+	constexpr int kAttackMachineArm = 30;			// 左腕攻撃力
 
 	const char* kModelFilePath = "Data/Model/EnemyModel.mv1";
 
@@ -46,7 +46,7 @@ void Enemy::Init()
 {
 	ModelBase::Init();
 	m_hp = m_chara.maxHp;		// HPに最大値を入れる
-	m_attack = kAttackHandGun;
+	m_attack = kAttackHandArm;
 
 
 
@@ -70,6 +70,7 @@ void Enemy::Update(const Map& map, const Player& player)
 
 	m_hp -= player.GetAttack();
 
+	// 死亡時処理
 	if (m_hp <= 0) {
 		m_deathFlag = true;
 	}
@@ -119,6 +120,25 @@ void Enemy::Move(const Map& map)
 
 	
 	m_pos = VAdd(m_pos, m_move);
+
+
+	// 移動処理の更新
+	MoveUpdate();
+}
+
+void Enemy::MoveUpdate()
+{
+	// 移動値を入れる
+	float movingSpeed = std::max(m_move.x, m_move.z);
+
+	// プレイヤーの移動状態を初期化する
+	m_status.situation.isMoving = false;
+
+	// プレイヤーが移動している時のみ、移動アニメーションを入れる
+	if (m_status.situation.isMoving)
+	{
+		ChangeAnimNo(EnemyAnim::Walk, m_animSpeed.Walk, true, m_animChangeTime.Walk);
+	}
 }
 
 void Enemy::SearchNearPosition(const Map& map)
@@ -139,4 +159,12 @@ void Enemy::SearchNearPosition(const Map& map)
 	//m_targetPos = std::min(m_targetPos, target4);
 
 
+}
+
+void Enemy::ChangeAnimNo(const EnemyAnim anim, const float animSpeed, const bool isAnimLoop, const int changeTime)
+{
+	m_status.animNo = static_cast<int>(anim);
+	m_status.animSpeed = animSpeed;
+	m_status.isLoop = isAnimLoop;
+	ChangeAnimation(m_status.animNo, animSpeed, m_status.isLoop, false, changeTime);
 }

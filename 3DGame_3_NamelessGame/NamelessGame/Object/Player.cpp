@@ -43,6 +43,7 @@ Player::Player() :
 	m_isEnemy(false),
 	m_isAttackToEnemy(false),
 	m_isAttack(false),
+	m_isInvincibleTime(false),
 	m_colPos(kInitVec),
 	m_targetLockPos(kInitVec),
 	m_rightHandPos(kInitVec),
@@ -100,7 +101,6 @@ void Player::Init()
 	m_item[2] = Item::ItemKind::NoItem;
 
 #ifdef _DEBUG
-	m_hp = 10;	// デバッグ用設定
 #endif
 }
 
@@ -114,7 +114,8 @@ void Player::Update(const Enemy& enemy, const Item& item, const Camera& camera, 
 	Angle();
 	LockOn(input, enemy);
 	Roll(input);
-	Hit(input);
+	Hit(input,enemy);
+	Death();
 
 	SetModelFramePosition(m_model, kModelRightHandMiddle, m_weapon[0], m_weaponSize[0],	m_weaponRota[0]);
 	SetModelFramePosition(m_model, kModelRightHandRing3, m_weapon[1], m_weaponSize[1], m_weaponRota[1]);
@@ -129,18 +130,13 @@ void Player::Update(const Enemy& enemy, const Item& item, const Camera& camera, 
 	ColUpdate(enemy, item);
 	GetItem();
 
-
-
 	if (m_isAttack && m_isAttackToEnemy)
 	{
 		m_attackTheEnemy = m_attack;
 		m_isAttack = false;
 	}
 
-
-
-
-
+	
 	// アニメーションの更新
 	ChangeAnimIdle();
 	ModelBase::Update();
@@ -657,16 +653,24 @@ void Player::Roll(Input& input)
 	}
 }
 
-void Player::Hit(Input& input)
+void Player::Hit(Input& input, const Enemy& enemy)
 {
+	// デバッグ用
 	if (input.IsTrigger(InputInfo::DebugDamageReceived)) {
 		ChangeAnimNo(PlayerAnim::DamageReceived, m_animSpeed.DamageReceived, false, m_animChangeTime.DamageReceived);
 		m_status.situation.isDamageReceived = true;
+		
+		if (!m_isInvincibleTime) {
+			m_hp -= enemy.GetAttack();
+			m_isInvincibleTime = true;
+		}
+		
 	}
 
 	if (m_status.situation.isDamageReceived && IsAnimEnd())
 	{
 		m_status.situation.isDamageReceived = false;
+		m_isInvincibleTime = false;
 	}
 
 }
@@ -683,7 +687,7 @@ void Player::ChangeAnimIdle()
 {
 	// 待機アニメーションに変更する
 	if (!m_status.situation.isUseItem && !m_status.situation.isMoving && !m_status.situation.isGunAttack && !m_status.situation.isKnifeAttack
-		&& !m_status.situation.isRoll && !m_status.situation.isDamageReceived) {
+		&& !m_status.situation.isRoll && !m_status.situation.isDamageReceived && !m_status.situation.isDeath) {
 		ChangeAnimNo(PlayerAnim::Idle, m_animSpeed.Idle, true, m_animChangeTime.Idle);
 
 		MV1SetVisible(m_weapon[0], false);
@@ -701,4 +705,20 @@ void Player::WeaponInfoSet()
 	m_weaponRota[0] = VGet(m_playerData["handGun"].RotaX, m_playerData["handGun"].RotaY, m_playerData["handGun"].RotaZ);
 	m_weaponRota[1] = VGet(m_playerData["machineGun"].RotaX, m_playerData["machineGun"].RotaY, m_playerData["machineGun"].RotaZ);
 	m_weaponRota[2] = VGet(m_playerData["knife"].RotaX, m_playerData["knife"].RotaY, m_playerData["knife"].RotaZ);
+}
+
+void Player::Death()
+{
+	// HPが0になったら死亡アニメーションを流す
+	if (m_hp <= 0)
+	{
+		m_status.situation.isDeath = true;
+		ChangeAnimNo(PlayerAnim::Dying, m_animSpeed.Dying, false, m_animChangeTime.Dying);
+	}
+
+	// 死亡アニメーションが終わったらゲームオーバーシーンへ切り替わる
+	if (m_status.situation.isDeath && IsAnimEnd())
+	{
+		m_deathFlag = true;
+	}
 }

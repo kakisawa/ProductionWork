@@ -99,10 +99,26 @@ public:
 	void Move(const Map& map);
 
 	/// <summary>
+	/// 移動処理更新
+	/// </summary>
+	void MoveUpdate();
+
+	/// <summary>
 	/// 一番近い座標を出す
 	/// </summary>
 	/// <param name="map"></param>
 	void SearchNearPosition(const Map& map);
+
+
+	/// <summary>
+	/// アニメーションの変更
+	/// </summary>
+	/// <param name="anim">選択するアニメーション</param>
+	/// <param name="animSpeed">アニメーションの再生速度</param>
+	/// <param name="isAnimLoop">ループさせるか</param>
+	/// <param name="changeTime">切り替えにかかる時間</param>
+	void ChangeAnimNo(const EnemyAnim anim, const float animSpeed, const bool isAnimLoop, const int changeTime);
+
 
 	/// <summary>
 	/// 座標渡し
@@ -110,12 +126,13 @@ public:
 	/// <returns>座標</returns>
 	VECTOR GetPos() const { return m_pos; }
 
-
 	/// <summary>
 	/// 当たり判定渡し
 	/// </summary>
 	/// <returns>当たり判定</returns>
 	Collision GetCol() const { return m_col; }
+
+	int GetAttack() const { return m_attack; }
 
 private:
 
