@@ -32,6 +32,7 @@ private:
 		kTitleScene,
 		kSelectScene,
 		kOptionScene,
+		kExplanationScene,
 		kRankingScene,
 		kGameScene,
 		kGameClearScene,

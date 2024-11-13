@@ -2,6 +2,7 @@
 #include "SceneTitle.h"
 #include "SceneSelect.h"
 #include "SceneOption.h"
+#include "SceneExplanation.h"
 #include "SceneRanking.h"
 #include "SceneGame.h"
 #include "SceneGameClear.h"
@@ -16,7 +17,9 @@ namespace {
 	constexpr int kSelectBoxY = kSelectBasePosY - 2;	// 選択中シーン表示BoxX座標
 	constexpr int kSelectWidth = 150;					// 選択中シーン表示Boxの幅
 
-	constexpr float ks = kSelectBoxY + kSelectMoveY * 7;
+	constexpr int kSceneNum = 8;						// 選択できるシーンの数
+
+	constexpr float ks = kSelectBoxY + kSelectMoveY * kSceneNum;
 }
 
 SceneDebug::SceneDebug() :
@@ -27,7 +30,7 @@ SceneDebug::SceneDebug() :
 void SceneDebug::Init()
 {
 	// 選択中のシーンを表示するBoxの初期位置
-	m_selectBox.selectPos = VGet(kSelectBoxX, kSelectBasePosY + kSelectMoveY * 4, 0.0f);
+	m_selectBox.selectPos = VGet(kSelectBoxX, kSelectBasePosY + kSelectMoveY * 5, 0.0f);
 }
 
 std::shared_ptr<SceneBase> SceneDebug::Update(Input &input)
@@ -44,6 +47,10 @@ std::shared_ptr<SceneBase> SceneDebug::Update(Input &input)
 		if (m_nextScene == nextScene::kOptionScene)
 		{
 			return std::make_shared<SceneOption>();	// オプションシーンへ行く
+		}
+		if (m_nextScene == nextScene::kExplanationScene)
+		{
+			return std::make_shared<SceneExplanation>();	// 操作説明シーンへ行く
 		}
 		if (m_nextScene == nextScene::kRankingScene)
 		{
@@ -89,12 +96,13 @@ void SceneDebug::Draw()
 	// 各シーン
 	DrawString(kSelectBasePosX, kSelectBasePosY, "SceneTitle", 0xffffff);
 	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY, "SceneSelect", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY*2, "SceneOption", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 3, "SceneRanking", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 4, "SceneGame", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 5, "SceneGameClear", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 6, "SceneGameOver", 0xffffff);
-	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 7, "GameEnd", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 2, "SceneOption", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 3, "SceneExplanation", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 4, "SceneRanking", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 5, "SceneGame", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 6, "SceneGameClear", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 7, "SceneGameOver", 0xffffff);
+	DrawString(kSelectBasePosX, kSelectBasePosY + kSelectMoveY * 8, "GameEnd", 0xffffff);
 }
 
 void SceneDebug::SwitchingScene(Input& input)
@@ -104,7 +112,7 @@ void SceneDebug::SwitchingScene(Input& input)
 	{
 		// 選択中のシーンを表示するBoxの座標移動
 		m_selectBox.selectPos = VAdd(m_selectBox.selectPos, VGet(0.0f, kSelectMoveY, 0.0f));
-		if (m_selectBox.selectPos.y > kSelectBasePosY + kSelectMoveY * 7) {
+		if (m_selectBox.selectPos.y > kSelectBasePosY + kSelectMoveY * kSceneNum) {
 			m_selectBox.selectPos.y = kSelectBoxY;
 		}
 
@@ -117,6 +125,10 @@ void SceneDebug::SwitchingScene(Input& input)
 			m_nextScene = nextScene::kOptionScene;
 		}
 		else if (m_nextScene == nextScene::kOptionScene)
+		{
+			m_nextScene = nextScene::kExplanationScene;
+		}
+		else if (m_nextScene == nextScene::kExplanationScene)
 		{
 			m_nextScene = nextScene::kRankingScene;
 		}
@@ -148,7 +160,7 @@ void SceneDebug::SwitchingScene(Input& input)
 		// 選択中のシーンを表示するBoxの座標移動
 		m_selectBox.selectPos = VAdd(m_selectBox.selectPos, VGet(0.0f, -kSelectMoveY, 0.0f));
 		if (m_selectBox.selectPos.y < kSelectBoxY) {
-			m_selectBox.selectPos.y = kSelectBoxY + kSelectMoveY * 7;
+			m_selectBox.selectPos.y = kSelectBoxY + kSelectMoveY * kSceneNum;
 		}
 
 		if (m_nextScene == nextScene::kTitleScene)
@@ -172,6 +184,10 @@ void SceneDebug::SwitchingScene(Input& input)
 			m_nextScene = nextScene::kRankingScene;
 		}
 		else if (m_nextScene == nextScene::kRankingScene)
+		{
+			m_nextScene = nextScene::kExplanationScene;
+		}
+		else if (m_nextScene == nextScene::kExplanationScene)
 		{
 			m_nextScene = nextScene::kOptionScene;
 		}

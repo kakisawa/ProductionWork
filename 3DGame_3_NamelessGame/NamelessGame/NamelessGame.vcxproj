@@ -146,6 +146,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Object\ModelBase.cpp" />
     <ClCompile Include="Object\Player.cpp" />
+    <ClCompile Include="Scene\SceneExplanation.cpp" />
     <ClCompile Include="Scene\SceneGameClear.cpp" />
     <ClCompile Include="Scene\SceneGameOver.cpp" />
     <ClCompile Include="Scene\SceneRanking.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="LoadCsv.h" />
     <ClInclude Include="Object\ModelBase.h" />
     <ClInclude Include="Object\Player.h" />
+    <ClInclude Include="Scene\SceneExplanation.h" />
     <ClInclude Include="Scene\SceneGameClear.h" />
     <ClInclude Include="Scene\SceneGameOver.h" />
     <ClInclude Include="Scene\SceneRanking.h" />

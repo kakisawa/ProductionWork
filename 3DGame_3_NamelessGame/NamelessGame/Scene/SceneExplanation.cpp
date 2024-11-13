@@ -1,20 +1,20 @@
-﻿#include "SceneRanking.h"
+﻿#include "SceneExplanation.h"
 #include "SceneSelect.h"
 #include "SceneDebug.h"
 
-SceneRanking::SceneRanking()
+SceneExplanation::SceneExplanation()
 {
 }
 
-SceneRanking::~SceneRanking()
+SceneExplanation::~SceneExplanation()
 {
 }
 
-void SceneRanking::Init()
+void SceneExplanation::Init()
 {
 }
 
-std::shared_ptr<SceneBase> SceneRanking::Update(Input& input)
+std::shared_ptr<SceneBase> SceneExplanation::Update(Input& input)
 {
 	if (input.IsTrigger(InputInfo::OK)) {			// Aボタン
 
@@ -31,14 +31,15 @@ std::shared_ptr<SceneBase> SceneRanking::Update(Input& input)
 	return shared_from_this();
 }
 
-void SceneRanking::Draw()
+void SceneExplanation::Draw()
 {
 
 #ifdef _DEBUG
-	DrawString(0, 0, "SceneRanking", 0xffffff);
+	DrawString(0, 0, "SceneExplanation", 0xffffff);
 #endif // DEBUG
+
 }
 
-void SceneRanking::End()
+void SceneExplanation::End()
 {
 }
