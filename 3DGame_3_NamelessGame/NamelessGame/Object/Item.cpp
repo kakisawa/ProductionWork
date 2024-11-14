@@ -58,8 +58,8 @@ void Item::Draw()
 	
 #ifdef _DEBUG
 	m_col.TypeChangeSphereDraw(m_col.m_body ,0xff00ff, false);
-	DrawFormatString(0, 600, 0xffffff, "m_pos=%.2f", m_pos.y);
-	DrawFormatString(0, 620, 0xffffff, "m_angle=%.2f", m_angle);
+	DrawFormatString(0, 600, 0xffffff, "item:m_pos=%.2f", m_pos.y);
+	DrawFormatString(0, 620, 0xffffff, "item:m_angle=%.2f", m_angle);
 #endif
 }
 

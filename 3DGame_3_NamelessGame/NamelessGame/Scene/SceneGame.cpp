@@ -13,7 +13,8 @@
 
 
 SceneGame::SceneGame() :
-	model(-1)
+	model(-1),
+	m_isPause(false)
 {
 }
 
@@ -39,28 +40,42 @@ void SceneGame::Init()
 
 std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 {
-	m_pMap->Update();
-	m_pPlayer->Update(*m_pEnemy, *m_pItem, *m_pCamera, input);
-	m_pEnemy->Update(*m_pMap,*m_pPlayer);
-	m_pCamera->Update(*m_pPlayer);
-	m_pItem->Update();
-	m_pUI->Update(*m_pPlayer);
-
-	// 敵が死亡したら
-	if (m_pEnemy->GetDeathFlag()) {
-		return std::make_shared<SceneGameClear>();	// ゲームクリアへ行く
+	// スタートボタンを押したらポーズ状態にする
+	if (input.IsTrigger(InputInfo::DebugStart)) {
+		if (m_isPause) {
+			m_isPause = false;
+		}
+		else {
+			m_isPause = true;
+		}
 	}
 
-	// プレイヤーが死亡したら
-	if (m_pPlayer->GetDeathFlag()) {
-		return std::make_shared<SceneGameOver>();
+	if (!m_isPause)
+	{
+		m_pMap->Update();
+		m_pPlayer->Update(*m_pEnemy, *m_pItem, *m_pCamera, input);
+		m_pEnemy->Update(*m_pMap, *m_pPlayer);
+		m_pCamera->Update(*m_pPlayer);
+		m_pItem->Update();
+		m_pUI->Update(*m_pPlayer);
+
+		// 敵が死亡したら
+		if (m_pEnemy->GetDeathFlag()) {
+			return std::make_shared<SceneGameClear>();	// ゲームクリアへ行く
+		}
+
+		// プレイヤーが死亡したら
+		if (m_pPlayer->GetDeathFlag()) {
+			return std::make_shared<SceneGameOver>();
+		}
 	}
+	
 
 #ifdef _DEBUG
-	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン
+	//if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン
 
-		return std::make_shared<SceneDebug>();	// ゲームシーンへ行く
-	}
+	//	return std::make_shared<SceneDebug>();	// ゲームシーンへ行く
+	//}
 #endif // DEBUG
 
 	return shared_from_this();

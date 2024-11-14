@@ -23,6 +23,7 @@ private:
 
     int model;
 
+    bool m_isPause;
 
     // カメラ
     std::shared_ptr<Camera> m_pCamera = std::make_shared<Camera>();

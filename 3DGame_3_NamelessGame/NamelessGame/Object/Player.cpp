@@ -161,6 +161,7 @@ void Player::Draw()
 
 #ifdef _DEBUG
 	DrawFormatString(0, 60, 0xffffff, "Player:HP=%d", m_hp);
+	DrawFormatString(0, 100, 0xffffff, "Player:m_pos.x=%.2f:z=%.2f", m_pos.x,m_pos.z);
 	DrawFormatString(0, 220, 0xffffff, "m_attack=%d", m_attack);
 	DrawFormatString(0, 240, 0xffffff, "m_remainingBullets_handgun=%d", m_remainingBullets_handgun);
 	DrawFormatString(0, 260, 0xffffff, "m_remainingBullets_machinegun=%d", m_remainingBullets_machinegun);

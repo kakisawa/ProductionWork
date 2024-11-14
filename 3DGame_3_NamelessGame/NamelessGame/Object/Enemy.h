@@ -21,8 +21,8 @@ public:
 
 	// アニメーション
 	enum class EnemyAnim {
-		Idle,		// 待機
-		Walk,		// 歩く
+		Idle,			// 待機
+		Walk,			// 歩く
 		Run,			// 走る
 		Provocation,	// 挑発
 		Attack1,		// 攻撃1
@@ -37,8 +37,8 @@ public:
 
 	// アニメーション切り替えにかかる時間
 	struct AnimChangeTime {
-		int Idle;			// 待機
-		int Walk;			// 歩く
+		int Idle=10;			// 待機
+		int Walk=5;			// 歩く
 		int Run;			// 走る
 		int Provocation;	// 挑発
 		int Attack1;		// 攻撃1
@@ -54,7 +54,7 @@ public:
 	struct AnimSpeed {
 		float Default = 0.5f;	// 基本
 		float Idle = 0.5f;		// 待機
-		float Walk;				// 歩く
+		float Walk = 0.5f;		// 歩く
 		float Run;				// 走る
 		float Provocation;		// 挑発
 		float Attack1;			// 攻撃1
@@ -111,6 +111,13 @@ public:
 
 
 	/// <summary>
+	/// 0より大きいの数の中で最小値を取得する
+	/// (0を与えた場合無視される)
+	/// </summary>
+	void GetMinNotZero(float num);
+
+
+	/// <summary>
 	/// アニメーションの変更
 	/// </summary>
 	/// <param name="anim">選択するアニメーション</param>
@@ -119,6 +126,10 @@ public:
 	/// <param name="changeTime">切り替えにかかる時間</param>
 	void ChangeAnimNo(const EnemyAnim anim, const float animSpeed, const bool isAnimLoop, const int changeTime);
 
+	/// <summary>
+	/// アニメーションを待機状態に変更する
+	/// </summary>
+	void ChangeAnimIdle();
 
 	/// <summary>
 	/// 座標渡し
@@ -138,5 +149,11 @@ private:
 
 	VECTOR m_colPos;			// 当たり判定用座標
 
+	VECTOR m_startPos;	// 移動開始座標
 	VECTOR m_targetPos;	// 目標座標
+
+	float m_targetDistance;
+	float m_targetMoveDistance;
+
+	bool m_isNextTargetPosSearch;
 };
