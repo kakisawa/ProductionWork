@@ -36,10 +36,27 @@ namespace {
 UISceneGame::UISceneGame() :
 	m_UI1(-1),
 	m_cursorUI1(-1),
+	m_cursorUI2(-1),
+	m_displayBgUI(-1),
+	m_itemBaseUI0(-1),
+	m_itemBaseUI1(-1),
+	m_itemBaseUI2(-1),
+	m_itemBaseUI3(-1),
+	m_itemCharaUI0(-1),
+	m_itemCharaUI1(-1),
+	m_itemCharaUI2(-1),
+	m_itemCharaUI3(-1),
+	m_itemCharaUI4(-1),
+	m_itemCharaUI5(-1),
+	m_weaponCharaUI1(-1),
+	m_weaponCharaUI2(-1),
+	m_weaponCharaUI3(-1),
 	m_useWeaponChara(0),
+	m_useItemChara(0),
 	m_cursorUI1Pos(kWeaponSelectPos[0]),
 	m_cursorUI2Pos(kItemSelectPos[0])
 {
+	m_itemUI.resize(3,-1);
 }
 
 UISceneGame::~UISceneGame()
@@ -146,28 +163,28 @@ void UISceneGame::Draw()
 	// 選択中のアイテム・武器名背景UI
 	for (int i = 0; i < 2; i++)
 	{
-		DrawGraph(kDisplayBgPos[0].x, kDisplayBgPos[0].y, m_displayBgUI, true);
-		DrawGraph(kDisplayBgPos[1].x, kDisplayBgPos[1].y, m_displayBgUI, true);
+		DrawGraphF(kDisplayBgPos[0].x, kDisplayBgPos[0].y, m_displayBgUI, true);
+		DrawGraphF(kDisplayBgPos[1].x, kDisplayBgPos[1].y, m_displayBgUI, true);
 	}
 
 	// 選択中の武器文字UI
-	DrawGraph(kDisplayWeaponPos.x, kDisplayWeaponPos.y, m_useWeaponChara, true);
+	DrawGraphF(kDisplayWeaponPos.x, kDisplayWeaponPos.y, m_useWeaponChara, true);
 	// 選択中のアイテム文字UI
-	DrawGraph(kDisplayItemPos.x, kDisplayItemPos.y, m_useItemChara, true);
+	DrawGraphF(kDisplayItemPos.x, kDisplayItemPos.y, m_useItemChara, true);
 
 
 	// 獲得したアイテムUI
 	for (int i = 0; i < 3; i++)
 	{
-		DrawGraph(kItemPos[0].x, kItemPos[0].y, m_itemUI[0], true);
-		DrawGraph(kItemPos[1].x, kItemPos[1].y, m_itemUI[1], true);
-		DrawGraph(kItemPos[2].x, kItemPos[2].y, m_itemUI[2], true);
+		DrawGraphF(kItemPos[0].x, kItemPos[0].y, m_itemUI[0], true);
+		DrawGraphF(kItemPos[1].x, kItemPos[1].y, m_itemUI[1], true);
+		DrawGraphF(kItemPos[2].x, kItemPos[2].y, m_itemUI[2], true);
 	}
 
 	// 選択中の武器カーソル
-	DrawGraph(m_cursorUI1Pos.x, m_cursorUI1Pos.y, m_cursorUI1, true);
+	DrawGraphF(m_cursorUI1Pos.x, m_cursorUI1Pos.y, m_cursorUI1, true);
 	// 選択中のアイテムカーソル
-	DrawGraph(m_cursorUI2Pos.x, m_cursorUI2Pos.y, m_cursorUI2, true);
+	DrawGraphF(m_cursorUI2Pos.x, m_cursorUI2Pos.y, m_cursorUI2, true);
 }
 
 void UISceneGame::End()

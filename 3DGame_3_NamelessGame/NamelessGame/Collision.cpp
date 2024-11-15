@@ -6,13 +6,35 @@ namespace {
 
 Collision::Collision()
 {
-	m_body.m_pos = kInitVec;
-	m_body.m_vertexPos = kInitVec;
-	m_body.m_radius = 0.0f;
+	// 敵初期化
+	m_colEnemy.m_body.m_pos = kInitVec;
+	m_colEnemy.m_body.m_vertexPos = kInitVec;
+	m_colEnemy.m_body.m_radius = 0.0f;
 
-	m_weapon.m_pos = kInitVec;
-	m_weapon.m_vertexPos = kInitVec;
-	m_weapon.m_radius = 0.0f;
+	for (int i = 0; i < 2; i++)
+	{
+		m_colEnemy.m_leftArm[i].m_pos = kInitVec;
+		m_colEnemy.m_leftArm[i].m_vertexPos = kInitVec;
+		m_colEnemy.m_leftArm[i].m_radius = 0.0f;
+
+		m_colEnemy.m_rightArm[i].m_pos = kInitVec;
+		m_colEnemy.m_rightArm[i].m_vertexPos = kInitVec;
+		m_colEnemy.m_rightArm[i].m_radius = 0.0f;
+	}
+
+	// プレイヤー初期化
+	m_colPlayer.m_body.m_pos = kInitVec;
+	m_colPlayer.m_body.m_vertexPos= kInitVec;
+	m_colPlayer.m_body.m_radius = 0.0f;
+
+	m_colPlayer.m_weapon.m_pos = kInitVec;
+	m_colPlayer.m_weapon.m_vertexPos = kInitVec;
+	m_colPlayer.m_weapon.m_radius = 0.0f;
+
+	// アイテム初期化
+	m_itemCol.m_pos = kInitVec;
+	m_itemCol.m_vertexPos = kInitVec;
+	m_itemCol.m_radius = 0.0f;
 }
 
 Collision::~Collision()

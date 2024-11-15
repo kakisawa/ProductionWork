@@ -150,11 +150,11 @@ void Player::Draw()
 	MV1DrawModel(m_weapon[2]);
 
 	// 体の当たり判定描画
-	m_col.TypeChangeCapsuleDraw(m_col.m_body, 0xffff00, false);
+	m_col.TypeChangeCapsuleDraw(m_col.m_colPlayer.m_body, 0xffff00, false);
 
 	// ナイフ当たり判定の描画
 	if (m_status.situation.isKnifeAttack) {
-		m_col.TypeChangeCapsuleDraw(m_col.m_weapon, 0xff00ff, false);
+		m_col.TypeChangeCapsuleDraw(m_col.m_colPlayer.m_weapon, 0xff00ff, false);
 	}
 
 
@@ -324,7 +324,7 @@ void Player::ColUpdate(const Enemy& enemy, const Item& item)
 {
 	// プレイヤーの当たり判定更新
 	m_colPos = VAdd(m_pos, VGet(0.0f,m_chara.bodyColUpY,0.0f));
-	m_col.TypeChangeCapsuleUpdate(m_col.m_body, m_pos, m_colPos, m_chara.bodyColRad);
+	m_col.TypeChangeCapsuleUpdate(m_col.m_colPlayer.m_body, m_pos, m_colPos, m_chara.bodyColRad);
 
 
 	// 敵・アイテムの当たり判定獲得
@@ -334,12 +334,12 @@ void Player::ColUpdate(const Enemy& enemy, const Item& item)
 
 
 	// アイテムとプレイヤーが当たったかどうかの判定
-	m_isItem = m_col.IsTypeChageSphereToCapsuleCollision(m_col.m_body, itemCol.m_body);
+	m_isItem = m_col.IsTypeChageSphereToCapsuleCollision(m_col.m_colPlayer.m_body, itemCol.m_itemCol);
 
 	// 敵とプレイヤーが当たったかどうかの判定
-	m_isEnemy = m_col.IsTypeChageCupsuleCollision(m_col.m_body, enemyCol.m_body);
+	m_isEnemy = m_col.IsTypeChageCupsuleCollision(m_col.m_colPlayer.m_body, enemyCol.m_colEnemy.m_body);
 	// 敵にプレイヤーのナイフ攻撃が当たったかどうかの判定
-	m_isAttackToEnemy = m_col.IsTypeChageCupsuleCollision(m_col.m_weapon, enemyCol.m_body);
+	m_isAttackToEnemy = m_col.IsTypeChageCupsuleCollision(m_col.m_colPlayer.m_weapon, enemyCol.m_colEnemy.m_body);
 }
 
 void Player::GetItem()
@@ -591,7 +591,7 @@ void Player::AttackKnife(Input& input)
 
 	// ナイフで攻撃をしている時のみ、当たり判定も移動させる
 	if (m_status.situation.isKnifeAttack) {
-		m_col.TypeChangeCapsuleUpdate(m_col.m_weapon, m_rightHandPos, m_KnifeTipPos, m_playerData["knife"].HitRad);
+		m_col.TypeChangeCapsuleUpdate(m_col.m_colPlayer.m_weapon, m_rightHandPos, m_KnifeTipPos, m_playerData["knife"].HitRad);
 	}
 
 	// 攻撃アニメーション系処理

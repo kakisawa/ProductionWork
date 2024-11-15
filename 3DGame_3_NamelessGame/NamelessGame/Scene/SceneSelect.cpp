@@ -121,16 +121,16 @@ void SceneSelect::Draw()
 	DrawString(0, 130, "4 = RankingScene", 0xffffff);
 	DrawString(0, 150, "5 = GameEnd", 0xffffff);
 
-	DrawGraph(kScenenSelectUI[0].x, kScenenSelectUI[0].y, m_sceneSelectUI1,true);
-	DrawGraph(kScenenSelectUI[1].x, kScenenSelectUI[1].y, m_sceneSelectUI2, true);
-	DrawGraph(kScenenSelectUI[2].x, kScenenSelectUI[2].y, m_sceneSelectUI3, true);
-	DrawGraph(kScenenSelectUI[3].x, kScenenSelectUI[3].y, m_sceneSelectUI4, true);
-	DrawGraph(kScenenSelectUI[4].x, kScenenSelectUI[4].y, m_sceneSelectUI5, true);
+	DrawGraphF(kScenenSelectUI[0].x, kScenenSelectUI[0].y, m_sceneSelectUI1,true);
+	DrawGraphF(kScenenSelectUI[1].x, kScenenSelectUI[1].y, m_sceneSelectUI2, true);
+	DrawGraphF(kScenenSelectUI[2].x, kScenenSelectUI[2].y, m_sceneSelectUI3, true);
+	DrawGraphF(kScenenSelectUI[3].x, kScenenSelectUI[3].y, m_sceneSelectUI4, true);
+	DrawGraphF(kScenenSelectUI[4].x, kScenenSelectUI[4].y, m_sceneSelectUI5, true);
 
-	DrawGraph(kExampleGraph.x, kExampleGraph.y, m_nextSceneGrapgh, true);
-	DrawGraph(kExplanatoryText.x, kExplanatoryText.y, m_nextSceneintroduction, true);
+	DrawGraphF(kExampleGraph.x, kExampleGraph.y, m_nextSceneGrapgh, true);
+	DrawGraphF(kExplanatoryText.x, kExplanatoryText.y, m_nextSceneintroduction, true);
 
-	DrawExtendGraph(c1.m_selectBox1.x, c1.m_selectBox1.y, c1.m_selectBox2.x, c1.m_selectBox2.y, m_cursorUI, true);
+	DrawExtendGraphF(c1.m_selectBox1.x, c1.m_selectBox1.y, c1.m_selectBox2.x, c1.m_selectBox2.y, m_cursorUI, true);
 
 #ifdef _DEBUG
 	

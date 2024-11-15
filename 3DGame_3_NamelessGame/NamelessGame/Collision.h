@@ -12,8 +12,20 @@ public:
 		float m_radius;
 	};
 
-	ColType m_body;		// 体の当たり判定
-	ColType m_weapon;	// 武器の当たり判定
+	struct Player
+	{
+		ColType m_body;
+		ColType m_weapon;
+	}m_colPlayer;
+
+	struct Enemy
+	{
+		ColType m_body;
+		ColType m_rightArm[2];
+		ColType m_leftArm[2];
+	}m_colEnemy;
+
+	ColType m_itemCol;
 
 
 	/// <summary>

@@ -5,7 +5,7 @@
 namespace {
 	constexpr float kAddAngle = 2.0f;							// 角度の追加値
 	constexpr float kFloatingAdjustment = 0.1f;					// 浮遊移動量の調整用
-	constexpr float kBodyColRad = 20.0f;							// 当たり判定の半径
+	constexpr float kBodyColRad = 20.0f;						// 当たり判定の半径
 	const VECTOR kInitPos = VGet(100.0f, 15.0f, 100.0f);		// モデルの初期座標
 	const VECTOR kModelSize = VGet(50.0f, 50.0f, 50.0f);		// モデルのサイズ
 	const VECTOR kColPosAdjustment = VGet(0.0f, 13.0f, 0.0f);	// 当たり判定の調整用
@@ -47,7 +47,7 @@ void Item::Update()
 {
 	// 当たり判定の更新
 	m_colPos = VAdd(m_pos, kColPosAdjustment);
-	m_col.TypeChangeSphereUpdate(m_col.m_body , m_colPos, kBodyColRad);
+	m_col.TypeChangeSphereUpdate(m_col.m_itemCol , m_colPos, kBodyColRad);
 
 	Floating();
 }
@@ -57,7 +57,7 @@ void Item::Draw()
 	MV1DrawModel(m_model);	// モデルの描画
 	
 #ifdef _DEBUG
-	m_col.TypeChangeSphereDraw(m_col.m_body ,0xff00ff, false);
+	m_col.TypeChangeSphereDraw(m_col.m_itemCol,0xff00ff, false);
 	DrawFormatString(0, 600, 0xffffff, "item:m_pos=%.2f", m_pos.y);
 	DrawFormatString(0, 620, 0xffffff, "item:m_angle=%.2f", m_angle);
 #endif

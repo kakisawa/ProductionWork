@@ -23,7 +23,10 @@ SceneRanking::SceneRanking() :
 	m_selectUI2(-1),
 	m_selectUI3(-1),
 	m_rankingUI(-1),
-	m_rankingSelectUI(-1)
+	m_rankingSelectUI(-1),
+	m_rankingUI_AP(-1),
+	m_rankingUI_Score(-1),
+	m_rankingUI_Time(-1)
 {
 }
 
@@ -73,16 +76,16 @@ std::shared_ptr<SceneBase> SceneRanking::Update(Input& input)
 
 void SceneRanking::Draw()
 {
-	DrawGraph(kRankingPos.x, kRankingPos.y, m_rankingGraph, true);
+	DrawGraphF(kRankingPos.x, kRankingPos.y, m_rankingGraph, true);
 
-	DrawGraph(kUIPos.x, kUIPos.y, m_selectUI1, true);
-	DrawGraph(kUIPos.x + kUIMoveX, kUIPos.y, m_selectUI2, true);
-	DrawGraph(kUIPos.x + kUIMoveX * 2, kUIPos.y, m_selectUI3, true);
+	DrawGraphF(kUIPos.x, kUIPos.y, m_selectUI1, true);
+	DrawGraphF(kUIPos.x + kUIMoveX, kUIPos.y, m_selectUI2, true);
+	DrawGraphF(kUIPos.x + kUIMoveX * 2, kUIPos.y, m_selectUI3, true);
 
-	DrawGraph(m_selectBox1.x, m_selectBox1.y, m_cursorUI, true);
+	DrawGraphF(m_selectBox1.x, m_selectBox1.y, m_cursorUI, true);
 
-	DrawGraph(kRankingUIPos.x, kRankingUIPos.y, m_rankingUI, true);
-	DrawGraph(kRankingUI_Change.x, kRankingUI_Change.y, m_rankingSelectUI, true);
+	DrawGraphF(kRankingUIPos.x, kRankingUIPos.y, m_rankingUI, true);
+	DrawGraphF(kRankingUI_Change.x, kRankingUI_Change.y, m_rankingSelectUI, true);
 
 #ifdef _DEBUG
 	DrawString(0, 0, "SceneRanking", 0xffffff);

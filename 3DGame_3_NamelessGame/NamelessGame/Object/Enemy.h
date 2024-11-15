@@ -9,6 +9,8 @@ class Enemy :
 public:
 	struct Situation {
 		bool isMoving = false;	// 移動中
+		bool isAttack = false;	// 攻撃中
+		bool isDeath = false;	// 死亡中
 	};
 
 	// 敵の状態
@@ -39,15 +41,17 @@ public:
 	struct AnimChangeTime {
 		int Idle=10;			// 待機
 		int Walk=5;			// 歩く
-		int Run;			// 走る
-		int Provocation;	// 挑発
-		int Attack1;		// 攻撃1
-		int Attack2;		// 攻撃2
-		int Attack3;		// 攻撃3
-		int Attack4;		// 攻撃4
-		int BlownAway;		// 吹っ飛び
-		int Hit;			// 被ダメージ
-		int Death;			// 死亡
+		int Death = 5;			// 死亡
+		// 下記仮
+		int Run=5;			// 走る
+		int Provocation = 5;	// 挑発
+		int Attack1 = 5;		// 攻撃1
+		int Attack2 = 5;		// 攻撃2
+		int Attack3 = 5;		// 攻撃3
+		int Attack4 = 5;		// 攻撃4
+		int BlownAway = 5;		// 吹っ飛び
+		int Hit = 5;			// 被ダメージ
+		
 	}m_animChangeTime;
 
 	// アニメーションの再生速度
@@ -55,15 +59,18 @@ public:
 		float Default = 0.5f;	// 基本
 		float Idle = 0.5f;		// 待機
 		float Walk = 0.5f;		// 歩く
-		float Run;				// 走る
-		float Provocation;		// 挑発
-		float Attack1;			// 攻撃1
-		float Attack2;			// 攻撃2
-		float Attack3;			// 攻撃3
-		float Attack4;			// 攻撃4
-		float BlownAway;		// 吹っ飛び
-		float Hit;				// 被ダメージ
-		float Death;			// 死亡
+
+		float Death = 0.5f;			// 死亡
+		// 下記仮
+		float Run=0.5f;				// 走る
+		float Provocation = 0.5f;		// 挑発
+		float Attack1 = 0.5f;			// 攻撃1
+		float Attack2 = 0.5f;			// 攻撃2
+		float Attack3 = 0.5f;			// 攻撃3
+		float Attack4 = 0.5f;			// 攻撃4
+		float BlownAway = 0.5f;		// 吹っ飛び
+		float Hit = 0.5f;				// 被ダメージ
+		
 	}m_animSpeed;
 
 public:
@@ -91,6 +98,11 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw() override;
+
+	/// <summary>
+	/// 当たり判定の更新
+	/// </summary>
+	void ColUpdate(const Player& player);
 	
 	/// <summary>
 	/// 移動
@@ -109,13 +121,15 @@ public:
 	/// <param name="map"></param>
 	void SearchNearPosition(const Map& map);
 
+	/// <summary>
+	/// 攻撃処理
+	/// </summary>
+	void Attack();
 
 	/// <summary>
-	/// 0より大きいの数の中で最小値を取得する
-	/// (0を与えた場合無視される)
+	/// 死亡処理
 	/// </summary>
-	void GetMinNotZero(float num);
-
+	void Death();
 
 	/// <summary>
 	/// アニメーションの変更
@@ -147,13 +161,27 @@ public:
 
 private:
 
-	VECTOR m_colPos;			// 当たり判定用座標
-
 	VECTOR m_startPos;	// 移動開始座標
 	VECTOR m_targetPos;	// 目標座標
+
+	VECTOR m_colPos;			// 当たり判定用座標
+
+	VECTOR m_rightShoulderPos;	// 右肩座標
+	VECTOR m_rightElbowPos;		// 右肘座標
+	VECTOR m_rightHandPos;		// 右手座標
+
+	VECTOR m_leftShoulderPos;	// 左肩座標
+	VECTOR m_leftElbowPos;		// 左肘座標
+	VECTOR m_leftHandPos;		// 左手座標
+
+	int m_attackTimeCount;	// 攻撃をするまでにかかる時間
+
+	int m_attackThePlayer;		// プレイヤーへの攻撃力
 
 	float m_targetDistance;
 	float m_targetMoveDistance;
 
-	bool m_isNextTargetPosSearch;
+	bool m_isAttack;				// 攻撃をしたかの判定
+	bool m_isAttackToPlayer;		// プレイヤーに攻撃が当たったかの判定
+	bool m_isNextTargetPosSearch;	
 };

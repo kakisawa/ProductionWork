@@ -19,7 +19,7 @@ void SoundManager::Init(Input input)
 	m_bgmVolume = kChangeBgm;
 	m_seVolume = kChangeSe;
 
-	m_select == Select::kBgmVolume;
+	m_select = Select::kBgmVolume;
 
 	m_input = input;
 	
@@ -143,7 +143,7 @@ void SoundManager::LoadSE(SE_Type se)
 void SoundManager::PlayBGM(BGM_Type bgm, int playType, int volumePar, bool topPositionFlag)
 {
 	// 今回用
-	ChangeVolumeSoundMem(m_bgmVolume, m_bgm[bgm]);
+	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgm[bgm]);
 	PlaySoundMem(m_bgm[bgm], playType, topPositionFlag);
 
 	/*ChangeVolumeSoundMem((255 * volumePar / 100), m_bgm[bgm]);
@@ -153,7 +153,7 @@ void SoundManager::PlayBGM(BGM_Type bgm, int playType, int volumePar, bool topPo
 void SoundManager::PlaySE(SE_Type se, int playType, int volumePar, bool topPositionFlag)
 {
 	// 今回用
-	ChangeVolumeSoundMem(m_seVolume, m_se[se]);
+	ChangeVolumeSoundMem(static_cast<int>(m_seVolume), m_se[se]);
 	PlaySoundMem(m_se[se], playType, topPositionFlag);
 
 	//ChangeVolumeSoundMem((255 * volumePar / 100), m_se[se]);

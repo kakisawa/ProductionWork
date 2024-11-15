@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "DxLib.h"
+#include <vector>
 
 class Player;
 class UISceneGame
@@ -50,7 +51,9 @@ private:
 
 	int m_useWeaponChara;	// 使用中の武器の表示文字
 	int m_useItemChara;		// 使用中のアイテムの表示文字
-	int m_itemUI[3];		// 所持できるアイテムの量(3つ)
+	//int m_itemUI;		// 所持できるアイテムの量(3つ)
+
+	std::vector<int> m_itemUI;
 
 	VECTOR m_cursorUI1Pos;	// 武器カーソルUI座標
 	VECTOR m_cursorUI2Pos;	// アイテムカーソルUI座標

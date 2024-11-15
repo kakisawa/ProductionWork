@@ -341,7 +341,6 @@ private:
 	bool m_isAttack;
 
 	VECTOR m_colPos;			// 当たり判定用座標
-	VECTOR m_colUpPos;			// 当たり判定用上座標
 	VECTOR m_targetLockPos;		// ロックオン時の照準座標
 
 	VECTOR m_rightHandPos;		// 右手当たり判定用座標

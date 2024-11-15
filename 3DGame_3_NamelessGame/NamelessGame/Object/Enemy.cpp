@@ -15,17 +15,35 @@ namespace {
 	constexpr int kAttackHandArm = 30;			// 右腕攻撃力
 	constexpr int kAttackMachineArm = 30;			// 左腕攻撃力
 
+	constexpr int kNextAttackTime =100;
+
 	const char* kModelFilePath = "Data/Model/EnemyModel.mv1";
 
 	bool isMove = true;
+
+	const char* const kRightShoulder = "mixamorig:RightShoulder";
+	const char* const kRightElbow = "mixamorig:RightForeArm";
+	const char* const kRightHand = "mixamorig:RightHandMiddle4";
+
+	const char* const kLeftShoulder = "mixamorig:LeftShoulder";
+	const char* const kLeftElbow = "mixamorig:LeftForeArm";
+	const char* const kLeftHand = "mixamorig:LeftHandMiddle4";
 }
 
 Enemy::Enemy():
+	m_attackThePlayer(0),
 	m_targetDistance(0.0f),
 	m_targetMoveDistance(0.0f),
+	m_attackTimeCount(kNextAttackTime),
 	m_colPos(kInitVec),
 	m_startPos(kInitVec),
 	m_targetPos(kInitVec),
+	m_rightShoulderPos(kInitVec),
+	m_rightElbowPos(kInitVec),
+	m_rightHandPos(kInitVec),
+	m_leftShoulderPos(kInitVec),
+	m_leftElbowPos(kInitVec),
+	m_leftHandPos(kInitVec),
 	m_isNextTargetPosSearch(true)
 {
 	// プレイヤー外部データ読み込み
@@ -61,26 +79,30 @@ void Enemy::Init()
 
 void Enemy::Update(const Map& map, const Player& player)
 {
-	ModelBase::Update();
+	m_attackThePlayer = 0;
 
-	// 当たり判定用座標調整
-	m_colPos = VAdd(m_pos, kBodyColUpPos);
-	// 体当たり判定更新
-	m_col.TypeChangeCapsuleUpdate(m_col.m_body, m_pos, m_colPos, m_chara.bodyColRad);
-
+	Attack();
+	ColUpdate(player);
 
 	SearchNearPosition(map);
 	Move(map);
 
 	m_hp -= player.GetAttack();
 
-	// 死亡時処理
-	if (m_hp <= 0) {
-		m_deathFlag = true;
+	
+	Death();
+
+	ChangeAnimIdle();
+
+
+	if (m_isAttack && m_isAttackToPlayer)
+	{
+		m_attackThePlayer = m_attack;
+		m_isAttack = false;
 	}
 
 
-	ChangeAnimIdle();
+	ModelBase::Update();
 }
 
 void Enemy::Draw()
@@ -88,7 +110,13 @@ void Enemy::Draw()
 	ModelBase::Draw();
 
 #ifdef _DEBUG
-	m_col.TypeChangeCapsuleDraw(m_col.m_body, 0x0000ff, false);
+	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_body, 0x0000ff, false);
+
+	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_rightArm[0], 0x00ff00, false);
+	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_rightArm[1], 0x00ff00, false);
+
+	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_leftArm[0], 0x00ff00, false);
+	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_leftArm[1], 0x00ff00, false);
 
 	DrawFormatString(0, 80, 0xffffff, "Enemy: HP=%d", m_hp);
 
@@ -103,8 +131,23 @@ void Enemy::Draw()
 #endif // DEBUG
 }
 
+void Enemy::ColUpdate(const Player& player)
+{
+	// 当たり判定用座標調整
+	m_colPos = VAdd(m_pos, kBodyColUpPos);
+	// 体当たり判定更新
+	m_col.TypeChangeCapsuleUpdate(m_col.m_colEnemy.m_body, m_pos, m_colPos, m_chara.bodyColRad);
+
+
+	// プレイヤーに敵の攻撃が当たったかどうかの判定
+	//m_isAttackToPlayer=m_col.IsTypeChageCupsuleCollision(m_col.m_colEnemy.m_rightArm[1], )
+}
+
 void Enemy::Move(const Map& map)
 {
+
+	if (m_status.situation.isAttack) return;
+
 	m_move = kInitVec;
 	
 	if (isMove)
@@ -261,6 +304,65 @@ void Enemy::SearchNearPosition(const Map& map)
 	m_targetMoveDistance = abs( (m_startPos.x + m_startPos.z)- (m_pos.x + m_pos.z));
 }
 
+void Enemy::Attack()
+{
+	// 攻撃に使用する腕の場所の獲得
+	int rightShoulder = MV1SearchFrame(m_model, kRightShoulder);
+	int rightElbow= MV1SearchFrame(m_model, kRightElbow);
+	int rightHand = MV1SearchFrame(m_model, kRightHand);
+
+	int leftShoulder = MV1SearchFrame(m_model, kLeftShoulder);
+	int leftElbow = MV1SearchFrame(m_model, kLeftElbow);
+	int leftHand = MV1SearchFrame(m_model, kLeftHand);
+
+	// 攻撃をする腕の場所をセット
+	m_rightShoulderPos = MV1GetFramePosition(m_model, rightShoulder);
+	m_rightElbowPos = MV1GetFramePosition(m_model, rightElbow);
+	m_rightHandPos = MV1GetFramePosition(m_model, rightHand);
+
+	m_leftShoulderPos = MV1GetFramePosition(m_model, leftShoulder);
+	m_leftElbowPos = MV1GetFramePosition(m_model, leftElbow);
+	m_leftHandPos = MV1GetFramePosition(m_model, leftHand);
+
+	m_col.TypeChangeCapsuleUpdate(m_col.m_colEnemy.m_rightArm[0], m_rightShoulderPos, m_rightElbowPos, 6);
+	m_col.TypeChangeCapsuleUpdate(m_col.m_colEnemy.m_rightArm[1], m_rightElbowPos, m_rightHandPos, 6);
+
+	m_col.TypeChangeCapsuleUpdate(m_col.m_colEnemy.m_leftArm[0], m_leftShoulderPos, m_leftElbowPos, 6);
+	m_col.TypeChangeCapsuleUpdate(m_col.m_colEnemy.m_leftArm[1], m_leftElbowPos, m_leftHandPos, 6);
+	
+	
+	m_attackTimeCount--;
+
+	if (m_attackTimeCount <= 0)
+	{
+		m_status.situation.isAttack = true;
+		ChangeAnimNo(EnemyAnim::Attack1, m_animSpeed.Attack1, false, m_animChangeTime.Attack1);
+
+		if (m_status.situation.isAttack && IsAnimEnd())
+		{
+			m_status.situation.isAttack = false;
+			m_attackTimeCount = kNextAttackTime;
+		}
+	}
+
+
+}
+
+void Enemy::Death()
+{
+	// 死亡時処理
+	if (m_hp <= 0) {
+		m_status.situation.isDeath = true;
+		ChangeAnimNo(EnemyAnim::Death, m_animSpeed.Death, false, m_animChangeTime.Death);
+	}
+
+	// 死亡アニメーションが終わったらゲームオーバーシーンへ切り替わる
+	if (m_status.situation.isDeath && IsAnimEnd())
+	{
+		m_deathFlag = true;
+	}
+}
+
 
 void Enemy::ChangeAnimNo(const EnemyAnim anim, const float animSpeed, const bool isAnimLoop, const int changeTime)
 {
@@ -273,7 +375,7 @@ void Enemy::ChangeAnimNo(const EnemyAnim anim, const float animSpeed, const bool
 void Enemy::ChangeAnimIdle()
 {
 	// 待機アニメーションに変更する
-	if (!m_status.situation.isMoving) {
+	if (!m_status.situation.isMoving&&!m_status.situation.isDeath&&!m_status.situation.isAttack) {
 		ChangeAnimNo(EnemyAnim::Idle, m_animSpeed.Idle, true, m_animChangeTime.Idle);
 	}
 }

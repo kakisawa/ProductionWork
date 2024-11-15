@@ -31,6 +31,5 @@ private:
     int m_rankingSelectUI;
     
     VECTOR m_selectBox1;
-
 };
 
