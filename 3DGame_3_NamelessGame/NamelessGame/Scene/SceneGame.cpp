@@ -10,7 +10,7 @@
 #include "../UI/UISceneGame.h"
 #include "DxLib.h"
 
-
+using namespace MyInputInfo;
 
 SceneGame::SceneGame() :
 	model(-1),

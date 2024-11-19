@@ -8,6 +8,8 @@
 #include "SceneGameClear.h"
 #include "SceneGameOver.h"
 
+using namespace MyInputInfo;
+
 namespace {
 	constexpr int kSelectBasePosX = 300;				// シーン表示X座標
 	constexpr int kSelectBasePosY = 300;				// シーン表示Y座標

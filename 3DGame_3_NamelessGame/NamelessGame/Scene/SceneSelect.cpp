@@ -5,6 +5,8 @@
 #include "SceneGame.h"
 #include "SceneDebug.h"
 
+using namespace MyInputInfo;
+
 namespace {
 	VECTOR kScenenSelectUI[5]{
 		VGet(90.0f,110.0f,0.0f),		// ゲームを始める

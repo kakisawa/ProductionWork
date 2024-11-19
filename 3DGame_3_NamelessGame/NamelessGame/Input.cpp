@@ -3,6 +3,8 @@
 #include <string>
 #include <algorithm>
 
+using namespace MyInputInfo;
+
 Input::Input()
 {
 	m_commandTable[InputInfo::OK] = { {InputType::key,KEY_INPUT_A},

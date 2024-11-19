@@ -1,6 +1,8 @@
 ﻿#include "SceneGameClear.h"
 #include "SceneDebug.h"
 
+using namespace MyInputInfo;
+
 SceneGameClear::SceneGameClear()
 {
 }

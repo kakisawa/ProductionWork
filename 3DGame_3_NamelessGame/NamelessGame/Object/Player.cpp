@@ -7,6 +7,8 @@
 #include <random>
 #include <cassert>
 
+using namespace MyInputInfo;
+
 namespace {
 	const char* kModelFilePath = "Data/Model/PlayerModel.mv1";			// プレイヤーモデルパス
 	const char* kModelRightHandMiddle = "mixamorig:RightHandMiddle4";	// ハンドガン用右手パス

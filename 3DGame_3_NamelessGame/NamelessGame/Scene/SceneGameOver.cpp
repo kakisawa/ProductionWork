@@ -1,6 +1,8 @@
 ﻿#include "SceneGameOver.h"
 #include "SceneDebug.h"
 
+using namespace MyInputInfo;
+
 SceneGameOver::SceneGameOver()
 {
 }

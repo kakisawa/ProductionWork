@@ -2,6 +2,8 @@
 #include "SceneSelect.h"
 #include "SceneDebug.h"
 
+using namespace MyInputInfo;
+
 namespace {
 	const VECTOR kRankingPos = VGet(640.0f, 38.0f, 0.0f);
 

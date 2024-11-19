@@ -4,6 +4,29 @@
 #include <unordered_map>
 #include <string>
 
+namespace MyInputInfo{
+	enum class InputInfo {
+		OK,			// 進む
+		Back,		// 戻る
+		Up,			// 上
+		Down,		// 下
+		Right,		// 右
+		Left,		// 左
+		DebugStart,	// デバッグ用シーン遷移ボタン
+
+		// プレイヤー操作用
+		UseItem,		// アイテム使用
+		UseItemChange,	// アイテム切り替え
+		Attack,			// 攻撃
+		ChangeWeapon,	// 武器切り替え
+		TargetLockOn,	// ターゲットの照準固定
+		Roll,			// 回避
+		DebugDamageReceived,		// デバッグ用被ダメージ
+
+		MAX,			// 最大入力数
+	};
+
+}
 // 入力機器の種類
 enum class InputType {
 	key,	// キーボード
@@ -12,26 +35,8 @@ enum class InputType {
 };
 
 // 入力情報
-enum class InputInfo {
-	OK,			// 進む
-	Back,		// 戻る
-	Up,			// 上
-	Down,		// 下
-	Right,		// 右
-	Left,		// 左
-	DebugStart,	// デバッグ用シーン遷移ボタン
 
-	// プレイヤー操作用
-	UseItem,		// アイテム使用
-	UseItemChange,	// アイテム切り替え
-	Attack,			// 攻撃
-	ChangeWeapon,	// 武器切り替え
-	TargetLockOn,	// ターゲットの照準固定
-	Roll,			// 回避
-	DebugDamageReceived,		// デバッグ用被ダメージ
-
-	MAX,			// 最大入力数
-};
+using namespace MyInputInfo;
 
 class Input
 {

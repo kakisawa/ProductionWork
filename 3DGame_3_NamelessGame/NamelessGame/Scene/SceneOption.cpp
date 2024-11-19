@@ -2,6 +2,8 @@
 #include "SceneSelect.h"
 #include "SceneDebug.h"
 
+using namespace MyInputInfo;
+
 SceneOption::SceneOption()
 {
 }

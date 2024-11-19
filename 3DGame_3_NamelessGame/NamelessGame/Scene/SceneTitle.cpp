@@ -2,6 +2,8 @@
 #include "SceneSelect.h"
 #include "SceneDebug.h"
 
+using namespace MyInputInfo;
+
 namespace {
 	constexpr int kTitlePosX = 380;
 	constexpr int kTitlePosY = 140;

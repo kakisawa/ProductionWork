@@ -2,6 +2,8 @@
 #include "../Object/Player.h"
 #include "DxLib.h"
 
+
+
 namespace {
 	const VECTOR kWeaponSelectPos[3]{	// 武器セレクトカーソルUI座標
 		VGet(1741.0f, 108.0f,0.0f),		// 一つ目
