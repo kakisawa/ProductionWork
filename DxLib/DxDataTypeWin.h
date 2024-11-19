@@ -2,7 +2,7 @@
 // 
 // 		ＤＸライブラリ		Windows用データタイプ定義ヘッダファイル
 // 
-// 				Ver 3.24d
+// 				Ver 3.24b
 // 
 // -------------------------------------------------------------------------------
 
@@ -310,25 +310,14 @@ struct IUnknown;
 						#endif // // _MSC_VER >= 1700
 					#endif // // _MSC_VER <  1700
 				#else // _MSC_VER
-					#if defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "DxDrawFunc.a"		)			//  描画部分の抜き出し
-						#ifdef UNICODE
-							#pragma comment( lib, "DxLibW.a"		)			//  ＤＸライブラリ使用指定
-							#pragma comment( lib, "DxUseCLibW.a"	)			//  標準Ｃライブラリを使用する部分の lib ファイルの使用指定
-						#else
-							#pragma comment( lib, "DxLib.a"			)			//  ＤＸライブラリ使用指定
-							#pragma comment( lib, "DxUseCLib.a"		)			//  標準Ｃライブラリを使用する部分の lib ファイルの使用指定
-						#endif
-					#else // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "DxDrawFunc.lib"		)			//  描画部分の抜き出し
-						#ifdef UNICODE
-							#pragma comment( lib, "DxLibW.lib"		)			//  ＤＸライブラリ使用指定
-							#pragma comment( lib, "DxUseCLibW.lib"	)			//  標準Ｃライブラリを使用する部分の lib ファイルの使用指定
-						#else
-							#pragma comment( lib, "DxLib.lib"		)			//  ＤＸライブラリ使用指定
-							#pragma comment( lib, "DxUseCLib.lib"	)			//  標準Ｃライブラリを使用する部分の lib ファイルの使用指定
-						#endif
-					#endif // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
+					#pragma comment( lib, "DxDrawFunc.lib"		)			//  描画部分の抜き出し
+					#ifdef UNICODE
+						#pragma comment( lib, "DxLibW.lib"		)			//  ＤＸライブラリ使用指定
+						#pragma comment( lib, "DxUseCLibW.lib"	)			//  標準Ｃライブラリを使用する部分の lib ファイルの使用指定
+					#else
+						#pragma comment( lib, "DxLib.lib"		)			//  ＤＸライブラリ使用指定
+						#pragma comment( lib, "DxUseCLib.lib"	)			//  標準Ｃライブラリを使用する部分の lib ファイルの使用指定
+					#endif
 				#endif // _MSC_VER
 
 				#ifdef _DEBUG
@@ -345,29 +334,15 @@ struct IUnknown;
 		//			#pragma comment( linker, "/NODEFAULTLIB:msvcrtd.lib" )
 				#endif
 			#endif
-
-			#if defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-				//#pragma comment( lib, "libcmt.a"		)			//  C標準マルチスレッド対応ライブラリ
-				#pragma comment( lib, "kernel32.a"		)			//  Win32カーネルライブラリ
-				//#pragma comment( lib, "comctl32.a"	)			//　Win32APIライブラリ
-				#pragma comment( lib, "user32.a"		)			//  Win32APIライブラリ
-				#pragma comment( lib, "gdi32.a"			)			//  Win32APIライブラリ
-				#pragma comment( lib, "advapi32.a"		)			//  Win32APIライブラリ
-				//#pragma comment( lib, "ole32.a"		)			//  Win32APIライブラリ
-				#pragma comment( lib, "shell32.a"		)			//  マルチメディアライブラリ
-				//#pragma comment( lib, "winmm.a"		)			//  マルチメディアライブラリ
-			#else // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-				//#pragma comment( lib, "libcmt.lib"	)				//  C標準マルチスレッド対応ライブラリ
-				#pragma comment( lib, "kernel32.lib"	)			//  Win32カーネルライブラリ
-				//#pragma comment( lib, "comctl32.lib"	)			//　Win32APIライブラリ
-				#pragma comment( lib, "user32.lib"		)			//  Win32APIライブラリ
-				#pragma comment( lib, "gdi32.lib"		)			//  Win32APIライブラリ
-				#pragma comment( lib, "advapi32.lib"	)			//  Win32APIライブラリ
-				//#pragma comment( lib, "ole32.lib"		)			//  Win32APIライブラリ
-				#pragma comment( lib, "shell32.lib"		)			//  マルチメディアライブラリ
-				//#pragma comment( lib, "winmm.lib"		)			//  マルチメディアライブラリ
-			#endif // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-
+			//#pragma comment( lib, "libcmt.lib"		)				//  C標準マルチスレッド対応ライブラリ
+			#pragma comment( lib, "kernel32.lib"		)			//  Win32カーネルライブラリ
+			//#pragma comment( lib, "comctl32.lib"		)			//　Win32APIライブラリ
+			#pragma comment( lib, "user32.lib"		)				//  Win32APIライブラリ
+			#pragma comment( lib, "gdi32.lib"		)				//  Win32APIライブラリ
+			#pragma comment( lib, "advapi32.lib"		)			//  Win32APIライブラリ
+			//#pragma comment( lib, "ole32.lib"		)				//  Win32APIライブラリ
+			#pragma comment( lib, "shell32.lib"		)				//  マルチメディアライブラリ
+			//#pragma comment( lib, "winmm.lib"		)				//  マルチメディアライブラリ
 			#ifndef DX_NON_MOVIE
 				//#pragma comment( lib, "Strmiids.lib" )			//　DirectShowライブラリ
 			#endif
@@ -375,7 +350,7 @@ struct IUnknown;
 				//#pragma comment( lib, "wsock32.lib" )				//  WinSocketsライブラリ
 			#endif
 			#ifndef DX_NON_KEYEX
-				//#pragma comment( lib, "imm32.lib" )				// ＩＭＥ操作用ライブラリ
+				//#pragma comment( lib, "imm32.lib" )					// ＩＭＥ操作用ライブラリ
 			#endif
 			#ifndef DX_NON_ACM
 				//#pragma comment( lib, "msacm32.lib" )				// ＡＣＭ操作用ライブラリ 
@@ -570,15 +545,9 @@ struct IUnknown;
 						#endif // _MSC_VER >= 1700
 					#endif // _MSC_VER < 1700
 				#else // _MSC_VER
-					#if defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "libbulletcollision.a" )		// Bullet Physics ライブラリ 
-						#pragma comment( lib, "libbulletdynamics.a" )
-						#pragma comment( lib, "libbulletmath.a" )
-					#else // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "libbulletcollision.lib" )	// Bullet Physics ライブラリ 
-						#pragma comment( lib, "libbulletdynamics.lib" )
-						#pragma comment( lib, "libbulletmath.lib" )
-					#endif // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
+					#pragma comment( lib, "libbulletcollision.lib" )	// Bullet Physics ライブラリ 
+					#pragma comment( lib, "libbulletdynamics.lib" )
+					#pragma comment( lib, "libbulletmath.lib" )
 				#endif // _MSC_VER
 			#endif
 			#ifndef DX_NON_TIFFREAD
@@ -659,11 +628,7 @@ struct IUnknown;
 						#endif // _MSC_VER >= 1700
 					#endif // _MSC_VER <  1700
 				#else // _MSC_VER
-					#if defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "libtiff.a" )				// ＴＩＦＦライブラリ
-					#else // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "libtiff.lib" )			// ＴＩＦＦライブラリ
-					#endif // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
+					#pragma comment( lib, "libtiff.lib" )			// ＴＩＦＦライブラリ
 				#endif // _MSC_VER
 			#endif
 			#ifndef DX_NON_PNGREAD
@@ -764,13 +729,8 @@ struct IUnknown;
 						#endif // _MSC_VER >= 1700
 					#endif // _MSC_VER < 1700
 				#else // _MSC_VER
-					#if defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "libpng.a" )				// ＰＮＧライブラリ
-						#pragma comment( lib, "zlib.a" )
-					#else // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "libpng.lib" )			// ＰＮＧライブラリ
-						#pragma comment( lib, "zlib.lib" )
-					#endif // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
+					#pragma comment( lib, "libpng.lib" )			// ＰＮＧライブラリ
+					#pragma comment( lib, "zlib.lib" )
 				#endif // _MSC_VER
 			#endif
 			#ifndef DX_NON_JPEGREAD
@@ -851,11 +811,7 @@ struct IUnknown;
 						#endif // _MSC_VER >= 1700
 					#endif // _MSC_VER <  1700
 				#else // _MSC_VER
-					#if defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "libjpeg.a" )				// ＪＰＥＧライブラリ
-					#else // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "libjpeg.lib" )			// ＪＰＥＧライブラリ
-					#endif // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
+					#pragma comment( lib, "libjpeg.lib" )			// ＪＰＥＧライブラリ
 				#endif // _MSC_VER
 			#endif
 			#ifndef DX_NON_OGGVORBIS								// ＯｇｇＶｏｒｂｉｓライブラリ
@@ -976,15 +932,9 @@ struct IUnknown;
 						#endif // _MSC_VER >= 1700
 					#endif // _MSC_VER < 1700
 				#else // _MSC_VER
-					#if defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "ogg_static.a" )
-						#pragma comment( lib, "vorbis_static.a" )
-						#pragma comment( lib, "vorbisfile_static.a" )
-					#else // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "ogg_static.lib" )
-						#pragma comment( lib, "vorbis_static.lib" )
-						#pragma comment( lib, "vorbisfile_static.lib" )
-					#endif // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
+					#pragma comment( lib, "ogg_static.lib" )
+					#pragma comment( lib, "vorbis_static.lib" )
+					#pragma comment( lib, "vorbisfile_static.lib" )
 				#endif // _MSC_VER
 			#endif
 			#ifndef DX_NON_OGGTHEORA								// ＯｇｇＴｈｅｏｒａライブラリ
@@ -1145,19 +1095,11 @@ struct IUnknown;
 						#endif // _MSC_VER >= 1700
 					#endif // _MSC_VER < 1700
 				#else // _MSC_VER
-					#if defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "ogg_static.a" )
-						#pragma comment( lib, "vorbis_static.a" )
-						#pragma comment( lib, "vorbisfile_static.a" )
+					#pragma comment( lib, "ogg_static.lib" )
+					#pragma comment( lib, "vorbis_static.lib" )
+					#pragma comment( lib, "vorbisfile_static.lib" )
 
-						#pragma comment( lib, "libtheora_static.a" )
-					#else // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "ogg_static.lib" )
-						#pragma comment( lib, "vorbis_static.lib" )
-						#pragma comment( lib, "vorbisfile_static.lib" )
-
-						#pragma comment( lib, "libtheora_static.lib" )
-					#endif // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
+					#pragma comment( lib, "libtheora_static.lib" )
 				#endif // _MSC_VER
 			#endif
 			#ifndef DX_NON_OPUS								// Opusライブラリ
@@ -1298,17 +1240,10 @@ struct IUnknown;
 						#endif // _MSC_VER >= 1700
 					#endif // _MSC_VER < 1700
 				#else // _MSC_VER
-					#if defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "opus.a" )
-						#pragma comment( lib, "opusfile.a" )
-						#pragma comment( lib, "silk_common.a" )
-						#pragma comment( lib, "celt.a" )
-					#else // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
-						#pragma comment( lib, "opus.lib" )
-						#pragma comment( lib, "opusfile.lib" )
-						#pragma comment( lib, "silk_common.lib" )
-						#pragma comment( lib, "celt.lib" )
-					#endif // defined( __CODEGEARC_VERSION__ ) && defined( _WIN64 )
+					#pragma comment( lib, "opus.lib" )
+					#pragma comment( lib, "opusfile.lib" )
+					#pragma comment( lib, "silk_common.lib" )
+					#pragma comment( lib, "celt.lib" )
 				#endif // _MSC_VER
 			#endif
 		#endif  // DX_GCC_COMPILE
