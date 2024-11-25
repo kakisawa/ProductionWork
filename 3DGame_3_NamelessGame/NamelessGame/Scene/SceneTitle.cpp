@@ -31,7 +31,7 @@ void SceneTitle::Init()
 
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
-	if (input.IsTrigger(InputInfo::OK)) {			// STARTボタン
+	if (input.IsTrigger(InputInfo::OK)) {			// Aボタン
 
 		return std::make_shared<SceneSelect>();	// ゲームセレクトシーンへ行く
 	}

@@ -3,6 +3,7 @@
 #include "SceneRanking.h"
 #include "SceneOption.h"
 #include "SceneGame.h"
+#include "SceneExplanation.h"
 #include "SceneDebug.h"
 
 using namespace MyInputInfo;
@@ -83,6 +84,10 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 		if (m_nextScene == nextScene::GameScene)
 		{
 			return std::make_shared<SceneGame>();	// ゲームシーンへ行く
+		}
+		if (m_nextScene == nextScene::ExplanationScene)
+		{
+			return std::make_shared<SceneExplanation>();	// 操作説明シーンへ行く
 		}
 		if (m_nextScene == nextScene::OptionScene)
 		{

@@ -18,7 +18,7 @@ void SceneExplanation::Init()
 
 std::shared_ptr<SceneBase> SceneExplanation::Update(Input& input)
 {
-	if (input.IsTrigger(InputInfo::OK)) {			// Aボタン
+	if (input.IsTrigger(InputInfo::Back)) {			// Aボタン
 
 		return std::make_shared<SceneSelect>();	// セレクトシーンへ行く
 	}

@@ -18,7 +18,7 @@ void SceneOption::Init()
 
 std::shared_ptr<SceneBase> SceneOption::Update(Input& input)
 {
-	if (input.IsTrigger(InputInfo::OK)) {			// STARTボタン
+	if (input.IsTrigger(InputInfo::Back)) {			// STARTボタン
 
 		return std::make_shared<SceneSelect>();	// ゲームシーンへ行く
 	}
