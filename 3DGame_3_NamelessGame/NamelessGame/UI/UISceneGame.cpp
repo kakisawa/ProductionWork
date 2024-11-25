@@ -29,6 +29,10 @@ namespace {
 		VGet(1540.0f, 535.0f,0.0f)		// アイテム
 	};
 
+	const VECTOR kBarPos[2]{
+
+	}
+
 	VECTOR kDisplayItemPos = VGet(1650, 580, 0.0f);			// 選択中のアイテム文字UI座標
 
 	VECTOR kDisplayWeaponPos = VGet(1610, 33, 0.0f);		// 選択中の武器文字UI座標
@@ -53,6 +57,11 @@ UISceneGame::UISceneGame() :
 	m_weaponCharaUI1(-1),
 	m_weaponCharaUI2(-1),
 	m_weaponCharaUI3(-1),
+	m_staminaBgUI(-1),
+	m_staminaUI(-1),
+	m_hpBgUI(-1),
+	m_hpUI_Green(-1),
+	m_hpUI_Red(-1),
 	m_useWeaponChara(0),
 	m_useItemChara(0),
 	m_cursorUI1Pos(kWeaponSelectPos[0]),
@@ -89,6 +98,11 @@ void UISceneGame::Init()
 	m_weaponCharaUI2 = LoadGraph("Data/Image/SceneGame/文字UI_マシンガン.png");
 	m_weaponCharaUI3 = LoadGraph("Data/Image/SceneGame/文字UI_ナイフ.png");
 
+	m_staminaBgUI=LoadGraph("Data/Image/SceneGame/スタミナ背景バー.png");
+	m_staminaUI=LoadGraph("Data/Image/SceneGame/スタミナ.png");
+	m_hpBgUI= LoadGraph("Data/Image/SceneGame/HP背景バー.png");
+	m_hpUI_Red= LoadGraph("Data/Image/SceneGame/HP_赤.png");
+	m_hpUI_Green=LoadGraph("Data/Image/SceneGame/HP_緑.png");
 }
 
 void UISceneGame::Update(Player& player)
@@ -210,6 +224,12 @@ void UISceneGame::End()
 	DeleteGraph(m_itemCharaUI3);
 	DeleteGraph(m_itemCharaUI4);
 	DeleteGraph(m_itemCharaUI5);
+
+	DeleteGraph(m_staminaBgUI);
+	DeleteGraph(m_staminaUI);
+	DeleteGraph(m_hpBgUI);
+	DeleteGraph(m_hpUI_Red);
+	DeleteGraph(m_hpUI_Green);
 }
 
 void UISceneGame::SetUI_SelectItem(Player& player)

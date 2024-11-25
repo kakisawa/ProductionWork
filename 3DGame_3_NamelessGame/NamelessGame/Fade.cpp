@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 Fade::Fade() :
-	m_fadeAlpha(256),
+	m_fadeAlpha(255),
 	m_isFadeIn(true),
 	m_isFadeOut(false),
 	m_isNextSceneFlag(false)
@@ -35,7 +35,7 @@ void Fade::FadeIn(bool flag)
 	// フェードイン
 	if (m_isFadeIn)
 	{
-		m_fadeAlpha -= 8;
+		m_fadeAlpha -= 5;
 		if (m_fadeAlpha < 0)
 		{
 			m_fadeAlpha = 0;
@@ -51,7 +51,7 @@ void Fade::FadeOut(bool flag)
 	// フェードアウト
 	if (m_isFadeOut)
 	{
-		m_fadeAlpha += 8;
+		m_fadeAlpha += 5;
 		if (m_fadeAlpha >= 255)
 		{
 			m_fadeAlpha = 255;

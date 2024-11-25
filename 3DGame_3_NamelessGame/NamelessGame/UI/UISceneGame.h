@@ -48,10 +48,18 @@ private:
 	int m_weaponCharaUI1;	// ハンドガン文字UI
 	int m_weaponCharaUI2;	// マシンガン文字UI
 	int m_weaponCharaUI3;	// ナイフ文字UI
+	
+	int m_staminaBgUI;		// スタミナバー背景UI
+	int m_staminaUI;		// スタミナバーUI
+	int m_hpBgUI;			// HP背景UI
+	int m_hpUI_Red;			// HPUI_赤
+	int m_hpUI_Green;		// HPUI_緑
+
 
 	int m_useWeaponChara;	// 使用中の武器の表示文字
 	int m_useItemChara;		// 使用中のアイテムの表示文字
-	//int m_itemUI;		// 所持できるアイテムの量(3つ)
+	
+
 
 	std::vector<int> m_itemUI;
 

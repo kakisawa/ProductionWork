@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "SceneBase.h"
+class Fade;
 class SceneSelect :
     public SceneBase
 {
@@ -58,4 +59,5 @@ private:
         GameEnd,            // ゲーム終了
     }m_nextScene;
 
+    std::shared_ptr<Fade> m_pFade = std::make_shared<Fade>();
 };

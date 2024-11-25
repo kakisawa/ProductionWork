@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "SceneBase.h"
+class Fade;
 class SceneTitle :
     public SceneBase
 {
@@ -16,5 +17,6 @@ private:
     int m_titleGraph;
     int m_buttonGraph;
 
+    std::shared_ptr<Fade> m_pFade=std::make_shared<Fade>();
 };
 

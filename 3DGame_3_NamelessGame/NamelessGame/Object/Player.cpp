@@ -117,6 +117,9 @@ void Player::Update(const Enemy& enemy, const Item& item, const Camera& camera, 
 	LockOn(input, enemy);
 	Roll(input);
 	Hit(input,enemy);
+
+	m_hp -= enemy.GetAttack();
+
 	Death();
 
 	SetModelFramePosition(m_model, kModelRightHandMiddle, m_weapon[0], m_weaponSize[0],	m_weaponRota[0]);
@@ -162,30 +165,31 @@ void Player::Draw()
 
 
 #ifdef _DEBUG
-	DrawFormatString(0, 60, 0xffffff, "Player:HP=%d", m_hp);
+	DrawFormatString(0, 60, 0xffffff, "Playe:HP=%d", m_hp);
 	DrawFormatString(0, 100, 0xffffff, "Player:m_pos.x=%.2f:z=%.2f", m_pos.x,m_pos.z);
-	DrawFormatString(0, 220, 0xffffff, "m_attack=%d", m_attack);
-	DrawFormatString(0, 240, 0xffffff, "m_remainingBullets_handgun=%d", m_remainingBullets_handgun);
-	DrawFormatString(0, 260, 0xffffff, "m_remainingBullets_machinegun=%d", m_remainingBullets_machinegun);
-	DrawFormatString(0, 280, 0xffffff, "m_angle=%.2f", m_angle);
-	DrawFormatString(0, 300, 0xffffff, "m_move.x/y/z=%.2f/%.2f/%.2f", m_move.x, m_move.y, m_move.z);
-	DrawFormatString(0, 340, 0xffffff, "m_targetDir=%.2f", m_targetDir);
-	DrawFormatString(0, 360, 0xffffff, "inputX=%d", m_inputX);
-	DrawFormatString(0, 380, 0xffffff, "inputY=%d", m_inputY);
-	DrawFormatString(0, 400, 0xffffff, "item=%d", m_useItem);
-	DrawFormatString(0, 420, 0xffffff, "m_isItem=%d", m_isItem);
-	DrawFormatString(0, 440, 0xffffff, "m_getItem=%d", m_getItem);
-	DrawFormatString(0, 460, 0xffffff, "itemCount=%d", m_getitemCount);
-	DrawFormatString(0, 480, 0xffffff, "m_useItem[0]=%d", m_item[0]);
-	DrawFormatString(0, 500, 0xffffff, "m_useItem[1]=%d", m_item[1]);
-	DrawFormatString(0, 520, 0xffffff, "m_useItem[2]=%d", m_item[2]);
-	DrawFormatString(0, 540, 0xffffff, "m_useWeapon=%d", m_useWeapon);
-	DrawFormatString(0, 560, 0xffffff, "m_animNext.totalTime=%.2f", m_animNext.totalTime);
-	DrawFormatString(0, 580, 0xffffff, "m_nextAnimTime=%.2f", m_nextAnimTime);
-	DrawFormatString(0, 640, 0xffffff, "m_status.situation.isKnifeAttack=%d", m_status.situation.isKnifeAttack);
-	DrawFormatString(0, 660, 0xffffff, "m_isEnemy=%d", m_isEnemy);
-	DrawFormatString(0, 680, 0xffffff, "m_isAttackToEnemy=%d", m_isAttackToEnemy);
-	DrawFormatString(0, 700, 0xffffff, "m_isAttack=%d", m_isAttack);
+	DrawFormatString(0, 220, 0xffffff, "Player:m_attack=%d", m_attack);
+	DrawFormatString(0, 240, 0xffffff, "Player:m_remainingBullets_handgun=%d", m_remainingBullets_handgun);
+	DrawFormatString(0, 260, 0xffffff, "Player:m_remainingBullets_machinegun=%d", m_remainingBullets_machinegun);
+	DrawFormatString(0, 280, 0xffffff, "Player:m_angle=%.2f", m_angle);
+	DrawFormatString(0, 300, 0xffffff, "Player:m_move.x/y/z=%.2f/%.2f/%.2f", m_move.x, m_move.y, m_move.z);
+	DrawFormatString(0, 340, 0xffffff, "Player:m_targetDir=%.2f", m_targetDir);
+	DrawFormatString(0, 360, 0xffffff, "Player:inputX=%d", m_inputX);
+	DrawFormatString(0, 380, 0xffffff, "Player:inputY=%d", m_inputY);
+	DrawFormatString(0, 400, 0xffffff, "Player:item=%d", m_useItem);
+	DrawFormatString(0, 420, 0xffffff, "Player:m_isItem=%d", m_isItem);
+	DrawFormatString(0, 440, 0xffffff, "Player:m_getItem=%d", m_getItem);
+	DrawFormatString(0, 460, 0xffffff, "Player:itemCount=%d", m_getitemCount);
+	DrawFormatString(0, 480, 0xffffff, "Player:m_useItem[0]=%d", m_item[0]);
+	DrawFormatString(0, 500, 0xffffff, "Player:m_useItem[1]=%d", m_item[1]);
+	DrawFormatString(0, 520, 0xffffff, "Player:m_useItem[2]=%d", m_item[2]);
+	DrawFormatString(0, 540, 0xffffff, "Player:m_useWeapon=%d", m_useWeapon);
+	DrawFormatString(0, 560, 0xffffff, "Player:m_animNext.totalTime=%.2f", m_animNext.totalTime);
+	DrawFormatString(0, 580, 0xffffff, "Player:m_nextAnimTime=%.2f", m_nextAnimTime);
+	DrawFormatString(0, 640, 0xffffff, "Player:m_status.situation.isKnifeAttack=%d", m_status.situation.isKnifeAttack);
+	DrawFormatString(0, 660, 0xffffff, "Player:m_isEnemy=%d", m_isEnemy);
+	DrawFormatString(0, 680, 0xffffff, "Player:m_isAttackToEnemy=%d", m_isAttackToEnemy);
+	DrawFormatString(0, 700, 0xffffff, "Player:m_isAttack=%d", m_isAttack);
+	DrawFormatString(0, 720, 0xffffff, "Player:m_attackTheEnemy=%d", m_attackTheEnemy);
 	
 
 
@@ -328,12 +332,9 @@ void Player::ColUpdate(const Enemy& enemy, const Item& item)
 	m_colPos = VAdd(m_pos, VGet(0.0f,m_chara.bodyColUpY,0.0f));
 	m_col.TypeChangeCapsuleUpdate(m_col.m_colPlayer.m_body, m_pos, m_colPos, m_chara.bodyColRad);
 
-
 	// 敵・アイテムの当たり判定獲得
 	Collision itemCol = item.GetCol();
 	Collision enemyCol = enemy.GetCol();
-
-
 
 	// アイテムとプレイヤーが当たったかどうかの判定
 	m_isItem = m_col.IsTypeChageSphereToCapsuleCollision(m_col.m_colPlayer.m_body, itemCol.m_itemCol);

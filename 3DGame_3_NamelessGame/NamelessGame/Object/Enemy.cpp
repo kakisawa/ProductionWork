@@ -44,15 +44,14 @@ Enemy::Enemy():
 	m_leftShoulderPos(kInitVec),
 	m_leftElbowPos(kInitVec),
 	m_leftHandPos(kInitVec),
-	m_isNextTargetPosSearch(true)
+	m_isNextTargetPosSearch(true),
+	m_isAttack(false)
 {
 	// プレイヤー外部データ読み込み
 	LoadCsv::GetInstance().LoadCommonFileData(m_chara, "enemy");
 	// モデルの読み込み
 	m_model = MV1LoadModel(kModelFilePath);
 	assert(m_model != -1);
-
-	m_hp = m_chara.maxHp;
 
 	// 座標初期値
 	m_pos = VGet(m_chara.initPosX, m_chara.initPosY, m_chara.initPosZ);
@@ -81,19 +80,20 @@ void Enemy::Update(const Map& map, const Player& player)
 {
 	m_attackThePlayer = 0;
 
+	if (!m_status.situation.isDeath)
+	{
+		m_hp -= player.GetAttack();
+	}
+	Death();
+
 	Attack();
 	ColUpdate(player);
+	
 
 	SearchNearPosition(map);
 	Move(map);
 
-	m_hp -= player.GetAttack();
-
 	
-	Death();
-
-	ChangeAnimIdle();
-
 
 	if (m_isAttack && m_isAttackToPlayer)
 	{
@@ -101,7 +101,7 @@ void Enemy::Update(const Map& map, const Player& player)
 		m_isAttack = false;
 	}
 
-
+	ChangeAnimIdle();
 	ModelBase::Update();
 }
 
@@ -112,22 +112,27 @@ void Enemy::Draw()
 #ifdef _DEBUG
 	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_body, 0x0000ff, false);
 
-	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_rightArm[0], 0x00ff00, false);
-	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_rightArm[1], 0x00ff00, false);
+	if(m_status.situation.isAttack){
+		m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_rightArm[0], 0x00ff00, false);
+		m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_rightArm[1], 0x00ff00, false);
 
-	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_leftArm[0], 0x00ff00, false);
-	m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_leftArm[1], 0x00ff00, false);
+		m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_leftArm[0], 0x00ff00, false);
+		m_col.TypeChangeCapsuleDraw(m_col.m_colEnemy.m_leftArm[1], 0x00ff00, false);
+	}
+	
 
-	DrawFormatString(0, 80, 0xffffff, "Enemy: HP=%d", m_hp);
+	DrawFormatString(0, 80, 0xffffff, "Enemy:HP=%d", m_hp);
 
 	DrawFormatString(0, 780, 0xffffff, "Enemy:m_pos.x=%.2f:z=%.2f", m_pos.x, m_pos.z);
-	DrawFormatString(0, 800, 0xffffff, "m_targetMoveDistance=%.2f", m_targetMoveDistance);
-	DrawFormatString(0, 820, 0xffffff, "m_targetDistance=%.2f", m_targetDistance);
-	DrawFormatString(0, 840, 0xffffff, "m_isNextTargetPosSearch=%d", m_isNextTargetPosSearch);
-	DrawFormatString(0, 860, 0xffffff, "m_startPos.x=%.2f:z=%.2f", m_startPos.x, m_startPos.z);
-	DrawFormatString(0, 880, 0xffffff, "m_targetPos.x=%.2f:z=%.2f", m_targetPos.x, m_targetPos.z);
-	DrawFormatString(0, 900, 0xffffff, "m_move.x=%.2f:z=%.2f", m_move.x, m_move.z);
-	
+	DrawFormatString(0, 800, 0xffffff, "Enemy:m_targetMoveDistance=%.2f", m_targetMoveDistance);
+	DrawFormatString(0, 820, 0xffffff, "Enemy:m_targetDistance=%.2f", m_targetDistance);
+	DrawFormatString(0, 840, 0xffffff, "Enemy:m_isNextTargetPosSearch=%d", m_isNextTargetPosSearch);
+	DrawFormatString(0, 860, 0xffffff, "Enemy:m_startPos.x=%.2f:z=%.2f", m_startPos.x, m_startPos.z);
+	DrawFormatString(0, 880, 0xffffff, "Enemy:m_targetPos.x=%.2f:z=%.2f", m_targetPos.x, m_targetPos.z);
+	DrawFormatString(0, 900, 0xffffff, "Enemy:m_move.x=%.2f:z=%.2f", m_move.x, m_move.z);
+	DrawFormatString(0, 920, 0xffffff, "Enemy:m_animNext.animNo=%d", m_animNext.animNo);
+	DrawFormatString(0, 940, 0xffffff, "Enemy:m_isAttackToPlayer=%d", m_isAttackToPlayer);
+	DrawFormatString(0, 960, 0xffffff, "Enemy:m_isAttack=%d", m_isAttack);
 #endif // DEBUG
 }
 
@@ -138,9 +143,11 @@ void Enemy::ColUpdate(const Player& player)
 	// 体当たり判定更新
 	m_col.TypeChangeCapsuleUpdate(m_col.m_colEnemy.m_body, m_pos, m_colPos, m_chara.bodyColRad);
 
+	// プレイヤーの当たり判定獲得
+	Collision playerCol = player.GetCol();
 
 	// プレイヤーに敵の攻撃が当たったかどうかの判定
-	//m_isAttackToPlayer=m_col.IsTypeChageCupsuleCollision(m_col.m_colEnemy.m_rightArm[1], )
+	m_isAttackToPlayer = m_col.IsTypeChageCupsuleCollision(m_col.m_colEnemy.m_rightArm[1], playerCol.m_colPlayer.m_body);
 }
 
 void Enemy::Move(const Map& map)
@@ -234,10 +241,7 @@ void Enemy::MoveUpdate()
 		m_status.situation.isMoving = true;
 
 		// プレイヤーが移動している時のみ、移動アニメーションを入れる
-		//if (m_status.situation.isMoving)
-		{
-			ChangeAnimNo(EnemyAnim::Walk, m_animSpeed.Walk, true, m_animChangeTime.Walk);
-		}
+		ChangeAnimNo(EnemyAnim::Walk, m_animSpeed.Walk, true, m_animChangeTime.Walk);
 	}
 }
 
@@ -306,6 +310,9 @@ void Enemy::SearchNearPosition(const Map& map)
 
 void Enemy::Attack()
 {
+	// 死んだら処理しない
+	if (m_status.situation.isDeath) return;
+
 	// 攻撃に使用する腕の場所の獲得
 	int rightShoulder = MV1SearchFrame(m_model, kRightShoulder);
 	int rightElbow= MV1SearchFrame(m_model, kRightElbow);
@@ -333,16 +340,19 @@ void Enemy::Attack()
 	
 	m_attackTimeCount--;
 
-	if (m_attackTimeCount <= 0)
+	if (m_attackTimeCount == 0)
 	{
 		m_status.situation.isAttack = true;
 		ChangeAnimNo(EnemyAnim::Attack1, m_animSpeed.Attack1, false, m_animChangeTime.Attack1);
+		
+		m_isAttack = true;	
+	}
 
-		if (m_status.situation.isAttack && IsAnimEnd())
-		{
-			m_status.situation.isAttack = false;
-			m_attackTimeCount = kNextAttackTime;
-		}
+	if (m_status.situation.isAttack && IsAnimEnd())
+	{
+		m_status.situation.isAttack = false;
+		m_attackTimeCount = kNextAttackTime;
+		m_isAttack = false;
 	}
 
 
@@ -377,5 +387,7 @@ void Enemy::ChangeAnimIdle()
 	// 待機アニメーションに変更する
 	if (!m_status.situation.isMoving&&!m_status.situation.isDeath&&!m_status.situation.isAttack) {
 		ChangeAnimNo(EnemyAnim::Idle, m_animSpeed.Idle, true, m_animChangeTime.Idle);
+
+		
 	}
 }

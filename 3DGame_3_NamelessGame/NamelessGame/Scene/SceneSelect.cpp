@@ -5,6 +5,7 @@
 #include "SceneGame.h"
 #include "SceneExplanation.h"
 #include "SceneDebug.h"
+#include "../Fade.h"
 
 using namespace MyInputInfo;
 
@@ -69,6 +70,7 @@ void SceneSelect::Init()
 
 std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 {
+	m_pFade->FadeIn(m_pFade->GatFadeInFlag());
 	
 	if (input.IsTrigger(InputInfo::OK)) {			// STARTボタン
 		m_isNextSceneFlag = true;
@@ -139,6 +141,8 @@ void SceneSelect::Draw()
 
 	DrawExtendGraphF(c1.m_selectBox1.x, c1.m_selectBox1.y, c1.m_selectBox2.x, c1.m_selectBox2.y, m_cursorUI, true);
 
+
+	m_pFade->Draw();
 #ifdef _DEBUG
 	
 

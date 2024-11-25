@@ -157,7 +157,11 @@ public:
 	/// <returns>当たり判定</returns>
 	Collision GetCol() const { return m_col; }
 
-	int GetAttack() const { return m_attack; }
+	/// <summary>
+	/// プレイヤーへ攻撃値を渡す
+	/// </summary>
+	/// <returns></returns>
+	int GetAttack() const { return m_attackThePlayer; }
 
 private:
 

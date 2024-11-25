@@ -1,6 +1,7 @@
 ﻿#include "SceneTitle.h"
 #include "SceneSelect.h"
 #include "SceneDebug.h"
+#include "../Fade.h"
 
 using namespace MyInputInfo;
 
@@ -15,6 +16,7 @@ SceneTitle::SceneTitle():
 	m_titleGraph(-1),
 	m_buttonGraph(-1)
 {
+	m_isNextSceneFlag = false;
 }
 
 SceneTitle::~SceneTitle()
@@ -31,10 +33,19 @@ void SceneTitle::Init()
 
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
+	m_pFade->FadeIn(m_pFade->GatFadeInFlag());
+
+	m_pFade->FadeOut(m_isNextSceneFlag);
+
 	if (input.IsTrigger(InputInfo::OK)) {			// Aボタン
 
+		m_isNextSceneFlag = true;
+	}
+
+	if (m_pFade->GatNextSceneFlag()) {
 		return std::make_shared<SceneSelect>();	// ゲームセレクトシーンへ行く
 	}
+	
 
 
 #ifdef _DEBUG
@@ -78,6 +89,8 @@ void SceneTitle::Draw()
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawGraph(0, kButtonY, m_buttonGraph, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく	
+
+	m_pFade->Draw();
 
 #ifdef _DEBUG
 	
