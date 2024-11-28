@@ -56,20 +56,19 @@ public:
 
 	// アニメーションの再生速度
 	struct AnimSpeed {
-		float Default = 0.5f;	// 基本
-		float Idle = 0.5f;		// 待機
-		float Walk = 0.5f;		// 歩く
-
+		float Default = 0.5f;		// 基本
+		float Idle = 0.5f;			// 待機
+		float Walk = 0.5f;			// 歩く
 		float Death = 0.5f;			// 死亡
 		// 下記仮
 		float Run=0.5f;				// 走る
-		float Provocation = 0.5f;		// 挑発
-		float Attack1 = 0.5f;			// 攻撃1
-		float Attack2 = 0.5f;			// 攻撃2
-		float Attack3 = 0.5f;			// 攻撃3
-		float Attack4 = 0.5f;			// 攻撃4
+		float Provocation = 0.5f;	// 挑発
+		float Attack1 = 0.5f;		// 攻撃1
+		float Attack2 = 0.5f;		// 攻撃2
+		float Attack3 = 0.5f;		// 攻撃3
+		float Attack4 = 0.5f;		// 攻撃4
 		float BlownAway = 0.5f;		// 吹っ飛び
-		float Hit = 0.5f;				// 被ダメージ
+		float Hit = 0.5f;			// 被ダメージ
 		
 	}m_animSpeed;
 

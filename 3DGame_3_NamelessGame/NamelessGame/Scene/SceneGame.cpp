@@ -8,12 +8,12 @@
 #include "../Object/Camera.h"
 #include "../Object/Map.h"
 #include "../UI/UISceneGame.h"
+#include "../Time.h"
 #include "DxLib.h"
 
 using namespace MyInputInfo;
 
-SceneGame::SceneGame() :
-	model(-1),
+SceneGame::SceneGame():
 	m_isPause(false)
 {
 }
@@ -29,13 +29,8 @@ void SceneGame::Init()
 	m_pPlayer->Init();
 	m_pEnemy->Init();
 	m_pMap->Init();
-	m_pUI->Init();
-
-	model = MV1LoadModel("Data/Model/book.mv1");
-	MV1SetScale(model, VGet(50.0f, 50.0f, 50.0f));
-	MV1SetPosition(model,VGet(0.0f, 0.0f, 0.0f));
-
-
+	m_pUI->Init(*m_pPlayer);
+	m_pTime->Init();
 }
 
 std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
@@ -58,15 +53,16 @@ std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 		m_pCamera->Update(*m_pPlayer);
 		m_pItem->Update();
 		m_pUI->Update(*m_pPlayer);
+		m_pTime->Update();
 
 		// 敵が死亡したら
 		if (m_pEnemy->GetDeathFlag()) {
-			return std::make_shared<SceneGameClear>();	// ゲームクリアへ行く
+			return std::make_shared<SceneGameClear>();	// ゲームクリアシーンへ行く
 		}
 
-		// プレイヤーが死亡したら
-		if (m_pPlayer->GetDeathFlag()) {
-			return std::make_shared<SceneGameOver>();
+		// プレイヤーが死亡したら・制限時間を過ぎてしまったら
+		if (m_pPlayer->GetDeathFlag()||m_pTime->GetTimeUp()) {
+			return std::make_shared<SceneGameOver>();	// ゲームオーバーシーンへ行く
 		}
 	}
 	
@@ -85,10 +81,10 @@ void SceneGame::Draw()
 {
 	m_pMap->Draw();
 	m_pItem->Draw();
-	MV1DrawModel(model);
 	m_pPlayer->Draw();
 	m_pEnemy->Draw();
 	m_pUI->Draw();
+	m_pTime->Draw();
 
 #ifdef _DEBUG
 	DrawString(0, 0, "SceneGame", 0xffffff);
@@ -97,7 +93,5 @@ void SceneGame::Draw()
 
 void SceneGame::End()
 {
-	MV1DeleteModel(model);
-	
 	m_pUI->End();
 }

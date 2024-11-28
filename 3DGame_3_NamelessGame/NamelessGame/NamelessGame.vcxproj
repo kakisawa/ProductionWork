@@ -158,6 +158,7 @@
     <ClCompile Include="Scene\SceneGame.cpp" />
     <ClCompile Include="Scene\SceneBase.cpp" />
     <ClCompile Include="Manager\SoundManager.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="UI\UISceneGame.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +186,7 @@
     <ClInclude Include="Scene\SceneGame.h" />
     <ClInclude Include="Scene\SceneBase.h" />
     <ClInclude Include="Manager\SoundManager.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="UI\UISceneGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

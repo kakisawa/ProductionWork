@@ -9,22 +9,57 @@ public:
 	UISceneGame();
 	virtual ~UISceneGame();
 
-	void Init();
-	void Update(Player& player);
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="player"></param>
+	void Init(const Player& player);
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="player"></param>
+	void Update(const Player& player);
+
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
+
+	/// <summary>
+	/// 終了
+	/// </summary>
 	void End();
+
+	/// <summary>
+	/// HP・スタミナバーUIの更新
+	/// </summary>
+	/// <param name="player"></param>
+	void UpdateBarUI(const Player& player);
+
+	/// <summary>
+	/// アイテムUIの更新
+	/// </summary>
+	/// <param name="player"></param>
+	void UpdateItemUI(const Player& player);
+
+	/// <summary>
+	/// 武器UIの更新
+	/// </summary>
+	/// <param name="player"></param>
+	void UpdateWeaponUI(const Player& player);
 
 	/// <summary>
 	/// 選択中アイテム名UIの表示
 	/// </summary>
 	/// <param name="player">プレイヤー情報</param>
-	void SetUI_SelectItem(Player& player);
+	void SetUI_SelectItem(const Player& player);
 
 	/// <summary>
 	/// プレイヤーが獲得したアイテムのUIを設定する
 	/// </summary>
 	/// <param name="player">プレイヤー情報</param>
-	void SetUI_GetItem(Player& player);
+	void SetUI_GetItem(const Player& player);
 
 private:
 	int m_UI1;				// アイテム・武器大本UI
@@ -55,15 +90,21 @@ private:
 	int m_hpUI_Red;			// HPUI_赤
 	int m_hpUI_Green;		// HPUI_緑
 
+	int m_enemyHpBgUI;		// 敵HP背景UI
+	int m_enemyHpUI;		// 敵HPUI
 
-	int m_useWeaponChara;	// 使用中の武器の表示文字
-	int m_useItemChara;		// 使用中のアイテムの表示文字
+
+	int m_useWeaponChara;		// 使用中の武器の表示文字
+	int m_useItemChara;			// 使用中のアイテムの表示文字
 	
+	float m_playerHp_Green;		// プレイヤーの緑HPバー表示用
+	float m_playerHp_Red;		// プレイヤーの赤HPバー表示用
 
+	int m_playerStamina;		// プレイヤーのスタミナバー表示用
 
 	std::vector<int> m_itemUI;
 
-	VECTOR m_cursorUI1Pos;	// 武器カーソルUI座標
-	VECTOR m_cursorUI2Pos;	// アイテムカーソルUI座標
+	VECTOR m_cursorUI1Pos;		// 武器カーソルUI座標
+	VECTOR m_cursorUI2Pos;		// アイテムカーソルUI座標
 };
 

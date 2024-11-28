@@ -118,7 +118,7 @@ void Player::Update(const Enemy& enemy, const Item& item, const Camera& camera, 
 	Roll(input);
 	Hit(input,enemy);
 
-	m_hp -= enemy.GetAttack();
+	
 
 	Death();
 
@@ -659,8 +659,10 @@ void Player::Roll(Input& input)
 
 void Player::Hit(Input& input, const Enemy& enemy)
 {
-	// デバッグ用
-	if (input.IsTrigger(InputInfo::DebugDamageReceived)) {
+	
+	if (m_status.situation.isDeath) return;
+
+	if (enemy.GetAttack() > 0) {
 		ChangeAnimNo(PlayerAnim::DamageReceived, m_animSpeed.DamageReceived, false, m_animChangeTime.DamageReceived);
 		m_status.situation.isDamageReceived = true;
 		

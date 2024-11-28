@@ -7,6 +7,7 @@ class Item;
 class Camera;
 class Map;
 class UISceneGame;
+class Time;
 class SceneGame :
     public SceneBase
 {
@@ -20,8 +21,6 @@ public:
     virtual void End() override;
 
 private:
-
-    int model;
 
     bool m_isPause;
 
@@ -37,5 +36,6 @@ private:
     std::shared_ptr<Map> m_pMap = std::make_shared<Map>();
     // UI
     std::shared_ptr<UISceneGame> m_pUI = std::make_shared<UISceneGame>();
-
+    // 制限時間
+    std::shared_ptr<Time> m_pTime = std::make_shared<Time>();
 };

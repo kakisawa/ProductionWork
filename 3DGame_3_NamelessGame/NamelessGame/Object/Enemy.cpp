@@ -15,7 +15,7 @@ namespace {
 	constexpr int kAttackHandArm = 30;			// 右腕攻撃力
 	constexpr int kAttackMachineArm = 30;			// 左腕攻撃力
 
-	constexpr int kNextAttackTime =100;
+	constexpr int kNextAttackTime = 100;		// 次の攻撃をするまでのカウント
 
 	const char* kModelFilePath = "Data/Model/EnemyModel.mv1";
 

@@ -2,8 +2,6 @@
 #include "../Object/Player.h"
 #include "DxLib.h"
 
-
-
 namespace {
 	const VECTOR kWeaponSelectPos[3]{	// 武器セレクトカーソルUI座標
 		VGet(1741.0f, 108.0f,0.0f),		// 一つ目
@@ -29,14 +27,17 @@ namespace {
 		VGet(1540.0f, 535.0f,0.0f)		// アイテム
 	};
 
-	const VECTOR kBarPos[2]{
-
-	}
+	const VECTOR kBarPos[6]{			// バーUI座標
+		VGet(220.0f,21.0f,0.0f),		// HP背景バー
+		VGet(224.0f,28.0f,0.0f),		// HPバー(緑/赤)
+		VGet(220.0f,84.0f,0.0f),		// スタミナ背景バー
+		VGet(224.0f,89.0f,0.0f),		// スタミナバー
+		VGet(343.0f,1022.0f,0.0f),		// 敵HP背景バー
+		VGet(347.0f,1026.0f,0.0f),		// 敵HPバー
+	};
 
 	VECTOR kDisplayItemPos = VGet(1650, 580, 0.0f);			// 選択中のアイテム文字UI座標
-
 	VECTOR kDisplayWeaponPos = VGet(1610, 33, 0.0f);		// 選択中の武器文字UI座標
-
 }
 
 UISceneGame::UISceneGame() :
@@ -64,17 +65,20 @@ UISceneGame::UISceneGame() :
 	m_hpUI_Red(-1),
 	m_useWeaponChara(0),
 	m_useItemChara(0),
+	m_playerHp_Green(0),
+	m_playerHp_Red(1205),
+	m_playerStamina(0),
 	m_cursorUI1Pos(kWeaponSelectPos[0]),
 	m_cursorUI2Pos(kItemSelectPos[0])
 {
-	m_itemUI.resize(3,-1);
+	m_itemUI.resize(3, -1);
 }
 
 UISceneGame::~UISceneGame()
 {
 }
 
-void UISceneGame::Init()
+void UISceneGame::Init(const Player& player)
 {
 	m_UI1 = LoadGraph("Data/Image/SceneGame/アイテム・武器大本.png");
 	m_cursorUI1 = LoadGraph("Data/Image/SceneGame/武器カーソル.png");
@@ -98,77 +102,24 @@ void UISceneGame::Init()
 	m_weaponCharaUI2 = LoadGraph("Data/Image/SceneGame/文字UI_マシンガン.png");
 	m_weaponCharaUI3 = LoadGraph("Data/Image/SceneGame/文字UI_ナイフ.png");
 
-	m_staminaBgUI=LoadGraph("Data/Image/SceneGame/スタミナ背景バー.png");
-	m_staminaUI=LoadGraph("Data/Image/SceneGame/スタミナ.png");
-	m_hpBgUI= LoadGraph("Data/Image/SceneGame/HP背景バー.png");
-	m_hpUI_Red= LoadGraph("Data/Image/SceneGame/HP_赤.png");
-	m_hpUI_Green=LoadGraph("Data/Image/SceneGame/HP_緑.png");
+	m_hpBgUI = LoadGraph("Data/Image/SceneGame/HP背景バー.png");
+	m_hpUI_Red = LoadGraph("Data/Image/SceneGame/HP_赤.png");
+	m_hpUI_Green = LoadGraph("Data/Image/SceneGame/HP_緑.png");
+	m_staminaBgUI = LoadGraph("Data/Image/SceneGame/スタミナ背景バー.png");
+	m_staminaUI = LoadGraph("Data/Image/SceneGame/スタミナ.png");
+
+	m_enemyHpBgUI = LoadGraph("Data/Image/SceneGame/敵HP背景バー.png");
+	m_enemyHpUI = LoadGraph("Data/Image/SceneGame/敵HPバー.png");
+
+	m_playerHp_Red = player.GetHp();
 }
 
-void UISceneGame::Update(Player& player)
+void UISceneGame::Update(const Player& player)
 {
-
-	// 所持アイテムが何もなかったら、UIも表示しないようにする
-	for (int i = 0; i < 3; i++) {
-		if (player.m_item[i] == Item::ItemKind::NoItem)
-		{
-			m_itemUI[i] = -1;
-		}
-	}
-
-	// プレイヤーが獲得したアイテムのUIを設定する関数
-	SetUI_GetItem(player);
-
-
-	// プレイヤーの武器選択情報を獲得しての処理
-	if (player.GetWeaponKind() == Player::WeaponKind::HandGun)
-	{
-		m_cursorUI1Pos = kWeaponSelectPos[0];	// カーソルの位置移動
-		m_useWeaponChara = m_weaponCharaUI1;	// 選択中武器名UIの表示
-
-	}
-	if (player.GetWeaponKind() == Player::WeaponKind::MachineGun) {
-		m_cursorUI1Pos = kWeaponSelectPos[1];	// カーソルの位置移動
-		m_useWeaponChara = m_weaponCharaUI2;	// 選択中武器名UIの表示
-	}
-
-	if (player.GetWeaponKind() == Player::WeaponKind::Knife) {
-		m_cursorUI1Pos = kWeaponSelectPos[2];	// カーソルの位置移動
-		m_useWeaponChara = m_weaponCharaUI3;	// 選択中武器名UIの表示
-	}
-
-
-
-	// プレイヤーのアイテム選択情報を獲得しての処理
-
-	for (int i = 0; i < 3; i++)
-	{
-		if (player.GetItemFrame() == i)
-		{
-			m_cursorUI2Pos = kItemSelectPos[i];		// カーソルの位置移動
-		}
-	}
-
-	//if (player.GetItemFrame() == 0)
-	//{
-	//	m_cursorUI2Pos = kItemSelectPos[0];		// カーソルの位置移動
-	//}
-	//else if (player.GetItemFrame() == 1)
-	//{
-	//	m_cursorUI2Pos = kItemSelectPos[1];		// カーソルの位置移動
-	//}
-	//else if (player.GetItemFrame() == 2)
-	//{
-	//	m_cursorUI2Pos = kItemSelectPos[2];		// カーソルの位置移動
-	//}
-
-	// アイテムを所持していなかったらアイテム画像を消し、先には進まない
-	if (player.item() == Item::ItemKind::NoItem) {
-		m_useItemChara = -1;
-		return;
-	}
-
-	SetUI_SelectItem(player);
+	UpdateBarUI(player);
+	
+	UpdateItemUI(player);
+	UpdateWeaponUI(player);
 }
 
 void UISceneGame::Draw()
@@ -176,11 +127,26 @@ void UISceneGame::Draw()
 	// アイテム・武器大本UI
 	DrawGraph(1740, 91, m_UI1, true);
 
+	// HPバー・スタミナ背景バーUI
+	DrawGraph(kBarPos[0].x, kBarPos[0].y, m_hpBgUI, true);
+	DrawGraph(kBarPos[2].x, kBarPos[2].y, m_staminaBgUI, true);
+	// HPバー・スタミナバーUI
+	DrawRectGraph(kBarPos[3].x, kBarPos[3].y, 0, 0,
+		kBarPos[3].x + 1205, kBarPos[3].y + 37, m_staminaUI, true);
+	DrawRectGraph(kBarPos[1].x, kBarPos[1].y, 0, 0,
+		(1205 * (m_playerHp_Red * 0.01f)), kBarPos[1].y + 37, m_hpUI_Red, true);
+	DrawRectGraph(kBarPos[1].x, kBarPos[1].y, 0, 0,
+		(1205 * (m_playerHp_Green * 0.01f)), kBarPos[1].y + 37, m_hpUI_Green, true);
+
+	// 敵HP背景バーUI
+	DrawGraph(kBarPos[4].x, kBarPos[4].y, m_enemyHpBgUI, true);
+	// 敵HPバー
+	DrawGraph(kBarPos[5].x, kBarPos[5].y, m_enemyHpUI, true);
+
 	// 選択中のアイテム・武器名背景UI
 	for (int i = 0; i < 2; i++)
 	{
-		DrawGraphF(kDisplayBgPos[0].x, kDisplayBgPos[0].y, m_displayBgUI, true);
-		DrawGraphF(kDisplayBgPos[1].x, kDisplayBgPos[1].y, m_displayBgUI, true);
+		DrawGraphF(kDisplayBgPos[i].x, kDisplayBgPos[i].y, m_displayBgUI, true);
 	}
 
 	// 選択中の武器文字UI
@@ -205,7 +171,6 @@ void UISceneGame::Draw()
 
 void UISceneGame::End()
 {
-
 	// 画像データの削除
 	DeleteGraph(m_UI1);
 	DeleteGraph(m_cursorUI1);
@@ -225,14 +190,79 @@ void UISceneGame::End()
 	DeleteGraph(m_itemCharaUI4);
 	DeleteGraph(m_itemCharaUI5);
 
-	DeleteGraph(m_staminaBgUI);
-	DeleteGraph(m_staminaUI);
 	DeleteGraph(m_hpBgUI);
 	DeleteGraph(m_hpUI_Red);
 	DeleteGraph(m_hpUI_Green);
+	DeleteGraph(m_staminaBgUI);
+	DeleteGraph(m_staminaUI);
+
+	DeleteGraph(m_enemyHpBgUI);
+	DeleteGraph(m_enemyHpUI);
 }
 
-void UISceneGame::SetUI_SelectItem(Player& player)
+void UISceneGame::UpdateBarUI(const Player& player)
+{
+	m_playerHp_Green = player.GetHp();
+
+	if (m_playerHp_Green < m_playerHp_Red)
+	{
+		m_playerHp_Red -= 0.5f;
+	}
+}
+
+void UISceneGame::UpdateItemUI(const Player& player)
+{
+	// 所持アイテムが何もなかったら、UIも表示しないようにする
+	for (int i = 0; i < 3; i++) {
+		if (player.m_item[i] == Item::ItemKind::NoItem)
+		{
+			m_itemUI[i] = -1;
+		}
+	}
+
+	// プレイヤーが獲得したアイテムのUIを設定する関数
+	SetUI_GetItem(player);
+
+	// プレイヤーのアイテム選択情報を獲得しての処理
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (player.GetItemFrame() == i)
+		{
+			m_cursorUI2Pos = kItemSelectPos[i];		// カーソルの位置移動
+		}
+	}
+
+	// アイテムを所持していなかったらアイテム画像を消し、先には進まない
+	if (player.item() == Item::ItemKind::NoItem) {
+		m_useItemChara = -1;
+		return;
+	}
+
+	SetUI_SelectItem(player);
+}
+
+void UISceneGame::UpdateWeaponUI(const Player& player)
+{
+	// プレイヤーの武器選択情報を獲得しての処理
+	if (player.GetWeaponKind() == Player::WeaponKind::HandGun)
+	{
+		m_cursorUI1Pos = kWeaponSelectPos[0];	// カーソルの位置移動
+		m_useWeaponChara = m_weaponCharaUI1;	// 選択中武器名UIの表示
+
+	}
+	if (player.GetWeaponKind() == Player::WeaponKind::MachineGun) {
+		m_cursorUI1Pos = kWeaponSelectPos[1];	// カーソルの位置移動
+		m_useWeaponChara = m_weaponCharaUI2;	// 選択中武器名UIの表示
+	}
+
+	if (player.GetWeaponKind() == Player::WeaponKind::Knife) {
+		m_cursorUI1Pos = kWeaponSelectPos[2];	// カーソルの位置移動
+		m_useWeaponChara = m_weaponCharaUI3;	// 選択中武器名UIの表示
+	}
+}
+
+void UISceneGame::SetUI_SelectItem(const Player& player)
 {
 	// 選択中アイテム名UIの表示
 	if (player.item() == Item::ItemKind::IceFloor)
@@ -267,7 +297,7 @@ void UISceneGame::SetUI_SelectItem(Player& player)
 	}
 }
 
-void UISceneGame::SetUI_GetItem(Player& player)
+void UISceneGame::SetUI_GetItem(const Player& player)
 {
 	for (int i = 0; i < 3; i++)
 	{
