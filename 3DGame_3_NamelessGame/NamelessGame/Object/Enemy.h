@@ -69,7 +69,6 @@ public:
 		float Attack4 = 0.5f;		// 攻撃4
 		float BlownAway = 0.5f;		// 吹っ飛び
 		float Hit = 0.5f;			// 被ダメージ
-		
 	}m_animSpeed;
 
 public:
@@ -143,6 +142,7 @@ public:
 	/// アニメーションを待機状態に変更する
 	/// </summary>
 	void ChangeAnimIdle();
+
 
 	/// <summary>
 	/// 座標渡し

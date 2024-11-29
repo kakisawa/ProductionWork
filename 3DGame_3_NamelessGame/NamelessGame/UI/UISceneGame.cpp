@@ -1,5 +1,6 @@
 ﻿#include "UISceneGame.h"
 #include "../Object/Player.h"
+#include "../Object/Enemy.h"
 #include "DxLib.h"
 
 namespace {
@@ -38,85 +39,84 @@ namespace {
 
 	VECTOR kDisplayItemPos = VGet(1650, 580, 0.0f);			// 選択中のアイテム文字UI座標
 	VECTOR kDisplayWeaponPos = VGet(1610, 33, 0.0f);		// 選択中の武器文字UI座標
+
+
+	const char* const kCharaUI[9]{						// 文字UI画像
+		"Data/Image/SceneGame/文字UI_仮.png",
+		"Data/Image/SceneGame/文字UI_地雷.png",
+		"Data/Image/SceneGame/文字UI_びっくり箱.png",
+		"Data/Image/SceneGame/文字UI_回復薬.png",
+		"Data/Image/SceneGame/文字UI_氷床.png",
+		"Data/Image/SceneGame/文字UI_回転椅子.png",
+		"Data/Image/SceneGame/文字UI_ハンドガン.png",
+		"Data/Image/SceneGame/文字UI_マシンガン.png",
+		"Data/Image/SceneGame/文字UI_ナイフ.png",
+	};
+
+	const char* const kPlayerToolUI[8]{
+		"Data/Image/SceneGame/アイテム・武器大本.png",
+		"Data/Image/SceneGame/武器カーソル.png",
+		"Data/Image/SceneGame/アイテムカーソル.png",
+		"Data/Image/SceneGame/表示下.png",
+		"Data/Image/SceneGame/アイテム_仮.png",
+		"Data/Image/SceneGame/アイテム_地雷.png",
+		"Data/Image/SceneGame/アイテム_びっくり箱.png",
+		"Data/Image/SceneGame/アイテム_回復薬.png",
+	};
+
+	const char* const kBarUI[7]{
+		"Data/Image/SceneGame/HP背景バー.png",
+		"Data/Image/SceneGame/HP_赤.png",
+		"Data/Image/SceneGame/HP_緑.png",
+		"Data/Image/SceneGame/スタミナ背景バー.png",
+		"Data/Image/SceneGame/スタミナ.png",
+		"Data/Image/SceneGame/敵HP背景バー.png",
+		"Data/Image/SceneGame/敵HPバー.png",
+	};
 }
 
 UISceneGame::UISceneGame() :
-	m_UI1(-1),
-	m_cursorUI1(-1),
-	m_cursorUI2(-1),
-	m_displayBgUI(-1),
-	m_itemBaseUI0(-1),
-	m_itemBaseUI1(-1),
-	m_itemBaseUI2(-1),
-	m_itemBaseUI3(-1),
-	m_itemCharaUI0(-1),
-	m_itemCharaUI1(-1),
-	m_itemCharaUI2(-1),
-	m_itemCharaUI3(-1),
-	m_itemCharaUI4(-1),
-	m_itemCharaUI5(-1),
-	m_weaponCharaUI1(-1),
-	m_weaponCharaUI2(-1),
-	m_weaponCharaUI3(-1),
-	m_staminaBgUI(-1),
-	m_staminaUI(-1),
-	m_hpBgUI(-1),
-	m_hpUI_Green(-1),
-	m_hpUI_Red(-1),
 	m_useWeaponChara(0),
 	m_useItemChara(0),
-	m_playerHp_Green(0),
+	m_playerHp_Green(1205),
 	m_playerHp_Red(1205),
 	m_playerStamina(0),
+	m_enemyHp(1205),
 	m_cursorUI1Pos(kWeaponSelectPos[0]),
 	m_cursorUI2Pos(kItemSelectPos[0])
 {
-	m_itemUI.resize(3, -1);
+	// 文字UI画像読み込み
+	for (int i = 0; i < m_charaUIHnadle.size(); i++)
+	{
+		m_charaUIHnadle[i] = LoadGraph(kCharaUI[i]);
+	}
+
+	// プレイヤー使用ツール用UI画像読み込み
+	for (int i = 0; i < m_playerToolUIHandle.size(); i++)
+	{
+		m_playerToolUIHandle[i] = LoadGraph(kPlayerToolUI[i]);
+	}
+
+	// バーUI画像の削除
+	for (int i = 0; i < m_barUIHandle.size(); i++)
+	{
+		m_barUIHandle[i] = LoadGraph(kBarUI[i]);
+	}
 }
 
 UISceneGame::~UISceneGame()
 {
 }
 
-void UISceneGame::Init(const Player& player)
+void UISceneGame::Init(const Player& player, const Enemy& enemy)
 {
-	m_UI1 = LoadGraph("Data/Image/SceneGame/アイテム・武器大本.png");
-	m_cursorUI1 = LoadGraph("Data/Image/SceneGame/武器カーソル.png");
-	m_cursorUI2 = LoadGraph("Data/Image/SceneGame/アイテムカーソル.png");
-
-	m_itemBaseUI0 = LoadGraph("Data/Image/SceneGame/アイテム_仮.png");
-	m_itemBaseUI1 = LoadGraph("Data/Image/SceneGame/アイテム_地雷.png");
-	m_itemBaseUI2 = LoadGraph("Data/Image/SceneGame/アイテム_びっくり箱.png");
-	m_itemBaseUI3 = LoadGraph("Data/Image/SceneGame/アイテム_回復薬.png");
-
-	m_displayBgUI = LoadGraph("Data/Image/SceneGame/表示下.png");
-
-	m_itemCharaUI0 = LoadGraph("Data/Image/SceneGame/文字UI_仮.png");
-	m_itemCharaUI1 = LoadGraph("Data/Image/SceneGame/文字UI_地雷.png");
-	m_itemCharaUI2 = LoadGraph("Data/Image/SceneGame/文字UI_びっくり箱.png");
-	m_itemCharaUI3 = LoadGraph("Data/Image/SceneGame/文字UI_回復薬.png");
-	m_itemCharaUI4 = LoadGraph("Data/Image/SceneGame/文字UI_氷床.png");
-	m_itemCharaUI5 = LoadGraph("Data/Image/SceneGame/文字UI_回転椅子.png");
-
-	m_weaponCharaUI1 = LoadGraph("Data/Image/SceneGame/文字UI_ハンドガン.png");
-	m_weaponCharaUI2 = LoadGraph("Data/Image/SceneGame/文字UI_マシンガン.png");
-	m_weaponCharaUI3 = LoadGraph("Data/Image/SceneGame/文字UI_ナイフ.png");
-
-	m_hpBgUI = LoadGraph("Data/Image/SceneGame/HP背景バー.png");
-	m_hpUI_Red = LoadGraph("Data/Image/SceneGame/HP_赤.png");
-	m_hpUI_Green = LoadGraph("Data/Image/SceneGame/HP_緑.png");
-	m_staminaBgUI = LoadGraph("Data/Image/SceneGame/スタミナ背景バー.png");
-	m_staminaUI = LoadGraph("Data/Image/SceneGame/スタミナ.png");
-
-	m_enemyHpBgUI = LoadGraph("Data/Image/SceneGame/敵HP背景バー.png");
-	m_enemyHpUI = LoadGraph("Data/Image/SceneGame/敵HPバー.png");
-
-	m_playerHp_Red = player.GetHp();
+	m_playerHp_Red = static_cast<float>(player.GetHp());
+	m_enemyHp = static_cast<float>(enemy.GetHp());
 }
 
-void UISceneGame::Update(const Player& player)
+void UISceneGame::Update(const Player& player,const Enemy& enemy)
 {
-	UpdateBarUI(player);
+	UpdateBarUI(player,enemy);
 	
 	UpdateItemUI(player);
 	UpdateWeaponUI(player);
@@ -125,28 +125,29 @@ void UISceneGame::Update(const Player& player)
 void UISceneGame::Draw()
 {
 	// アイテム・武器大本UI
-	DrawGraph(1740, 91, m_UI1, true);
+	DrawGraph(1740, 91, m_playerToolUIHandle[0], true);
 
 	// HPバー・スタミナ背景バーUI
-	DrawGraph(kBarPos[0].x, kBarPos[0].y, m_hpBgUI, true);
-	DrawGraph(kBarPos[2].x, kBarPos[2].y, m_staminaBgUI, true);
+	DrawGraphF(kBarPos[0].x, kBarPos[0].y, m_barUIHandle[0], true);
+	DrawGraphF(kBarPos[2].x, kBarPos[2].y, m_barUIHandle[3], true);
 	// HPバー・スタミナバーUI
-	DrawRectGraph(kBarPos[3].x, kBarPos[3].y, 0, 0,
-		kBarPos[3].x + 1205, kBarPos[3].y + 37, m_staminaUI, true);
-	DrawRectGraph(kBarPos[1].x, kBarPos[1].y, 0, 0,
-		(1205 * (m_playerHp_Red * 0.01f)), kBarPos[1].y + 37, m_hpUI_Red, true);
-	DrawRectGraph(kBarPos[1].x, kBarPos[1].y, 0, 0,
-		(1205 * (m_playerHp_Green * 0.01f)), kBarPos[1].y + 37, m_hpUI_Green, true);
+	DrawRectGraphF2(kBarPos[3].x, kBarPos[3].y, 0.0f, 0.0f,
+		1172.0f, 37.0f, m_barUIHandle[4], true);
+	DrawRectGraphF2(kBarPos[1].x, kBarPos[1].y, 0, 0,
+		(1205.0f * (m_playerHp_Red * 0.01f)), 37.0f, m_barUIHandle[1], true);
+	DrawRectGraphF2(kBarPos[1].x, kBarPos[1].y, 0.0f, 0.0f,
+		(1205.0f * (m_playerHp_Green * 0.01f)), 37.0f, m_barUIHandle[2], true);
 
 	// 敵HP背景バーUI
-	DrawGraph(kBarPos[4].x, kBarPos[4].y, m_enemyHpBgUI, true);
+	DrawGraphF(kBarPos[4].x, kBarPos[4].y, m_barUIHandle[5], true);
 	// 敵HPバー
-	DrawGraph(kBarPos[5].x, kBarPos[5].y, m_enemyHpUI, true);
+	DrawRectGraphF2(kBarPos[5].x, kBarPos[5].y, 0.0f, 0.0f,
+		(1205*(m_enemyHp*0.001f)),37.0f, m_barUIHandle[6], true);
 
 	// 選択中のアイテム・武器名背景UI
 	for (int i = 0; i < 2; i++)
 	{
-		DrawGraphF(kDisplayBgPos[i].x, kDisplayBgPos[i].y, m_displayBgUI, true);
+		DrawGraphF(kDisplayBgPos[i].x, kDisplayBgPos[i].y, m_playerToolUIHandle[3], true);
 	}
 
 	// 選択中の武器文字UI
@@ -156,64 +157,58 @@ void UISceneGame::Draw()
 
 
 	// 獲得したアイテムUI
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < m_itemUI.size(); i++)
 	{
-		DrawGraphF(kItemPos[0].x, kItemPos[0].y, m_itemUI[0], true);
-		DrawGraphF(kItemPos[1].x, kItemPos[1].y, m_itemUI[1], true);
-		DrawGraphF(kItemPos[2].x, kItemPos[2].y, m_itemUI[2], true);
+		DrawGraphF(kItemPos[i].x, kItemPos[i].y, m_itemUI[i], true);
 	}
 
 	// 選択中の武器カーソル
-	DrawGraphF(m_cursorUI1Pos.x, m_cursorUI1Pos.y, m_cursorUI1, true);
+	DrawGraphF(m_cursorUI1Pos.x, m_cursorUI1Pos.y, m_playerToolUIHandle[1], true);
 	// 選択中のアイテムカーソル
-	DrawGraphF(m_cursorUI2Pos.x, m_cursorUI2Pos.y, m_cursorUI2, true);
+	DrawGraphF(m_cursorUI2Pos.x, m_cursorUI2Pos.y, m_playerToolUIHandle[2], true);
 }
 
 void UISceneGame::End()
 {
 	// 画像データの削除
-	DeleteGraph(m_UI1);
-	DeleteGraph(m_cursorUI1);
-	DeleteGraph(m_cursorUI2);
 
-	DeleteGraph(m_itemBaseUI0);
-	DeleteGraph(m_itemBaseUI1);
-	DeleteGraph(m_itemBaseUI2);
-	DeleteGraph(m_itemBaseUI3);
+	// 文字UI画像の削除
+	for (int i = 0; i < m_charaUIHnadle.size(); i++)
+	{
+		DeleteGraph(m_charaUIHnadle[i]);
+	}
 
-	DeleteGraph(m_displayBgUI);
+	// プレイヤー使用ツール用UI画像の削除
+	for (int i = 0; i < m_playerToolUIHandle.size(); i++)
+	{
+		DeleteGraph(m_playerToolUIHandle[i]);
+	}
 
-	DeleteGraph(m_itemCharaUI0);
-	DeleteGraph(m_itemCharaUI1);
-	DeleteGraph(m_itemCharaUI2);
-	DeleteGraph(m_itemCharaUI3);
-	DeleteGraph(m_itemCharaUI4);
-	DeleteGraph(m_itemCharaUI5);
-
-	DeleteGraph(m_hpBgUI);
-	DeleteGraph(m_hpUI_Red);
-	DeleteGraph(m_hpUI_Green);
-	DeleteGraph(m_staminaBgUI);
-	DeleteGraph(m_staminaUI);
-
-	DeleteGraph(m_enemyHpBgUI);
-	DeleteGraph(m_enemyHpUI);
+	// バーUI画像の削除
+	for (int i = 0; i < m_barUIHandle.size(); i++)
+	{
+		DeleteGraph(m_barUIHandle[i]);
+	}
 }
 
-void UISceneGame::UpdateBarUI(const Player& player)
+void UISceneGame::UpdateBarUI(const Player& player, const Enemy& enemy)
 {
-	m_playerHp_Green = player.GetHp();
+	// プレイヤーのHPバー管理
+	m_playerHp_Green = static_cast<float>(player.GetHp());
 
 	if (m_playerHp_Green < m_playerHp_Red)
 	{
 		m_playerHp_Red -= 0.5f;
 	}
+
+	// 敵のHPバー管理
+	m_enemyHp = static_cast<float>(enemy.GetHp());
 }
 
 void UISceneGame::UpdateItemUI(const Player& player)
 {
 	// 所持アイテムが何もなかったら、UIも表示しないようにする
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < m_itemUI.size(); i++) {
 		if (player.m_item[i] == Item::ItemKind::NoItem)
 		{
 			m_itemUI[i] = -1;
@@ -248,17 +243,17 @@ void UISceneGame::UpdateWeaponUI(const Player& player)
 	if (player.GetWeaponKind() == Player::WeaponKind::HandGun)
 	{
 		m_cursorUI1Pos = kWeaponSelectPos[0];	// カーソルの位置移動
-		m_useWeaponChara = m_weaponCharaUI1;	// 選択中武器名UIの表示
+		m_useWeaponChara = m_charaUIHnadle[6];	// 選択中武器名UIの表示
 
 	}
 	if (player.GetWeaponKind() == Player::WeaponKind::MachineGun) {
 		m_cursorUI1Pos = kWeaponSelectPos[1];	// カーソルの位置移動
-		m_useWeaponChara = m_weaponCharaUI2;	// 選択中武器名UIの表示
+		m_useWeaponChara = m_charaUIHnadle[7];	// 選択中武器名UIの表示
 	}
 
 	if (player.GetWeaponKind() == Player::WeaponKind::Knife) {
 		m_cursorUI1Pos = kWeaponSelectPos[2];	// カーソルの位置移動
-		m_useWeaponChara = m_weaponCharaUI3;	// 選択中武器名UIの表示
+		m_useWeaponChara = m_charaUIHnadle[8];	// 選択中武器名UIの表示
 	}
 }
 
@@ -267,70 +262,70 @@ void UISceneGame::SetUI_SelectItem(const Player& player)
 	// 選択中アイテム名UIの表示
 	if (player.item() == Item::ItemKind::IceFloor)
 	{
-		m_useItemChara = m_itemCharaUI4;
+		m_useItemChara = m_charaUIHnadle[4];
 	}
 	if (player.item() == Item::ItemKind::SwivelChair)
 	{
-		m_useItemChara = m_itemCharaUI5;
+		m_useItemChara = m_charaUIHnadle[5];
 	}
 	if (player.item() == Item::ItemKind::landmine)
 	{
-		m_useItemChara = m_itemCharaUI1;
+		m_useItemChara = m_charaUIHnadle[1];
 	}
 	if (player.item() == Item::ItemKind::SurpriseBox)
 	{
-		m_useItemChara = m_itemCharaUI2;
+		m_useItemChara = m_charaUIHnadle[2];
 	}
 	if (player.item() == Item::ItemKind::RecoveryMedic)
 	{
-		m_useItemChara = m_itemCharaUI3;
+		m_useItemChara = m_charaUIHnadle[3];
 	}
 
 	// 後々消す予定
 	if (player.item() == Item::ItemKind::Ammunition)
 	{
-		m_useItemChara = m_itemCharaUI0;	// まだやってない
+		m_useItemChara = m_charaUIHnadle[0];	// まだやってない
 	}
 	if (player.item() == Item::ItemKind::SummonBox)
 	{
-		m_useItemChara = m_itemCharaUI0;	// まだやってない
+		m_useItemChara = m_charaUIHnadle[0];	// まだやってない
 	}
 }
 
 void UISceneGame::SetUI_GetItem(const Player& player)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < m_itemUI.size(); i++)
 	{
 		// アイテム枠
 		if (player.m_item[i] == Item::ItemKind::IceFloor)
 		{
-			m_itemUI[i] = m_itemBaseUI0;		// 仮
+			m_itemUI[i] = m_playerToolUIHandle[4];		// 仮
 		}
 		else if (player.m_item[i] == Item::ItemKind::SwivelChair)
 		{
-			m_itemUI[i] = m_itemBaseUI0;		// 仮
+			m_itemUI[i] = m_playerToolUIHandle[4];		// 仮
 		}
 		else if (player.m_item[i] == Item::ItemKind::landmine)
 		{
-			m_itemUI[i] = m_itemBaseUI1;
+			m_itemUI[i] = m_playerToolUIHandle[5];
 		}
 		else if (player.m_item[i] == Item::ItemKind::SurpriseBox)
 		{
-			m_itemUI[i] = m_itemBaseUI2;
+			m_itemUI[i] = m_playerToolUIHandle[6];
 		}
 		else if (player.m_item[i] == Item::ItemKind::RecoveryMedic)
 		{
-			m_itemUI[i] = m_itemBaseUI3;
+			m_itemUI[i] = m_playerToolUIHandle[7];
 		}
 
 		// 後で削除予定
 		else if (player.m_item[i] == Item::ItemKind::Ammunition)
 		{
-			m_itemUI[i] = m_itemBaseUI0;		// 仮
+			m_itemUI[i] = m_playerToolUIHandle[4];		// 仮
 		}
 		else if (player.m_item[i] == Item::ItemKind::SummonBox)
 		{
-			m_itemUI[i] = m_itemBaseUI0;		// 仮
+			m_itemUI[i] = m_playerToolUIHandle[4];		// 仮
 		}
 	}
 }

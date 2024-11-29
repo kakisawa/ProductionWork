@@ -25,7 +25,7 @@ namespace {
 	constexpr int kSecondAttackTime = 25;					// 2コンボ目の攻撃の入力受付時間
 	constexpr int kThirdAttackTime = 40;					// 3コンボ目の攻撃の入力受付時間
 
-	constexpr int kMedicRecoveryAmount = 20;				// 回復量
+	constexpr int kMedicRecoveryAmount = 10;				// 回復量
 
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
@@ -472,7 +472,11 @@ void Player::UseItem(Input& input)
 			m_status.situation.isDrink = true;
 			// 飲むアニメーションを入れる
 			ChangeAnimNo(PlayerAnim::Drink, m_animSpeed.Drink, false, m_animChangeTime.Drink);
-			m_hp += kMedicRecoveryAmount;
+			if (m_hp < m_chara.maxHp) {
+				//m_hp += kMedicRecoveryAmount;
+
+				m_hp += std::min(m_chara.maxHp - m_hp, kMedicRecoveryAmount);
+			}
 		}
 
 		// 使用するアイテムが弾再装填アイテムだった場合

@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include "DxLib.h"
-#include <vector>
+#include <array>
 
 class Player;
+class Enemy;
 class UISceneGame
 {
 public:
@@ -13,13 +14,13 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="player"></param>
-	void Init(const Player& player);
+	void Init(const Player& player,const Enemy& enemy);
 
 	/// <summary>
 	/// 更新
 	/// </summary>
 	/// <param name="player"></param>
-	void Update(const Player& player);
+	void Update(const Player& player,const Enemy& enemy);
 
 	/// <summary>
 	/// 描画
@@ -35,7 +36,7 @@ public:
 	/// HP・スタミナバーUIの更新
 	/// </summary>
 	/// <param name="player"></param>
-	void UpdateBarUI(const Player& player);
+	void UpdateBarUI(const Player& player,const Enemy& enemy);
 
 	/// <summary>
 	/// アイテムUIの更新
@@ -62,47 +63,21 @@ public:
 	void SetUI_GetItem(const Player& player);
 
 private:
-	int m_UI1;				// アイテム・武器大本UI
-	int m_cursorUI1;		// 選択中の武器カーソルUI
-	int m_cursorUI2;		// 選択中のアイテムカーソルUI
-
-	int m_itemBaseUI0;		// (仮)アイテムUI
-	int m_itemBaseUI1;		// 地雷UI
-	int m_itemBaseUI2;		// びっくり箱UI
-	int m_itemBaseUI3;		// 回復薬UI
-
-	int m_displayBgUI;		// 選択中のアイテム・武器文字背景UI
-
-	int m_itemCharaUI0;		// (仮)文字UI
-	int m_itemCharaUI1;		// 地雷文字UI
-	int m_itemCharaUI2;		// びっくり箱文字UI
-	int m_itemCharaUI3;		// 回復薬文字UI
-	int m_itemCharaUI4;		// 氷床文字UI
-	int m_itemCharaUI5;		// 回転椅子文字UI
-
-	int m_weaponCharaUI1;	// ハンドガン文字UI
-	int m_weaponCharaUI2;	// マシンガン文字UI
-	int m_weaponCharaUI3;	// ナイフ文字UI
-	
-	int m_staminaBgUI;		// スタミナバー背景UI
-	int m_staminaUI;		// スタミナバーUI
-	int m_hpBgUI;			// HP背景UI
-	int m_hpUI_Red;			// HPUI_赤
-	int m_hpUI_Green;		// HPUI_緑
-
-	int m_enemyHpBgUI;		// 敵HP背景UI
-	int m_enemyHpUI;		// 敵HPUI
-
-
 	int m_useWeaponChara;		// 使用中の武器の表示文字
 	int m_useItemChara;			// 使用中のアイテムの表示文字
 	
 	float m_playerHp_Green;		// プレイヤーの緑HPバー表示用
 	float m_playerHp_Red;		// プレイヤーの赤HPバー表示用
+	float m_playerStamina;		// プレイヤーのスタミナバー表示用
 
-	int m_playerStamina;		// プレイヤーのスタミナバー表示用
+	float m_enemyHp;			// 敵のHPバー表示用
 
-	std::vector<int> m_itemUI;
+	std::array<int, 3>m_itemUI{};	// 獲得したアイテムのUIを入れる容器
+
+
+	std::array<int, 9>m_charaUIHnadle{};		// 文字画像UI用ハンドル
+	std::array<int, 8>m_playerToolUIHandle{};	// 武器・アイテム画像UI用ハンドル
+	std::array<int, 7>m_barUIHandle{};			// HP・スタミナバー画像UI用ハンドル
 
 	VECTOR m_cursorUI1Pos;		// 武器カーソルUI座標
 	VECTOR m_cursorUI2Pos;		// アイテムカーソルUI座標

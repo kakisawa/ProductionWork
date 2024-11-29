@@ -29,7 +29,7 @@ void SceneGame::Init()
 	m_pPlayer->Init();
 	m_pEnemy->Init();
 	m_pMap->Init();
-	m_pUI->Init(*m_pPlayer);
+	m_pUI->Init(*m_pPlayer,*m_pEnemy);
 	m_pTime->Init();
 }
 
@@ -52,7 +52,7 @@ std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
 		m_pEnemy->Update(*m_pMap, *m_pPlayer);
 		m_pCamera->Update(*m_pPlayer);
 		m_pItem->Update();
-		m_pUI->Update(*m_pPlayer);
+		m_pUI->Update(*m_pPlayer,*m_pEnemy);
 		m_pTime->Update();
 
 		// 敵が死亡したら

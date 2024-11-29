@@ -79,6 +79,12 @@ public:
 	bool IsLoopAnimEnd();
 
 	/// <summary>
+	/// HPを渡す
+	/// </summary>
+	/// <returns></returns>
+	int GetHp() const { return m_hp; }
+
+	/// <summary>
 	/// 敵へ攻撃値を渡す
 	/// </summary>
 	/// <returns></returns>
