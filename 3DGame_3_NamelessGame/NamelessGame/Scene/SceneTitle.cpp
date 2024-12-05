@@ -6,10 +6,10 @@
 using namespace MyInputInfo;
 
 namespace {
-	constexpr int kTitlePosX = 380;
-	constexpr int kTitlePosY = 140;
+	constexpr int kTitlePosX = 380;	// タイトルロゴ座標X
+	constexpr int kTitlePosY = 140;	// タイトルロゴ座標Y
 
-	constexpr int kButtonY = 880;
+	constexpr int kButtonY = 880;	// Press...画像座標Y
 }
 
 SceneTitle::SceneTitle():
@@ -21,41 +21,40 @@ SceneTitle::SceneTitle():
 
 SceneTitle::~SceneTitle()
 {
-	DeleteGraph(m_titleGraph);
-	DeleteGraph(m_buttonGraph);
+	
 }
 
 void SceneTitle::Init()
 {
-	m_titleGraph = LoadGraph("Data/Image/SceneTitle/タイトルロゴ.png");
+	// 画像の読み込み
+	m_titleGraph = LoadGraph("Data/Image/SceneTitle/TitleLogo.png");
 	m_buttonGraph= LoadGraph("Data/Image/SceneTitle/PressAnyButton.png");
 }
 
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 {
+	// フェード処理
 	m_pFade->FadeIn(m_pFade->GatFadeInFlag());
-
 	m_pFade->FadeOut(m_isNextSceneFlag);
 
-	if (input.IsTrigger(InputInfo::OK)) {			// Aボタン
 
+	// Aボタンを押して、フェードインが終了したらゲームセレクトシーンへ行く
+	if (input.IsTrigger(InputInfo::OK)) 
+	{
 		m_isNextSceneFlag = true;
 	}
-
 	if (m_pFade->GatNextSceneFlag()) {
-		return std::make_shared<SceneSelect>();	// ゲームセレクトシーンへ行く
+		return std::make_shared<SceneSelect>();
 	}
 	
-
-
 #ifdef _DEBUG
-	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン
+	// Debug_STARTボタンを押すとデバッグシーンへ行く
+	if (input.IsTrigger(InputInfo::DebugStart)) {
 
-		return std::make_shared<SceneDebug>();	// デバッグシーンへ行く
+		return std::make_shared<SceneDebug>();
 	}
 
 #else
-
 #endif // DEBUG
 
 	return shared_from_this();
@@ -63,11 +62,10 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 
 void SceneTitle::Draw()
 {
-	DrawString(0, 0, "SceneTitle", 0xffffff);
-	DrawString(0, 20, "Press A", 0xffffff);
-
+	// タイトルロゴを描画
 	DrawGraph(kTitlePosX, kTitlePosY, m_titleGraph, true);
 
+	// PressAnyButton画像を点滅しながら描画させる
 	static int m_fadeAlpha;
 	static bool isFade;
 
@@ -85,11 +83,12 @@ void SceneTitle::Draw()
 		}
 	}
 
-	// フェードイン・フェードアウト描画
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_fadeAlpha);	// 半透明で表示開始
 	DrawGraph(0, kButtonY, m_buttonGraph, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);		// 不透明に戻しておく	
 
+
+	// フェード処理
 	m_pFade->Draw();
 
 #ifdef _DEBUG
@@ -99,4 +98,7 @@ void SceneTitle::Draw()
 
 void SceneTitle::End()
 {
+	// 画像の削除
+	DeleteGraph(m_titleGraph);
+	DeleteGraph(m_buttonGraph);
 }
