@@ -29,17 +29,12 @@ private:
     int m_sceneSelectGraph;             // 選択中のセレクト画像情報を入れる用
     int m_selectGraphX, m_selectGraphY; // 選択中のセレクト画像のサイズ獲得用
 
-    int m_sceneSelectUI1;           // シーンセレクトUI1
-    int m_sceneSelectUI2;           // シーンセレクトUI2
-    int m_sceneSelectUI3;           // シーンセレクトUI3
-    int m_sceneSelectUI4;           // シーンセレクトUI4
-    int m_sceneSelectUI5;           // シーンセレクトUI5
-
     int m_nextSceneGrapgh;          // セレクト中のシーンの画像
     int m_nextSceneintroduction;    // セレクト中のシーンの説明
 
     int m_cursorUI;                 // カーソル画像
 
+    std::array<int, 5> m_sceneSelectUI{};   // シーンセレクトUI
 
     struct Cursor			// 選択中のセレクト
     {

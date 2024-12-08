@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 namespace {
-	constexpr float kMaxtimeLimit = 10800.0f;	// 制限時間(3分=180秒)
+	constexpr int kMaxtimeLimit = 10800;	// 制限時間(3分=180秒)
 
 	const char* const kNumberUI[11]{
 		"Data/Image/SceneGame/時間/0.png",
@@ -18,11 +18,14 @@ namespace {
 		"Data/Image/SceneGame/時間/点.png",
 	};
 
-	constexpr int kMinutes = 3600;
-	constexpr int kSecondOne = 60;
+	constexpr int kMinutes = 3600;	// 1分の値
+	constexpr int kSecondOne = 60;	// 1秒の値
 }
 
 Time::Time():
+	m_minutes(0),
+	m_secondsTen(0),
+	m_secondsOne(0),
 	m_timeHandleMinites(-1),
 	m_timeHandleSecondsTen(-1),
 	m_timeHandleSecondsOne(-1),

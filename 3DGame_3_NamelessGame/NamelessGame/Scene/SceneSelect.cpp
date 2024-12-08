@@ -28,17 +28,20 @@ namespace {
 		VGet(kScenenSelectUI[3].x - 2,kScenenSelectUI[3].y - 2,0.0f),	// 操作説明
 		VGet(kScenenSelectUI[4].x - 2,kScenenSelectUI[4].y - 2,0.0f),	// ゲームを終了する
 	};
+
+	const char* const kSelectUI[5]{
+		"Data/Image/SceneSelect/ゲームを始める.png",
+		"Data/Image/SceneSelect/ランキング.png",
+		"Data/Image/SceneSelect/設定.png",
+		"Data/Image/SceneSelect/操作説明.png",
+		"Data/Image/SceneSelect/ゲームを終了する.png",
+	};
 }
 
 SceneSelect::SceneSelect():
 	m_selectGraphX(0),
 	m_selectGraphY(0),
 	m_sceneSelectGraph(-1),
-	m_sceneSelectUI1(-1),
-	m_sceneSelectUI2(-1),
-	m_sceneSelectUI3(-1),
-	m_sceneSelectUI4(-1),
-	m_sceneSelectUI5(-1),
 	m_nextSceneGrapgh(-1),
 	m_nextSceneintroduction(-1),
 	m_cursorUI(-1),
@@ -52,17 +55,16 @@ SceneSelect::~SceneSelect()
 
 void SceneSelect::Init()
 {
-	m_sceneSelectUI1 = LoadGraph("Data/Image/SceneSelect/01,ゲームを始める.png");
-	m_sceneSelectUI2 = LoadGraph("Data/Image/SceneSelect/02,ランキング.png");
-	m_sceneSelectUI3 = LoadGraph("Data/Image/SceneSelect/03,設定.png");
-	m_sceneSelectUI4 = LoadGraph("Data/Image/SceneSelect/04,操作説明.png");
-	m_sceneSelectUI5 = LoadGraph("Data/Image/SceneSelect/05,ゲームを 終了する.png");
+	for (int i = 0; i < 5; i++)
+	{
+		m_sceneSelectUI[i]= LoadGraph(kSelectUI[i]);
+	}
 	m_nextSceneGrapgh = LoadGraph("Data/Image/SceneSelect/例画像.png");
 	m_nextSceneintroduction = LoadGraph("Data/Image/SceneSelect/説明文.png");
 	m_cursorUI = LoadGraph("Data/Image/SceneSelect/カーソル.png");
 
 
-	m_sceneSelectGraph = m_sceneSelectUI1;
+	m_sceneSelectGraph = m_sceneSelectUI[0];
 	GetGraphSize(m_sceneSelectGraph, &m_selectGraphX, &m_selectGraphY);
 	c1.m_selectBox1 = kCursorUI[0];
 	c1.m_selectBox2 = VGet(kCursorUI[0].x + m_selectGraphX, kCursorUI[0].y + m_selectGraphY, 0.0f);
@@ -130,11 +132,10 @@ void SceneSelect::Draw()
 	DrawString(0, 130, "4 = RankingScene", 0xffffff);
 	DrawString(0, 150, "5 = GameEnd", 0xffffff);
 
-	DrawGraphF(kScenenSelectUI[0].x, kScenenSelectUI[0].y, m_sceneSelectUI1,true);
-	DrawGraphF(kScenenSelectUI[1].x, kScenenSelectUI[1].y, m_sceneSelectUI2, true);
-	DrawGraphF(kScenenSelectUI[2].x, kScenenSelectUI[2].y, m_sceneSelectUI3, true);
-	DrawGraphF(kScenenSelectUI[3].x, kScenenSelectUI[3].y, m_sceneSelectUI4, true);
-	DrawGraphF(kScenenSelectUI[4].x, kScenenSelectUI[4].y, m_sceneSelectUI5, true);
+	for (int i = 0; i < 5; i++)
+	{
+		DrawGraphF(kScenenSelectUI[i].x, kScenenSelectUI[i].y, m_sceneSelectUI[i], true);
+	}
 
 	DrawGraphF(kExampleGraph.x, kExampleGraph.y, m_nextSceneGrapgh, true);
 	DrawGraphF(kExplanatoryText.x, kExplanatoryText.y, m_nextSceneintroduction, true);
@@ -151,11 +152,7 @@ void SceneSelect::Draw()
 
 void SceneSelect::End()
 {
-	DeleteGraph(m_sceneSelectUI1);
-	DeleteGraph(m_sceneSelectUI2);
-	DeleteGraph(m_sceneSelectUI3);
-	DeleteGraph(m_sceneSelectUI4);
-	DeleteGraph(m_sceneSelectUI5);
+	
 
 	DeleteGraph(m_nextSceneGrapgh);
 	DeleteGraph(m_nextSceneintroduction);
@@ -172,19 +169,19 @@ void SceneSelect::SwitchingScene(Input& input)
 		if (m_nextScene == nextScene::GameScene)
 		{
 			m_nextScene = nextScene::RankingScene;
-			m_sceneSelectGraph = m_sceneSelectUI2;
+			m_sceneSelectGraph = m_sceneSelectUI[1];
 			ChangeCursorInfo(1);
 		}
 		else if (m_nextScene == nextScene::RankingScene)
 		{
 			m_nextScene = nextScene::ExplanationScene;
-			m_sceneSelectGraph = m_sceneSelectUI4;
+			m_sceneSelectGraph = m_sceneSelectUI[3];
 			ChangeCursorInfo(3);
 		}
 		else if (m_nextScene == nextScene::ExplanationScene)
 		{
 			m_nextScene = nextScene::GameScene;
-			m_sceneSelectGraph = m_sceneSelectUI1;
+			m_sceneSelectGraph = m_sceneSelectUI[0];
 			ChangeCursorInfo(0);
 		}
 
@@ -192,13 +189,13 @@ void SceneSelect::SwitchingScene(Input& input)
 		if (m_nextScene == nextScene::OptionScene)
 		{
 			m_nextScene = nextScene::GameEnd;
-			m_sceneSelectGraph = m_sceneSelectUI5;
+			m_sceneSelectGraph = m_sceneSelectUI[4];
 			ChangeCursorInfo(4);
 		}
 		else if (m_nextScene == nextScene::GameEnd)
 		{
 			m_nextScene = nextScene::GameScene;
-			m_sceneSelectGraph = m_sceneSelectUI1;
+			m_sceneSelectGraph = m_sceneSelectUI[0];
 			ChangeCursorInfo(0);
 		}
 	}
@@ -210,19 +207,19 @@ void SceneSelect::SwitchingScene(Input& input)
 		if (m_nextScene == nextScene::GameScene)
 		{
 			m_nextScene = nextScene::ExplanationScene;
-			m_sceneSelectGraph = m_sceneSelectUI4;
+			m_sceneSelectGraph = m_sceneSelectUI[3];
 			ChangeCursorInfo(3);
 		}
 		else if (m_nextScene == nextScene::ExplanationScene)
 		{
 			m_nextScene = nextScene::RankingScene;
-			m_sceneSelectGraph = m_sceneSelectUI2;
+			m_sceneSelectGraph = m_sceneSelectUI[1];
 			ChangeCursorInfo(1);
 		}
 		else if (m_nextScene == nextScene::RankingScene)
 		{
 			m_nextScene = nextScene::GameScene;
-			m_sceneSelectGraph = m_sceneSelectUI1;
+			m_sceneSelectGraph = m_sceneSelectUI[0];
 			ChangeCursorInfo(0);
 		}
 
@@ -230,13 +227,13 @@ void SceneSelect::SwitchingScene(Input& input)
 		if (m_nextScene == nextScene::GameEnd)
 		{
 			m_nextScene = nextScene::OptionScene;
-			m_sceneSelectGraph = m_sceneSelectUI3;
+			m_sceneSelectGraph = m_sceneSelectUI[2];
 			ChangeCursorInfo(2);
 		}
 		else if (m_nextScene == nextScene::OptionScene)
 		{
 			m_nextScene = nextScene::GameScene;
-			m_sceneSelectGraph = m_sceneSelectUI1;
+			m_sceneSelectGraph = m_sceneSelectUI[0];
 			ChangeCursorInfo(0);
 		}
 	}
@@ -247,26 +244,26 @@ void SceneSelect::SwitchingScene(Input& input)
 		if (m_nextScene == nextScene::RankingScene)
 		{
 			m_nextScene = nextScene::OptionScene;
-			m_sceneSelectGraph = m_sceneSelectUI3;
+			m_sceneSelectGraph = m_sceneSelectUI[2];
 			ChangeCursorInfo(2);
 		}
 		else if (m_nextScene == nextScene::OptionScene)
 		{
 			m_nextScene = nextScene::RankingScene;
-			m_sceneSelectGraph = m_sceneSelectUI2;
+			m_sceneSelectGraph = m_sceneSelectUI[1];
 			ChangeCursorInfo(1);
 		}
 
 		if (m_nextScene == nextScene::ExplanationScene)
 		{
 			m_nextScene = nextScene::GameEnd;
-			m_sceneSelectGraph = m_sceneSelectUI5;
+			m_sceneSelectGraph = m_sceneSelectUI[4];
 			ChangeCursorInfo(4);
 		}
 		else if (m_nextScene == nextScene::GameEnd)
 		{
 			m_nextScene = nextScene::ExplanationScene;
-			m_sceneSelectGraph = m_sceneSelectUI4;
+			m_sceneSelectGraph = m_sceneSelectUI[3];
 			ChangeCursorInfo(3);
 		}
 	}
