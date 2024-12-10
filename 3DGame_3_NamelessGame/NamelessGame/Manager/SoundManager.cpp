@@ -16,9 +16,6 @@ namespace {
 
 void SoundManager::Init(Input input)
 {
-	m_bgmVolume = kChangeBgm;
-	m_seVolume = kChangeSe;
-
 	m_select = Select::kBgmVolume;
 
 	m_input = input;
@@ -106,12 +103,14 @@ void SoundManager::InitSound(void)
 
 void SoundManager::InitBGM(void)
 {
-	m_bgmPass[BGM_Type::kTitleBGM] = "";
+	m_bgmVolume = kChangeBgm;
+
+	m_bgmPass[BGM_Type::kTitleBGM] = "Title.mp3";
 	m_bgmPass[BGM_Type::kSelectBGM] = "";
-	m_bgmPass[BGM_Type::kRankingBGM] = "";
+	m_bgmPass[BGM_Type::kRankingBGM] = "Ranking.mp3";
 	m_bgmPass[BGM_Type::kOptionBGM] = "";
-	m_bgmPass[BGM_Type::kGameBGM] = "";
-	m_bgmPass[BGM_Type::kGameClearBGM] = "";
+	m_bgmPass[BGM_Type::kGameBGM] = "Game.mp3";
+	m_bgmPass[BGM_Type::kGameClearBGM] = "GameClear.mp3";
 	m_bgmPass[BGM_Type::kGameOverBGM] = "";
 }
 
@@ -122,12 +121,14 @@ void SoundManager::LoadBGM(BGM_Type bgm)
 
 void SoundManager::InitSE(void)
 {
-	m_sePass[SE_Type::kSelectSE] = "";
-	m_sePass[SE_Type::kButtonSE] = "";
+	m_seVolume = kChangeSe;
+
+	m_sePass[SE_Type::kSelectSE] = "Select.mp3";
+	m_sePass[SE_Type::kButtonSE] = "Button.mp3";
 	m_sePass[SE_Type::kBackSE] = "";
-	m_sePass[SE_Type::kHandGunSE] = "";
+	m_sePass[SE_Type::kHandGunSE] = "HandGun.mp3";
 	m_sePass[SE_Type::kMachineGunSE]= "";
-	m_sePass[SE_Type::kKnifeSE] = "";
+	m_sePass[SE_Type::kKnifeSE] = "Knife.mp3";
 	m_sePass[SE_Type::kInstallationSE ] = "";
 	m_sePass[SE_Type::kDrinkSE] = "";
 	m_sePass[SE_Type::kSummonSE] = "";

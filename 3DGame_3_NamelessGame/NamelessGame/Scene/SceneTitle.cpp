@@ -29,6 +29,11 @@ void SceneTitle::Init()
 	// 画像の読み込み
 	m_titleGraph = LoadGraph("Data/Image/SceneTitle/TitleLogo.png");
 	m_buttonGraph= LoadGraph("Data/Image/SceneTitle/PressAnyButton.png");
+
+	m_pSound->InitBGM();
+	m_pSound->LoadBGM(SoundManager::BGM_Type::kTitleBGM);
+
+	m_pSound->PlayBGM(SoundManager::BGM_Type::kTitleBGM, DX_PLAYTYPE_LOOP);
 }
 
 std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
@@ -101,4 +106,6 @@ void SceneTitle::End()
 	// 画像の削除
 	DeleteGraph(m_titleGraph);
 	DeleteGraph(m_buttonGraph);
+
+	m_pSound->ReleaseSound();
 }

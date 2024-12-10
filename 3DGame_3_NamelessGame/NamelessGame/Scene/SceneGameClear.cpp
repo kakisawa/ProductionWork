@@ -13,6 +13,12 @@ SceneGameClear::~SceneGameClear()
 
 void SceneGameClear::Init()
 {
+
+
+	m_pSound->InitBGM();
+	m_pSound->LoadBGM(SoundManager::BGM_Type::kGameClearBGM);
+
+	m_pSound->PlayBGM(SoundManager::BGM_Type::kGameClearBGM, DX_PLAYTYPE_LOOP);
 }
 
 std::shared_ptr<SceneBase> SceneGameClear::Update(Input& input)
@@ -40,4 +46,5 @@ void SceneGameClear::Draw()
 
 void SceneGameClear::End()
 {
+	m_pSound->ReleaseSound();
 }

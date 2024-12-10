@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "DxLib.h"
 #include "../Input.h"
+#include "../Manager/SoundManager.h"
 #include <memory>
 
 class SceneBase:
@@ -17,4 +18,7 @@ public:
 
 protected:
 	bool m_isNextSceneFlag;		// 次のシーンに移動するフラグ
+	
+	std::shared_ptr<SoundManager> m_pSound = std::make_shared<SoundManager>();
+
 };

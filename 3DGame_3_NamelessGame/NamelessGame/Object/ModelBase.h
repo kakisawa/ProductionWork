@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "../Collision.h"
+#include "../Manager/SoundManager.h"
+#include <memory>
 #include "DxLib.h"
 
 class ModelBase
@@ -151,4 +153,6 @@ protected:
 	/// アニメーションのブレンド率の設定
 	/// </summary>
 	void UpdateAnimBlendRate();
+
+	std::shared_ptr<SoundManager> m_pSound = std::make_shared<SoundManager>();
 };

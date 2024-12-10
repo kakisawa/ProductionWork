@@ -31,6 +31,12 @@ void SceneGame::Init()
 	m_pMap->Init();
 	m_pUI->Init(*m_pPlayer,*m_pEnemy);
 	m_pTime->Init();
+
+
+	m_pSound->InitBGM();
+	m_pSound->LoadBGM(SoundManager::BGM_Type::kGameBGM);
+
+	m_pSound->PlayBGM(SoundManager::BGM_Type::kGameBGM, DX_PLAYTYPE_LOOP);
 }
 
 std::shared_ptr<SceneBase> SceneGame::Update(Input& input)
@@ -94,4 +100,5 @@ void SceneGame::Draw()
 void SceneGame::End()
 {
 	m_pUI->End();
+	m_pSound->ReleaseSound();
 }

@@ -50,6 +50,11 @@ void SceneRanking::Init()
 
 	m_selectBox1 = kCursorPos;
 	m_rankingSelectUI = m_rankingUI_Score;
+
+	m_pSound->InitBGM();
+	m_pSound->LoadBGM(SoundManager::BGM_Type::kRankingBGM);
+
+	m_pSound->PlayBGM(SoundManager::BGM_Type::kRankingBGM, DX_PLAYTYPE_LOOP);
 }
 
 std::shared_ptr<SceneBase> SceneRanking::Update(Input& input)
@@ -105,6 +110,8 @@ void SceneRanking::End()
 	DeleteGraph(m_rankingUI_Score);
 	DeleteGraph(m_rankingUI_AP);
 	DeleteGraph(m_rankingUI_Time);
+
+	m_pSound->ReleaseSound();
 }
 
 void SceneRanking::SelectRanking(Input& input)

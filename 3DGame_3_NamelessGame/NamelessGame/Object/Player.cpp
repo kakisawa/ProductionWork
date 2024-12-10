@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "../LoadCsv.h"
 #include "../Input.h"
+#include "../Manager/SoundManager.h"
 #include <cmath>
 #include <random>
 #include <cassert>
@@ -86,6 +87,9 @@ Player::~Player()
 	for (int i = 0; i < m_weapon.size(); i++) {
 		MV1DeleteModel(m_weapon[i]);
 	}
+
+	// サウンドの解放
+	m_pSound->ReleaseSound();
 }
 
 void Player::Init()
@@ -101,6 +105,10 @@ void Player::Init()
 	m_item[0] = Item::ItemKind::NoItem;
 	m_item[1] = Item::ItemKind::NoItem;
 	m_item[2] = Item::ItemKind::NoItem;
+
+	m_pSound->InitSE();
+	m_pSound->LoadSE(SoundManager::SE_Type::kKnifeSE);
+	m_pSound->LoadSE(SoundManager::SE_Type::kHandGunSE);
 
 #ifdef _DEBUG
 #endif
@@ -560,9 +568,11 @@ void Player::AttackGun(Input& input)
 			MV1SetVisible(m_weapon[0], true);
 
 			ChangeAnimNo(PlayerAnim::HandGun2, m_animSpeed.HandGun, true, m_animChangeTime.HandGun);
+			
 			if (m_isLoopFinish)
 			{
 				m_remainingBullets_handgun--;
+				m_pSound->PlaySE(SoundManager::SE_Type::kHandGunSE, DX_PLAYTYPE_BACK);
 			}
 		}
 		else if (m_useWeapon == WeaponKind::MachineGun)
@@ -574,6 +584,7 @@ void Player::AttackGun(Input& input)
 			if (m_isLoopFinish)
 			{
 				m_remainingBullets_machinegun--;
+				m_pSound->PlaySE(SoundManager::SE_Type::kHandGunSE, DX_PLAYTYPE_BACK);
 			}
 		}
 	}
@@ -609,6 +620,7 @@ void Player::AttackKnife(Input& input)
 			m_SetComboknife = Knife::Attack2;
 			ChangeAnimNo(PlayerAnim::Knife1, m_animSpeed.Knife1, false, m_animChangeTime.Knife1);
 			m_isAttack = true;
+			m_pSound->PlaySE(SoundManager::SE_Type::kKnifeSE, DX_PLAYTYPE_BACK);
 
 			SetModelFramePosition(m_model, kModelRightHandRing4, m_weapon[2], m_weaponSize[2], kInitVec);
 			MV1SetVisible(m_weapon[2], true);
@@ -620,6 +632,7 @@ void Player::AttackKnife(Input& input)
 			m_SetComboknife = Knife::Attack3;
 			ChangeAnimNo(PlayerAnim::Knife2, m_animSpeed.Knife2, false, m_animChangeTime.Knife2);
 			m_isAttack = true;
+			m_pSound->PlaySE(SoundManager::SE_Type::kKnifeSE, DX_PLAYTYPE_BACK);
 
 			SetModelFramePosition(m_model, kModelRightHandRing4, m_weapon[2], m_weaponSize[2], kInitVec);
 			MV1SetVisible(m_weapon[2], true);
@@ -630,6 +643,7 @@ void Player::AttackKnife(Input& input)
 			m_status.situation.isKnifeAttack = true;
 			ChangeAnimNo(PlayerAnim::Knife3, m_animSpeed.Knife3, false, m_animChangeTime.Knife3);
 			m_isAttack = true;
+			m_pSound->PlaySE(SoundManager::SE_Type::kKnifeSE, DX_PLAYTYPE_BACK);
 
 			SetModelFramePosition(m_model, kModelRightHandRing4, m_weapon[2], m_weaponSize[2], m_weaponRota[2]);
 			MV1SetVisible(m_weapon[2], true);
