@@ -3,11 +3,7 @@ class ColorManager
 {
 public:
 	ColorManager();
-	~ColorManager() {}
-
-	void Init() {}
-	void Update() {}
-	void Draw() {}
+	virtual ~ColorManager() {}
 
 public:
 	int GetColorBlack() { return m_colorBlack; }	// 黒

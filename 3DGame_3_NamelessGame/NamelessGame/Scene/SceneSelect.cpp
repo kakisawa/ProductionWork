@@ -68,6 +68,12 @@ void SceneSelect::Init()
 	GetGraphSize(m_sceneSelectGraph, &m_selectGraphX, &m_selectGraphY);
 	c1.m_selectBox1 = kCursorUI[0];
 	c1.m_selectBox2 = VGet(kCursorUI[0].x + m_selectGraphX, kCursorUI[0].y + m_selectGraphY, 0.0f);
+
+	m_pSound->InitSound();
+	m_pSound->LoadBGM(SoundManager::BGM_Type::kSelectBGM);
+	m_pSound->LoadSE(SoundManager::SE_Type::kButtonSE);
+	m_pSound->LoadSE(SoundManager::SE_Type::kSelectSE);
+	m_pSound->PlayBGM(SoundManager::BGM_Type::kSelectBGM, DX_PLAYTYPE_LOOP);
 }
 
 std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
@@ -75,6 +81,7 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 	m_pFade->FadeIn(m_pFade->GatFadeInFlag());
 	
 	if (input.IsTrigger(InputInfo::OK)) {			// STARTボタン
+		m_pSound->PlaySE(SoundManager::SE_Type::kButtonSE, DX_PLAYTYPE_BACK);
 		m_isNextSceneFlag = true;
 	}
 
@@ -111,10 +118,10 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 
 
 #ifdef _DEBUG
-	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン
+	//if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン
 
-		return std::make_shared<SceneDebug>();	// ゲームシーンへ行く
-	}
+	//	return std::make_shared<SceneDebug>();	// ゲームシーンへ行く
+	//}
 #endif // DEBUG
 
 	return shared_from_this();
@@ -122,16 +129,6 @@ std::shared_ptr<SceneBase> SceneSelect::Update(Input& input)
 
 void SceneSelect::Draw()
 {
-	DrawString(0, 0, "SceneSelect", 0xffffff);
-	DrawFormatString(0, 50, 0xffffff, "m_nextScene=%d", m_nextScene);
-
-
-	DrawString(0, 70, "1 = TitleScene", 0xffffff);
-	DrawString(0, 90, "2 = GameScene", 0xffffff);
-	DrawString(0, 110, "3 = OptionScene", 0xffffff);
-	DrawString(0, 130, "4 = RankingScene", 0xffffff);
-	DrawString(0, 150, "5 = GameEnd", 0xffffff);
-
 	for (int i = 0; i < 5; i++)
 	{
 		DrawGraphF(kScenenSelectUI[i].x, kScenenSelectUI[i].y, m_sceneSelectUI[i], true);
@@ -139,20 +136,24 @@ void SceneSelect::Draw()
 
 	DrawGraphF(kExampleGraph.x, kExampleGraph.y, m_nextSceneGrapgh, true);
 	DrawGraphF(kExplanatoryText.x, kExplanatoryText.y, m_nextSceneintroduction, true);
-
 	DrawExtendGraphF(c1.m_selectBox1.x, c1.m_selectBox1.y, c1.m_selectBox2.x, c1.m_selectBox2.y, m_cursorUI, true);
 
-
 	m_pFade->Draw();
-#ifdef _DEBUG
-	
 
+#ifdef _DEBUG
+	/*DrawString(0, 0, "SceneSelect", 0xffffff);
+	DrawFormatString(0, 50, 0xffffff, "m_nextScene=%d", m_nextScene);
+	DrawString(0, 70, "1 = TitleScene", 0xffffff);
+	DrawString(0, 90, "2 = GameScene", 0xffffff);
+	DrawString(0, 110, "3 = OptionScene", 0xffffff);
+	DrawString(0, 130, "4 = RankingScene", 0xffffff);
+	DrawString(0, 150, "5 = GameEnd", 0xffffff);*/
 #endif // DEBUG
 }
 
 void SceneSelect::End()
 {
-	
+	m_pSound->ReleaseSound();
 
 	DeleteGraph(m_nextSceneGrapgh);
 	DeleteGraph(m_nextSceneintroduction);
@@ -165,6 +166,8 @@ void SceneSelect::SwitchingScene(Input& input)
 	// 下キーを押すと次のシーンの変更をする
 	if (input.IsTrigger(InputInfo::Down))
 	{
+		m_pSound->PlaySE(SoundManager::SE_Type::kSelectSE, DX_PLAYTYPE_BACK);
+
 		// 左側
 		if (m_nextScene == nextScene::GameScene)
 		{
@@ -203,6 +206,7 @@ void SceneSelect::SwitchingScene(Input& input)
 	// 上キーを押すと次のシーンの変更をする
 	if (input.IsTrigger(InputInfo::Up))
 	{	
+		m_pSound->PlaySE(SoundManager::SE_Type::kSelectSE, DX_PLAYTYPE_BACK);
 		// 左側
 		if (m_nextScene == nextScene::GameScene)
 		{
@@ -241,6 +245,7 @@ void SceneSelect::SwitchingScene(Input& input)
 	// 右キー・左キーを押すと次のシーンの変更をする
 	if (input.IsTrigger(InputInfo::Right)|| input.IsTrigger(InputInfo::Left))
 	{
+		m_pSound->PlaySE(SoundManager::SE_Type::kSelectSE, DX_PLAYTYPE_BACK);
 		if (m_nextScene == nextScene::RankingScene)
 		{
 			m_nextScene = nextScene::OptionScene;

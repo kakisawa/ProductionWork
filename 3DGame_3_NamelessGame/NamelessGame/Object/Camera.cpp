@@ -60,15 +60,14 @@ void Camera::Update(const Player& player)
 	ChangeLightTypeDir(VGet(20.0f, -50.0f, 0.0f));
 
 #ifdef _DEBUG
-	DrawFormatString(0, 100, 0xffffff, "Camera:m_pos.x/y/z=%.2f/%.2f/%.2f", m_pos.x, m_pos.y, m_pos.z);
-	DrawFormatString(0, 120, 0xffffff, "Camera:m_targetPos.x/y/z=%.2f/%.2f/%.2f",
-		m_targetPos.x, m_targetPos.y, m_targetPos.z);
+	//DrawFormatString(0, 100, 0xffffff, "Camera:m_pos.x/y/z=%.2f/%.2f/%.2f", m_pos.x, m_pos.y, m_pos.z);
+	//DrawFormatString(0, 120, 0xffffff, "Camera:m_targetPos.x/y/z=%.2f/%.2f/%.2f",
+	//	m_targetPos.x, m_targetPos.y, m_targetPos.z);
 
+	//DrawFormatString(0, 140, 0xffffff, "Player:m_pos.x/y/z=%.2f/%.2f/%.2f",
+	//	player.GetPos().x, player.GetPos().y, player.GetPos().z);
 
-	DrawFormatString(0, 140, 0xffffff, "Player:m_pos.x/y/z=%.2f/%.2f/%.2f",
-		player.GetPos().x, player.GetPos().y, player.GetPos().z);
-
-	DrawFormatString(0, 160, 0xffffff, "m_angleH=%.2f", m_angleH);
+	//DrawFormatString(0, 160, 0xffffff, "m_angleH=%.2f", m_angleH);
 #endif // DEBUG
 }
 
@@ -135,7 +134,8 @@ void Camera::LeftstickCameraUpdate(const Player& player)
 	// 入力状態を取得
 	GetJoypadDirectInputState(DX_INPUT_PAD1, &input2);
 
-	if (player.GetLockOn()) {
+	if (player.GetLockOn()) 
+	{
 
 		if (input2.X < 0.0f)			// 右スティックを右に倒したら右回転する
 		{
@@ -146,7 +146,8 @@ void Camera::LeftstickCameraUpdate(const Player& player)
 			m_angleH += 0.05f;
 		}
 	}
-	else {
+	else 
+	{
 		if (input2.X < 0.0f)			// 右スティックを右に倒したら右回転する
 		{
 			m_angleH -= 0.01f;

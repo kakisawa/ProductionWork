@@ -40,10 +40,10 @@ public:
 	// アニメーション切り替えにかかる時間
 	struct AnimChangeTime {
 		int Idle=10;			// 待機
-		int Walk=5;			// 歩く
+		int Walk=5;				// 歩く
 		int Death = 5;			// 死亡
 		// 下記仮
-		int Run=5;			// 走る
+		int Run=5;				// 走る
 		int Provocation = 5;	// 挑発
 		int Attack1 = 5;		// 攻撃1
 		int Attack2 = 5;		// 攻撃2
@@ -90,6 +90,8 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
+	/// <param name="map">マップ情報</param>
+	/// <param name="player">プレイヤー情報</param>
 	void Update(const Map& map,const Player& player);
 
 	/// <summary>
@@ -100,12 +102,13 @@ public:
 	/// <summary>
 	/// 当たり判定の更新
 	/// </summary>
+	/// <param name="player">プレイヤー情報</param>
 	void ColUpdate(const Player& player);
 	
 	/// <summary>
 	/// 移動
 	/// </summary>
-	/// <param name="map"></param>
+	/// <param name="map">マップ情報</param>
 	void Move(const Map& map);
 
 	/// <summary>
@@ -116,7 +119,7 @@ public:
 	/// <summary>
 	/// 一番近い座標を出す
 	/// </summary>
-	/// <param name="map"></param>
+	/// <param name="map">マップ情報</param>
 	void SearchNearPosition(const Map& map);
 
 	/// <summary>
@@ -143,6 +146,8 @@ public:
 	/// </summary>
 	void ChangeAnimIdle();
 
+	// SEを鳴らす
+	void PlaySE();
 
 	/// <summary>
 	/// 座標渡し
@@ -181,10 +186,10 @@ private:
 
 	int m_attackThePlayer;		// プレイヤーへの攻撃力
 
-	float m_targetDistance;
-	float m_targetMoveDistance;
+	float m_targetDistance;		// ターゲットポイントまでの距離
+	float m_targetMoveDistance;	// ターゲットポイントまでの残りの距離
 
 	bool m_isAttack;				// 攻撃をしたかの判定
 	bool m_isAttackToPlayer;		// プレイヤーに攻撃が当たったかの判定
-	bool m_isNextTargetPosSearch;	
+	bool m_isNextTargetPosSearch;	// 次のターゲットポイントを探すフラグ
 };

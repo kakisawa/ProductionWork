@@ -22,11 +22,14 @@ public:
     virtual void End() override;
 
 private:
+    int m_gameClearHandle;      // ゲームクリアロゴ画像
+    int m_gameOverHandle;       // ゲームオーバーロゴ画像
+    int m_pressAHandle;         // Aボタンで進む画像
+    int m_defeatedTimeHandle;   // 討伐時間画像
+    int m_scoreHandle;          // スコア画像
 
-    int m_gameClearHandle;  // ゲームクリアロゴ画像
-
-    bool m_isPause;
-    //bool m_is
+    bool m_isPause;         // ポーズフラグ
+    bool m_isPlayBGM;       // BGMを鳴らすフラグ
 
     // カメラ
     std::shared_ptr<Camera> m_pCamera = std::make_shared<Camera>();

@@ -99,7 +99,6 @@ protected:
 	int m_model;			// モデル
 	int m_hp;				// HP
 	int m_attack;			// 攻撃力
-
 	int m_attackThePlayer;	// 敵への攻撃力
 
 	float m_angle;			// プレイヤー向き角度
@@ -114,7 +113,6 @@ protected:
 	Collision m_col;		// 当たり判定
 
 	// アニメーション関係
-
 	int m_animChangeFrame;		// 現在の切り替えフレーム数
 	int m_animChangeFrameTotal;	// 切り替えにかける総フレーム数
 

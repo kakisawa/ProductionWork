@@ -166,7 +166,6 @@ public:
 	/// </summary>
 	void Draw() override;
 
-
 	/// <summary>
 	/// モデルに物を持たせる処理
 	/// </summary>
@@ -275,7 +274,10 @@ public:
 	/// </summary>
 	void Death();
 
-
+	/// <summary>
+	/// SEを鳴らす
+	/// </summary>
+	void PlaySE();
 	
 
 	/// <summary>
@@ -283,6 +285,9 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	int GetAttack() const { return m_attackTheEnemy; }
+
+	// 選択中のアイテムを渡す関数
+	int GetItemFrame() const { return m_useItem; }
 
 	/// <summary>
 	/// アングル渡し
@@ -314,13 +319,16 @@ public:
 	/// <returns>プレイヤーの当たり判定の値</returns>
 	Collision GetCol() const { return m_col; }
 
-	// 選択中の武器を渡す関数
+	/// <summary>
+	/// 選択中の武器を渡す
+	/// </summary>
+	/// <returns>選択中の武器の値</returns>
 	WeaponKind GetWeaponKind() const { return m_useWeapon; }
 
-	// 選択中のアイテムを渡す関数
-	int GetItemFrame() const { return m_useItem; }
-
-	// 選択中のアイテムの種類を渡す関数
+	/// <summary>
+	/// 選択中のアイテムの種類を渡す
+	/// </summary>
+	/// <returns>選択中のアイテムの種類</returns>
 	Item::ItemKind item() const { return m_item[m_useItem]; }
 
 private:

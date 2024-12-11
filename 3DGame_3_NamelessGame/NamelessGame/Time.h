@@ -42,7 +42,14 @@ public:
 	/// <summary>
 	/// 秒数にあたる画像をセットする
 	/// </summary>
-	void SetTimeHandle();
+	void SetTimeNavyHandle();
+
+	/// <summary>
+	/// 秒数にあたる画像をセットする
+	/// </summary>
+	void SetTimeGreenHandle();
+
+	void DrawClearTime();
 
 	/// <summary>
 	/// 制限時間終了フラグを渡す
@@ -56,14 +63,24 @@ private:
 	int m_secondsTen;	// 秒数十桁の値
 	int m_secondsOne;	// 秒数一桁の値
 
-	int m_timeHandleMinites;
-	int m_timeHandleSecondsTen;
-	int m_timeHandleSecondsOne;
+	int m_elapsedMinutes;		// 経過分数一桁の値
+	int m_elapsedSecondsTen;	// 経過秒数十桁の値
+	int m_elapsedSecondsOne;	// 経過秒数一桁の値
+
+	int m_timeHandleMinites;	// 分数一桁画像
+	int m_timeHandleSecondsTen;	// 秒数十桁画像
+	int m_timeHandleSecondsOne;	// 秒数一桁の画像
+
+	int m_elapsedTimeHandleMinites;		// 経過分数一桁画像
+	int m_elapsedTimeHandleSecondsTen;	// 経過秒数十桁画像
+	int m_elapsedTimeHandleSecondsOne;	// 経過秒数一桁画像
 
 	int m_timeBgHandle;
-	std::array<int, 11>m_numberUIHandle{};	// 時間のUI画像
+	std::array<int, 11>m_numberNavyUIHandle{};	// 時間の紺UI画像
+	std::array<int, 11>m_numberGreenUIHandle{};	// 時間の緑UI画像
 
-	int m_second;		// 残りのゲーム秒数(制限時間)*60
+	int m_second;		// 残りのゲームカウント...(制限時間)*60
+	int m_elapsedTime;	// 経過カウント
 
 	bool m_isTimeUp;	// 制限時間終了フラグ
 };

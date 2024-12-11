@@ -68,10 +68,10 @@ std::shared_ptr<SceneBase> SceneRanking::Update(Input& input)
 
 
 #ifdef _DEBUG
-	if (input.IsTrigger(InputInfo::DebugStart)) {	// STARTボタン
+	//if (input.IsTrigger(InputInfo::DebugStart)) {	// STARTボタン
 
-		return std::make_shared<SceneDebug>();	// デバッグシーンへ行く
-	}
+	//	return std::make_shared<SceneDebug>();	// デバッグシーンへ行く
+	//}
 #endif // DEBUG
 
 	return shared_from_this();
@@ -90,7 +90,7 @@ void SceneRanking::Draw()
 	DrawGraphF(kRankingUI_Change.x, kRankingUI_Change.y, m_rankingSelectUI, true);
 
 #ifdef _DEBUG
-	DrawString(0, 0, "SceneRanking", 0xffffff);
+	//DrawString(0, 0, "SceneRanking", 0xffffff);
 #endif // DEBUG
 }
 

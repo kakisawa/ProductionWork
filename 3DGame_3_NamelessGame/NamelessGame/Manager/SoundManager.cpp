@@ -16,15 +16,16 @@ namespace {
 
 void SoundManager::Init(Input input)
 {
+	// 音量を調整
 	m_select = Select::kBgmVolume;
-
 	m_input = input;
-	
+
 	InitSound();
 }
 
 void SoundManager::ChangeSound()
 {
+	// 右キーを押すと音量を上げる
 	if (m_input.IsTrigger(InputInfo::Right))
 	{
 		if (m_select == kSeVolume)
@@ -48,7 +49,7 @@ void SoundManager::ChangeSound()
 			}
 			kChangeBgm = m_bgmVolume;
 		}
-	}
+	}	// 左キーを押すと、音量が下がる
 	else if (m_input.IsTrigger(InputInfo::Left))
 	{
 		if (m_select == kBgmVolume)
@@ -77,20 +78,21 @@ void SoundManager::ChangeSound()
 
 void SoundManager::SelectOption()
 {
-	if (m_input.IsTrigger(InputInfo::Down))
-	{
-		m_select += 1;
-		if (m_select >= 3)
-		{
-			m_select = Select::kBgmVolume;
-		}
-	}
 	if (m_input.IsTrigger(InputInfo::Up))
 	{
 		m_select -= 1;
 		if (m_select <= -1)
 		{
 			m_select = Select::kBack;
+		}
+	}
+
+	if (m_input.IsTrigger(InputInfo::Down))
+	{
+		m_select += 1;
+		if (m_select >= 3)
+		{
+			m_select = Select::kBgmVolume;
 		}
 	}
 }
@@ -103,10 +105,12 @@ void SoundManager::InitSound(void)
 
 void SoundManager::InitBGM(void)
 {
+	// 音量を設定する
 	m_bgmVolume = kChangeBgm;
 
+	// BGMのパスをつなげる
 	m_bgmPass[BGM_Type::kTitleBGM] = "Title.mp3";
-	m_bgmPass[BGM_Type::kSelectBGM] = "";
+	m_bgmPass[BGM_Type::kSelectBGM] = "Select.mp3";
 	m_bgmPass[BGM_Type::kRankingBGM] = "Ranking.mp3";
 	m_bgmPass[BGM_Type::kOptionBGM] = "";
 	m_bgmPass[BGM_Type::kGameBGM] = "Game.mp3";
@@ -116,13 +120,16 @@ void SoundManager::InitBGM(void)
 
 void SoundManager::LoadBGM(BGM_Type bgm)
 {
+	// BGMを読み込む
 	m_bgm[bgm] = LoadSoundMem(("Data/Sound/BGM/" + m_bgmPass[bgm]).c_str());
 }
 
 void SoundManager::InitSE(void)
 {
+	// 音量を設定する
 	m_seVolume = kChangeSe;
 
+	// SEのパスをつなげる
 	m_sePass[SE_Type::kSelectSE] = "Select.mp3";
 	m_sePass[SE_Type::kButtonSE] = "Button.mp3";
 	m_sePass[SE_Type::kBackSE] = "";
@@ -133,24 +140,26 @@ void SoundManager::InitSE(void)
 	m_sePass[SE_Type::kDrinkSE] = "";
 	m_sePass[SE_Type::kSummonSE] = "";
 	m_sePass[SE_Type::kDamageReceivedSE] = "";
+	m_sePass[SE_Type::kPunchSE1] = "Punch1.mp3";
+	m_sePass[SE_Type::kPunchSE2] = "Punch2.mp3";
+	m_sePass[SE_Type::kDeathrattle] = "Deathrattle.mp3";
 }
 
 void SoundManager::LoadSE(SE_Type se)
 {
+	// SEを読み込む
 	SetCreateSoundDataType(DX_SOUNDDATATYPE_MEMNOPRESS);
 	m_se[se] = LoadSoundMem(("Data/Sound/SE/" + m_sePass[se]).c_str(), 6);
 }
 
 void SoundManager::PlayBGM(BGM_Type bgm, int playType, int volumePar, bool topPositionFlag)
 {
-	// 今回用
 	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgm[bgm]);
 	PlaySoundMem(m_bgm[bgm], playType, topPositionFlag);
 }
 
 void SoundManager::PlaySE(SE_Type se, int playType, int volumePar, bool topPositionFlag)
 {
-	// 今回用
 	ChangeVolumeSoundMem(static_cast<int>(m_seVolume), m_se[se]);
 	PlaySoundMem(m_se[se], playType, topPositionFlag);
 }
@@ -190,14 +199,16 @@ void SoundManager::ReleaseSound(void)
 
 void SoundManager::SetBgmVolume()
 {
-	for (const auto& entry : m_bgm) {
+	for (const auto& entry : m_bgm) 
+	{
 		ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), entry.second);
 	}
 }
 
 void SoundManager::SetSeVolume()
 {
-	for (const auto& entry : m_se) {
+	for (const auto& entry : m_se)
+	{
 		ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), entry.second);
 	}
 }

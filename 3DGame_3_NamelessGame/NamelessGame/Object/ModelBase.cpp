@@ -1,7 +1,8 @@
 ﻿#include "ModelBase.h"
 #include <iostream>
 
-namespace {
+namespace 
+{
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 	constexpr int kInitInt = 0;						// int値初期化

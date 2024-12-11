@@ -4,13 +4,32 @@
 class Map
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
 	Map();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
 	virtual ~Map();
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Init();
+
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw();
 
+	// エネミーが移動するためのポイント
 	struct PointPos {
 		VECTOR point1;
 		VECTOR point2;
@@ -18,11 +37,13 @@ public:
 		VECTOR point4;
 	}m_pointPos;
 
+	/// <summary>
+	/// エネミーが移動するためのポイント渡し
+	/// </summary>
+	/// <returns>エネミーが移動するためのポイント</returns>
 	PointPos GetPointPos() const { return m_pointPos; }
 
 private:
-	int m_model1;
-	int m_model2;
-	int m_model3;
+	int m_model1;	// モデル
 };
 

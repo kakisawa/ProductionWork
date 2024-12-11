@@ -14,7 +14,7 @@ namespace {
 	constexpr int kButtonY = 880;	// Press...画像座標Y
 }
 
-SceneTitle::SceneTitle():
+SceneTitle::SceneTitle() :
 	m_titleGraph(-1),
 	m_buttonGraph(-1)
 {
@@ -23,18 +23,18 @@ SceneTitle::SceneTitle():
 
 SceneTitle::~SceneTitle()
 {
-	
+
 }
 
 void SceneTitle::Init()
 {
 	// 画像の読み込み
 	m_titleGraph = LoadGraph("Data/Image/SceneTitle/Title.png");
-	m_buttonGraph= LoadGraph("Data/Image/SceneTitle/PressAnyButton.png");
+	m_buttonGraph = LoadGraph("Data/Image/SceneTitle/PressAnyButton.png");
 
 	m_pSound->InitBGM();
 	m_pSound->LoadBGM(SoundManager::BGM_Type::kTitleBGM);
-
+	m_pSound->LoadSE(SoundManager::SE_Type::kButtonSE);
 	m_pSound->PlayBGM(SoundManager::BGM_Type::kTitleBGM, DX_PLAYTYPE_LOOP);
 }
 
@@ -46,20 +46,23 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 
 
 	// Aボタンを押して、フェードインが終了したらゲームセレクトシーンへ行く
-	if (input.IsTrigger(InputInfo::OK)) 
+	if (!m_pFade->GatFadeInFlag() && input.IsTrigger(InputInfo::OK))
 	{
+		m_pSound->PlaySE(SoundManager::SE_Type::kButtonSE, DX_PLAYTYPE_BACK);
 		m_isNextSceneFlag = true;
 	}
 	if (m_pFade->GatNextSceneFlag()) {
 		return std::make_shared<SceneSelect>();
 	}
-	
-#ifdef _DEBUG
-	// Debug_STARTボタンを押すとデバッグシーンへ行く
-	if (input.IsTrigger(InputInfo::DebugStart)) {
 
-		return std::make_shared<SceneDebug>();
-	}
+
+
+#ifdef _DEBUG
+	//// Debug_STARTボタンを押すとデバッグシーンへ行く
+	//if (input.IsTrigger(InputInfo::DebugStart)) {
+
+	//	return std::make_shared<SceneDebug>();
+	//}
 
 #else
 #endif // DEBUG
@@ -101,7 +104,7 @@ void SceneTitle::Draw()
 	m_pFade->Draw();
 
 #ifdef _DEBUG
-	
+
 #endif // DEBUG
 }
 

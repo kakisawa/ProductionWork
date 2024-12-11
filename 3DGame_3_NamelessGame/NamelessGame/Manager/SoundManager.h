@@ -23,10 +23,12 @@ public:
 	//SEの種類
 	enum class SE_Type
 	{
+		// 全体
 		kSelectSE,		// セレクトSE
 		kButtonSE,		// 決定SE
 		kBackSE,		// キャンセルSE
 
+		// プレイヤー
 		kHandGunSE,		// ハンドガンSE
 		kMachineGunSE,	// マシンガンSE
 		kKnifeSE,		// ナイフSE
@@ -34,6 +36,13 @@ public:
 		kDrinkSE,		// 回復SE
 		kSummonSE,		// 召喚SE
 		kDamageReceivedSE,	// 被ダメージSE
+
+		// エネミー
+		kPunchSE1,		// 殴りSE1
+		kPunchSE2,		// 殴りSE2
+		kDeathrattle,	// 死亡時
+
+		// TODO:↑全体・プレイヤー・敵でSE分けるのもあり
 
 		MAX,
 	};
