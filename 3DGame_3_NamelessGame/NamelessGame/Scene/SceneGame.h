@@ -8,6 +8,7 @@ class Camera;
 class Map;
 class UISceneGame;
 class Time;
+class Fade;
 class SceneGame :
     public SceneBase
 {
@@ -22,7 +23,10 @@ public:
 
 private:
 
+    int m_gameClearHandle;  // ゲームクリアロゴ画像
+
     bool m_isPause;
+    //bool m_is
 
     // カメラ
     std::shared_ptr<Camera> m_pCamera = std::make_shared<Camera>();
@@ -38,4 +42,6 @@ private:
     std::shared_ptr<UISceneGame> m_pUI = std::make_shared<UISceneGame>();
     // 制限時間
     std::shared_ptr<Time> m_pTime = std::make_shared<Time>();
+    // フェード
+    std::shared_ptr<Fade> m_pFade = std::make_shared<Fade>();
 };

@@ -9,6 +9,8 @@ namespace {
 	constexpr int kTitlePosX = 380;	// タイトルロゴ座標X
 	constexpr int kTitlePosY = 140;	// タイトルロゴ座標Y
 
+	constexpr int kTitlePosX_Tentative = 250;
+
 	constexpr int kButtonY = 880;	// Press...画像座標Y
 }
 
@@ -27,7 +29,7 @@ SceneTitle::~SceneTitle()
 void SceneTitle::Init()
 {
 	// 画像の読み込み
-	m_titleGraph = LoadGraph("Data/Image/SceneTitle/TitleLogo.png");
+	m_titleGraph = LoadGraph("Data/Image/SceneTitle/Title.png");
 	m_buttonGraph= LoadGraph("Data/Image/SceneTitle/PressAnyButton.png");
 
 	m_pSound->InitBGM();
@@ -68,7 +70,9 @@ std::shared_ptr<SceneBase> SceneTitle::Update(Input& input)
 void SceneTitle::Draw()
 {
 	// タイトルロゴを描画
-	DrawGraph(kTitlePosX, kTitlePosY, m_titleGraph, true);
+	//DrawGraph(kTitlePosX, kTitlePosY, m_titleGraph, true);
+	DrawGraph(kTitlePosX_Tentative, kTitlePosY, m_titleGraph, true);
+
 
 	// PressAnyButton画像を点滅しながら描画させる
 	static int m_fadeAlpha;

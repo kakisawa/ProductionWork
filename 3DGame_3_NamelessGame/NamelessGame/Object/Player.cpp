@@ -30,6 +30,8 @@ namespace {
 
 	constexpr float kInitFloat = 0.0f;				// float値初期化
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
+
+	bool is3Combo = false;
 }
 
 Player::Player() :
@@ -126,8 +128,6 @@ void Player::Update(const Enemy& enemy, const Item& item, const Camera& camera, 
 	Roll(input);
 	Hit(input,enemy);
 
-	
-
 	Death();
 
 	SetModelFramePosition(m_model, kModelRightHandMiddle, m_weapon[0], m_weaponSize[0],	m_weaponRota[0]);
@@ -162,16 +162,6 @@ void Player::Draw()
 	MV1DrawModel(m_weapon[1]);
 	MV1DrawModel(m_weapon[2]);
 
-	// 体の当たり判定描画
-	m_col.TypeChangeCapsuleDraw(m_col.m_colPlayer.m_body, 0xffff00, false);
-
-	// ナイフ当たり判定の描画
-	if (m_status.situation.isKnifeAttack) {
-		m_col.TypeChangeCapsuleDraw(m_col.m_colPlayer.m_weapon, 0xff00ff, false);
-	}
-
-
-
 #ifdef _DEBUG
 	DrawFormatString(0, 60, 0xffffff, "Playe:HP=%d", m_hp);
 	DrawFormatString(0, 100, 0xffffff, "Player:m_pos.x=%.2f:z=%.2f", m_pos.x,m_pos.z);
@@ -199,7 +189,13 @@ void Player::Draw()
 	DrawFormatString(0, 700, 0xffffff, "Player:m_isAttack=%d", m_isAttack);
 	DrawFormatString(0, 720, 0xffffff, "Player:m_attackTheEnemy=%d", m_attackTheEnemy);
 	
+	// 体の当たり判定描画
+	m_col.TypeChangeCapsuleDraw(m_col.m_colPlayer.m_body, 0xffff00, false);
 
+	// ナイフ当たり判定の描画
+	if (m_status.situation.isKnifeAttack) {
+		m_col.TypeChangeCapsuleDraw(m_col.m_colPlayer.m_weapon, 0xff00ff, false);
+	}
 
 #endif // DEBUG
 }
@@ -642,11 +638,15 @@ void Player::AttackKnife(Input& input)
 		else if (m_SetComboknife == Knife::Attack3 && (m_nextAnimTime >= kThirdAttackTime)) {
 			m_status.situation.isKnifeAttack = true;
 			ChangeAnimNo(PlayerAnim::Knife3, m_animSpeed.Knife3, false, m_animChangeTime.Knife3);
-			m_isAttack = true;
-			m_pSound->PlaySE(SoundManager::SE_Type::kKnifeSE, DX_PLAYTYPE_BACK);
+			if(!is3Combo)
+			{
+				m_isAttack = true;
+				m_pSound->PlaySE(SoundManager::SE_Type::kKnifeSE, DX_PLAYTYPE_BACK);
+			}
 
 			SetModelFramePosition(m_model, kModelRightHandRing4, m_weapon[2], m_weaponSize[2], m_weaponRota[2]);
 			MV1SetVisible(m_weapon[2], true);
+			is3Combo = true;
 		}
 	}
 
@@ -656,6 +656,7 @@ void Player::AttackKnife(Input& input)
 		m_status.situation.isKnifeAttack = false;
 		m_SetComboknife = Knife::Attack1;
 		m_isAttack = false;
+		is3Combo = false;
 	}
 
 }

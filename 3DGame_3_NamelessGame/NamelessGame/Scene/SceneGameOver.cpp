@@ -1,4 +1,5 @@
 ﻿#include "SceneGameOver.h"
+#include "SceneSelect.h"
 #include "SceneDebug.h"
 
 using namespace MyInputInfo;
@@ -18,7 +19,10 @@ void SceneGameOver::Init()
 std::shared_ptr<SceneBase> SceneGameOver::Update(Input& input)
 {
 	
+	if (input.IsTrigger(InputInfo::OK)) {			// Aボタン
 
+		return std::make_shared<SceneSelect> ();	// セレクトシーンへ行く
+	}
 
 #ifdef _DEBUG
 	if (input.IsTrigger(InputInfo::DebugStart)) {			// STARTボタン

@@ -21,34 +21,46 @@ public:
 	void Draw();
 
 	/// <summary>
-	/// 
+	/// フェードイン
 	/// </summary>
 	/// <param name="flag"></param>
 	void FadeIn(bool flag);
 
 	/// <summary>
-	/// 
+	/// フェードアウト
 	/// </summary>
 	/// <param name="flag"></param>
 	void FadeOut(bool flag);
 
 	/// <summary>
-	/// 
+	/// 半透明
+	/// </summary>
+	/// <param name="flag"></param>
+	void HarfFade(bool flag);
+
+	/// <summary>
+	/// フェードアウトフラグをセットする
 	/// </summary>
 	/// <param name="flag"></param>
 	void SetFadeOutFlag(bool flag) { m_isFadeOut = flag; }
 
 	/// <summary>
-	/// 
+	/// フェードインフラグを獲得する
 	/// </summary>
 	/// <returns></returns>
 	bool GatFadeInFlag() const { return m_isFadeIn; }
 
 	/// <summary>
-	/// 
+	/// フェードアウトフラグを獲得する
 	/// </summary>
 	/// <returns></returns>
 	bool GatFadeOutFlag() const { return m_isFadeOut; }
+
+	/// <summary>
+	/// 半透明フラグを獲得する
+	/// </summary>
+	/// <returns></returns>
+	bool GetHarfFadeFlag() const { return m_isHarfFade; }
 
 	/// <summary>
 	/// 
@@ -60,6 +72,7 @@ private:
 	int m_fadeAlpha;        // フェードイン、アウト
 	bool m_isFadeIn;		// フェードイン用のフラグ
 	bool m_isFadeOut;		// フェードアウト用のフラグ
+	bool m_isHarfFade;		// 半透明用のフラグ
 
 	bool m_isNextSceneFlag;	// 次のシーンへ行くフラグ
 };

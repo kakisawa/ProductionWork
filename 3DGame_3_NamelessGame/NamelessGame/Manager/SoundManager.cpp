@@ -146,9 +146,6 @@ void SoundManager::PlayBGM(BGM_Type bgm, int playType, int volumePar, bool topPo
 	// 今回用
 	ChangeVolumeSoundMem(static_cast<int>(m_bgmVolume), m_bgm[bgm]);
 	PlaySoundMem(m_bgm[bgm], playType, topPositionFlag);
-
-	/*ChangeVolumeSoundMem((255 * volumePar / 100), m_bgm[bgm]);
-	PlaySoundMem(m_bgm[bgm], playType, topPositionFlag);*/
 }
 
 void SoundManager::PlaySE(SE_Type se, int playType, int volumePar, bool topPositionFlag)
@@ -156,9 +153,6 @@ void SoundManager::PlaySE(SE_Type se, int playType, int volumePar, bool topPosit
 	// 今回用
 	ChangeVolumeSoundMem(static_cast<int>(m_seVolume), m_se[se]);
 	PlaySoundMem(m_se[se], playType, topPositionFlag);
-
-	//ChangeVolumeSoundMem((255 * volumePar / 100), m_se[se]);
-	//PlaySoundMem(m_se[se], playType, topPositionFlag);
 }
 
 bool SoundManager::CheckPlayBGM(BGM_Type bgm)
@@ -211,5 +205,4 @@ void SoundManager::SetSeVolume()
 void SoundManager::Draw()
 {
 	DrawFormatString(0, 500, 0xffffff, "Volume=%.2f", m_seVolume);
-
 }

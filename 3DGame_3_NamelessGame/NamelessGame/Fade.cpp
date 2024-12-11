@@ -5,6 +5,7 @@ Fade::Fade() :
 	m_fadeAlpha(255),
 	m_isFadeIn(true),
 	m_isFadeOut(false),
+	m_isHarfFade(false),
 	m_isNextSceneFlag(false)
 {
 }
@@ -57,6 +58,21 @@ void Fade::FadeOut(bool flag)
 			m_fadeAlpha = 255;
 			m_isNextSceneFlag = true;
 			m_isFadeOut = false;
+		}
+	}
+}
+
+void Fade::HarfFade(bool flag)
+{
+	m_isHarfFade = flag;
+
+	if (m_isHarfFade)
+	{
+		m_fadeAlpha += 3;
+		if (m_fadeAlpha >= 180)
+		{
+			m_fadeAlpha = 180;
+			m_isHarfFade = false;
 		}
 	}
 }

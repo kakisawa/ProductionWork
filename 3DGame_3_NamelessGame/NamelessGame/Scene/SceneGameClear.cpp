@@ -1,4 +1,5 @@
 ﻿#include "SceneGameClear.h"
+#include "SceneSelect.h"
 #include "SceneDebug.h"
 
 using namespace MyInputInfo;
@@ -13,8 +14,6 @@ SceneGameClear::~SceneGameClear()
 
 void SceneGameClear::Init()
 {
-
-
 	m_pSound->InitBGM();
 	m_pSound->LoadBGM(SoundManager::BGM_Type::kGameClearBGM);
 
@@ -24,6 +23,11 @@ void SceneGameClear::Init()
 std::shared_ptr<SceneBase> SceneGameClear::Update(Input& input)
 {
 	
+	if (input.IsTrigger(InputInfo::OK)) {			// Aボタン
+
+		return std::make_shared<SceneSelect>();	// セレクトシーンへ行く
+	}
+
 
 
 #ifdef _DEBUG
