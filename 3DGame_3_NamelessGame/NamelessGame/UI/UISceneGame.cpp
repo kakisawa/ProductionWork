@@ -120,6 +120,8 @@ void UISceneGame::Update(const Player& player,const Enemy& enemy)
 	
 	UpdateItemUI(player);
 	UpdateWeaponUI(player);
+
+	SetUI_RemainingBullets(player);
 }
 
 void UISceneGame::Draw()
@@ -166,6 +168,10 @@ void UISceneGame::Draw()
 	DrawGraphF(m_cursorUI1Pos.x, m_cursorUI1Pos.y, m_playerToolUIHandle[1], true);
 	// 選択中のアイテムカーソル
 	DrawGraphF(m_cursorUI2Pos.x, m_cursorUI2Pos.y, m_playerToolUIHandle[2], true);
+
+
+	DrawFormatString(0, 0, 0xffffff, "m_playerRemainingBullets_handgun=%d", m_playerRemainingBullets_handgun);
+	DrawFormatString(0, 20, 0xffffff, "m_playerRemainingBullets_machinegun=%d", m_playerRemainingBullets_machinegun);
 }
 
 void UISceneGame::End()
@@ -328,4 +334,12 @@ void UISceneGame::SetUI_GetItem(const Player& player)
 			m_itemUI[i] = m_playerToolUIHandle[4];		// 仮
 		}
 	}
+}
+
+void UISceneGame::SetUI_RemainingBullets(const Player& player)
+{
+	m_playerRemainingBullets_handgun = player.GetRemainingBullets_handgun();
+	m_playerRemainingBullets_machinegun = player.GetRemainingBullets_machinegun();
+
+
 }

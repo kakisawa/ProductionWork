@@ -34,6 +34,10 @@ namespace
 	const VECTOR kInitVec = VGet(0.0f, 0.0f, 0.0f);	// Vector値初期価値
 
 	bool is3Combo = false;	// ナイフ攻撃の3コンボ目かどうか
+
+	bool isGunAnim = false;
+
+	int machineGunCount = 0.0f;
 }
 
 Player::Player() :
@@ -189,8 +193,8 @@ void Player::Draw()
 	//DrawFormatString(0, 500, 0xffffff, "Player:m_useItem[1]=%d", m_item[1]);
 	//DrawFormatString(0, 520, 0xffffff, "Player:m_useItem[2]=%d", m_item[2]);
 	//DrawFormatString(0, 540, 0xffffff, "Player:m_useWeapon=%d", m_useWeapon);
-	//DrawFormatString(0, 560, 0xffffff, "Player:m_animNext.totalTime=%.2f", m_animNext.totalTime);
-	//DrawFormatString(0, 580, 0xffffff, "Player:m_nextAnimTime=%.2f", m_nextAnimTime);
+	DrawFormatString(0, 560, 0xffffff, "Player:m_animNext.totalTime=%.2f", m_animNext.totalTime);
+	DrawFormatString(0, 580, 0xffffff, "Player:m_nextAnimTime=%.2f", m_nextAnimTime);
 	//DrawFormatString(0, 640, 0xffffff, "Player:m_status.situation.isKnifeAttack=%d", m_status.situation.isKnifeAttack);
 	//DrawFormatString(0, 660, 0xffffff, "Player:m_isEnemy=%d", m_isEnemy);
 	//DrawFormatString(0, 680, 0xffffff, "Player:m_isAttackToEnemy=%d", m_isAttackToEnemy);
@@ -588,9 +592,17 @@ void Player::AttackGun(Input& input)
 			
 			if (m_isLoopFinish)
 			{
+				isGunAnim = false;
+			}
+
+			if (m_nextAnimTime < 1.0f && isGunAnim == false)
+			{
 				m_remainingBullets_handgun--;
 				m_pSound->PlaySE(SoundManager::SE_Type::kHandGunSE, DX_PLAYTYPE_BACK);
+				isGunAnim = true;
 			}
+
+			
 		}
 		else if (m_useWeapon == WeaponKind::MachineGun)
 		{
@@ -598,10 +610,13 @@ void Player::AttackGun(Input& input)
 			MV1SetVisible(m_weapon[1], true);
 
 			ChangeAnimNo(PlayerAnim::MachineGun2, m_animSpeed.MachineGun, true, m_animChangeTime.MachineGun);
-			if (m_isLoopFinish)
+
+			machineGunCount++;
+			if (machineGunCount >= 5)
 			{
 				m_remainingBullets_machinegun--;
 				m_pSound->PlaySE(SoundManager::SE_Type::kHandGunSE, DX_PLAYTYPE_BACK);
+				machineGunCount = 0;
 			}
 		}
 	}

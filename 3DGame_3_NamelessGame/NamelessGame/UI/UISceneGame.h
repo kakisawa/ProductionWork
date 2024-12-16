@@ -62,10 +62,19 @@ public:
 	/// <param name="player">プレイヤー情報</param>
 	void SetUI_GetItem(const Player& player);
 
+	/// <summary>
+	/// プレイヤーの散弾UIを設定する
+	/// </summary>
+	void SetUI_RemainingBullets(const Player& player);
+
+
 private:
 	int m_useWeaponChara;		// 使用中の武器の表示文字
 	int m_useItemChara;			// 使用中のアイテムの表示文字
 	
+	int m_playerRemainingBullets_handgun;		// プレイヤーのハンドガン残弾
+	int m_playerRemainingBullets_machinegun;	// プレイヤーのマシンガン残弾
+
 	float m_playerHp_Green;		// プレイヤーの緑HPバー表示用
 	float m_playerHp_Red;		// プレイヤーの赤HPバー表示用
 	float m_playerStamina;		// プレイヤーのスタミナバー表示用

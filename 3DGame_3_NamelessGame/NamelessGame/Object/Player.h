@@ -173,7 +173,7 @@ public:
 	/// <param name="FrameName">モデルを持たせる場所</param>
 	/// <param name="SetModelHandle">持たせるモデル</param>
 	/// <param name="ModelSize">持たせるモデルのサイズ</param>
-	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle,VECTOR ModelSize,VECTOR ModelRota);
+	void SetModelFramePosition(int ModelHandle, const char* FrameName, int SetModelHandle, VECTOR ModelSize, VECTOR ModelRota);
 
 	/// <summary>
 	/// 移動処理
@@ -218,14 +218,14 @@ public:
 	/// </summary>
 	/// <param name="input">入力</param>
 	/// <param name="enemy">敵情報参照</param>
-	void LockOn(Input& input,const Enemy& enemy);
+	void LockOn(Input& input, const Enemy& enemy);
 
 	/// <summary>
 	/// 武器切り替え
 	/// </summary>
 	/// <param name="input">入力</param>
 	void ChangeWeapon(Input& input);
-	
+
 	/// <summary>
 	/// ハンドガン攻撃
 	/// </summary>
@@ -278,7 +278,7 @@ public:
 	/// SEを鳴らす
 	/// </summary>
 	void PlaySE();
-	
+
 
 	/// <summary>
 	/// 敵へ攻撃値を渡す
@@ -288,6 +288,18 @@ public:
 
 	// 選択中のアイテムを渡す関数
 	int GetItemFrame() const { return m_useItem; }
+
+	/// <summary>
+	/// 残りのハンドガンの弾数を渡す関数
+	/// </summary>
+	/// <returns>ハンドガンの残弾数</returns>
+	int GetRemainingBullets_handgun() const { return m_remainingBullets_handgun; }
+
+	/// <summary>
+	/// 残りのマシンガンの弾数を渡す関数
+	/// </summary>
+	/// <returns>マシンガンの残弾数</returns>
+	int GetRemainingBullets_machinegun() const { return m_remainingBullets_machinegun; }
 
 	/// <summary>
 	/// アングル渡し
@@ -330,6 +342,8 @@ public:
 	/// </summary>
 	/// <returns>選択中のアイテムの種類</returns>
 	Item::ItemKind item() const { return m_item[m_useItem]; }
+
+
 
 private:
 	int m_remainingBullets_handgun;		// ハンドガンの残弾数
