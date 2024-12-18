@@ -67,13 +67,13 @@ private:
 	int m_elapsedSecondsTen;	// 経過秒数十桁の値
 	int m_elapsedSecondsOne;	// 経過秒数一桁の値
 
-	int m_timeHandleMinites;	// 分数一桁画像
-	int m_timeHandleSecondsTen;	// 秒数十桁画像
-	int m_timeHandleSecondsOne;	// 秒数一桁の画像
+	int m_timeHandleMinites;	// 分数一桁画像を入れる変数
+	int m_timeHandleSecondsTen;	// 秒数十桁画像を入れる変数
+	int m_timeHandleSecondsOne;	// 秒数一桁の画像を入れる変数
 
-	int m_elapsedTimeHandleMinites;		// 経過分数一桁画像
-	int m_elapsedTimeHandleSecondsTen;	// 経過秒数十桁画像
-	int m_elapsedTimeHandleSecondsOne;	// 経過秒数一桁画像
+	int m_elapsedTimeHandleMinites;		// 経過分数一桁画像を入れる変数
+	int m_elapsedTimeHandleSecondsTen;	// 経過秒数十桁画像を入れる変数
+	int m_elapsedTimeHandleSecondsOne;	// 経過秒数一桁画像を入れる変数
 
 	int m_timeBgHandle;
 	std::array<int, 11>m_numberNavyUIHandle{};	// 時間の紺UI画像

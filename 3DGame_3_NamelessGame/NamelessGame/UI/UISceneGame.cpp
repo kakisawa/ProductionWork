@@ -41,7 +41,7 @@ namespace {
 	VECTOR kDisplayWeaponPos = VGet(1610, 33, 0.0f);		// 選択中の武器文字UI座標
 
 
-	const char* const kCharaUI[9]{						// 文字UI画像
+	const char* const kItemCharaUI[9]{						// 文字UI画像
 		"Data/Image/SceneGame/文字UI_仮.png",
 		"Data/Image/SceneGame/文字UI_地雷.png",
 		"Data/Image/SceneGame/文字UI_びっくり箱.png",
@@ -86,9 +86,9 @@ UISceneGame::UISceneGame() :
 	m_cursorUI2Pos(kItemSelectPos[0])
 {
 	// 文字UI画像読み込み
-	for (int i = 0; i < m_charaUIHnadle.size(); i++)
+	for (int i = 0; i < m_itemCharaUIHnadle.size(); i++)
 	{
-		m_charaUIHnadle[i] = LoadGraph(kCharaUI[i]);
+		m_itemCharaUIHnadle[i] = LoadGraph(kItemCharaUI[i]);
 	}
 
 	// プレイヤー使用ツール用UI画像読み込み
@@ -179,9 +179,9 @@ void UISceneGame::End()
 	// 画像データの削除
 
 	// 文字UI画像の削除
-	for (int i = 0; i < m_charaUIHnadle.size(); i++)
+	for (int i = 0; i < m_itemCharaUIHnadle.size(); i++)
 	{
-		DeleteGraph(m_charaUIHnadle[i]);
+		DeleteGraph(m_itemCharaUIHnadle[i]);
 	}
 
 	// プレイヤー使用ツール用UI画像の削除
@@ -249,17 +249,17 @@ void UISceneGame::UpdateWeaponUI(const Player& player)
 	if (player.GetWeaponKind() == Player::WeaponKind::HandGun)
 	{
 		m_cursorUI1Pos = kWeaponSelectPos[0];	// カーソルの位置移動
-		m_useWeaponChara = m_charaUIHnadle[6];	// 選択中武器名UIの表示
+		m_useWeaponChara = m_itemCharaUIHnadle[6];	// 選択中武器名UIの表示
 
 	}
 	if (player.GetWeaponKind() == Player::WeaponKind::MachineGun) {
 		m_cursorUI1Pos = kWeaponSelectPos[1];	// カーソルの位置移動
-		m_useWeaponChara = m_charaUIHnadle[7];	// 選択中武器名UIの表示
+		m_useWeaponChara = m_itemCharaUIHnadle[7];	// 選択中武器名UIの表示
 	}
 
 	if (player.GetWeaponKind() == Player::WeaponKind::Knife) {
 		m_cursorUI1Pos = kWeaponSelectPos[2];	// カーソルの位置移動
-		m_useWeaponChara = m_charaUIHnadle[8];	// 選択中武器名UIの表示
+		m_useWeaponChara = m_itemCharaUIHnadle[8];	// 選択中武器名UIの表示
 	}
 }
 
@@ -268,33 +268,33 @@ void UISceneGame::SetUI_SelectItem(const Player& player)
 	// 選択中アイテム名UIの表示
 	if (player.item() == Item::ItemKind::IceFloor)
 	{
-		m_useItemChara = m_charaUIHnadle[4];
+		m_useItemChara = m_itemCharaUIHnadle[4];
 	}
 	if (player.item() == Item::ItemKind::SwivelChair)
 	{
-		m_useItemChara = m_charaUIHnadle[5];
+		m_useItemChara = m_itemCharaUIHnadle[5];
 	}
 	if (player.item() == Item::ItemKind::landmine)
 	{
-		m_useItemChara = m_charaUIHnadle[1];
+		m_useItemChara = m_itemCharaUIHnadle[1];
 	}
 	if (player.item() == Item::ItemKind::SurpriseBox)
 	{
-		m_useItemChara = m_charaUIHnadle[2];
+		m_useItemChara = m_itemCharaUIHnadle[2];
 	}
 	if (player.item() == Item::ItemKind::RecoveryMedic)
 	{
-		m_useItemChara = m_charaUIHnadle[3];
+		m_useItemChara = m_itemCharaUIHnadle[3];
 	}
 
 	// 後々消す予定
 	if (player.item() == Item::ItemKind::Ammunition)
 	{
-		m_useItemChara = m_charaUIHnadle[0];	// まだやってない
+		m_useItemChara = m_itemCharaUIHnadle[0];	// まだやってない
 	}
 	if (player.item() == Item::ItemKind::SummonBox)
 	{
-		m_useItemChara = m_charaUIHnadle[0];	// まだやってない
+		m_useItemChara = m_itemCharaUIHnadle[0];	// まだやってない
 	}
 }
 
@@ -340,6 +340,22 @@ void UISceneGame::SetUI_RemainingBullets(const Player& player)
 {
 	m_playerRemainingBullets_handgun = player.GetRemainingBullets_handgun();
 	m_playerRemainingBullets_machinegun = player.GetRemainingBullets_machinegun();
+}
 
+void UISceneGame::SetUI_RemainingBulletsHandle(GunType type, int num, VECTOR pos)
+{
+	if (type == GunType::HandGun)
+	{
+		if (num / 100)
+		{
+			//balanceBullets[GunType::HandGun].m_playerHundredsHandle;
+		}
+		else if (num / 100 <= 0)
+		{
+
+		}
+	}
+
+	
 
 }
