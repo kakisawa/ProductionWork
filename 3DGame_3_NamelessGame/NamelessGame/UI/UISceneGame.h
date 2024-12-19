@@ -83,8 +83,7 @@ public:
 	/// プレイヤーの残弾UIを表示する
 	/// </summary>
 	/// <param name="num">残弾数</param>
-	/// <param name="pos">表示する場所の設定</param>
-	void SetUI_RemainingBulletsHandle(GunType type,int num,VECTOR pos);
+	void SetUI_RemainingBulletsHandle(GunType type,int num);
 
 private:
 	int m_useWeaponChara;		// 使用中の武器の表示文字
@@ -107,7 +106,7 @@ private:
 	std::array<int, 8>m_playerToolUIHandle{};	// 武器・アイテム画像UI用ハンドル
 	std::array<int, 7>m_barUIHandle{};			// HP・スタミナバー画像UI用ハンドル
 
-	std::array<int, 10>m_numberUIHandle{};	// 残弾表示用UI画像
+	std::array<int, 10>m_numberUIHandle{};	// 残弾表示UI用ハンドル
 
 	VECTOR m_cursorUI1Pos;		// 武器カーソルUI座標
 	VECTOR m_cursorUI2Pos;		// アイテムカーソルUI座標

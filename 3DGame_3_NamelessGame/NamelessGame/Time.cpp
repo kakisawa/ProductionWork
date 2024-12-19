@@ -128,210 +128,53 @@ void Time::End()
 
 void Time::SetTimeNavyHandle()
 {
-	if (m_minutes == 0)
+	// 分数
+	for (int i = 0; i < 3; i++)
 	{
-		m_timeHandleMinites = m_numberNavyUIHandle[0];
-	}
-	else if (m_minutes == 1)
-	{
-		m_timeHandleMinites = m_numberNavyUIHandle[1];
-	}
-	else if (m_minutes == 2)
-	{
-		m_timeHandleMinites = m_numberNavyUIHandle[2];
-	}
-	else if (m_minutes == 3)
-	{
-		m_timeHandleMinites = m_numberNavyUIHandle[3];
+		if (m_minutes == i)
+		{
+			m_timeHandleMinites = m_numberNavyUIHandle[i];
+		}
 	}
 
+	// 秒数
+	for (int i = 0; i < 10; i++)
+	{
+		if (m_secondsTen == i)
+		{
+			m_timeHandleSecondsTen = m_numberNavyUIHandle[i];
+		}
 
-	if (m_secondsTen == 0)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[0];
-	}
-	else if (m_secondsTen == 1)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[1];
-	}
-	else if (m_secondsTen == 2)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[2];
-	}
-	else if (m_secondsTen == 3)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[3];
-	}
-	else if (m_secondsTen == 4)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[4];
-	}
-	else if (m_secondsTen == 5)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[5];
-	}
-	else if (m_secondsTen == 6)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[6];
-	}
-	else if (m_secondsTen == 7)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[7];
-	}
-	else if (m_secondsTen == 8)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[8];
-	}
-	else if (m_secondsTen == 9)
-	{
-		m_timeHandleSecondsTen = m_numberNavyUIHandle[9];
-	}
-
-
-	if (m_secondsOne == 0)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[0];
-	}
-	else if (m_secondsOne == 1)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[1];
-	}
-	else if (m_secondsOne == 2)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[2];
-	}
-	else if (m_secondsOne == 3)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[3];
-	}
-	else if (m_secondsOne == 4)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[4];
-	}
-	else if (m_secondsOne == 5)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[5];
-	}
-	else if (m_secondsOne == 6)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[6];
-	}
-	else if (m_secondsOne == 7)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[7];
-	}
-	else if (m_secondsOne == 8)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[8];
-	}
-	else if (m_secondsOne == 9)
-	{
-		m_timeHandleSecondsOne = m_numberNavyUIHandle[9];
+		if (m_secondsOne == i)
+		{
+			m_timeHandleSecondsOne = m_numberNavyUIHandle[i];
+		}
 	}
 }
 
 void Time::SetTimeGreenHandle()
 {
-
-	if (m_elapsedMinutes == 0)
+	for (int i = 0; i < 3; i++)
 	{
-		m_elapsedTimeHandleMinites = m_numberGreenUIHandle[0];
-	}
-	else if (m_elapsedMinutes == 1)
-	{
-		m_elapsedTimeHandleMinites = m_numberGreenUIHandle[1];
-	}
-	else if (m_elapsedMinutes == 2)
-	{
-		m_elapsedTimeHandleMinites = m_numberGreenUIHandle[2];
-	}
-	else if (m_elapsedMinutes == 3)
-	{
-		m_elapsedTimeHandleMinites = m_numberGreenUIHandle[3];
+		if (m_elapsedMinutes == i)
+		{
+			m_elapsedTimeHandleMinites = m_numberGreenUIHandle[i];
+		}
 	}
 
 
-	if (m_elapsedSecondsTen == 0)
+	// 秒数
+	for (int i = 0; i < 10; i++)
 	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[0];
-	}
-	else if (m_elapsedSecondsTen == 1)
-	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[1];
-	}
-	else if (m_elapsedSecondsTen == 2)
-	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[2];
-	}
-	else if (m_elapsedSecondsTen == 3)
-	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[3];
-	}
-	else if (m_elapsedSecondsTen == 4)
-	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[4];
-	}
-	else if (m_elapsedSecondsTen == 5)
-	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[5];
-	}
-	else if (m_elapsedSecondsTen == 6)
-	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[6];
-	}
-	else if (m_elapsedSecondsTen == 7)
-	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[7];
-	}
-	else if (m_elapsedSecondsTen == 8)
-	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[8];
-	}
-	else if (m_elapsedSecondsTen == 9)
-	{
-		m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[9];
-	}
+		if (m_elapsedSecondsTen == i)
+		{
+			m_elapsedTimeHandleSecondsTen = m_numberGreenUIHandle[i];
+		}
 
-
-	if (m_elapsedSecondsOne == 0)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[0];
-	}
-	else if (m_elapsedSecondsOne == 1)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[1];
-	}
-	else if (m_elapsedSecondsOne == 2)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[2];
-	}
-	else if (m_elapsedSecondsOne == 3)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[3];
-	}
-	else if (m_elapsedSecondsOne == 4)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[4];
-	}
-	else if (m_elapsedSecondsOne == 5)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[5];
-	}
-	else if (m_elapsedSecondsOne == 6)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[6];
-	}
-	else if (m_elapsedSecondsOne == 7)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[7];
-	}
-	else if (m_elapsedSecondsOne == 8)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[8];
-	}
-	else if (m_elapsedSecondsOne == 9)
-	{
-		m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[9];
+		if (m_elapsedSecondsOne == i)
+		{
+			m_elapsedTimeHandleSecondsOne = m_numberGreenUIHandle[i];
+		}
 	}
 }
 
