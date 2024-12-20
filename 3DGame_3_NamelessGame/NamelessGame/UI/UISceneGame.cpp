@@ -2,6 +2,7 @@
 #include "../Object/Player.h"
 #include "../Object/Enemy.h"
 #include "DxLib.h"
+#include <cassert>
 
 namespace {
 	const VECTOR kWeaponSelectPos[3]{	// 武器セレクトカーソルUI座標
@@ -75,15 +76,16 @@ namespace {
 	};
 
 	const char* const kNumberUI[10]{
-		"Data/Image/SceneGame/残弾/0.png"
-		"Data/Image/SceneGame/残弾/1.png"
-		"Data/Image/SceneGame/残弾/2.png"
-		"Data/Image/SceneGame/残弾/3.png"
-		"Data/Image/SceneGame/残弾/4.png"
-		"Data/Image/SceneGame/残弾/5.png"
-		"Data/Image/SceneGame/残弾/7.png"
-		"Data/Image/SceneGame/残弾/8.png"
-		"Data/Image/SceneGame/残弾/9.png"
+		"Data/Image/SceneGame/残弾/0.png",
+		"Data/Image/SceneGame/残弾/1.png",
+		"Data/Image/SceneGame/残弾/2.png",
+		"Data/Image/SceneGame/残弾/3.png",
+		"Data/Image/SceneGame/残弾/4.png",
+		"Data/Image/SceneGame/残弾/5.png",
+		"Data/Image/SceneGame/残弾/6.png",
+		"Data/Image/SceneGame/残弾/7.png",
+		"Data/Image/SceneGame/残弾/8.png",
+		"Data/Image/SceneGame/残弾/9.png",
 	};
 }
 
@@ -101,23 +103,27 @@ UISceneGame::UISceneGame() :
 	for (int i = 0; i < m_itemCharaUIHnadle.size(); i++)
 	{
 		m_itemCharaUIHnadle[i] = LoadGraph(kItemCharaUI[i]);
+		assert(m_itemCharaUIHnadle[i] != -1);
 	}
 
 	// プレイヤー使用ツール用UI画像読み込み
 	for (int i = 0; i < m_playerToolUIHandle.size(); i++)
 	{
 		m_playerToolUIHandle[i] = LoadGraph(kPlayerToolUI[i]);
+		assert(m_playerToolUIHandle[i] != -1);
 	}
 
 	// バーUI画像の読み込み
 	for (int i = 0; i < m_barUIHandle.size(); i++)
 	{
 		m_barUIHandle[i] = LoadGraph(kBarUI[i]);
+		assert(m_barUIHandle[i] != -1);
 	}
 	// 残弾用UI画像の読み込み
 	for (int i = 0; i < m_numberUIHandle.size(); i++)
 	{
 		m_numberUIHandle[i] = LoadGraph(kNumberUI[i]);
+		assert(m_numberUIHandle[i] != -1);
 	}
 
 }
@@ -192,13 +198,13 @@ void UISceneGame::Draw()
 	DrawFormatString(0, 0, 0xffffff, "m_playerRemainingBullets_handgun=%d", m_playerRemainingBullets_handgun);
 	DrawFormatString(0, 20, 0xffffff, "m_playerRemainingBullets_machinegun=%d", m_playerRemainingBullets_machinegun);
 
-	DrawGraph(1817, 201, balanceBullets[GunType::HandGun].m_playerHundredsHandle, true);
-	DrawGraph(1836, 201, balanceBullets[GunType::HandGun].m_playerTensHandle, true);
-	DrawGraph(1854, 201, balanceBullets[GunType::HandGun].m_playerOneHandle, true);
+	DrawGraph(1817, 205, balanceBullets[GunType::HandGun].m_playerHundredsHandle, true);
+	DrawGraph(1840, 205, balanceBullets[GunType::HandGun].m_playerTensHandle, true);
+	DrawGraph(1868, 205, balanceBullets[GunType::HandGun].m_playerOneHandle, true);
 
-	DrawGraph(1817, 201, balanceBullets[GunType::MachineGun].m_playerHundredsHandle, true);
-	DrawGraph(1836, 201, balanceBullets[GunType::MachineGun].m_playerTensHandle, true);
-	DrawGraph(1854, 201, balanceBullets[GunType::MachineGun].m_playerOneHandle, true);
+	DrawGraph(1817, 347, balanceBullets[GunType::MachineGun].m_playerHundredsHandle, true);
+	DrawGraph(1840, 347, balanceBullets[GunType::MachineGun].m_playerTensHandle, true);
+	DrawGraph(1868, 347, balanceBullets[GunType::MachineGun].m_playerOneHandle, true);
 }
 
 void UISceneGame::End()
@@ -390,7 +396,7 @@ void UISceneGame::SetUI_RemainingBulletsHandle(GunType type, int num)
 	}
 	else if (hundred == 0)
 	{
-		balanceBullets[type].m_playerHundredsHandle = m_numberUIHandle[0];
+		balanceBullets[type].m_playerHundredsHandle = -1;
 	}
 
 	for (int i = 0; i < 10; i++)

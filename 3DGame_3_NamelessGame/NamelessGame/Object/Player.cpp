@@ -38,6 +38,8 @@ namespace
 	bool isGunAnim = false;
 
 	int machineGunCount = 0.0f;
+
+	VECTOR roll = VGet(0.0f, 0.0f, 0.0f);
 }
 
 Player::Player() :
@@ -61,9 +63,7 @@ Player::Player() :
 	m_KnifeTipPos(kInitVec),
 	m_setItem(Item::ItemKind::NoItem),
 	m_useWeapon(WeaponKind::HandGun),
-	m_SetComboknife(Knife::Attack1)/*,
-	m_input(),
-	m_item()*/
+	m_SetComboknife(Knife::Attack1)
 {
 	// プレイヤー外部データ読み込み
 	LoadCsv::GetInstance().LoadCommonFileData(m_chara, "player");
@@ -181,7 +181,7 @@ void Player::Draw()
 	//DrawFormatString(0, 240, 0xffffff, "Player:m_remainingBullets_handgun=%d", m_remainingBullets_handgun);
 	//DrawFormatString(0, 260, 0xffffff, "Player:m_remainingBullets_machinegun=%d", m_remainingBullets_machinegun);
 	//DrawFormatString(0, 280, 0xffffff, "Player:m_angle=%.2f", m_angle);
-	//DrawFormatString(0, 300, 0xffffff, "Player:m_move.x/y/z=%.2f/%.2f/%.2f", m_move.x, m_move.y, m_move.z);
+	DrawFormatString(0, 300, 0xffffff, "Player:m_move.x/y/z=%.2f/%.2f/%.2f", m_move.x, m_move.y, m_move.z);
 	//DrawFormatString(0, 340, 0xffffff, "Player:m_targetDir=%.2f", m_targetDir);
 	//DrawFormatString(0, 360, 0xffffff, "Player:inputX=%d", m_inputX);
 	//DrawFormatString(0, 380, 0xffffff, "Player:inputY=%d", m_inputY);
@@ -193,13 +193,15 @@ void Player::Draw()
 	//DrawFormatString(0, 500, 0xffffff, "Player:m_useItem[1]=%d", m_item[1]);
 	//DrawFormatString(0, 520, 0xffffff, "Player:m_useItem[2]=%d", m_item[2]);
 	//DrawFormatString(0, 540, 0xffffff, "Player:m_useWeapon=%d", m_useWeapon);
-	DrawFormatString(0, 560, 0xffffff, "Player:m_animNext.totalTime=%.2f", m_animNext.totalTime);
-	DrawFormatString(0, 580, 0xffffff, "Player:m_nextAnimTime=%.2f", m_nextAnimTime);
+	//DrawFormatString(0, 560, 0xffffff, "Player:m_animNext.totalTime=%.2f", m_animNext.totalTime);
+	//DrawFormatString(0, 580, 0xffffff, "Player:m_nextAnimTime=%.2f", m_nextAnimTime);
 	//DrawFormatString(0, 640, 0xffffff, "Player:m_status.situation.isKnifeAttack=%d", m_status.situation.isKnifeAttack);
 	//DrawFormatString(0, 660, 0xffffff, "Player:m_isEnemy=%d", m_isEnemy);
 	//DrawFormatString(0, 680, 0xffffff, "Player:m_isAttackToEnemy=%d", m_isAttackToEnemy);
 	//DrawFormatString(0, 700, 0xffffff, "Player:m_isAttack=%d", m_isAttack);
 	//DrawFormatString(0, 720, 0xffffff, "Player:m_attackTheEnemy=%d", m_attackTheEnemy);
+
+	DrawFormatString(0, 280, 0xffffff, "m_status.situation.isRoll=%d", m_status.situation.isRoll);
 
 	//// 体の当たり判定描画
 	//m_col.TypeChangeCapsuleDraw(m_col.m_colPlayer.m_body, 0xffff00, false);
@@ -232,7 +234,8 @@ void Player::Move(const Camera& camera)
 {
 	if (m_status.situation.isUseItem || m_status.situation.isReload ||
 		 m_status.situation.isDamageReceived ||
-		m_status.situation.isKnifeAttack)	return;
+		m_status.situation.isKnifeAttack||
+		m_status.situation.isRoll)	return;
 
 	// カメラの向きベクトルを取得
 	VECTOR cameraForwardVec = VSub(camera.GetTarget(), camera.GetPosition());
@@ -260,7 +263,6 @@ void Player::Move(const Camera& camera)
 		m_targetDir = m_move;  // 目標方向を保存
 		m_move = VScale(m_move, m_chara.walkSpeed); // 移動速度を適用
 	}
-
 	// 設置アニメーションを再生していないときは移動する
 	m_pos = VAdd(m_pos, m_move);
 
@@ -597,12 +599,13 @@ void Player::AttackGun(Input& input)
 
 			if (m_nextAnimTime < 1.0f && isGunAnim == false)
 			{
-				m_remainingBullets_handgun--;
-				m_pSound->PlaySE(SoundManager::SE_Type::kHandGunSE, DX_PLAYTYPE_BACK);
-				isGunAnim = true;
+				if (m_remainingBullets_handgun > 0) 
+				{
+					m_remainingBullets_handgun--;
+					m_pSound->PlaySE(SoundManager::SE_Type::kHandGunSE, DX_PLAYTYPE_BACK);
+					isGunAnim = true;
+				}
 			}
-
-			
 		}
 		else if (m_useWeapon == WeaponKind::MachineGun)
 		{
@@ -614,9 +617,12 @@ void Player::AttackGun(Input& input)
 			machineGunCount++;
 			if (machineGunCount >= 5)
 			{
-				m_remainingBullets_machinegun--;
-				m_pSound->PlaySE(SoundManager::SE_Type::kHandGunSE, DX_PLAYTYPE_BACK);
-				machineGunCount = 0;
+				if (m_remainingBullets_machinegun > 0)
+				{
+					m_remainingBullets_machinegun--;
+					m_pSound->PlaySE(SoundManager::SE_Type::kHandGunSE, DX_PLAYTYPE_BACK);
+					machineGunCount = 0;
+				}
 			}
 		}
 	}
@@ -708,11 +714,25 @@ void Player::Roll(Input& input)
 	{
 		ChangeAnimNo(PlayerAnim::Roll, m_animSpeed.Roll, false, m_animChangeTime.Roll);
 		m_status.situation.isRoll = true;
+
+		if (VSize(m_move) <= 0.0f)
+		{
+			roll = m_targetDir;
+			roll = VScale(roll, m_chara.walkSpeed);
+		}
+		else {
+			roll = m_move;
+		}
 	}
+
+	if (!m_status.situation.isRoll) return;
+
+	m_pos = VAdd(m_pos,roll);
 
 	if (m_status.situation.isRoll && IsAnimEnd())
 	{
 		m_status.situation.isRoll = false;
+		roll = VGet(0.0f, 0.0f, 0.0f);
 	}
 }
 
