@@ -129,6 +129,11 @@ void Player::Update(const Enemy& enemy, const Item& item, const Camera& camera, 
 {
 	// 敵への攻撃力の初期化
 	m_attackTheEnemy = 0;
+	m_isEnemy = false;
+
+	// 当たり判定の更新
+	ColUpdate(enemy, item);
+	GetItem();
 
 	// 更新処理
 	Move(camera);
@@ -148,9 +153,7 @@ void Player::Update(const Enemy& enemy, const Item& item, const Camera& camera, 
 	AttackGun(input);
 	ChangeWeapon(input);
 
-	// 当たり判定の更新
-	ColUpdate(enemy, item);
-	GetItem();
+	
 
 	// SEを鳴らす
 	PlaySE();
@@ -193,8 +196,8 @@ void Player::Draw()
 	//DrawFormatString(0, 500, 0xffffff, "Player:m_useItem[1]=%d", m_item[1]);
 	//DrawFormatString(0, 520, 0xffffff, "Player:m_useItem[2]=%d", m_item[2]);
 	//DrawFormatString(0, 540, 0xffffff, "Player:m_useWeapon=%d", m_useWeapon);
-	//DrawFormatString(0, 560, 0xffffff, "Player:m_animNext.totalTime=%.2f", m_animNext.totalTime);
-	//DrawFormatString(0, 580, 0xffffff, "Player:m_nextAnimTime=%.2f", m_nextAnimTime);
+	DrawFormatString(0, 560, 0xffffff, "Player:m_animNext.totalTime=%.2f", m_animNext.totalTime);
+	DrawFormatString(0, 580, 0xffffff, "Player:m_nextAnimTime=%.2f", m_nextAnimTime);
 	//DrawFormatString(0, 640, 0xffffff, "Player:m_status.situation.isKnifeAttack=%d", m_status.situation.isKnifeAttack);
 	//DrawFormatString(0, 660, 0xffffff, "Player:m_isEnemy=%d", m_isEnemy);
 	//DrawFormatString(0, 680, 0xffffff, "Player:m_isAttackToEnemy=%d", m_isAttackToEnemy);
@@ -358,7 +361,14 @@ void Player::ColUpdate(const Enemy& enemy, const Item& item)
 	m_isItem = m_col.IsTypeChageSphereToCapsuleCollision(m_col.m_colPlayer.m_body, itemCol.m_itemCol);
 
 	// 敵とプレイヤーが当たったかどうかの判定
-	m_isEnemy = m_col.IsTypeChageCupsuleCollision(m_col.m_colPlayer.m_body, enemyCol.m_colEnemy.m_body);
+	if (m_col.IsTypeChageCupsuleCollision(m_col.m_colPlayer.m_body, enemyCol.m_colEnemy.m_body))
+	{
+		// 当たっていたらその分押し返す
+		m_isEnemy = true;
+		VECTOR colNormal = VNorm(VSub(m_pos, enemy.GetPos()));
+		m_pos = VAdd(m_pos, VScale(colNormal, m_chara.walkSpeed));
+	}
+
 	// 敵にプレイヤーのナイフ攻撃が当たったかどうかの判定
 	m_isAttackToEnemy = m_col.IsTypeChageCupsuleCollision(m_col.m_colPlayer.m_weapon, enemyCol.m_colEnemy.m_body);
 }
@@ -710,6 +720,9 @@ void Player::Roll(Input& input)
 	// TODO:処理の途中
 		// スティックを傾けている方向へ移動させる
 
+	if (m_status.situation.isDamageReceived)return;
+	
+
 	if (input.IsTrigger(InputInfo::Roll))
 	{
 		ChangeAnimNo(PlayerAnim::Roll, m_animSpeed.Roll, false, m_animChangeTime.Roll);
@@ -739,6 +752,10 @@ void Player::Roll(Input& input)
 void Player::Hit(Input& input, const Enemy& enemy)
 {
 	if (m_status.situation.isDeath) return;
+
+	/*回避開始から20フレームの間は以下の処理に進まないようにするプログラム*/
+	/*作成途中*/
+	if (m_status.situation.isRoll && (m_nextAnimTime <= 20.0f))return;
 
 	// 敵からの攻撃が当たったらの処理
 	if (enemy.GetAttack() > 0) 
