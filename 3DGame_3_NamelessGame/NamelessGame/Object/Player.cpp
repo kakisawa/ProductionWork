@@ -40,6 +40,11 @@ namespace
 	int machineGunCount = 0.0f;
 
 	VECTOR roll = VGet(0.0f, 0.0f, 0.0f);
+
+
+
+	bool isRollTest = false;
+
 }
 
 Player::Player() :
@@ -205,6 +210,7 @@ void Player::Draw()
 	//DrawFormatString(0, 720, 0xffffff, "Player:m_attackTheEnemy=%d", m_attackTheEnemy);
 
 	DrawFormatString(0, 280, 0xffffff, "m_status.situation.isRoll=%d", m_status.situation.isRoll);
+	DrawFormatString(0, 260, 0xffffff, "isRollTest=%d", isRollTest);
 
 	//// 体の当たり判定描画
 	//m_col.TypeChangeCapsuleDraw(m_col.m_colPlayer.m_body, 0xffff00, false);
@@ -717,9 +723,6 @@ void Player::AttackKnife(Input& input)
 
 void Player::Roll(Input& input)
 {
-	// TODO:処理の途中
-		// スティックを傾けている方向へ移動させる
-
 	if (m_status.situation.isDamageReceived)return;
 	
 
@@ -753,9 +756,13 @@ void Player::Hit(Input& input, const Enemy& enemy)
 {
 	if (m_status.situation.isDeath) return;
 
+	isRollTest = false;
+
 	/*回避開始から20フレームの間は以下の処理に進まないようにするプログラム*/
 	/*作成途中*/
 	if (m_status.situation.isRoll && (m_nextAnimTime <= 20.0f))return;
+
+	isRollTest = true;
 
 	// 敵からの攻撃が当たったらの処理
 	if (enemy.GetAttack() > 0) 
