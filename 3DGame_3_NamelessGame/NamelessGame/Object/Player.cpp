@@ -748,7 +748,7 @@ void Player::Roll(Input& input)
 	if (m_status.situation.isRoll && IsAnimEnd())
 	{
 		m_status.situation.isRoll = false;
-		roll = VGet(0.0f, 0.0f, 0.0f);
+		roll = kInitVec;
 	}
 }
 
@@ -760,7 +760,7 @@ void Player::Hit(Input& input, const Enemy& enemy)
 
 	/*回避開始から20フレームの間は以下の処理に進まないようにするプログラム*/
 	/*作成途中*/
-	if (m_status.situation.isRoll && (m_nextAnimTime <= 20.0f))return;
+	if (m_status.situation.isRoll && (m_nextAnimTime >= 20.0f))return;
 
 	isRollTest = true;
 
