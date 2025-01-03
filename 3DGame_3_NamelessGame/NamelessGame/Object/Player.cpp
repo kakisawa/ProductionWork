@@ -40,11 +40,6 @@ namespace
 	int machineGunCount = 0.0f;
 
 	VECTOR roll = VGet(0.0f, 0.0f, 0.0f);
-
-
-
-	bool isRollTest = false;
-
 }
 
 Player::Player() :
@@ -756,19 +751,15 @@ void Player::Hit(Input& input, const Enemy& enemy)
 {
 	if (m_status.situation.isDeath) return;
 
-	isRollTest = false;
-
-	/*回避開始から20フレームの間は以下の処理に進まないようにするプログラム*/
-	/*作成途中*/
-	if (m_status.situation.isRoll && (m_nextAnimTime >= 20.0f))return;
-
-	isRollTest = true;
+	/*回避開始から15フレームの間は以下の処理に進まないようにする*/
+	if (m_status.situation.isRoll && (m_nextAnimTime <= 15.0f))return;
 
 	// 敵からの攻撃が当たったらの処理
 	if (enemy.GetAttack() > 0) 
 	{
 		ChangeAnimNo(PlayerAnim::DamageReceived, m_animSpeed.DamageReceived, false, m_animChangeTime.DamageReceived);
 		m_status.situation.isDamageReceived = true;
+		m_status.situation.isRoll = false;
 		
 		if (!m_isInvincibleTime) 
 		{
